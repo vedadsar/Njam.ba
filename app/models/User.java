@@ -40,6 +40,12 @@ public class User extends Model {
 	}
 	
 	public static void createUser(User u){
+		//First we check if user already exists.
+		User check = find.where().eq("email", u.email).findUnique();
+		if(check == null){
+			//User already exists !
+			return;
+		}
 		u.save();
 	}
 	
