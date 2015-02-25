@@ -44,6 +44,25 @@ public class User extends Model {
 	}
 	
 	/**
+	 * Method for authenticating user who is trying to login.
+	 * First it checks if user with that email exists in our
+	 * database and then its checking passwords.
+	 * TODO to check hashed password.
+	 * @param email
+	 * @param password
+	 * @return
+	 */
+	public static boolean authenticate(String email, String password){
+		User check = find.where().eq("email", email).findUnique();
+		if(check != null){
+			if(check.hashedPassword == password)
+				return true;
+		}		
+		return false;
+	}	
+	
+	
+	/**
 	 * private class for creating hash.
 	 * TODO method for hashing password.
 	 * @author vedad
