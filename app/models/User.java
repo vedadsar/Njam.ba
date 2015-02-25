@@ -55,7 +55,7 @@ public class User extends Model {
 	public static boolean authenticate(String email, String password){
 		User check = find.where().eq("email", email).findUnique();
 		if(check != null){
-			if(check.hashedPassword == password)
+			if(check.hashedPassword.equals(password))
 				return true;
 		}		
 		return false;
