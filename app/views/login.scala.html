@@ -1,3 +1,5 @@
+@(message: String)
+
 @import helper.twitterBootstrap._
 
 @main("Login") {
@@ -98,7 +100,7 @@
 			   </div>
 			   <div class="col-md-6 login-right wow fadeInRight" data-wow-delay="0.4s">
 			  	<h3>REGISTERED CUSTOMERS</h3>
-				<p>If you have an account with us, please log in.</p>
+				<p> @message </p>
 				<form action="@routes.Application.login" method="POST">
 				  <div>
 					<span>Email Address<label>*</label></span>
