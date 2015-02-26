@@ -44,13 +44,18 @@ public class Application extends Controller {
     	
     	String email = newUser.bindFromRequest().get().email;
     	String hashedPassword = newUser.bindFromRequest().get().hashedPassword;
+        
+    	if (email.contains("@")==false){
+    	   return ok(registration.render("Invalid e-mail"));
+       }
+       
     	boolean isSuccess = User.createUser(email, hashedPassword);
     	if (isSuccess == true) {
     		return ok(index.render(""));
     	} else {
     		return ok(registration.render("Incorrect username."));
-    	}
     	
+       }
     }
     
     /**
@@ -63,6 +68,11 @@ public class Application extends Controller {
     	
     	String email = newUser.bindFromRequest().get().email;
     	String hashedPassword = newUser.bindFromRequest().get().hashedPassword;
+    	if (email.contains("@")==false){
+     	   return ok(login.render("Invalid e-mail"));
+        }
+    	
+    	
     	boolean isSuccess = User.authenticate(email, hashedPassword);
     	if (isSuccess == true) {
     		session("email", email);
