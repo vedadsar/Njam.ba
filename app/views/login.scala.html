@@ -1,13 +1,13 @@
-<h1> REGISTRATION </h1>
+@import helper.twitterBootstrap._
 
-@main("Registration") {
+@main("Login") {
 		
 <html>
 <head>
-<title>Registration njam.ba</title>
+<title>Login forma - njam.ba</title>
 <link href="@routes.Assets.at("stylesheets/bootstrap.css")" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="routes.Assets.at("javascripts/jquery.min.js")"></script>
+<script src="@routes.Assets.at("javascripts/jquery.min.js")"></script>
 <!-- Custom Theme files -->
 <link href="@routes.Assets.at("stylesheets/style.css")" rel="stylesheet" type="text/css" media="all" />
 <!-- Custom Theme files -->
@@ -23,7 +23,7 @@
 	new WOW().init();
 </script>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/move-top.js")"></script>
-<script type="text/javascript" src="@routes.Assets.at("javascripts/easing.js")"></script>
+<script type="text/javascript" src="("javascripts/easing.js")"></script>
 <script type="text/javascript">
 			jQuery(document).ready(function($) {
 				$(".scroll").click(function(event){		
@@ -61,7 +61,7 @@
 				<div class="login-section">
 					<ul>
 						<li><a href="login">Login</a>  </li> |
-						<li><a href="#">Register</a> </li> |
+						<li><a href="registration">Register</a> </li> |
 						<li><a href="#">Help</a></li>
 						<div class="clearfix"></div>
 					</ul>
@@ -73,39 +73,49 @@
 	<!-- header-section-ends -->
 	<!-- content-section-starts -->
 	<div class="content">
-	<div class="main">
-	   <div class="container">
-		  <div class="register">
-		  	  <form action="/user" method="POST"> 
-				 <div class="register-top-grid">
-					<h3>PERSONAL INFORMATION</h3>
-					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
-						<span>Name<label>*</label></span>
-						<input type="text" id="email" name="email"> 
-					 </div>
-					 <div class="clearfix"> </div>
-					   <a class="news-letter" href="#">
-						 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i>Sign Up for Newsletter</label>
-					   </a>
-					 </div>
-				     <div class="register-bottom-grid">
-						    <h3>LOGIN INFORMATION</h3>
-							 <div class="wow fadeInLeft" data-wow-delay="0.4s">
-								<span>Password<label>*</label></span>
-								<input type="text" id="hashedPassword" name="hashedPassword">
-							 </div>
-					 </div>
-				
-				<div class="clearfix"> </div>
-				<div class="register-but">
-				  
-					   <input type="submit" value="Register">
-					   <div class="clearfix"> </div>
-				   </form>
-				</div>
+	<div class="container">
+		<div class="login-page">
+			    <div class="dreamcrub">
+			   	 <ul class="breadcrumbs">
+                    <li class="home">
+                       <a href="/" title="Go to Home Page">Home</a>&nbsp;
+                       <span>&gt;</span>
+                    </li>
+                    <li class="women">
+                       Login
+                    </li>
+                </ul>
+                <ul class="previous">
+                	<li><a href="/">Back to Previous Page</a></li>
+                </ul>
+                <div class="clearfix"></div>
+			   </div>
+			   <div class="account_grid">
+			   <div class="col-md-6 login-left wow fadeInLeft" data-wow-delay="0.4s">
+			  	 <h3>NEW CUSTOMERS</h3>
+				 <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+				 <a class="acount-btn" href="registration">Create an Account</a>
+			   </div>
+			   <div class="col-md-6 login-right wow fadeInRight" data-wow-delay="0.4s">
+			  	<h3>REGISTERED CUSTOMERS</h3>
+				<p>If you have an account with us, please log in.</p>
+				<form action="controllers.application.login()">
+				  <div>
+					<span>Email Address<label>*</label></span>
+					<input type="text" id="username" name="username"> 
+				  </div>
+				  <div>
+					<span>Password<label>*</label></span>
+					<input type="text" id="password" name="password"> 
+				  </div>
+				  <a class="forgot" href="#">Forgot Your Password?</a>
+				  <input type="submit" value="Login">
+			    </form>
+			   </div>	
+			   <div class="clearfix"> </div>
+			 </div>
 		   </div>
-	     </div>
-	    </div>
+</div>
 <div class="special-offers-section">
 			<div class="container">
 				<div class="special-offers-section-head text-center dotted-line">
@@ -118,7 +128,7 @@
 						<li>
 							<div class="offer">
 								<div class="offer-image">	
-									<img src="@routes.Assets.at("images/p1.jpg")" class="img-responsive" alt=""/>
+									<img src="images/p1.jpg" class="img-responsive" alt=""/>
 								</div>
 								<div class="offer-text">
 									<h4>Olister Combo pack lorem</h4>
@@ -132,7 +142,7 @@
 						<li>
 							<div class="offer">
 								<div class="offer-image">	
-									<img src="images/p2.jpg" class="img-responsive" alt=""/>
+									<img src="@routes.Assets.at("images/p2.jpg")" class="img-responsive" alt=""/>
 								</div>
 								<div class="offer-text">
 									<h4>Chicken Jumbo pack lorem</h4>
@@ -281,7 +291,7 @@
 	</div>
 	<!-- content-section-ends -->
 	<!-- footer-section-starts -->
-	<div class="footer"> 
+	<div class="footer">
 		<div class="container">
 			<p class="wow fadeInLeft" data-wow-delay="0.4s">&copy; 2014  All rights  Reserved | Template by &nbsp;<a href="http://w3layouts.com" target="target_blank">W3Layouts</a></p>
 		</div>
@@ -306,4 +316,5 @@
 
 </body>
 </html>
+		
 }

@@ -1,6 +1,7 @@
-@(message: String)
+@(username: String)
 @main("NJAM.BA") {
-<head>
+
+  <head>
 <title>Online narudžba hrane - NJAM.BA</title>
 <link href="@routes.Assets.at("stylesheets/bootstrap.css")" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -57,9 +58,8 @@
 				</div>
 				<div class="login-section">
 					<ul>
-						<li><a href="login">Login</a>  </li> |
-						<li><a href="/registration">Register</a> </li> |
-						<li><a href="#">Help</a></li>
+						<li>@username</li> 
+						
 						<div class="clearfix"></div>
 					</ul>
 				</div>
@@ -500,5 +500,6 @@
 				<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
 
 </body>
+  
 
 }

@@ -32,12 +32,13 @@ public class User extends Model {
 	public static boolean createUser(String email, String password){
 		//First we check if user already exists.
 		User check = find.where().eq("email", email).findUnique();
-		if(check == null){
+		if(check != null){
 			//User already exists !
 			return false;
+		} else {
+			new User(email, password).save();
+			return true;
 		}
-		new User(email, password).save();
-		return true;
 	}
 	
 	public static boolean createUser(User u){
