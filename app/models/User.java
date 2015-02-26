@@ -29,24 +29,27 @@ public class User extends Model {
 	 * @param email
 	 * @param password
 	 */
-	public static void createUser(String email, String password){
+	public static boolean createUser(String email, String password){
 		//First we check if user already exists.
 		User check = find.where().eq("email", email).findUnique();
-		if(check == null){
+		if(check != null){
 			//User already exists !
-			return;
+			return false;
+		} else {
+			new User(email, password).save();
+			return true;
 		}
-		new User(email, password).save();
 	}
 	
-	public static void createUser(User u){
+	public static boolean createUser(User u){
 		//First we check if user already exists.
 		User check = find.where().eq("email", u.email).findUnique();
 		if(check == null){
 			//User already exists !
-			return;
+			return false;
 		}
 		u.save();
+		return true;
 	}
 	
 	/**
