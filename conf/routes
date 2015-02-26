@@ -4,17 +4,11 @@
 
 # Home page
 GET     /                           controllers.Application.index()
-<<<<<<< HEAD
-GET		/registration 					controllers.Application.registration()
-GET		/login						    controllers.Application.login()
-GET		/success						controllers.Application.success()
-GET		/failed							controllers.Application.failed()
-=======
-GET		/registration				controllers.Application.toRegistration()
-POST	/							controllers.Application.registration()
-GET		/login						controllers.Application.toLogin()
-POST	/user						controllers.Application.login()
->>>>>>> controllerDeveop
+GET	/registration	controllers.Application.toRegistration()
+POST	/			controllers.Application.registration()
+GET	/login		controllers.Application.toLogin()
+POST	/user			controllers.Application.login()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
