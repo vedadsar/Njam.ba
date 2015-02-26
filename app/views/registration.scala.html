@@ -1,4 +1,4 @@
-<h1> REGISTRATION </h1>
+@(message: String)
 
 @main("Registration") {
 		
@@ -79,6 +79,7 @@
 		  	  <form action="@routes.Application.registration" method="POST"> 
 				 <div class="register-top-grid">
 					<h3>PERSONAL INFORMATION</h3>
+					<p> <span class="wow fadeInRight" data-wow-delay="0.4s" style="color:red"> @message </span> </p>
 					 <div class="wow fadeInLeft" data-wow-delay="0.4s">
 						<span>Name<label>*</label></span>
 						<input type="text" id="email" name="email"> 
@@ -92,7 +93,7 @@
 						    <h3>LOGIN INFORMATION</h3>
 							 <div class="wow fadeInLeft" data-wow-delay="0.4s">
 								<span>Password<label>*</label></span>
-								<input type="text" id="hashedPassword" name="hashedPassword">
+								<input type="password" id="hashedPassword" name="hashedPassword">
 							 </div>
 					 </div>
 				

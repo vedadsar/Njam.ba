@@ -1,4 +1,4 @@
-@(message: String)
+@(message: String)(email: String)
 @main("NJAM.BA") {
 <head>
 <title>Online narudžba hrane - NJAM.BA</title>
@@ -57,11 +57,14 @@
 				</div>
 				<div class="login-section">
 					<ul>
+						<li><strong>@message @email</strong></li> |
+						@if(email==null){
 						<li><a href="/login">Login</a>  </li> |
 						<li><a href="/registration">Register</a> </li> |
 						<li><a href="#">Help</a></li>
 						<div class="clearfix"></div>
 					</ul>
+					}
 				</div>
 				<div class="clearfix"></div>
 			</div>
