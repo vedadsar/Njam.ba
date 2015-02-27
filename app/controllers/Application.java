@@ -41,7 +41,7 @@ public class Application extends Controller {
 	 */
 	public static Result toLogin() {
 		if(email == null){
-			return ok(registration.render(""));
+			return ok(login.render(""));
 		} else {
 			return ok(index.render("", email));
 		}
@@ -59,6 +59,11 @@ public class Application extends Controller {
 
 		String email = newUser.bindFromRequest().get().email;
 		String hashedPassword = newUser.bindFromRequest().get().hashedPassword;
+		
+		if(email.length() < 6)
+			return ok(registration.render("Email length not valid"));
+		if(hashedPassword.length() < 6)
+			return ok(registration.render("Password length is not valid"));		
 
 		if (email.contains("@") == false) {
 			return ok(registration.render("Invalid e-mail"));
