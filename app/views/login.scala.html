@@ -104,11 +104,11 @@
 				<form action="@routes.Application.login" method="POST">
 				  <div>
 					<span>Email Address<label>*</label></span>
-					<input type="text" id="email" name="email"> 
+					<input type="text" id="email" name="email" required> 
 				  </div>
 				  <div>
 					<span>Password<label>*</label></span>
-					<input type="password" id="hashedPassword" name="hashedPassword"> 
+					<input type="password" id="hashedPassword" name="hashedPassword" required> 
 				  </div>
 				  <a class="forgot" href="#">Forgot Your Password?</a>
 				  <input type="submit" value="Login">
