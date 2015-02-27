@@ -59,7 +59,12 @@ public class Application extends Controller {
 
 		String email = newUser.bindFromRequest().get().email;
 		String hashedPassword = newUser.bindFromRequest().get().hashedPassword;
-
+		if(email.length() < 6)
+			return ok(registration.render("Email length not valid"));
+		if(hashedPassword.length() < 6)
+			return ok(registration.render("Password length is not valid"));		
+			
+			
 		if (email.contains("@") == false) {
 			return ok(registration.render("Invalid e-mail"));
 		}
