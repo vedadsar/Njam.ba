@@ -9,6 +9,7 @@ import views.html.*;
 public class Application extends Controller {
 
 	static Form<User> newUser = new Form<User>(User.class);
+	static String email = null;
 
 	/**
 	 * This method just redirects to index page.
@@ -16,7 +17,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		String email = session("email");
+		email = session("email");
 		return ok(index.render("", email));
 	}
 
@@ -26,7 +27,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result toRegistration() {
-		return ok(registration.render(""));
+		if(email == null){
+			return ok(registration.render(""));
+		} else {
+		return ok(index.render("", email));
+		}
 	}
 
 	/**
@@ -35,7 +40,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result toLogin() {
-		return ok(login.render("If you have an account with us, please log in."));
+		if(email == null){
+			return ok(registration.render(""));
+		} else {
+			return ok(index.render("", email));
+		}
 	}
 
 	/**
@@ -67,7 +76,7 @@ public class Application extends Controller {
 	/**
 	 * This method logs in user. If user exists, method will redirect to user
 	 * page. If user doesn't exist, method will redirect to login page, with
-	 * error message.
+	 * error message
 	 * 
 	 * @return
 	 */
@@ -78,14 +87,14 @@ public class Application extends Controller {
 		if (email.contains("@") == false) {
 			return ok(login.render("Invalid e-mail"));
 		}
+		
 
 		boolean isSuccess = User.authenticate(email, hashedPassword);
 		if (isSuccess == true) {
 			session("email", email);
 			return ok(user.render(email));
 		} else {
-			return ok(login.render("Incorrect username or password."));
+			return ok(login.render("Incorrect username or password, or you are already logged in."));
 		}
-
 	}
 }
