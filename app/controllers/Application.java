@@ -13,7 +13,6 @@ import play.data.DynamicForm;
 
 public class Application extends Controller {
 
-	static Form<User> newUser = new Form<User>(User.class);
 	static String email = null;
 	/**
 	 * This method just redirects to index page.
@@ -63,13 +62,7 @@ public class Application extends Controller {
 
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
-		if(email.isEmpty()){
-			return ok(registration.render("Empty username field (min 6)"));
-		}
 		String hashedPassword = form.data().get("hashedPassword");
-		if(hashedPassword.isEmpty()){
-			return ok(registration.render("Empty password field"));
-		}
 		
 		if(email.length() < 6){
 			return ok(registration.render("Email length not valid"));
@@ -83,8 +76,9 @@ public class Application extends Controller {
 		}
 
 		boolean isSuccess = User.createUser(email, hashedPassword);
+		session("email",email);
 		if (isSuccess == true) {
-			return ok(login2.render("SUCCESSFUL REGISTRATION! PLEASE LOGIN!"));
+			return ok(index.render("", email));
 		} else {
 			return ok(registration.render("Already registered, please login!"));
 
@@ -102,13 +96,7 @@ public class Application extends Controller {
 
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
-		if(email.isEmpty()){
-			return ok(login.render("Empty username field (min 6)"));
-		}
 		String hashedPassword = form.data().get("hashedPassword");
-		if(email.isEmpty()){
-			return ok(login.render("Empty password field"));
-		}
 
 		if (email.contains("@") == false) {
 			return ok(login.render("Invalid e-mail"));
