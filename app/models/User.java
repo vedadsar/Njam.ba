@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import play.data.validation.Constraints.*;
@@ -69,6 +71,35 @@ public class User extends Model {
 		}		
 		return false;
 	}	
+	
+	// Added for testing
+		/**
+		 * Creates new User by giving two paramters email and password.
+		 * @param email
+		 * @param password
+		 */
+		public static void create(String email, String password){
+			new User(email, password).save();
+		}
+		// Added for testing
+		/**
+		 * Finds user by id.
+		 * @param id  of User
+		 * @return User's data.
+		 */
+		public static User find(int id){
+			return find.byId(id);
+		}
+		
+		// Added for testing
+		public static void delete( int id){
+			find.byId(id).delete();
+		}
+		
+		// Added for testing
+		public static List<User> all( String hashedPassword){
+			return find.where().eq("hashedPassword", hashedPassword).findList();
+		}
 	
 	
 	/**

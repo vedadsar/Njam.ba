@@ -1,35 +1,5 @@
-@(message: String)
+@(message: String)(email: String)
 @main("NJAM.BA") {
-<head>
-<title>Online narudžba hrane - NJAM.BA</title>
-<link href="@routes.Assets.at("stylesheets/bootstrap.css")" rel='stylesheet' type='text/css' />
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="routes.Assets.at("javascripts/jquery.min.js")"></script>
-<!-- Custom Theme files -->
-<link href="@routes.Assets.at("stylesheets/style.css")" rel="stylesheet" type="text/css" media="all" />
-<!-- Custom Theme files -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!--webfont-->
-<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Lobster+Two:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
-<!--Animation-->
-<script src="@routes.Assets.at("javascripts/wow.min.js")"></script>
-<link href="@routes.Assets.at("stylesheets/animate.css")" rel='stylesheet' type='text/css' />
-<script>
-	new WOW().init();
-</script>
-<script type="text/javascript" src="@routes.Assets.at("javascripts/move-top.js")"></script>
-<script type="text/javascript" src="@routes.Assets.at("javascripts/easing.js")"></script>
-<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				$(".scroll").click(function(event){		
-					event.preventDefault();
-					$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-				});
-			});
-		</script>
-</head>
 <body>
     <!-- header-section-starts -->
 	<div class="header">
@@ -57,11 +27,14 @@
 				</div>
 				<div class="login-section">
 					<ul>
+						<li><strong>@message @email</strong></li> |
+						@if(email==null){
 						<li><a href="/login">Login</a>  </li> |
 						<li><a href="/registration">Register</a> </li> |
 						<li><a href="#">Help</a></li>
 						<div class="clearfix"></div>
 					</ul>
+					}
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -90,14 +63,7 @@
 						  </ul>
 						</form>
 						</div>
-					<!-- start search-->
-		 <div class="main-search">
-	        <form action="search.html">
-	           <input type="text" value="Search" onFocus="this.value = '';" onBlur="if (this.value == '') {this.value = 'Search';}" class="text"/>
-	            <input type="submit" value=""/>
-	        </form>
-	        <div class="close"><img src="@routes.Assets.at("images/cross.png")" /></div>
-	    </div>
+					<!-- start search-->	
 	    <div class="srch"><button></button></div>
 		<script type="text/javascript">
 	         $('.main-search').hide();
@@ -272,7 +238,7 @@
 					<div class="top-restaurent-grids">
 						<div class="top-restaurent-logos">
 							<div class="res-img-1 wow bounceIn" data-wow-delay="0.4s">
-								<img src="@routes.Assets.at("images/restaurent-1.jpg") class="img-responsive" alt="" />
+								<img src="@routes.Assets.at("images/restaurent-1.jpg")" class="img-responsive" alt="" />
 							</div>
 							<div class="res-img-2 wow bounceIn" data-wow-delay="0.4s">
 							    <img src="@routes.Assets.at("images/restaurent-2.jpg")" class="img-responsive" alt="" />
@@ -323,7 +289,7 @@
 							<label>Cuisine Name</label>
 					    </div>
 						<div class="top-cuisine-grid nth-grid1 wow bounceIn" data-wow-delay="0.4s">
-						    <a href=""><img src="@routes.Assets.at("images/cuisine7.jpg") class="img-responsive" alt="" /> </a>
+						    <a href=""><img src="@routes.Assets.at("images/cuisine10.jpg")" class="img-responsive" alt="" /> </a>
 							<label>Cuisine Name</label>
 					    </div>
 						<div class="top-cuisine-grid nth-grid nth-grid1 wow bounceIn" data-wow-delay="0.4s">
@@ -381,7 +347,7 @@
 					</div>
 					<div class="col-md-4 service-section-bottom-grid wow bounceIn "data-wow-delay="0.2s">
 						<div class="icon">
-							<img src="@routes.Assets.at("images/icon2.jpg") class="img-responsive" alt="" />
+							<img src="@routes.Assets.at("images/icon2.jpg")" class="img-responsive" alt="" />
 						</div>
 						<div class="icon-data">
 							<h4>Fully Secure Payment</h4>
