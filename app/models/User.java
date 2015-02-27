@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import Utilites.Hash;
 import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
 
@@ -22,7 +23,7 @@ public class User extends Model {
 	
 	public User(String email, String clearPassword){
 		this.email = email;
-		this.hashedPassword =clearPassword;
+		this.hashedPassword = Hash.hashPassword(clearPassword);
 		//TODO hashing password.
 	}
 	
@@ -66,7 +67,7 @@ public class User extends Model {
 	public static boolean authenticate(String email, String password){
 		User check = find.where().eq("email", email).findUnique();
 		if(check != null){
-			if(check.hashedPassword.equals(password))
+			if(Hash.checkPassword(password, check.hashedPassword))
 				return true;
 		}		
 		return false;
@@ -99,19 +100,5 @@ public class User extends Model {
 		// Added for testing
 		public static List<User> all( String hashedPassword){
 			return find.where().eq("hashedPassword", hashedPassword).findList();
-		}
-	
-	
-	/**
-	 * private class for creating hash.
-	 * TODO method for hashing password.
-	 * @author vedad
-	 *
-	 */
-	private static class Hash{
-		
-		public static String md5(String clearPassword){
-			return clearPassword;			
-		}
-	}
+		}	
 }
