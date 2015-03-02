@@ -23,8 +23,8 @@ public class Restaurant extends Model{
 	@Column(unique = true)
 	public boolean isRestaurant;
 	
-	@OneToMany
-	public Meal meals;
+	@OneToMany (mappedBy="restaurant")
+	public List <Meal> meals;
 	
 	
 	static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);

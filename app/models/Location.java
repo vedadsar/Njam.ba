@@ -21,8 +21,8 @@ public class Location extends Model {
 	public String street;
 	@Required
 	public String number;
-	@OneToOne(mappedBy="location")
-	public Restaurant restaurant;
+	@OneToMany(mappedBy="location")
+	public List <Restaurant> restaurant;
 	
 	public Location(String city, String street, String number){
 		this.city = city;
