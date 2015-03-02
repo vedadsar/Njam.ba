@@ -43,6 +43,16 @@ public class RestaurantController extends Controller {
 		}
 		return TODO;
 	}
+	
+	public static Result list(){
+		List<Meal> meals = Meal.findAll();
+		return TODO;
+	}
+	
+	public static Result details(){
+		return TODO;
+	}
+
 
 	/**
 	 * Modifying meal method.
