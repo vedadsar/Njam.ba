@@ -10,7 +10,7 @@ GET	    /login		                controllers.Application.toLogin()
 POST	/user			            controllers.Application.login()
 GET     /logout                     controllers.Application.logout()
 GET     /meals                      controllers.RestaurantController.list()
-GET     /meals/:id                  controllers.RestaurantController.details()
+GET     /meals/:id                  controllers.RestaurantController.details(id: Int)
 POST    /meals/new                  controllers.RestaurantController.createMeal()
 GET     /restaurant                 controllers.Restaurant.list()
 
