@@ -19,7 +19,8 @@ public class Meal extends Model {
 	public double price;
 	
 	static Finder<Integer, Meal> find =  new Finder<Integer, Meal>(Integer.class, Meal.class);
-	
+	static Finder<String, Meal> findStr =  new Finder<String, Meal>(String.class, Meal.class);
+
 	
 	public Meal(int resraurantId, String name, double price){
 		this.restaurantId = restaurantId;
@@ -35,7 +36,7 @@ public class Meal extends Model {
 	}
 	
 	public static Meal findByName(String name){
-		return find.where().eq("name", name).findUnique();
+		return findStr.where().eq("name", name).findUnique();
 	}
 	
 	public static void delete(int id){
