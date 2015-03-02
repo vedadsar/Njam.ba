@@ -15,14 +15,14 @@ public class Location extends Model {
 	
 	@Id
 	public Integer id;
-	@OneToOne(mappedBy="location")
-	public Restaurant restaurant;
 	@Required
 	public String city;
 	@Required
 	public String street;
 	@Required
 	public String number;
+	@OneToOne(mappedBy="location")
+	public Restaurant restaurant;
 	
 	public Location(String city, String street, String number){
 		this.city = city;
