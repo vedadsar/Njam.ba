@@ -21,7 +21,8 @@ public class Location extends Model {
 	public String street;
 	@Required
 	public String number;
-	@OneToOne(mappedBy="location")
+	
+	@OneToOne(mappedBy="city")
 	public Restaurant restaurant;
 	
 	public Location(String city, String street, String number){
@@ -30,8 +31,16 @@ public class Location extends Model {
 		this.number = number;
 	}
 	
+	public static void create(String city, String street, String number){
+		new Location(city, street, number).save();
+	}
+	
 	public static Location findByID(int id){
 		return find.byId(id);
+	}
+	
+	public static Location findByCity(String city){
+		return find.where().eq("city", city).findUnique();
 	}
 	
 	public static List<Location> all(){

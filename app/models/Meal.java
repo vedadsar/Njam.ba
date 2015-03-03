@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
@@ -11,24 +12,22 @@ public class Meal extends Model {
 
 	@Id
 	public int id;
-	@ForeignKey
-	public static int restaurantId;
-	
 	@Required
 	public String name;
 	public double price;
 	
+	@OneToOne
+	public Restaurant restaurant;
+	
 	static Finder<Integer, Meal> find =  new Finder<Integer, Meal>(Integer.class, Meal.class);
-	static Finder<String, Meal> findStr =  new Finder<String, Meal>(String.class, Meal.class);
 
 	
-	public Meal(int resraurantId, String name, double price){
-		this.restaurantId = restaurantId;
+	public Meal(String name, double price){
 		this.name=name;
 		this.price =price;
 	}
-	public static void create(int restaurantID, String name, double price){
-		new Meal(restaurantId,name, price);
+	public static void create(String name, double price){
+		new Meal(name, price).save();
 	}
 	
 	public static Meal find(int id){
@@ -36,15 +35,15 @@ public class Meal extends Model {
 	}
 	
 	public static Meal findByName(String name){
-		return findStr.where().eq("name", name).findUnique();
+		return find.where().eq("name", name).findUnique();
 	}
 	
 	public static void delete(int id){
 		find.byId(id);
 	}
 	
-	public static List<Meal> all(int restaurantId){
-		return find.where().eq("retaurantID", restaurantId).findList();
+	public static List<Meal> all(int id){
+		return find.where().eq("id", id).findList();
 	}
 		
 }

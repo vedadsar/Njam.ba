@@ -1,9 +1,11 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
+import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
 
@@ -17,7 +19,12 @@ public class User extends Model {
 	public String email;
 	@Required
 	public String hashedPassword;
+    @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date dateCreation;
+    
+    public boolean isAdmin;
 	
+    	
 	static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
 	
 	public User(String email, String clearPassword){
@@ -114,4 +121,30 @@ public class User extends Model {
 			return clearPassword;			
 		}
 	}
+	
+	
+	public boolean hasRole(String email, String role) {
+
+		User user = User.all().filter("email", email).get();
+
+		if (user == null) {
+			return false;
+		}
+
+		return user.hasRole(role);
+
+	}
+
+	public void addRole(String email, String role) {
+
+		User user = User.all().filter("email", email).get();
+
+		if (user == null) {
+			return;
+		}
+
+		user.addRole(role);
+		user.save();
+	}
+
 }

@@ -1,9 +1,11 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
+import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -11,19 +13,21 @@ import play.db.ebean.Model;
 public class Restaurant extends Model{
 
 	@Id
-	@PrimaryKeyJoinColumn
 	public int id;
 	@Required
 	@Column(unique = true)	
 	public String email;
 	@Required
 	public String hashedPassword;
-	
 	@Required
-	@Column(unique = true)
-	public boolean isRestaurant;
+	public String name;
+    @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date dateCreation;
+		
+	@OneToOne
+	public Location location;
 	
-	@OneToMany (mappedBy="restaurant")
+	@OneToMany (mappedBy="name")
 	public List <Meal> meals;
 	
 	
@@ -36,11 +40,15 @@ public class Restaurant extends Model{
 	}
 	
 	public static  void create(String email, String hashedPassword){
-		new Restaurant(email, hashedPassword);
+		new Restaurant(email, hashedPassword).save();
 	}
 	
 	public static Restaurant find(int id){
 		return find.byId(id);
+	}
+	
+	public static Restaurant findByName(String name){
+		return find.where().eq("name", name).findUnique();
 	}
 		
 	public static void delete(int id){
