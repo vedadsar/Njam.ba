@@ -7,7 +7,8 @@ GET     /                           controllers.Application.index()
 GET   	/registration	            controllers.Application.toRegistration()
 POST	/			                controllers.Application.registration()
 GET	    /login		                controllers.Application.toLogin()
-POST	/user			            controllers.Application.login()
+POST	/user				        controllers.Application.login()
+GET     /logout                     controllers.Application.logout()
 
 
 # Map static resources from the /public folder to the /assets URL path

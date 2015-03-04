@@ -1,10 +1,12 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import Utilites.*;
+import play.data.format.Formats.DateTime;
 
-import Utilites.Hash;
 import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
 
@@ -18,13 +20,42 @@ public class User extends Model {
 	public String email;
 	@Required
 	public String hashedPassword;
+    @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date dateCreation;
+    
+    @OneToOne
+    public Restaurant restaurant;
+    
+    public boolean isAdmin;
+    public boolean isRestaurant;
 	
+    	
 	static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
 	
 	public User(String email, String clearPassword){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(clearPassword);
+		this.isAdmin = false;
+		this.isRestaurant = false;
 		//TODO hashing password.
+	}
+	
+	public User(String email, String password, boolean isRestaurant){
+		this.email = email;
+		this.hashedPassword = Hash.hashPassword(password);
+		this.isRestaurant = isRestaurant;		
+	}
+	
+	public static boolean createRestaurant(String email, String password){
+		User check = find.where().eq("email", email).findUnique();
+		if(check != null){
+			//User already exists !
+			return false;
+		} else {
+			new User(email, password, true).save();
+			return true;
+		}
+
 	}
 	
 	/**
@@ -73,16 +104,6 @@ public class User extends Model {
 		return false;
 	}	
 	
-	// Added for testing
-		/**
-		 * Creates new User by giving two paramters email and password.
-		 * @param email
-		 * @param password
-		 */
-		public static void create(String email, String password){
-			new User(email, password).save();
-		}
-		// Added for testing
 		/**
 		 * Finds user by id.
 		 * @param id  of User
@@ -92,13 +113,31 @@ public class User extends Model {
 			return find.byId(id);
 		}
 		
-		// Added for testing
+		/**
+		 * Method for deleting user.
+		 * @param id
+		 */
 		public static void delete( int id){
 			find.byId(id).delete();
 		}
 		
-		// Added for testing
-		public static List<User> all( String hashedPassword){
-			return find.where().eq("hashedPassword", hashedPassword).findList();
+		/**
+		 * Method for listing all users ( not restaurants )
+		 * @return
+		 */
+		public static List<User> allUsers(){
+			return find.where().eq("isRestaurant", "false").findList();
+		}
+		
+		/**
+		 * Method for listing all restaurants !
+		 * @return
+		 */
+		public static List<User> allRestaurant(){
+			return find.where().eq("isRestaurant", "true").findList();
 		}	
+		
+		
+		
+
 }
