@@ -1,4 +1,4 @@
-@(message: String)(email: String)
+@(message: String)(email: String)@
 @main("NJAM.BA") {
 <body>
     <!-- header-section-starts -->
@@ -27,10 +27,13 @@
 				</div>
 				<div class="login-section">
 					<ul>
-						<li><strong>@message @email</strong></li> |
+						<li><strong>@message @email</strong></li> 
+						@if(email != null){
+					  	<li><a href="@routes.Application.logout()" class="btn btn-default btn-xs" role="button">Logout</a></li> 	
+                        }
 						@if(email==null){
-						<li><a href="/login">Login</a>  </li> |
-						<li><a href="/registration">Register</a> </li> |
+						<li><a href="/login">Login</a>  </li> 
+						<li><a href="/registration">Register</a> </li> 
 						<li><a href="#">Help</a></li>
 						<div class="clearfix"></div>
 					</ul>

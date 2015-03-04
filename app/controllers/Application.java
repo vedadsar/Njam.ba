@@ -110,4 +110,11 @@ public class Application extends Controller {
 			return ok(login.render("Incorrect username or password, or you are already logged in."));
 		}
 	}
+	
+	public static Result logout() {
+		session().clear();
+		flash("success", "You've been logged out");
+		return redirect(routes.Application.index());
+	}
+
 }

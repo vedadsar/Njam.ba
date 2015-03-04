@@ -1,10 +1,15 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
+<<<<<<< HEAD
 import Utilites.Hash;
+=======
+import play.data.format.Formats.DateTime;
+>>>>>>> devdastko
 import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
 
@@ -18,7 +23,16 @@ public class User extends Model {
 	public String email;
 	@Required
 	public String hashedPassword;
+    @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date dateCreation;
+    
+    @OneToOne
+    public Restaurant restaurant;
+    
+    public boolean isAdmin;
+    public boolean isRestaurant;
 	
+    	
 	static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
 	
 	public User(String email, String clearPassword){
@@ -100,5 +114,24 @@ public class User extends Model {
 		// Added for testing
 		public static List<User> all( String hashedPassword){
 			return find.where().eq("hashedPassword", hashedPassword).findList();
+<<<<<<< HEAD
 		}	
+=======
+		}
+	
+	
+	/**
+	 * private class for creating hash.
+	 * TODO method for hashing password.
+	 * @author vedad
+	 *
+	 */
+	private static class Hash{
+		
+		public static String md5(String clearPassword){
+			return clearPassword;			
+		}
+	}
+
+>>>>>>> devdastko
 }
