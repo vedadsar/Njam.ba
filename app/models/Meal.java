@@ -28,8 +28,8 @@ public class Meal extends Model {
 		this.price =price;
 	}
 	
-	public boolean create(int id){
-		Meal meal = find.byId(id);
+	public static boolean create(String name, double price){
+		Meal meal = find.findUnique();
 		if(meal != null){
 			return false;
 		} else {
