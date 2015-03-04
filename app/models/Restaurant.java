@@ -25,8 +25,7 @@ public class Restaurant extends Model{
 	@OneToOne
 	public Location location;
 	
-
-	@OneToMany (mappedBy="name")
+	@OneToMany 
 	public List <Meal> meals;
 	
 	public boolean isRestaurant;
@@ -59,4 +58,3 @@ public class Restaurant extends Model{
 	}
 
 }
-

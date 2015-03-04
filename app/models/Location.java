@@ -22,8 +22,7 @@ public class Location extends Model {
 	@Required
 	public String number;
 	
-
-	@OneToOne(mappedBy="city")
+	@OneToOne
 	public Restaurant restaurant;
 	
 
@@ -76,6 +75,4 @@ public class Location extends Model {
 	public static List<Location> all(Restaurant restaurant){
 		return find.where().eq("restaurant", restaurant).findList();
 	}
-
 }
-

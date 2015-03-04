@@ -1,11 +1,9 @@
 package models;
 
 import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 	

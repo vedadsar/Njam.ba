@@ -3,6 +3,13 @@
 
 # --- !Ups
 
+create table comment (
+  author_id                 integer,
+  posted_at                 timestamp,
+  title                     varchar(255),
+  content                   varchar(255))
+;
+
 create table location (
   id                        integer not null,
   city                      varchar(255),
@@ -50,22 +57,26 @@ create sequence restaurant_seq;
 
 create sequence user_seq;
 
-alter table location add constraint fk_location_restaurant_1 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_location_restaurant_1 on location (restaurant_id);
-alter table meal add constraint fk_meal_restaurant_2 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_meal_restaurant_2 on meal (restaurant_id);
-alter table restaurant add constraint fk_restaurant_user_3 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_user_3 on restaurant (user_id);
-alter table restaurant add constraint fk_restaurant_location_4 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_restaurant_location_4 on restaurant (location_id);
-alter table user add constraint fk_user_restaurant_5 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_5 on user (restaurant_id);
+alter table comment add constraint fk_comment_author_1 foreign key (author_id) references user (id) on delete restrict on update restrict;
+create index ix_comment_author_1 on comment (author_id);
+alter table location add constraint fk_location_restaurant_2 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_location_restaurant_2 on location (restaurant_id);
+alter table meal add constraint fk_meal_restaurant_3 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_meal_restaurant_3 on meal (restaurant_id);
+alter table restaurant add constraint fk_restaurant_user_4 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_user_4 on restaurant (user_id);
+alter table restaurant add constraint fk_restaurant_location_5 foreign key (location_id) references location (id) on delete restrict on update restrict;
+create index ix_restaurant_location_5 on restaurant (location_id);
+alter table user add constraint fk_user_restaurant_6 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_6 on user (restaurant_id);
 
 
 
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
+
+drop table if exists comment;
 
 drop table if exists location;
 
