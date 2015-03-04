@@ -26,8 +26,7 @@ public class User extends Model {
     @OneToOne
     public Restaurant restaurant;
     
-    public int isAdmin;
-    public int isRestaurant;
+    public int role; // Admin - 0, Customer - 1, Restaurant - 2;
 	
     	
 	static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
@@ -35,14 +34,13 @@ public class User extends Model {
 	public User(String email, String clearPassword){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(clearPassword);
-		this.isAdmin = 2;
-		this.isRestaurant = 2;
+		this.role = 1;
 	}
 	
-	public User(String email, String password, int isRestaurant){
+	public User(String email, String password, int role){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(password);
-		this.isRestaurant = isRestaurant;		
+		this.role = role;		
 	}
 	
 	public static boolean createRestaurant(String email, String password){
@@ -50,7 +48,7 @@ public class User extends Model {
 		if(check != null){
 			return false;
 		} else {
-			new User(email, password, 1).save();
+			new User(email, password, 2).save();
 			return true;
 		}
 	}

@@ -25,12 +25,9 @@ public class Restaurant extends Model{
 	@OneToOne
 	public Location location;
 	
-	@OneToMany (mappedBy="name")
+	@OneToMany 
 	public List <Meal> meals;
-	
-	public boolean isRestaurant;
-	
-	
+		
 	static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	
 	public Restaurant(String name){
