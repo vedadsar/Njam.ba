@@ -33,6 +33,7 @@ public class Application extends Controller {
 		if(email == null){
 			return ok(registration.render(""));
 		} else {
+			email = session("email");
 		return ok(index.render("", email));
 		}
 	}

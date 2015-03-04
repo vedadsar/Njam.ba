@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+
 import Utilites.*;
 import play.data.format.Formats.DateTime;
-
 import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
 
@@ -26,7 +26,7 @@ public class User extends Model {
     @OneToOne
     public Restaurant restaurant;
     
-    public int role; // Admin - 0, Customer - 1, Restaurant - 2;
+    public String role; // admin, customer, restaurantOwner;
 	
     	
 	static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
@@ -34,10 +34,10 @@ public class User extends Model {
 	public User(String email, String clearPassword){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(clearPassword);
-		this.role = 1;
+		this.role = "customer";
 	}
 	
-	public User(String email, String password, int role){
+	public User(String email, String password, String role){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(password);
 		this.role = role;		
@@ -48,7 +48,7 @@ public class User extends Model {
 		if(check != null){
 			return false;
 		} else {
-			new User(email, password, 2).save();
+			new User(email, password, "restaurantOwner").save();
 			return true;
 		}
 	}
@@ -58,29 +58,33 @@ public class User extends Model {
 	 * @param email
 	 * @param password
 	 */
-	public static boolean createUser(String email, String password){
-		//First we check if user already exists.
+	public static boolean createUser(String email, String password) {
+		// First we check if user already exists.
 		User check = find.where().eq("email", email).findUnique();
-		if(check != null){
-			//User already exists !
+		if (check != null) {
+			// User already exists !
 			return false;
 		} else {
 			new User(email, password).save();
 			return true;
 		}
 	}
-	
-	public static boolean createUser(User u){
-		//First we check if user already exists.
+
+	public static void createAdmin(String email, String password, String role) {
+		new User(email, password, role).save();
+	}
+
+	public static boolean createUser(User u) {
+		// First we check if user already exists.
 		User check = find.where().eq("email", u.email).findUnique();
-		if(check == null){
-			//User already exists !
+		if (check == null) {
+			// User already exists !
 			return false;
 		}
 		u.save();
 		return true;
 	}
-	
+
 	/**
 	 * Method for authenticating user who is trying to login.
 	 * First it checks if user with that email exists in our
@@ -98,7 +102,7 @@ public class User extends Model {
 		}		
 		return false;
 	}	
-	
+		
 		/**
 		 * Finds user by id.
 		 * @param id  of User

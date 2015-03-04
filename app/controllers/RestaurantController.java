@@ -26,7 +26,7 @@ public class RestaurantController extends Controller {
 	 */
 	public static Result createMeal() {
 		User u= Session.getCurrentUser(ctx());
-		if(u.role != 2){
+		if(!u.role.equals("restaurantOwner")){
 			return null; //Redirect to index, user is not admin !
 		}
 		
