@@ -45,7 +45,9 @@ public class RestaurantController extends Controller {
 	}
 	
 	public static Result list(){
-		List<Meal> meals = Meal.findAll();
+		/*
+		List<Meal> meals = Meal.all();
+		*/
 		return TODO;
 	}
 	
