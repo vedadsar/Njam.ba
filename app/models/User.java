@@ -22,7 +22,11 @@ public class User extends Model {
     @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date dateCreation;
     
+    @OneToOne
+    public Restaurant restaurant;
+    
     public boolean isAdmin;
+    public boolean isRestaurant;
 	
     	
 	static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
@@ -120,31 +124,6 @@ public class User extends Model {
 		public static String md5(String clearPassword){
 			return clearPassword;			
 		}
-	}
-	
-	
-	public boolean hasRole(String email, String role) {
-
-		User user = User.all().filter("email", email).get();
-
-		if (user == null) {
-			return false;
-		}
-
-		return user.hasRole(role);
-
-	}
-
-	public void addRole(String email, String role) {
-
-		User user = User.all().filter("email", email).get();
-
-		if (user == null) {
-			return;
-		}
-
-		user.addRole(role);
-		user.save();
 	}
 
 }

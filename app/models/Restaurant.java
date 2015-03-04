@@ -15,14 +15,12 @@ public class Restaurant extends Model{
 	@Id
 	public int id;
 	@Required
-	@Column(unique = true)	
-	public String email;
-	@Required
-	public String hashedPassword;
-	@Required
 	public String name;
     @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date dateCreation;
+    
+	@OneToOne
+	public User user;
 		
 	@OneToOne
 	public Location location;
@@ -30,17 +28,17 @@ public class Restaurant extends Model{
 	@OneToMany (mappedBy="name")
 	public List <Meal> meals;
 	
+	public boolean isRestaurant;
+	
 	
 	static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	
-	public Restaurant(String email, String hashedPassword){
-		this.email = email;
-		this.hashedPassword = hashedPassword;
-		// TODO hash Password
+	public Restaurant(String name){
+		this.name = name;
 	}
 	
-	public static  void create(String email, String hashedPassword){
-		new Restaurant(email, hashedPassword).save();
+	public static  void create(String name){
+		new Restaurant(name).save();
 	}
 	
 	public static Restaurant find(int id){
@@ -54,7 +52,9 @@ public class Restaurant extends Model{
 	public static void delete(int id){
 		find.byId(id);
 	}
-	public static List<Restaurant> all(String hashedPassword){
-		return find.where().eq("hashedPassword", hashedPassword).findList();
+	
+	public static List<Restaurant> all(Location location){
+		return find.where().eq("location", location).findList();
 	}
+
 }
