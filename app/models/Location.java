@@ -32,13 +32,6 @@ public class Location extends Model {
 		this.number = number;
 	}
 	
-	/**
-	 * 
-	 * @param city
-	 * @param street
-	 * @param number
-	 * @return
-	 */
 	public static boolean create(String city, String street, String number){
 		Location location = find.where().eq("city", city).findUnique();
 		if(location != null){
@@ -59,5 +52,13 @@ public class Location extends Model {
 	
 	public static List<Location> all(){
 		return find.all();
+	}
+	
+	public static List<Location> all(int id){
+		return find.where().eq("id", id).findList();
+	}
+	
+	public static List<Location> all(String city){
+		return find.where().eq("city", city).findList();
 	}
 }
