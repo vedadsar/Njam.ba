@@ -22,7 +22,7 @@ public class Location extends Model {
 	@Required
 	public String number;
 	
-	@OneToOne(mappedBy="city")
+	@OneToOne
 	public Restaurant restaurant;
 	
 

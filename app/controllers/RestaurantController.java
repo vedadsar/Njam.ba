@@ -1,10 +1,12 @@
 package controllers;
 
+import java.util.List;
+
+import Utilites.Session;
 import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
 
 /**
  * Controller class for restaurant. Restaurant is able to create/modify/delete
@@ -23,10 +25,15 @@ public class RestaurantController extends Controller {
 	 * @return
 	 */
 	public static Result createMeal() {
-		String MealName = inputForm.bindFromRequest().get().MealName;
-		double MealPrice = Double.parseDouble(inputForm.bindFromRequest().get().MealPrice);
-		if (Meal.create(MealName, MealPrice) == true) {
-			return ok(createMeal.render(MealName));
+		User u= Session.getCurrentUser(ctx());
+		if(u.role != 2){
+			return null; //Redirect to index, user is not admin !
+		}
+		
+		String mealName = inputForm.bindFromRequest().get().name;
+		double mealPrice = inputForm.bindFromRequest().get().price;
+		if (Meal.create(mealName, mealPrice) == true) {
+			return TODO;
 		}
 		return null;
 	}
@@ -37,36 +44,17 @@ public class RestaurantController extends Controller {
 	 * @return
 	 */
 	public static Result deleteMeal() {
-		String MealID = inputForm.bindFromRequest().get().MealID;
-		if (Meal.deleteMeal(MealID) == true) {
-			return TODO;
-		}
+		int mealID = inputForm.bindFromRequest().get().id;
+		Meal.delete(mealID);
 		return TODO;
 	}
 	
 	public static Result list(){
-		List<Meal> meals = Meal.findAll();
+		List<Meal> meals = Meal.all();
 		return TODO;
 	}
 	
-	public static Result details(){
+	public static Result details(int id){
 		return TODO;
-	}
-
-
-	/**
-	 * Modifying meal method.
-	 * TODO Not for this sprint.
-	 * @return
-	 */
-	public static Result modifyMeal() {
-		String MealID = inputForm.bindFromRequest().get().MealID;
-		String MealName = inputForm.bindFromRequest().get().MealName;
-		double MealPrice = Double.parseDouble(inputForm.bindFromRequest().get().MealPrice);
-
-		if (Meal.modifyMeal(MealID, MealName, MealDescription, MealPrice) == true) {
-			return TODO;
-		}
-		return TODO;
-	}
+	}	
 }

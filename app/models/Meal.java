@@ -57,11 +57,11 @@ public class Meal extends Model {
 	}
 	
 	public static void delete(int id){
-		find.byId(id);
+		 find.byId(id).delete();
 	}
 	
-	public static List<Meal> all(int id){
-		return find.where().eq("id", id).findList();
+	public static List<Meal> all(){
+		return find.all();
 	}
 	
 	public static List<Meal> all(String name){
