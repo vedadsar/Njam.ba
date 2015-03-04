@@ -32,6 +32,13 @@ public class Location extends Model {
 		this.number = number;
 	}
 	
+	/**
+	 * 
+	 * @param city
+	 * @param street
+	 * @param number
+	 * @return
+	 */
 	public static boolean create(String city, String street, String number){
 		Location location = find.where().eq("city", city).findUnique();
 		if(location != null){
