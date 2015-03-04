@@ -19,8 +19,7 @@ import play.db.ebean.Model;
 	    public Date postedAt;
 	    @Required
 	    public String title;
-	    @Required
-	    @MaxSize(5000)
+	    @Required	    
 	    public String content;
 
 }

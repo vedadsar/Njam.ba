@@ -7,11 +7,7 @@ GET     /                           controllers.Application.index()
 GET   	/registration	            controllers.Application.toRegistration()
 POST	/			                controllers.Application.registration()
 GET	    /login		                controllers.Application.toLogin()
-<<<<<<< HEAD
 POST	/user			            controllers.Application.login()
-=======
-POST	/user				        controllers.Application.login()
->>>>>>> devnldn
 GET     /logout                     controllers.Application.logout()
 
 

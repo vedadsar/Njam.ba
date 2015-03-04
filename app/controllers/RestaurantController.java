@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.List;
+
 import Utilites.Session;
 import models.*;
 import play.data.Form;
@@ -25,7 +26,6 @@ public class RestaurantController extends Controller {
 	 * @return
 	 */
 	public static Result createMeal() {
-
 		User u= Session.getCurrentUser(ctx());
 		if(u.isRestaurant == false){
 			return null; //Redirect to index, user is not admin !
@@ -45,31 +45,12 @@ public class RestaurantController extends Controller {
 	 * @return
 	 */
 	public static Result deleteMeal() {
-
-		String MealID = inputForm.bindFromRequest().get().id;
-		if (Meal.delete(MealID) == true) {
-			return TODO;
-		}
 		int mealID = inputForm.bindFromRequest().get().id;
 		Meal.delete(mealID);
 		return TODO;
 	}
 	
 	public static Result list(){
-
-		/*
-		List<Meal> meals = Meal.all();
-		*/
-		return TODO;
-	}
-	
-	public static Result details(){
-		return TODO;
-	}
-
-
-}
-
 		List<Meal> meals = Meal.all();
 		return TODO;
 	}
@@ -78,4 +59,3 @@ public class RestaurantController extends Controller {
 		return TODO;
 	}	
 }
-
