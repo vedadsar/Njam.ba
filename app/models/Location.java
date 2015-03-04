@@ -42,6 +42,16 @@ public class Location extends Model {
 			return true;
 	}
 	
+	public static boolean create(Location l){
+		Location location = find.where().eq("city", l.city).findUnique();
+		if(location != null){
+			return false;
+		} else {
+			l.save();
+		}
+			return true;
+	}
+
 	public static Location findByID(int id){
 		return find.byId(id);
 	}
@@ -60,5 +70,9 @@ public class Location extends Model {
 	
 	public static List<Location> all(String city){
 		return find.where().eq("city", city).findList();
+	}
+	
+	public static List<Location> all(Restaurant restaurant){
+		return find.where().eq("restaurant", restaurant).findList();
 	}
 }

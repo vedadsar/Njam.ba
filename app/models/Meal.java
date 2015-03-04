@@ -62,5 +62,13 @@ public class Meal extends Model {
 	public static List<Meal> all(int id){
 		return find.where().eq("id", id).findList();
 	}
-		
+	
+	public static List<Meal> all(String name){
+		return find.where().eq("name", name).findList();
+	}
+	
+	public static List<Meal> all(Restaurant restaurant){
+		return find.where().eq("restaurant", restaurant).findList();
+	}
+
 }
