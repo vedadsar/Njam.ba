@@ -23,10 +23,10 @@ public class RestaurantController extends Controller {
 	 * @return
 	 */
 	public static Result createMeal() {
-		String MealName = inputForm.bindFromRequest().get().MealName;
-		double MealPrice = Double.parseDouble(inputForm.bindFromRequest().get().MealPrice);
+		String MealName = inputForm.bindFromRequest().get().name;
+		double MealPrice = Double.parseDouble(inputForm.bindFromRequest().get().price);
 		if (Meal.create(MealName, MealPrice) == true) {
-			return ok(createMeal.render(MealName));
+			return TODO;
 		}
 		return null;
 	}
@@ -37,8 +37,8 @@ public class RestaurantController extends Controller {
 	 * @return
 	 */
 	public static Result deleteMeal() {
-		String MealID = inputForm.bindFromRequest().get().MealID;
-		if (Meal.deleteMeal(MealID) == true) {
+		String MealID = inputForm.bindFromRequest().get().id;
+		if (Meal.delete(MealID) == true) {
 			return TODO;
 		}
 		return TODO;
@@ -54,19 +54,4 @@ public class RestaurantController extends Controller {
 	}
 
 
-	/**
-	 * Modifying meal method.
-	 * TODO Not for this sprint.
-	 * @return
-	 */
-	public static Result modifyMeal() {
-		String MealID = inputForm.bindFromRequest().get().MealID;
-		String MealName = inputForm.bindFromRequest().get().MealName;
-		double MealPrice = Double.parseDouble(inputForm.bindFromRequest().get().MealPrice);
-
-		if (Meal.modifyMeal(MealID, MealName, MealDescription, MealPrice) == true) {
-			return TODO;
-		}
-		return TODO;
-	}
 }
