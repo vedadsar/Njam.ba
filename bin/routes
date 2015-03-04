@@ -7,12 +7,17 @@ GET     /                           controllers.Application.index()
 GET   	/registration	            controllers.Application.toRegistration()
 POST	/			                controllers.Application.registration()
 GET	    /login		                controllers.Application.toLogin()
+<<<<<<< HEAD
 POST	/user			            controllers.Application.login()
 GET     /logout                     controllers.Application.logout()
 GET     /meals                      controllers.RestaurantController.list()
 GET     /meals/:id                  controllers.RestaurantController.details(id: Int)
 POST    /meals/new                  controllers.RestaurantController.createMeal()
 GET     /restaurant                 controllers.Restaurant.list()
+=======
+POST	/user				        controllers.Application.login()
+GET     /logout                     controllers.Application.logout()
+>>>>>>> devnldn
 
 
 # Map static resources from the /public folder to the /assets URL path

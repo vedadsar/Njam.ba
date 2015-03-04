@@ -1,0 +1,9 @@
+New log file opened at Wed Mar 04 20:22:52 CET 2015 by 4212@vedad-PC
+Sending msg to client activator-1ccb2b22-423b-4720-9519-2e1daa88b99e: DetachedLogEvent(LogMessage(debug,sbt client logs are in: C:\Users\vedad\Desktop\Project\Njam.ba\.sbtserver\connections\activator-1ccb2b22-423b-4720-9519-2e1daa88b99e.log))
+Sending msg to client activator-1ccb2b22-423b-4720-9519-2e1daa88b99e: DetachedLogEvent(LogMessage(debug,sbt server socket logs are in: C:\Users\vedad\Desktop\Project\Njam.ba\.sbtserver\connections\master.log))
+Sending msg to client activator-1ccb2b22-423b-4720-9519-2e1daa88b99e: DetachedLogEvent(LogMessage(debug,sbt general server logs are in: C:\Users\vedad\Desktop\Project\Njam.ba\.sbtserver\master.log))
+Reading next message from client.
+Client activator-1ccb2b22-423b-4720-9519-2e1daa88b99e EOF, shutting down.
+Stopping client.
+Dropping message (0,ReceivedResponse()) to dead client activator-1ccb2b22-423b-4720-9519-2e1daa88b99e
+Client activator-1ccb2b22-423b-4720-9519-2e1daa88b99e thread exiting.

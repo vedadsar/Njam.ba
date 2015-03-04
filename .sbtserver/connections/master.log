@@ -1,0 +1,7 @@
+New log file opened at Wed Mar 04 20:22:26 CET 2015 by 4212@vedad-PC
+Taking next connection to: 49907
+New client attempting to connect on port: 49908-49907
+  Address = /192.168.1.100:49907
+This client on port 49908 has uuid 1ccb2b22-423b-4720-9519-2e1daa88b99e configName activator humanReadableName Activator protocolVersion 1 featureTags Vector()
+Connected Clients: activator-1ccb2b22-423b-4720-9519-2e1daa88b99e
+Taking next connection to: 49907
