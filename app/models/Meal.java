@@ -27,18 +27,19 @@ public class Meal extends Model {
 		this.name=name;
 		this.price =price;
 	}
-	public static boolean create(String name, double price){
-		Meal meal = find.where().eq("name", name).findUnique();
+	
+	public boolean create(int id){
+		Meal meal = find.byId(id);
 		if(meal != null){
 			return false;
 		} else {
-			new Meal(name, price).save();
+			new Meal(name, price);
 		}
 			return true;
 	}
 	
 	public static boolean create(Meal m) {
-		Meal meal = find.where().eq("name", m.name).findUnique();
+		Meal meal = find.findUnique();
 		if (meal != null) {
 			return false;
 		} else {

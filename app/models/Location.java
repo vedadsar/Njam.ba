@@ -33,7 +33,7 @@ public class Location extends Model {
 	}
 	
 	public static boolean create(String city, String street, String number){
-		Location location = find.where().eq("city", city).findUnique();
+		Location location = find.findUnique();
 		if(location != null){
 			return false;
 		} else {
@@ -43,7 +43,7 @@ public class Location extends Model {
 	}
 	
 	public static boolean create(Location l){
-		Location location = find.where().eq("city", l.city).findUnique();
+		Location location = find.findUnique();
 		if(location != null){
 			return false;
 		} else {
