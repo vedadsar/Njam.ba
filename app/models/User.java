@@ -118,8 +118,8 @@ public class User extends Model {
 			return find.byId(id);
 		}
 		
-		public static User find(String role){
-			return find.where().eq("role", role).findUnique();
+		public static User find(String email){
+			return find.where().eq("email", email).findUnique();
 		}
 		
 		/**

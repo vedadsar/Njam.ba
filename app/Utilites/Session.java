@@ -11,10 +11,10 @@ public class Session extends Security.Authenticator{
 
 	@Override
 	public  String getUsername(Context ctx){
-		if(!ctx.session().containsKey("user_id"))
+		if(!ctx.session().containsKey("email"))
 			return null;
-		int id = Integer.parseInt(ctx.session().get("user_id"));
-		User u = User.find(id);
+		String email = ctx.session().get("email");
+		User u = User.find(email);
 		if(u != null){
 			return u.email;
 		}
@@ -27,10 +27,10 @@ public class Session extends Security.Authenticator{
 	}
 	
 	public static User getCurrentUser(Context ctx){
-		if(!ctx.session().containsKey("user_id"))
+		if(!ctx.session().containsKey("email"))
 			return null;
-		int id = Integer.parseInt(ctx.session().get("user_id"));
-		User u = User.find(id);
+		String email =ctx.session().get("email");
+		User u = User.find(email);
 		return u;
 	}
 	
@@ -41,10 +41,10 @@ public class Session extends Security.Authenticator{
 	 * @return
 	 */
 	public static String getCurrentRole(Context ctx){
-		if(!ctx.session().containsKey("user_id"))
+		if(!ctx.session().containsKey("email"))
 			return null;		//No active session
-		int id = Integer.parseInt(ctx.session().get("user_id"));
-		User u = User.find(id);
+		String email = ctx.session().get("email");
+		User u = User.find(email);
 		return u.role;
 	}
 }

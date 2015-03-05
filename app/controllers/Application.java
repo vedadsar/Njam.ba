@@ -1,12 +1,10 @@
 package controllers;
 
 import models.User;
-import play.*;
 import play.data.Form;
 import play.mvc.*;
 import views.html.*;
-import play.data.validation.Constraints.*;
-import javax.persistence.*;
+import Utilites.Session;
 import play.data.DynamicForm;
 
 
@@ -22,6 +20,13 @@ public class Application extends Controller {
 	public static Result index() {
 		email = session("email");
 		return ok(index.render("", email));
+	}
+	
+	public static Result toUser(){
+		String email = session().get("email");
+		if(email == null)
+			return redirect("/login");
+		return ok(user.render(email));
 	}
 
 	/**
@@ -43,10 +48,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result toLogin() {
-		if(email == null){
+				
+		if(session().get("email") == null){
 			return ok(login.render(""));
 		} else {
-			return ok(index.render("", email));
+			return redirect("/user");
 		}
 	}
 
