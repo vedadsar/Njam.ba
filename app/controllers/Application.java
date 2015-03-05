@@ -59,12 +59,11 @@ public class Application extends Controller {
 	 * 
 	 * @return
 	 */
-	public static Result toLogin() {
-				
-		if(session().get("email") == null){
-			return ok(login.render(""));
-		} else {
+	public static Result toLogin() {				
+		if(session().get("email") != null){			
 			return redirect("/user");
+		} else {
+			return ok(login.render(""));
 		}
 	}
 

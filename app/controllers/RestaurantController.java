@@ -1,14 +1,13 @@
 package controllers;
 
 import java.util.List;
-
 import Utilites.Session;
 import models.*;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.index;
+import views.html.*;
 
 /**
  * Controller class for restaurant. Restaurant is able to create/modify/delete
@@ -29,7 +28,7 @@ public class RestaurantController extends Controller {
 	public static Result createMeal() {
 		User u= Session.getCurrentUser(ctx());
 		if(!u.role.equalsIgnoreCase("RESTAURANT")){
-			return null; //Redirect to index, user is not restaurant !
+			return ok(wrong.render("Cannot acces to registration page while you're logged in"));
 		}
 		
 		String mealName = inputForm.bindFromRequest().get().name;
@@ -48,7 +47,7 @@ public class RestaurantController extends Controller {
 	public static Result deleteMeal() {
 		int mealID = inputForm.bindFromRequest().get().id;
 		Meal.delete(mealID);
-		return TODO;
+		return redirect("/restaurant");
 	}
 	
 	public static Result list(){
