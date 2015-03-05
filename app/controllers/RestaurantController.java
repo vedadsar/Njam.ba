@@ -35,7 +35,7 @@ public class RestaurantController extends Controller {
 		String mealName = inputForm.bindFromRequest().get().name;
 		double mealPrice = inputForm.bindFromRequest().get().price;
 		if (Meal.create(mealName, mealPrice) == true) {
-			return TODO;
+			return redirect("/restaurant");
 		}
 		return TODO;
 	}
