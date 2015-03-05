@@ -55,15 +55,25 @@
 		<div class="container">
 	<div class="row clearfix">
 	@for(meal<-meals){
-		<div class="col-md-4 column">
-			<h3 class="text-center">
-			 @meal.name
-			</h3>
-			<p class="text-center">
-				@meal.price
-			</p>
-			
-		</div>
+		<div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="thumbnail">
+                <img src="http://placehold.it/600x270" alt="">
+                <div class="caption">
+                    <h4 class="text-center">@meal.name</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                        Suspendisse aliquam, augue vitae pulvinar feugiat, magna ipsum varius tellus, quis lobortis est nulla nec ligula. 
+                        Aenean cursus enim sit amet tortor rutrum lobortis. 
+                        Vestibulum mattis mauris fringilla mauris volutpat, in euismod arcu ultricies.                    
+                    </p>
+                     <p>Price: <b>@meal.price</b></p>
+                       
+                    <p class="text-center">
+                        <i class="fa fa-thumbs-o-up votes"></i><i class="fa fa-thumbs-o-down votes"></i>
+                    </p>
+                </div>
+            </div>
+        </div>
 		}
 	</div>
 </div>		
