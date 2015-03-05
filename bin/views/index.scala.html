@@ -17,25 +17,51 @@
 						<li class="active">
 							<a href="#">Home</a>
 						</li>
+						
+						
 						<li>
 							<a href="restaurants.html">Restaurants</a>
 						</li>
-						<li class="pull-right">
-							<a href="/registration">Register</a>
-						</li>
-						<li class="pull-right">
-							<a href="/login">Log in</a>
-						</li>
+						
+						@if(email == null){
+							<li class="pull-right">
+								<a href="/registration">Register</a>
+							</li>
+							<li class="pull-right">
+								<a href="/login">Log in</a>
+							</li>
+						}else{						
+						
+							<li class="pull-right">
+								<a href="/restaurant">Profil</a>
+							</li>
+						
+							
+						}
+						
+						
 					</ul>
 				</div>
 			</div>
-				
+			
+		<div class="container">
+	<div class="row clearfix">
+	@for(meal<-meals){
+		<div class="col-md-4 column">
+			<h3 class="text-center">
+			 @meal.name
+			</h3>
+			<p class="text-center">
+				@meal.price
+			</p>
+			
 		</div>
-		<div class="random-meals">
-				@for(meal<-meals){
-				<h4>@meal.name</h4><br><h5>@meal.price</h5> 
-							}
-							</div>
+		}
+	</div>
+</div>		
+		</div>		
+		
+
 	</body>
 	
 }

@@ -1,25 +1,33 @@
 package controllers;
 
+import java.util.List;
+
+import models.Meal;
+import models.Restaurant;
 import models.User;
 import play.data.Form;
 import play.mvc.*;
 import views.html.*;
 import Utilites.Session;
 import play.data.DynamicForm;
+import play.db.ebean.Model.Finder;
 
 
 
 public class Application extends Controller {
 
 	static String email = null;
+	static Finder<Integer, Meal> find =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+
 	/**
 	 * This method just redirects to index page.
 	 * 
 	 * @return
 	 */
 	public static Result index() {
+		List <Meal> meals = find.all();
 		email = session("email");
-		return ok(index.render("", email));
+		return ok(index.render(" ", email, meals));
 	}
 	
 	public static Result toUser(){
@@ -35,10 +43,12 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result toRegistration() {
+		List <Meal> meals = find.all();
+
 		if(email == null){
 			return ok(registration.render(""));
 		} else {
-		return ok(index.render("", email));
+		return ok(index.render("", email, meals));
 		}
 	}
 
@@ -100,6 +110,15 @@ public class Application extends Controller {
 	 */
 	public static Result login() {
 
+		
+		if(Session.getCurrentUser(ctx()) != null){
+			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
+				return ok(restaurant.render(email));
+			if(Session.getCurrentRole(ctx()).equals(User.USER))
+				return ok(user.render(email));
+		}
+		
+		
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
