@@ -44,6 +44,8 @@ public class Application extends Controller {
 	 */
 	public static Result toRegistration() {
 		List <Meal> meals = find.all();
+		if(session().get("email") != null)
+			return ok(wrong.render("Cannot acces to registration page while you're logged in"));
 
 		if(email == null){
 			return ok(registration.render(""));
