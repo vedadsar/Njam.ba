@@ -7,5 +7,7 @@ public class Global extends GlobalSettings {
 	
 	public void onStart(Application app){
 		User.createAdmin("sudo@njam.ba", "123456", "admin");
+		User.createRestaurant("restoran@njam.ba", "123456");
+		User.createUser("korisnik@njam.ba", "123456");
 	}
 }

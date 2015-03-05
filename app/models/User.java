@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.h2.engine.Role;
+
 import Utilites.*;
 import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.*;
@@ -102,6 +104,16 @@ public class User extends Model {
 		}		
 		return false;
 	}	
+	
+	public static int checkRole(String role){
+		if (role.equals("admin")) {
+			return 1;
+		}
+		if (role.equals("restaurantOwner")) {
+			return 2;
+		}
+		return 3;
+	}
 		
 		/**
 		 * Finds user by id.
@@ -110,6 +122,10 @@ public class User extends Model {
 		 */
 		public static User find(int id){
 			return find.byId(id);
+		}
+		
+		public static User find(String role){
+			return find.where().eq("role", role).findUnique();
 		}
 		
 		/**

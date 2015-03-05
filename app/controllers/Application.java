@@ -13,14 +13,14 @@ import play.data.DynamicForm;
 
 public class Application extends Controller {
 
-	static String email = null;
+	public static String email;
 	/**
 	 * This method just redirects to index page.
 	 * 
 	 * @return
 	 */
 	public static Result index() {
-		email = session("email");
+        String email = ctx().session().get("email");
 		return ok(index.render("", email));
 	}
 
@@ -33,7 +33,7 @@ public class Application extends Controller {
 		if(email == null){
 			return ok(registration.render(""));
 		} else {
-			email = session("email");
+			email = ctx().session().get("email");
 		return ok(index.render("", email));
 		}
 	}
@@ -77,7 +77,7 @@ public class Application extends Controller {
 		}
 
 		boolean isSuccess = User.createUser(email, hashedPassword);
-		session("email",email);
+		ctx().session().put("email", email);
 		if (isSuccess == true) {
 			return ok(index.render("", email));
 		} else {
@@ -104,9 +104,12 @@ public class Application extends Controller {
 		}		
 
 		boolean isSuccess = User.authenticate(email, hashedPassword);
+		int admin = User.checkRole("admin");
+		
 		if (isSuccess == true) {
 			session("email", email);
 			return ok(user.render(email));
+
 		} else {
 			return ok(login.render("Incorrect username or password, or you are already logged in."));
 		}

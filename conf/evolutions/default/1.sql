@@ -26,7 +26,6 @@ create table restaurant (
   date_creation             timestamp,
   user_id                   integer,
   location_id               integer,
-  is_restaurant             boolean,
   constraint pk_restaurant primary key (id))
 ;
 
