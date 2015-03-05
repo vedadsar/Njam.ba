@@ -35,8 +35,14 @@ public class Restaurant extends Model{
 		this.name = name;
 	}
 	
-	public static  void create(String name){
-		new Restaurant(name).save();
+	public Restaurant(String name, User u){
+		this.name = name;
+		this.user = u;
+	}
+	
+	public static  void create(String name, User user){		
+		new Restaurant(name, user).save();
+
 	}
 	
 	public static Restaurant find(int id){

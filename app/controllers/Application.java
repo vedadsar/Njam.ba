@@ -115,9 +115,9 @@ public class Application extends Controller {
 			session("email", email);
 			String role = User.checkRole(email);
 			if(role.equalsIgnoreCase(User.ADMIN))
-				return TODO;
+				return ok(admin.render(email));
 			else if (role.equalsIgnoreCase(User.RESTAURANT))
-				return TODO;
+				return ok(restaurant.render(email));
 			else			
 				return ok(user.render(email));
 		} else {

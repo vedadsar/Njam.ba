@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import Utilites.Session;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -27,6 +28,13 @@ public class Meal extends Model {
 		this.name=name;
 		this.price =price;
 	}
+	
+	public Meal(String name, double price, Restaurant restaurant){
+		this.name=name;
+		this.price =price;
+		this.restaurant = restaurant;
+	}
+	
 	
 	public static boolean create(String name, double price){
 		Meal meal = find.findUnique();

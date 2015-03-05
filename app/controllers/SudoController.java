@@ -11,7 +11,11 @@ public class SudoController extends Controller{
 	public static void createRestaurant(){
 		String email = inputForm.bindFromRequest().get().email;
 		String password = inputForm.bindFromRequest().get().hashedPassword;
+		
 		User.createRestaurant(email, password);
+		
+		User user = User.find(email);
+		Restaurant.create("No Name", user);
 	}
 	
 	public static void all(){

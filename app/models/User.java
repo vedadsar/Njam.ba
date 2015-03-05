@@ -49,7 +49,12 @@ public class User extends Model {
 		if(check != null){
 			return false;
 		} else {
-			new User(email, password, RESTAURANT).save();
+			User u  = new User(email, password, RESTAURANT);	
+			u.save();
+			Restaurant r = new Restaurant("No namw", find.where().eq("email", email).findUnique());
+			r.save();
+			u.restaurant = r;
+			u.save();		
 			return true;
 		}
 	}
