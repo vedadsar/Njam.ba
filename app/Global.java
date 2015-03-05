@@ -6,7 +6,8 @@ import play.GlobalSettings;
 public class Global extends GlobalSettings {
 	
 	public void onStart(Application app){
-		User.createUser("suad@suad.com", "123456");
+		User.createAdmin("suad@suad.com", "123456");
+		User.createRestaurant("restoran@njam.ba", "123456");
 	}
 }
 

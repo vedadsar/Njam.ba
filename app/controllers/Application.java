@@ -76,9 +76,9 @@ public class Application extends Controller {
 		}
 
 		boolean isSuccess = User.createUser(email, hashedPassword);
-		session("email",email);
 		if (isSuccess == true) {
-			return ok(index.render("", email));
+			session("email", email);
+			return ok(user.render(email));
 		} else {
 			return ok(registration.render("Already registered, please login!"));
 

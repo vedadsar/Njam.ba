@@ -33,7 +33,6 @@ create table restaurant (
   date_creation             timestamp,
   user_id                   integer,
   location_id               integer,
-  is_restaurant             boolean,
   constraint pk_restaurant primary key (id))
 ;
 
@@ -43,8 +42,7 @@ create table user (
   hashed_password           varchar(255),
   date_creation             timestamp,
   restaurant_id             integer,
-  is_admin                  boolean,
-  is_restaurant             boolean,
+  role                      varchar(255),
   constraint uq_user_email unique (email),
   constraint pk_user primary key (id))
 ;
