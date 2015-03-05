@@ -7,6 +7,7 @@ import javax.persistence.*;
 import Utilites.Session;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.mvc.Http.Context;
 
 @Entity
 public class Meal extends Model {
@@ -36,13 +37,11 @@ public class Meal extends Model {
 	}
 	
 	
-	public static boolean create(String name, double price){
-		Meal meal = find.findUnique();
-		if(meal != null){
-			return false;
-		} else {
-			new Meal(name, price);
-		}
+	public static boolean create(String name, double price){		
+			Meal m = new Meal(name, price);
+			User u =  Session.getCurrentUser(Context.current());
+			m.restaurant = u.restaurant;
+			m.save();		
 			return true;
 	}
 	

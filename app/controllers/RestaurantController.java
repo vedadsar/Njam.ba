@@ -37,7 +37,7 @@ public class RestaurantController extends Controller {
 		if (Meal.create(mealName, mealPrice) == true) {
 			return TODO;
 		}
-		return null;
+		return TODO;
 	}
 
 	/**
