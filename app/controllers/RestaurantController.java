@@ -27,8 +27,8 @@ public class RestaurantController extends Controller {
 	 */
 	public static Result createMeal() {
 		User u= Session.getCurrentUser(ctx());
-		if(u.isRestaurant == false){
-			return null; //Redirect to index, user is not admin !
+		if(!u.role.equalsIgnoreCase("RESTAURANT")){
+			return null; //Redirect to index, user is not restaurant !
 		}
 		
 		String mealName = inputForm.bindFromRequest().get().name;

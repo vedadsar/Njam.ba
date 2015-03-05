@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.*;
 import Utilites.*;
 import play.data.format.Formats.DateTime;
@@ -9,8 +10,8 @@ import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
 
 @Entity
-public class User extends Model {
-
+public class User extends Model {	
+	
 	@Id
 	public int id;	
 	@Required
@@ -19,13 +20,14 @@ public class User extends Model {
 	@Required
 	public String hashedPassword;
     @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date dateCreation;
-    
+    public Date dateCreation;    
     @OneToOne
     public Restaurant restaurant;
     
-    public boolean isAdmin;
-    public boolean isRestaurant;
+    public String role; // admin, customer, restaurantOwner;
+    public static final String ADMIN = "ADMIN";
+    public static final String USER = "USER";
+    public static final String RESTAURANT = "RESTAURANT";
 	
     	
 	static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
@@ -33,27 +35,23 @@ public class User extends Model {
 	public User(String email, String clearPassword){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(clearPassword);
-		this.isAdmin = false;
-		this.isRestaurant = false;
-		//TODO hashing password.
+		this.role = USER;
 	}
 	
-	public User(String email, String password, boolean isRestaurant){
+	public User(String email, String password, String role){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(password);
-		this.isRestaurant = isRestaurant;		
+		this.role = role;		
 	}
 	
 	public static boolean createRestaurant(String email, String password){
 		User check = find.where().eq("email", email).findUnique();
 		if(check != null){
-			//User already exists !
 			return false;
 		} else {
-			new User(email, password, true).save();
+			new User(email, password, RESTAURANT).save();
 			return true;
 		}
-
 	}
 	
 	/**
@@ -61,29 +59,33 @@ public class User extends Model {
 	 * @param email
 	 * @param password
 	 */
-	public static boolean createUser(String email, String password){
-		//First we check if user already exists.
+	public static boolean createUser(String email, String password) {
+		// First we check if user already exists.
 		User check = find.where().eq("email", email).findUnique();
-		if(check != null){
-			//User already exists !
+		if (check != null) {
+			// User already exists !
 			return false;
 		} else {
 			new User(email, password).save();
 			return true;
 		}
 	}
-	
-	public static boolean createUser(User u){
-		//First we check if user already exists.
+
+	public static void createAdmin(String email, String password) {
+		new User(email, password, ADMIN).save();
+	}
+
+	public static boolean createUser(User u) {
+		// First we check if user already exists.
 		User check = find.where().eq("email", u.email).findUnique();
-		if(check == null){
-			//User already exists !
+		if (check == null) {
+			// User already exists !
 			return false;
 		}
 		u.save();
 		return true;
 	}
-	
+
 	/**
 	 * Method for authenticating user who is trying to login.
 	 * First it checks if user with that email exists in our
@@ -102,6 +104,11 @@ public class User extends Model {
 		return false;
 	}	
 	
+	public static String checkRole(String email){
+		User u = find.where().eq("email", email).findUnique();
+		return u.role;
+	}
+		
 		/**
 		 * Finds user by id.
 		 * @param id  of User
@@ -111,14 +118,18 @@ public class User extends Model {
 			return find.byId(id);
 		}
 		
+		public static User find(String role){
+			return find.where().eq("role", role).findUnique();
+		}
+		
 		/**
 		 * Method for deleting user.
 		 * @param id
 		 */
 		public static void delete( int id){
 			find.byId(id).delete();
-		}		
-
+		}
+		
 		/**
 		 * Method for listing all users ( not restaurants )
 		 * @return
@@ -135,4 +146,3 @@ public class User extends Model {
 			return find.where().eq("isRestaurant", "true").findList();
 		}	
 }
-
