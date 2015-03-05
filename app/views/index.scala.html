@@ -1,4 +1,4 @@
-@(message: String)(email: String)
+@(message: String)(email: String)(meals: List[Meal])
 
 @main("Index") {
 	
@@ -29,7 +29,13 @@
 					</ul>
 				</div>
 			</div>
+				
 		</div>
+		<div class="random-meals">
+				@for(meal<-meals){
+				<h4>@meal.name</h4><br><h5>@meal.price</h5> 
+							}
+							</div>
 	</body>
 	
 }
