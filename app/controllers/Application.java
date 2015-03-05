@@ -103,9 +103,17 @@ public class Application extends Controller {
 		}		
 
 		boolean isSuccess = User.authenticate(email, hashedPassword);
+		//If we successful created we redirect user
+		//depending on its role !
 		if (isSuccess == true) {
 			session("email", email);
-			return ok(user.render(email));
+			String role = User.checkRole(email);
+			if(role.equalsIgnoreCase(User.ADMIN))
+				return TODO;
+			else if (role.equalsIgnoreCase(User.RESTAURANT))
+				return TODO;
+			else			
+				return ok(user.render(email));
 		} else {
 			return ok(login.render("Incorrect username or password, or you are already logged in."));
 		}
