@@ -30,17 +30,21 @@
 							<li class="pull-right">
 								<a href="/login">Log in</a>
 							</li>
-						}else{						
-						
-							<li class="pull-right">
-								<a href="/restaurant">Profil</a>
-							</li>
+						}else{		
 							
-							<li class="pull-right">
-								<a href="@routes.Application.logout">Log out</a>
-							</li>
-						
-							
+							<li class="dropdown pull-right">
+									<a href="#" data-toggle="dropdown" class="dropdown-toggle">@email<strong class="aret"></strong></a>
+									<ul class="dropdown-menu">
+									<li>
+										<a href="/user">Profile</a>
+									</li>
+									<li class="divider">
+									</li>
+									<li>
+										<a href="@routes.Application.logout">Log out</a>
+									</li>
+									</ul>
+							</li>							
 						}
 						
 						

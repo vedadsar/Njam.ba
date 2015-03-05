@@ -34,6 +34,12 @@ public class Application extends Controller {
 		String email = session().get("email");
 		if(email == null)
 			return redirect("/login");
+
+		User u = User.find(email);
+		if(u.role.equals(User.RESTAURANT)){
+			return ok(restaurant.render(email));
+		}
+
 		return ok(user.render(email));
 	}
 
