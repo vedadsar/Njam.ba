@@ -18,6 +18,7 @@ public class User extends Model {
 	@Column(unique = true)	
 	public String email;
 	@Required
+	@MinLength(6)
 	public String hashedPassword;
     @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date dateCreation;    
