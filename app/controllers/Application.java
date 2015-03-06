@@ -50,7 +50,7 @@ public class Application extends Controller {
 	 */
 	public static Result toRegistration() {
 		List <Meal> meals = find.all();
-		if(session().get("email") != null)
+		if((session().get("email") != null) )
 			return ok(wrong.render("Cannot acces to registration page while you're logged in"));
 
 		if(email == null){
@@ -107,6 +107,37 @@ public class Application extends Controller {
 
 		}
 	}
+	
+	
+	
+	
+	public static Result registerRestaurant() {
+
+		DynamicForm form = Form.form().bindFromRequest();
+		String email = form.data().get("email");
+		String hashedPassword = form.data().get("hashedPassword");
+		
+		if(email.length() < 6){
+			return ok(registration.render("Email length not valid"));
+		}
+		if(hashedPassword.length() < 6){
+			return ok(registration.render("Password length is not valid"));
+		}
+		
+		if (email.contains("@") == false) {
+			return ok(registration.render("Invalid e-mail"));
+		}
+
+		boolean isSuccess = User.createRestaurant(email, hashedPassword);
+		if (isSuccess == true) {			
+			return ok(admin.render(session().get("email")));
+		} else {
+			return ok(registration.render("Already registered, please login!"));
+
+		}
+	}
+	
+	
 
 	/**
 	 * This method logs in user. If user exists, method will redirect to user
@@ -123,6 +154,8 @@ public class Application extends Controller {
 				return ok(restaurant.render(email));
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(user.render(email));
+			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
+				return ok(admin.render(email));
 		}
 		
 		

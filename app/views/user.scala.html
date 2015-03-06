@@ -23,7 +23,11 @@
 					<a href="#" data-toggle="dropdown" class="dropdown-toggle">@username<strong class="caret"></strong></a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="#">Profile</a>
+							@if(User.checkRole(username).equals(User.ADMIN)){
+								<a href="/admin">Add restaurant</a>
+							}else{
+							<a href="/user">Profile</a>
+							}
 						</li>
 						<li class="divider">
 						</li>

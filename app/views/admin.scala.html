@@ -15,20 +15,20 @@
 	</div>
 	<div class="row clearfix">
 		<div class="col-md-3 column">
-			 <a href="index.html" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+			 <a href="/user" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
 		</div>
 		<div class="col-md-6 column">
-			<form class="form-horizontal" role="form" action="@routes.RestaurantController.createMeal" method = "POST" >
+			<form class="form-horizontal" role="form" action="@routes.Application.registerRestaurant" method = "POST" >
 				<div class="form-group">
 					 <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 					<div class="col-sm-10">
-						<input type="email" class="form-control" id="email" required>
+						<input type="text" class="form-control" id="email" name="email" required>
 					</div>
 				</div>
 				<div class="form-group">
 					 <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
 					<div class="col-sm-10">
-						<input type="password" class="form-control" id="hashedPassword" required >
+						<input type="password" class="form-control" id="hashedPassword" name="hashedPassword" required >
 					</div>
 				</div>
 				<div class="form-group">

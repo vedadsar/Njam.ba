@@ -28,7 +28,7 @@ public class RestaurantController extends Controller {
 	public static Result createMeal() {
 		User u= Session.getCurrentUser(ctx());
 		if(!u.role.equalsIgnoreCase("RESTAURANT")){
-			return ok(wrong.render("Cannot acces to registration page while you're logged in"));
+			return ok(wrong.render("Cannot create meal if you're not reastaurant! "));
 		}
 		
 		String mealName = inputForm.bindFromRequest().get().name;
