@@ -54,6 +54,22 @@
 			
 		<div class="container">
 	<div class="row clearfix">
+	
+	@if(User.checkIfExists(email) == true){
+		
+		@if(User.checkRole(email).equals(User.RESTAURANT)){
+			<div class="container">
+				<div class="row clearfix">
+					<div class="col-md-12 column">
+						<h3 class="text-center text-success">
+							Successfuly logged as restaurant. Welcome @email
+						</h3> <button type="button" class="btn btn-block btn-primary" onClick="location.href='/user'">	Add Meal</button>
+					</div>
+				</div>
+			</div>
+		}
+	}
+
 	@for(meal<-meals){
 		<div class="col-xs-12 col-sm-6 col-md-3">
             <div class="thumbnail">
