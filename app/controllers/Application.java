@@ -162,11 +162,6 @@ public class Application extends Controller {
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
-
-		if (email.contains("@") == false) {
-			return ok(login.render("Invalid e-mail"));
-		}		
-
 		boolean isSuccess = User.authenticate(email, hashedPassword);
 		//If we successful created we redirect user
 		//depending on its role !
@@ -180,7 +175,7 @@ public class Application extends Controller {
 			else			
 				return ok(user.render(email));
 		} else {
-			return ok(login.render("Incorrect username or password, or you are already logged in."));
+			return ok(login.render("Incorrect username or password"));
 		}
 	}
 	
