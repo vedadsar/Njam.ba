@@ -39,7 +39,9 @@ public class Application extends Controller {
 		if(u.role.equals(User.RESTAURANT)){
 			return ok(restaurant.render(email));
 		}
-
+		if(u.role.equals(User.ADMIN)){
+			return ok(admin.render(""));
+		}
 		return ok(user.render(email));
 	}
 
@@ -87,15 +89,8 @@ public class Application extends Controller {
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
 		
-		if(email.length() < 6){
-			return ok(registration.render("Email length not valid"));
-		}
 		if(hashedPassword.length() < 6){
 			return ok(registration.render("Password length is not valid"));
-		}
-		
-		if (email.contains("@") == false) {
-			return ok(registration.render("Invalid e-mail"));
 		}
 
 		boolean isSuccess = User.createUser(email, hashedPassword);
@@ -117,22 +112,16 @@ public class Application extends Controller {
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
 		
-		if(email.length() < 6){
-			return ok(registration.render("Email length not valid"));
-		}
 		if(hashedPassword.length() < 6){
-			return ok(registration.render("Password length is not valid"));
+			return ok(admin.render("Password length is not valid"));	
 		}
 		
-		if (email.contains("@") == false) {
-			return ok(registration.render("Invalid e-mail"));
-		}
 
 		boolean isSuccess = User.createRestaurant(email, hashedPassword);
 		if (isSuccess == true) {			
-			return ok(admin.render(session().get("email")));
+			return ok(admin.render("You successfuly created restaurant with email: " +email));
 		} else {
-			return ok(registration.render("Already registered, please login!"));
+			return ok(admin.render("Restaurant with that email is already registred"));
 
 		}
 	}
@@ -169,7 +158,7 @@ public class Application extends Controller {
 			session("email", email);
 			String role = User.checkRole(email);
 			if(role.equalsIgnoreCase(User.ADMIN))
-				return ok(admin.render(email));
+				return ok(admin.render(""));
 			else if (role.equalsIgnoreCase(User.RESTAURANT))
 				return ok(restaurant.render(email));
 			else			

@@ -12,14 +12,12 @@ public class SudoController extends Controller{
 	
 	public static Result createRestaurant(){
 		String email = inputForm.bindFromRequest().get().email;
-		String password = inputForm.bindFromRequest().get().hashedPassword;		
+		String password = inputForm.bindFromRequest().get().hashedPassword;			
+
 		User.createRestaurant(email, password);		
 		User user = User.find(email);
 		Restaurant.create("No Name", user);
-		return ok(admin.render("pasd"));
+		return ok(admin.render("You have just created restaurant with email: " +email));
 	}
 	
-	public static void all(){
-		
-	}
 }
