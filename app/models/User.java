@@ -111,8 +111,17 @@ public class User extends Model {
 	}	
 	
 	public static String checkRole(String email){
-		User u = find.where().eq("email", email).findUnique();
+		User u = find.where().eq("email", email).findUnique();			
 		return u.role;
+	}
+	
+	public static boolean checkIfExists(String email){
+		List<User> users = find.all();
+		for(User user: users){
+			if(user.email.equals(email))
+				return true;
+		}
+		return false;
 	}
 		
 		/**
