@@ -31,9 +31,13 @@ public class RestaurantController extends Controller {
 			return ok(wrong.render("Cannot create meal if you're not reastaurant! "));
 		}
 		
-		String mealName = inputForm.bindFromRequest().get().name;
-		double mealPrice = inputForm.bindFromRequest().get().price;
-		if (Meal.create(mealName, mealPrice) == true) {
+		String mealName = inputForm.bindFromRequest().field("name").value();
+		String mealPrice = inputForm.bindFromRequest().field("price").value();
+		
+		mealPrice = mealPrice.replace(',', '.');
+		Double price = Double.parseDouble(mealPrice);
+		
+		if (Meal.create(mealName, price) == true) {
 			return redirect("/restaurant");
 		}
 		return TODO;

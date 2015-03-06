@@ -151,4 +151,14 @@ public class User extends Model {
 		public static List<User> allRestaurant(){
 			return find.where().eq("isRestaurant", "true").findList();
 		}	
+		
+		/**
+		 * 
+		 * Method just for global class - testing is easy now.
+		 * @return
+		 */
+		public static boolean check(String mail) {
+			return find.where().eq("email", mail).findUnique() != null;
+		}
+
 }
