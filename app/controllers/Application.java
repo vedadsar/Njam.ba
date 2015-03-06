@@ -154,6 +154,8 @@ public class Application extends Controller {
 				return ok(restaurant.render(email));
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(user.render(email));
+			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
+				return ok(admin.render(email));
 		}
 		
 		
