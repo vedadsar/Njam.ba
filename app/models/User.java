@@ -52,7 +52,7 @@ public class User extends Model {
 		} else {
 			User u  = new User(email, password, RESTAURANT);	
 			u.save();
-			Restaurant r = new Restaurant("No namw", find.where().eq("email", email).findUnique());
+			Restaurant r = new Restaurant("Lovac", find.where().eq("email", email).findUnique());
 			r.save();
 			u.restaurant = r;
 			u.save();		

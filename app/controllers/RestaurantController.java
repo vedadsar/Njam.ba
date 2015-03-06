@@ -20,6 +20,7 @@ public class RestaurantController extends Controller {
 
 	static Form<Meal> inputForm = new Form<Meal>(Meal.class);
 
+
 	/**
 	 * Method to create meal.
 	 * Use Meal.create method from models.

@@ -60,5 +60,10 @@ public class Restaurant extends Model{
 	public static List<Restaurant> all(Location location){
 		return find.where().eq("location", location).findList();
 	}
+	
+	public static List<Restaurant> all(){
+		return find.all();
+	}
+
 
 }

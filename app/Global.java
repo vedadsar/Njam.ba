@@ -11,10 +11,6 @@ public class Global extends GlobalSettings {
 		User.createAdmin("suad@suad.com", "123456");
 		}
 		User.createRestaurant("restoran@njam.ba", "123456");
-		User.createRestaurant("restoran1@njam.ba", "123456");
-		User.createRestaurant("restoran2@njam.ba", "123456");
-		User.createRestaurant("restoran3@njam.ba", "123456");
-		User.createRestaurant("restoran4@njam.ba", "123456");
-			}
+		}
 }
 

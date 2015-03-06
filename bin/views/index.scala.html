@@ -1,4 +1,4 @@
-@(message: String)(email: String)(meals: List[Meal])
+@(message: String)(email: String)(meals: List[Meal])(restaurants: List[Restaurant])
 
 @main("Index") {
 	
@@ -55,18 +55,20 @@
 		<div class="container">
 	<div class="row clearfix">
 	@for(meal<-meals){
+		@for(restaurant<-restaurants){
 		<div class="col-xs-12 col-sm-6 col-md-3">
             <div class="thumbnail">
                 <img src="http://placehold.it/600x270" alt="">
                 <div class="caption">
-                    <h4 class="text-center">@meal.name</h4>
+                    <h3 class="text-center">@restaurant.name</h3>
+	                     <h4 class="text-center">@meal.name</h4>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                         Suspendisse aliquam, augue vitae pulvinar feugiat, magna ipsum varius tellus, quis lobortis est nulla nec ligula. 
                         Aenean cursus enim sit amet tortor rutrum lobortis. 
                         Vestibulum mattis mauris fringilla mauris volutpat, in euismod arcu ultricies.                    
                     </p>
-                     <p>Price: <b>@meal.price</b></p>
+                     <p>Price: <b>@meal.price KM</b></p>
                        
                     <p class="text-center">
                         <i class="fa fa-thumbs-o-up votes"></i><i class="fa fa-thumbs-o-down votes"></i>
@@ -74,6 +76,7 @@
                 </div>
             </div>
         </div>
+        }
 		}
 	</div>
 </div>		

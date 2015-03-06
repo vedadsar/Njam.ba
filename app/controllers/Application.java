@@ -17,7 +17,8 @@ import play.db.ebean.Model.Finder;
 public class Application extends Controller {
 
 	static String email = null;
-	static Finder<Integer, Meal> find =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 
 	/**
 	 * This method just redirects to index page.
@@ -25,9 +26,10 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
-		List <Meal> meals = find.all();
+		List <Meal> meals = findM.all();
+		List <Restaurant> restaurants = findR.all();
 		email = session("email");
-		return ok(index.render(" ", email, meals));
+		return ok(index.render(" ", email, meals, restaurants));
 	}
 	
 	public static Result toUser(){
@@ -51,14 +53,16 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result toRegistration() {
-		List <Meal> meals = find.all();
+		List <Meal> meals = findM.all();
+		List <Restaurant> restaurants = findR.all();
+		
 		if((session().get("email") != null) )
 			return ok(wrong.render("Cannot acces to registration page while you're logged in"));
 
 		if(email == null){
 			return ok(registration.render(""));
 		} else {
-		return ok(index.render("", email, meals));
+			return ok(index.render(" ", email, meals, restaurants));
 		}
 	}
 
