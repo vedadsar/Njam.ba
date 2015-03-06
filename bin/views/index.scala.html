@@ -54,6 +54,13 @@
 			
 		<div class="container">
 	<div class="row clearfix">
+	
+	@if(User.checkIfExists(email) == true){
+		@if(User.checkRole(email).equals(User.RESTAURANT)){
+			dsadasdasdas
+		}
+	}
+
 	@for(meal<-meals){
 		<div class="col-xs-12 col-sm-6 col-md-3">
             <div class="thumbnail">
