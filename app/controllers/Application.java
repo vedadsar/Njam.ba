@@ -26,6 +26,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
+
 		List <Meal> meals = findM.all();
 		List <Restaurant> restaurants = findR.all();
 		email = session("email");
@@ -141,12 +142,13 @@ public class Application extends Controller {
 	 */
 	public static Result login() {
 
+		List <Meal> meals = find.all();
 		
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(restaurant.render(email));
+				return ok(index.render(" ", email, meals));
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
-				return ok(user.render(email));
+				return ok(index.render(" ", email, meals));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
 				return ok(admin.render(email));
 		}
@@ -164,9 +166,9 @@ public class Application extends Controller {
 			if(role.equalsIgnoreCase(User.ADMIN))
 				return ok(admin.render(""));
 			else if (role.equalsIgnoreCase(User.RESTAURANT))
-				return ok(restaurant.render(email));
+				return ok(index.render(" ", email, meals));
 			else			
-				return ok(user.render(email));
+				return ok(index.render(" ", email, meals));
 		} else {
 			return ok(login.render("Incorrect username or password"));
 		}
