@@ -1,4 +1,4 @@
-@(email: String)
+@(email: String)(restaurants: List[Restaurant])
 
 @main("Administrator") {
 	
@@ -40,8 +40,38 @@
 			</form>
 			
 		</div>
-		
+	
 	</div>
+
+	@for(restauran <- restaurants){
+		 <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@restauran.name<span class="fa fa-dollar pull-right medium"></span></h3>
+                </div>
+                <div class="panel-body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse aliquam, augue vitae pulvinar feugiat, magna ipsum varius tellus.                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-8 text-center">
+            <img src="http://placehold.it/600x150" class="customimage">
+        </div>
+        <div class="col-lg-4 col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-body text-center big">
+                    <span class="fa fa-money"></span>
+                    <span class="big">DELETE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	}
+
 </div>
 </body>
 		}
