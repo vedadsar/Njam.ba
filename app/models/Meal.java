@@ -36,6 +36,14 @@ public class Meal extends Model {
 		this.restaurant = restaurant;
 	}
 
+	public static List<Meal> all(String name) {
+		return find.where().eq("name", name).findList();
+	}
+
+	public static List<Meal> all() {
+		return find.all();
+	}
+
 	public static boolean create(String name, double price) {
 		Meal m = new Meal(name, price);
 		User u = Session.getCurrentUser(Context.current());
@@ -57,14 +65,6 @@ public class Meal extends Model {
 
 	public static void delete(int id) {
 		find.byId(id).delete();
-	}
-
-	public static List<Meal> all(String name) {
-		return find.where().eq("name", name).findList();
-	}
-
-	public static List<Meal> all() {
-		return find.all();
 	}
 
 	public static Meal find(int id) {
