@@ -39,7 +39,7 @@ public class RestaurantController extends Controller {
 		Double price = Double.parseDouble(mealPrice);
 		
 		if (Meal.create(mealName, price) == true) {
-			return ok(restaurant.render(Session.getCurrentUser(ctx()).email));
+			return ok(restaurant.render("Successfully created meal", Session.getCurrentUser(ctx()).email));
 		}
 		return TODO;
 	}
