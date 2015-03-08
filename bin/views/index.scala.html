@@ -70,13 +70,12 @@
 		}
 	}
 
-	@for(meal<-meals){
-		@for(restaurant<-restaurants){
+	@for(meal<-meals){		
 		<div class="col-xs-12 col-sm-6 col-md-3">
             <div class="thumbnail">
                 <img src="http://placehold.it/600x270" alt="">
                 <div class="caption">
-                    <h3 class="text-center">@restaurant.name</h3>
+                    <h3 class="text-center">@meal.restaurant.name</h3>
 	                     <h4 class="text-center">@meal.name</h4>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -90,9 +89,8 @@
                     </p>
                 </div>
             </div>
-        </div>
-        }
-		}
+        </div>        
+	}
 	</div>
 </div>		
 		</div>		
