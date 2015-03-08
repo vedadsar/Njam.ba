@@ -26,6 +26,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result index() {
+
 		List <Meal> meals = findM.all();
 		List <Restaurant> restaurants = findR.all();
 		email = session("email");
@@ -33,6 +34,7 @@ public class Application extends Controller {
 	}
 	
 	public static Result toUser(){
+		List <Restaurant> restaurants = findR.all();
 		String email = session().get("email");
 		if(email == null)
 			return redirect("/login");
@@ -42,7 +44,7 @@ public class Application extends Controller {
 			return ok(restaurant.render(email));
 		}
 		if(u.role.equals(User.ADMIN)){
-			return ok(admin.render(""));
+			return ok(admin.render(" ", restaurants));
 		}
 		return ok(user.render(email));
 	}
@@ -88,7 +90,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
-
+		List <Restaurant> restaurants = findR.all();
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
@@ -108,24 +110,23 @@ public class Application extends Controller {
 	}
 	
 	
-	
-	
 	public static Result registerRestaurant() {
-
+		List <Restaurant> restaurants = findR.all();
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
+		String name = form.data().get("name");
 		
 		if(hashedPassword.length() < 6){
-			return ok(admin.render("Password length is not valid"));	
+			return ok(admin.render("Password length is not valid", restaurants));	
 		}
 		
 
-		boolean isSuccess = User.createRestaurant(email, hashedPassword);
+		boolean isSuccess = User.createRestaurant(name, email, hashedPassword);
 		if (isSuccess == true) {			
-			return ok(admin.render("You successfuly created restaurant with email: " +email));
+			return ok(admin.render("You successfuly created restaurant with email: " +email, restaurants));
 		} else {
-			return ok(admin.render("Restaurant with that email is already registred"));
+			return ok(admin.render("Restaurant with that email is already registred", restaurants));
 
 		}
 	}
@@ -140,15 +141,16 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result login() {
-
+		List <Meal> meals = findM.all();
+		List <Restaurant> restaurants = findR.all();
 		
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(restaurant.render(email));
+				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
-				return ok(user.render(email));
+				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
-				return ok(admin.render(email));
+				return ok(admin.render("", restaurants));
 		}
 		
 		
@@ -162,11 +164,11 @@ public class Application extends Controller {
 			session("email", email);
 			String role = User.checkRole(email);
 			if(role.equalsIgnoreCase(User.ADMIN))
-				return ok(admin.render(""));
+				return ok(admin.render("", restaurants));
 			else if (role.equalsIgnoreCase(User.RESTAURANT))
-				return ok(restaurant.render(email));
+				return ok(index.render(" ", email, meals, restaurants));
 			else			
-				return ok(user.render(email));
+				return ok(index.render(" ", email, meals, restaurants));
 		} else {
 			return ok(login.render("Incorrect username or password"));
 		}

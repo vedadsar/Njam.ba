@@ -10,7 +10,7 @@ public class Global extends GlobalSettings {
 		if(User.check("suad@suad.com") == false){
 		User.createAdmin("suad@suad.com", "123456");
 		}
-		User.createRestaurant("restoran@njam.ba", "123456");
+		User.createRestaurant("Lovac","restoran@njam.ba", "123456");
 		}
 }
 
