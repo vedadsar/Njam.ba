@@ -109,21 +109,21 @@ public class Application extends Controller {
 		}
 	}
 	
-	
-	
-	
+
 	public static Result registerRestaurant() {
 		List <Restaurant> restaurants = findR.all();
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
+		String nameOfRestaurant = form.data().get("name");
+
 		
 		if(hashedPassword.length() < 6){
 			return ok(admin.render("Password length is not valid", restaurants));	
 		}
 		
 
-		boolean isSuccess = User.createRestaurant(email, hashedPassword);
+		boolean isSuccess = User.createRestaurant(nameOfRestaurant, email, hashedPassword);
 		if (isSuccess == true) {			
 			return ok(admin.render("You successfuly created restaurant with email: " +email, restaurants));
 		} else {
