@@ -41,7 +41,7 @@ public class Application extends Controller {
 
 		User u = User.find(email);
 		if(u.role.equals(User.RESTAURANT)){
-			return ok(restaurant.render(email));
+			return ok(restaurant.render("", email));
 		}
 		if(u.role.equals(User.ADMIN)){
 			return ok(admin.render(" ", restaurants));
@@ -115,13 +115,7 @@ public class Application extends Controller {
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
-		String nameOfRestaurant = form.data().get("name");
-
-		
-		if(hashedPassword.length() < 6){
-			return ok(admin.render("Password length is not valid", restaurants));	
-		}
-		
+		String nameOfRestaurant = form.data().get("name");		
 
 		boolean isSuccess = User.createRestaurant(nameOfRestaurant, email, hashedPassword);
 		if (isSuccess == true) {			
