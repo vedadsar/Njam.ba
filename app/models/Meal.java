@@ -82,7 +82,8 @@ public class Meal extends Model {
 	 * @param newPrice  The new price  that  the meal object will be changed to 
 	 * 
 	 * The method reads an object then modifies its values, then it checks 
-	 * @return 
+	 * if the modified values have changed 
+	 * @return boolean 
 	 */
 	public static boolean modifyMeal(Meal m, String newName, double newPrice) {
 
