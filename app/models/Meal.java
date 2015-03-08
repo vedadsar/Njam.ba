@@ -75,12 +75,22 @@ public class Meal extends Model {
 		return find.where().eq("name", name).findUnique();
 	}
 
+	/**
+	 * 
+	 * @param m   Meal object
+	 * @param newName The new  name that  the meal object will be changed to 
+	 * @param newPrice  The new price  that  the meal object will be changed to 
+	 * 
+	 * The method reads an object then modifies its values, then it checks 
+	 * @return 
+	 */
 	public static boolean modifyMeal(Meal m, String newName, double newPrice) {
 
 		m.name = newName;
 		m.price = newPrice;
 		m.update();
-		Meal meal = find.findUnique();
+		
+		Meal meal = find(m.id);
 		if (!meal.name.equals(newName) || meal.price != newPrice) {
 			return false;
 		}
