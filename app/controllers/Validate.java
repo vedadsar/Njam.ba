@@ -18,7 +18,7 @@ public class Validate extends Controller {
 
         if (confirmationString == null) {
             flash("error", Messages.get("error"));
-            return TODO;
+            return redirect("/");
 //            		badRequest(confirm.render(confirmationString));
         }
         
@@ -28,7 +28,7 @@ public class Validate extends Controller {
 //            		ok(confirm.render(confirmationString));
         }
 
-        session("email", user.email);
+//        session("email", user.email);
         flash("success", Messages.get("Successful", user.email));
         return TODO;
 //        		ok(confirm.render(confirmationString));

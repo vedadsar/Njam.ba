@@ -108,11 +108,12 @@ public class Application extends Controller {
 		usr.save();
 		
 		if (usr.authenticate(email, hashedPassword) == true) {
-			session("email", email);
 	        String urlString = "http://localhost:9000" + "/" + "confirm/" + usr.confirmationString;
 	        URL url = new URL(urlString); 
-
 	    	MailHelper.send(email, url.toString());
+	    	if(usr.validated == true){
+				session("email", email);
+	    	}
 			return ok(user.render(email));
 		} else {
 			return ok(registration.render("Already registered, please login!"));

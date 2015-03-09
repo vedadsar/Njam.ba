@@ -159,6 +159,17 @@ public class User extends Model {
 	        user.save();
 	        return true;
 	    }
+	    
+//	    public static boolean validatedUser(String email, String hashedPassword){
+//	    	User user = new User(email, hashedPassword);
+//	    	if(user.validated == true){
+//		        user.confirmationString = null;
+//		        user.validated = true;
+//		        user.save();
+//	    		return true;
+//	    	}
+//	    	return false;
+//	    }
 
 
 		
