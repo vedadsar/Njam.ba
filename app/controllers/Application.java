@@ -11,6 +11,7 @@ import views.html.*;
 import Utilites.Session;
 import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
+import Utilites.MailHelper;
 
 
 
@@ -90,6 +91,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result registration() {
+		String message = "Thanks for your registration";
 		List <Restaurant> restaurants = findR.all();
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
@@ -102,6 +104,7 @@ public class Application extends Controller {
 		boolean isSuccess = User.createUser(email, hashedPassword);
 		if (isSuccess == true) {
 			session("email", email);
+	    	MailHelper.send(email, message);
 			return ok(user.render(email));
 		} else {
 			return ok(registration.render("Already registered, please login!"));
