@@ -109,7 +109,7 @@ public class Application extends Controller {
 		
 		if (usr.authenticate(email, hashedPassword) == true) {
 			session("email", email);
-	        String urlString = "http://localhost/9000" + "/" + usr.confirmationString;
+	        String urlString = "http://localhost:9000" + "/" + "confirm/" + usr.confirmationString;
 	        URL url = new URL(urlString); 
 
 	    	MailHelper.send(email, url.toString());
