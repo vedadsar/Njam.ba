@@ -1,6 +1,9 @@
 package controllers;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+import java.util.UUID;
 
 import models.Meal;
 import models.Restaurant;
@@ -89,10 +92,10 @@ public class Application extends Controller {
 	 * message.
 	 * 
 	 * @return
+	 * @throws MalformedURLException 
 	 */
-	public static Result registration() {
+	public static Result registration() throws MalformedURLException {
 		String message = "Thanks for your registration";
-		List <Restaurant> restaurants = findR.all();
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
@@ -100,11 +103,16 @@ public class Application extends Controller {
 		if(hashedPassword.length() < 6){
 			return ok(registration.render("Password length is not valid"));
 		}
-
-		boolean isSuccess = User.createUser(email, hashedPassword);
-		if (isSuccess == true) {
+		User usr = new User(email,hashedPassword);
+		usr.confirmationString = UUID.randomUUID().toString();
+		usr.save();
+		
+		if (usr.authenticate(email, hashedPassword) == true) {
 			session("email", email);
-	    	MailHelper.send(email, message);
+	        String urlString = "http://localhost/9000" + "/" + usr.confirmationString;
+	        URL url = new URL(urlString); 
+
+	    	MailHelper.send(email, url.toString());
 			return ok(user.render(email));
 		} else {
 			return ok(registration.render("Already registered, please login!"));

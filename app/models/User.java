@@ -2,8 +2,10 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.*;
+
 import Utilites.*;
 import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.*;
@@ -58,6 +60,7 @@ public class User extends Model {
 			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());
 			r.save();
 			u.restaurant = r;
+			u.validated = true;
 			u.save();		
 			return true;
 		}
@@ -75,13 +78,16 @@ public class User extends Model {
 			// User already exists !
 			return false;
 		} else {
-			new User(email, password).save();
+			User usr = new User(email, password);
+			usr.save();
 			return true;
 		}
 	}
 
 	public static void createAdmin(String email, String password) {
-		new User(email, password, ADMIN).save();
+		User u = new User(email, password, ADMIN);
+		u.validated = true;
+		u.save();
 	}
 
 	public static boolean createUser(User u) {
