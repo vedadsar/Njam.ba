@@ -17,19 +17,19 @@ public class Validate extends Controller {
         User user = User.findByConfirmationString(confirmationString);
 
         if (confirmationString == null) {
-            flash("error", Messages.get("error.technical"));
+            flash("error", Messages.get("error"));
             return TODO;
 //            		badRequest(confirm.render(confirmationString));
         }
         
         if (User.confirm(user)) {
-            flash("success", Messages.get("account.successfully.validated"));
+            flash("success", Messages.get("Successfully validated"));
             return TODO;
 //            		ok(confirm.render(confirmationString));
         }
 
         session("email", user.email);
-        flash("success", Messages.get("account.settings.email.successful", user.email));
+        flash("success", Messages.get("Successful", user.email));
         return TODO;
 //        		ok(confirm.render(confirmationString));
     }
