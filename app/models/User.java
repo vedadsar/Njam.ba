@@ -25,6 +25,9 @@ public class User extends Model {
     @OneToOne
     public Restaurant restaurant;
     
+    public String confirmationString;
+    public Boolean validated = false;
+    
     public String role; // admin, customer, restaurantOwner;
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
@@ -136,6 +139,22 @@ public class User extends Model {
 		public static User find(String email){
 			return find.where().eq("email", email).findUnique();
 		}
+		
+	    public static User findByConfirmationString(String confirmationString) {
+	        return find.where().eq("confirmationString", confirmationString).findUnique();
+	    }
+	    
+	    public static boolean confirm(User user) {
+	        if (user == null) {
+	            return false;
+	        }
+	        user.confirmationString = null;
+	        user.validated = true;
+	        user.save();
+	        return true;
+	    }
+
+
 		
 		/**
 		 * Method for deleting user.
