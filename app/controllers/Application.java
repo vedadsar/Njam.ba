@@ -106,6 +106,10 @@ public class Application extends Controller {
 		}
 		User usr = new User(email,hashedPassword);
 		usr.confirmationString = UUID.randomUUID().toString();
+		if(usr.checkIfExists(email) == true){
+            flash("inDatabase", Messages.get("User already exists - please confirm user"));
+			return redirect("/restaurant");
+		}
 		usr.save();
 		
 		if (usr.checkA(email, hashedPassword) == true) {
