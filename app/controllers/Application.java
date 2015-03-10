@@ -1,11 +1,15 @@
 package controllers;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
+import java.util.UUID;
 
 import models.Meal;
 import models.Restaurant;
 import models.User;
 import play.data.Form;
+import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
 import Utilites.Session;
@@ -45,7 +49,7 @@ public class Application extends Controller {
 			return ok(restaurant.render("", email));
 		}
 		if(u.role.equals(User.ADMIN)){
-			return ok(admin.render(" ", restaurants));
+			return ok(admin.render(email, restaurants));
 		}
 		return ok(user.render(email));
 	}
@@ -89,29 +93,38 @@ public class Application extends Controller {
 	 * message.
 	 * 
 	 * @return
+	 * @throws MalformedURLException 
 	 */
-	public static Result registration() {
-		String message = "Thanks for your registration";
-		List <Restaurant> restaurants = findR.all();
+	public static Result registration() throws MalformedURLException {
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
-		
-		if(hashedPassword.length() < 6){
-			return ok(registration.render("Password length is not valid"));
+
+		User usr = new User(email, hashedPassword);
+		usr.confirmationString = UUID.randomUUID().toString();
+		if (usr.checkIfExists(email) == true) {
+			flash("inDatabase",
+					Messages.get("User already exists - please confirm user or login"));
+			return redirect("/login");
 		}
+		usr.save();
 
-		boolean isSuccess = User.createUser(email, hashedPassword);
-		if (isSuccess == true) {
-			session("email", email);
-	    	MailHelper.send(email, message);
-			return ok(user.render(email));
+		if (usr.checkA(email, hashedPassword) == true) {
+			// First we need to create url and send confirmation mail to user
+			// (with url inside).
+			String urlString = "http://localhost:9000" + "/" + "confirm/"
+					+ usr.confirmationString;
+			URL url = new URL(urlString);
+			MailHelper.send(email, url.toString());
+			if (usr.validated == true) {
+				return redirect("/");
+			}
+			flash("validate", Messages.get("Please check your email"));
+			return redirect("/registration");
 		} else {
-			return ok(registration.render("Already registered, please login!"));
-
+			return redirect("/registration");
 		}
 	}
-	
 
 	public static Result registerRestaurant() {
 		List <Restaurant> restaurants = findR.all();
@@ -122,14 +135,13 @@ public class Application extends Controller {
 
 		boolean isSuccess = User.createRestaurant(nameOfRestaurant, email, hashedPassword);
 		if (isSuccess == true) {			
-			return ok(admin.render("You successfuly created restaurant with email: " +email, restaurants));
+			flash("createdRestaurant", Messages.get("You successfuly created restaurant with email:", email));
+			return ok(admin.render(email, restaurants));
 		} else {
-			return ok(admin.render("Restaurant with that email is already registred", restaurants));
-
+			flash("alreadyRegistered", Messages.get("Restaurant with that email is already registred", email));
+			return ok(admin.render(email, restaurants));
 		}
 	}
-	
-	
 
 	/**
 	 * This method logs in user. If user exists, method will redirect to user
@@ -148,7 +160,7 @@ public class Application extends Controller {
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
-				return ok(admin.render("", restaurants));
+				return ok(admin.render(email, restaurants));
 		}
 		
 		
@@ -162,13 +174,14 @@ public class Application extends Controller {
 			session("email", email);
 			String role = User.checkRole(email);
 			if(role.equalsIgnoreCase(User.ADMIN))
-				return ok(admin.render("", restaurants));
+				return ok(admin.render(email, restaurants));
 			else if (role.equalsIgnoreCase(User.RESTAURANT))
 				return ok(index.render(" ", email, meals, restaurants));
 			else			
 				return ok(index.render(" ", email, meals, restaurants));
 		} else {
-			return ok(login.render("Incorrect username or password"));
+            flash("failed", Messages.get("Incorrect username/pass or user is not verified"));
+			return redirect("/login");
 		}
 	}
 	
