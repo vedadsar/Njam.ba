@@ -15,7 +15,7 @@
 				<div class="col-md-12 column">
 					<ul class="nav nav-tabs">
 						<li class="active">
-							<a href="#">Home</a>
+							<a href="/">Home</a>
 						</li>
 						
 						
@@ -26,6 +26,17 @@
 												<li>
 							<a href="#">Contact</a>
 						</li>
+						<li>
+						@if(flash.get("success") || flash.get("error") || flash.get("errorLink") ){
+		           <div class="alert alert-success" role="alert">
+		           <div class="container">
+		            @flash.get("success")
+		         	@flash.get("error")
+		         	@flash.get("errorLink")
+		             </div>
+	            	</div>
+	            	</li>
+	              }
 						
 						
 						@if(email == null){

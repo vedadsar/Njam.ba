@@ -19,18 +19,14 @@ public class Validate extends Controller {
         if (confirmationString == null) {
             flash("error", Messages.get("error"));
             return redirect("/");
-//            		badRequest(confirm.render(confirmationString));
         }
         
         if (User.confirm(user)) {
             flash("success", Messages.get("Successfully validated"));
             return redirect("/login");
-            		//            		ok(confirm.render(confirmationString));
+        } else {
+            flash("errorLink", Messages.get("error.confirm"));
+            return redirect("/");
         }
-
-//        session("email", user.email);
-        flash("success", Messages.get("Successful", user.email));
-        return redirect("/");
-        		//        		ok(confirm.render(confirmationString));
     }
 }

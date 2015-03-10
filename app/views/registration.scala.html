@@ -29,24 +29,18 @@
 						<p class="help-block">Please provide your E-mail</p>
 					</div>
 				</div>
-				@if(flash.get("already")){
-		           <div class="alert alert-success" role="alert">
-		           <div class="container">
-		            @flash.get("already")
-		             </div>
-	            	</div>
-	              }
 				<div class="form-group">
 					 <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
 					<div class="col-sm-10">
 						<input type="password" class="form-control" id="hashedPassword" name="hashedPassword" pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
 						 <p class="help-block">Password should be at least 6, maximum 16 characters (UpperCase, LowerCase, Number/SpecialChar)</p>
-					</div> already
+					</div> 
 				</div>
-					@if(flash.get("validate")){
+				@if(flash.get("inDatabase") || flash.get("validate")){
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
-		            @flash.get("validate")
+		            @flash.get("inDatabase")
+		           	@flash.get("validate")
 		             </div>
 	            	</div>
 	              }
