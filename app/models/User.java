@@ -112,7 +112,16 @@ public class User extends Model {
 	 */
 	public static boolean authenticate(String email, String password){
 		User check = find.where().eq("email", email).findUnique();
-		if(check != null){
+		if((check != null) && (check.validated == true)) {
+			if(Hash.checkPassword(password, check.hashedPassword))
+				return true;
+		}		
+		return false;
+	}	
+	
+	public static boolean checkA(String email, String password){
+		User check = find.where().eq("email", email).findUnique();
+		if(check != null) {
 			if(Hash.checkPassword(password, check.hashedPassword))
 				return true;
 		}		
@@ -123,6 +132,7 @@ public class User extends Model {
 		User u = find.where().eq("email", email).findUnique();			
 		return u.role;
 	}
+	
 	
 	public static boolean checkIfExists(String email){
 		List<User> users = find.all();
@@ -170,7 +180,6 @@ public class User extends Model {
 //	    	}
 //	    	return false;
 //	    }
-
 
 		
 		/**

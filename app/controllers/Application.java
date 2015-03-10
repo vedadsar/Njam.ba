@@ -9,6 +9,7 @@ import models.Meal;
 import models.Restaurant;
 import models.User;
 import play.data.Form;
+import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
 import Utilites.Session;
@@ -107,16 +108,17 @@ public class Application extends Controller {
 		usr.confirmationString = UUID.randomUUID().toString();
 		usr.save();
 		
-		if (usr.authenticate(email, hashedPassword) == true) {
+		if (usr.checkA(email, hashedPassword) == true) {
 	        String urlString = "http://localhost:9000" + "/" + "confirm/" + usr.confirmationString;
 	        URL url = new URL(urlString); 
 	    	MailHelper.send(email, url.toString());
 	    	if(usr.validated == true){
-				session("email", email);
+				return TODO;
 	    	}
-			return ok(user.render(email));
+            flash("validate", Messages.get("Please check your email"));
+			return redirect("/registration");
 		} else {
-			return ok(registration.render("Already registered, please login!"));
+			return redirect("/registration");
 
 		}
 	}
@@ -137,7 +139,6 @@ public class Application extends Controller {
 
 		}
 	}
-	
 	
 
 	/**
@@ -177,7 +178,8 @@ public class Application extends Controller {
 			else			
 				return ok(index.render(" ", email, meals, restaurants));
 		} else {
-			return ok(login.render("Incorrect username or password"));
+            flash("failed", Messages.get("Incorrect username/pass or user is not verified"));
+			return redirect("/login");
 		}
 	}
 	

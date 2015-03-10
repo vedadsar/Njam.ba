@@ -24,13 +24,13 @@ public class Validate extends Controller {
         
         if (User.confirm(user)) {
             flash("success", Messages.get("Successfully validated"));
-            return TODO;
-//            		ok(confirm.render(confirmationString));
+            return redirect("/login");
+            		//            		ok(confirm.render(confirmationString));
         }
 
 //        session("email", user.email);
         flash("success", Messages.get("Successful", user.email));
-        return TODO;
-//        		ok(confirm.render(confirmationString));
+        return redirect("/");
+        		//        		ok(confirm.render(confirmationString));
     }
 }
