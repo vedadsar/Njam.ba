@@ -135,8 +135,9 @@ public class Application extends Controller {
 
 		boolean isSuccess = User.createRestaurant(nameOfRestaurant, email, hashedPassword);
 		if (isSuccess == true) {			
-			flash("createdRestaurant", Messages.get("You successfuly created restaurant with email:", email));
-			return ok(admin.render(email, restaurants));
+			flash("createdRestaurant", "You successfuly created restaurant with email");
+			return redirect("/admin");
+//			return ok(admin.render(email, restaurants));
 		} else {
 			flash("alreadyRegistered", Messages.get("Restaurant with that email is already registred", email));
 			return ok(admin.render(email, restaurants));
