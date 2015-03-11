@@ -214,14 +214,15 @@
             <table class="table table-striped">
                       <thead>
                         <tr><th>Number</th><th>Username</th><th>Restaurant's name</th>
-	              @for(restauran <- restaurants){
-                      <tbody>                      
+	              
+                      <tbody>  
+                      @for(restauran <- restaurants){                    
                         <tr><td>@restauran.id</td><td>@restauran.name</td><td>@restauran.user.email</td><th>
-                    <button type="button" class="btn btn-danger btn-xs">DELETE</button></th></tr>
+                    <button type="button" class="btn btn-danger btn-xs pull-right">DELETE</button></th></tr>
                       </thead></tr>
-                        
+                        }
                       </tbody>
-                      }
+                      
                	</table>
             </div>
         </div>
