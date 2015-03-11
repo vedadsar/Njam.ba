@@ -1,7 +1,7 @@
 @(email: String)(restaurants: List[Restaurant])
 
 @main("Administrator") {
-	
+<!-- 	
 	<body>
 <div class="container">
 	<div class="row clearfix">
@@ -82,5 +82,262 @@
 
 </div>
 </body>
+
+ -->
+ 
+ <body>
+<!-- Header -->
+<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Dashboard</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li class="dropdown">
+          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Admin <span class="caret"></span></a>
+          <ul id="g-account-menu" class="dropdown-menu" role="menu">
+            <li><a href="#">My Profile</a></li>
+          </ul>
+        </li>
+        <li><a href="/logout"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+      </ul>
+    </div>
+  </div><!-- /container -->
+</div>
+<!-- /Header -->
+
+<!-- Main -->
+<div class="container-fluid">
+<div class="row">
+	<div class="col-sm-3">
+      <!-- Left column -->
+      <a href="#"><strong><i class="glyphicon glyphicon-wrench"></i> Tools</strong></a>  
+      
+      <hr>
+      
+      <ul class="list-unstyled">
+        <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">
+          <h5>Settings <i class="glyphicon glyphicon-chevron-down"></i></h5>
+          </a>
+            <ul class="list-unstyled collapse in" id="userMenu">
+                <li class="active"> <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge badge-info">4</span></a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Options</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Shoutbox</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Staff List</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-flag"></i> Transactions</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i> Rules</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+            </ul>
+        </li>
+        <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#menu2">
+          <h5>Reports <i class="glyphicon glyphicon-chevron-right"></i></h5>
+          </a>
+        
+            <ul class="list-unstyled collapse" id="menu2">
+                <li><a href="#">Information &amp; Stats</a>
+                </li>
+                <li><a href="#">Views</a>
+                </li>
+                <li><a href="#">Requests</a>
+                </li>
+                <li><a href="#">Timetable</a>
+                </li>
+                <li><a href="#">Alerts</a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-header">
+        <a href="#" data-toggle="collapse" data-target="#menu3">
+          <h5>Social Media <i class="glyphicon glyphicon-chevron-right"></i></h5>
+          </a>
+        
+            <ul class="list-unstyled collapse" id="menu3">
+                <li><a href="#"><i class="glyphicon glyphicon-circle"></i> Facebook</a></li>
+                <li><a href="#"><i class="glyphicon glyphicon-circle"></i> Twitter</a></li>
+            </ul>
+        </li>
+      </ul>
+           
+      <hr>
+      
+      <a href="#"><strong><i class="glyphicon glyphicon-link"></i> Resources</strong></a>  
+      
+      
+  	</div><!-- /col-3 -->
+    <div class="col-sm-9">
+      	
+      <!-- column 2 -->	
+      <ul class="list-inline pull-right">
+         <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
+         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-comment"></i><span class="count">3</span></a><ul class="dropdown-menu" role="menu"><li><a href="#">1. Is there a way..</a></li><li><a href="#">2. Hello, admin. I would..</a></li><li><a href="#"><strong>All messages</strong></a></li></ul></li>
+         <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
+         <li><a title="Add Widget" data-toggle="modal" href="#addWidgetModal"><span class="glyphicon glyphicon-plus-sign"></span> Add Widget</a></li>
+      </ul>
+      <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
+     
+                        	@if(flash.get("createdRestaurant") ){
+		           <div class="alert alert-success" role="alert">
+		           <div class="container">
+		            @flash.get("createdRestaurant")
+		         	
+		             </div>
+	            	</div>
+	            	</li>
+	              }
+	            	
+	              
+      	<hr>
+      
+		<div class="row">
+           
+            
+          
+            <!-- center left-->	
+            
+         	<div class="col-md-8">
+         	
+			  <div class="well">Restaurant users <span class="badge pull-right">@restaurants.length</span></div>
+			  	
+					
+		 <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <div class="panel panel-primary">
+            
+            <table class="table table-striped">
+                      <thead>
+                        <tr><th>ID</th><th>Restaurant's name</th><th>email</th>
+	              
+                      <tbody>  
+                      @for(restauran <- restaurants){                    
+                        <tr><td>@restauran.id</td><td>@restauran.name</td><td>@restauran.user.email</td><th>
+                    <button type="button" class="btn btn-danger btn-xs pull-right">DELETE</button></th></tr>
+                      </thead></tr>
+                        }
+                      </tbody>
+                      
+               	</table>
+            </div>
+        </div>
+    </div>
+			
+              
+              
+              <hr>
+        <div class="well">Customers users <span class="badge pull-right">25</span></div>
+              
+              <div class="panel panel-default">
+                  <div class="panel-heading"><h4>New Requests</h4></div>
+                  <div class="panel-body">
+                    <div class="list-group">
+                    <a href="#" class="list-group-item active">Hosting virtual mailbox serv..</a>
+                    <a href="#" class="list-group-item">Dedicated server doesn't..</a>
+                    <a href="#" class="list-group-item">RHEL 6 install on new..</a>
+                    </div>
+                  </div>
+              </div>
+   
+          	</div><!--/col-->
+        	<div class="col-md-4">
+				<div class="panel panel-default">
+                  
+                  <div class="panel panel-default">
+                  <div class="panel-heading">
+                        <div class="panel-title">
+                      <i class="glyphicon glyphicon-wrench pull-right"></i>
+                        <h4>Add restaurant </h4>
+                        </div>
+                  </div>
+                  <div class="panel-body">
+
+                      <form class="form form-vertical" action="@routes.Application.registerRestaurant" method = "POST" >
+                       
+                        <div class="control-group">
+                          <label>Email</label>
+                          <div class="controls">
+                           <input type="text" class="form-control" placeholder="email" name="email" id="email">
+                          </div>
+                        </div>      
+                        
+                        <div class="control-group">
+                          <label>Password</label>
+                          <div class="controls">
+                            <input type="password" class="form-control" name="hashedPassword" id="hashedPassword">
+                          </div>
+                        </div> 
+                             
+                        <div class="control-group">
+                          <label>Name of Restaurant</label>
+                          <div class="controls">
+                             <input type="text" class="form-control" id="name" name="name" required>
+                          </div>
+                        </div>    
+                        
+                        <div class="control-group">
+                            <label></label>
+                          <div class="controls">
+                          <button type="submit" class="btn btn-primary">
+                              Post
+                            </button>
+                          </div>
+                        </div>   
+                        
+                      </form>
+                
+                
+                  </div><!--/panel content-->
+                </div><!--/panel-->
+              
+                <table class="table table-striped">
+                      <thead>
+                        <tr><th>Number</th><th>Username</th><th>Restaurant's name</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>1</td><td>restoran@@njam.ba</td><td>Lovac</td></tr>
+                        
+                      </tbody>
+               	</table>
+              
+              	
+			
+</div>
+</div>
+<!-- /Main -->
+
+<footer class="text-center">This Bootstrap 3 dashboard layout is compliments of <a href="http://www.bootply.com/85850"><strong>Bootply.com</strong></a></footer>
+
+<div class="modal" id="addWidgetModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Add Widget</h4>
+      </div>
+      <div class="modal-body">
+        <p>Add a widget stuff here..</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" data-dismiss="modal" class="btn">Close</a>
+        <a href="#" class="btn btn-primary">Save changes</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dalog -->
+</div><!-- /.modal -->
+
+
+
+  
+	<!-- script references -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts.js"></script>
+	</body>
 		}
 	

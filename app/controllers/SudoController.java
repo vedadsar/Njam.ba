@@ -25,7 +25,13 @@ public class SudoController extends Controller{
 		User.createRestaurant(nameOfRestaurant, email, password);		
 		User user = User.find(email);
 		Restaurant.create("No Name", user);
-		return ok(admin.render("You have just created restaurant with email: " +email, restaurants));
+		//moguce je da je ovaj dio nekoristan
+		flash("successRestaurant", "Successfully added Restaurant");
+		return ok(admin.render(email, restaurants));
+//		flash("successRestaurant", "Successfully added Restaurant");
+//		return redirect("/admin");
 	}
+	
+	
 	
 }

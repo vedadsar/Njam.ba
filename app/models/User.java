@@ -2,8 +2,10 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.*;
+
 import Utilites.*;
 import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.*;
@@ -24,6 +26,9 @@ public class User extends Model {
     public Date dateCreation;    
     @OneToOne
     public Restaurant restaurant;
+    
+    public String confirmationString;
+    public Boolean validated = false;
     
     public String role; // admin, customer, restaurantOwner;
     public static final String ADMIN = "ADMIN";
@@ -55,6 +60,7 @@ public class User extends Model {
 			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());
 			r.save();
 			u.restaurant = r;
+			u.validated = true;
 			u.save();		
 			return true;
 		}
@@ -72,13 +78,16 @@ public class User extends Model {
 			// User already exists !
 			return false;
 		} else {
-			new User(email, password).save();
+			User usr = new User(email, password);
+			usr.save();
 			return true;
 		}
 	}
 
 	public static void createAdmin(String email, String password) {
-		new User(email, password, ADMIN).save();
+		User u = new User(email, password, ADMIN);
+		u.validated = true;
+		u.save();
 	}
 
 	public static boolean createUser(User u) {
@@ -103,7 +112,16 @@ public class User extends Model {
 	 */
 	public static boolean authenticate(String email, String password){
 		User check = find.where().eq("email", email).findUnique();
-		if(check != null){
+		if((check != null) && (check.validated == true)) {
+			if(Hash.checkPassword(password, check.hashedPassword))
+				return true;
+		}		
+		return false;
+	}	
+	
+	public static boolean checkA(String email, String password){
+		User check = find.where().eq("email", email).findUnique();
+		if(check != null) {
 			if(Hash.checkPassword(password, check.hashedPassword))
 				return true;
 		}		
@@ -114,6 +132,7 @@ public class User extends Model {
 		User u = find.where().eq("email", email).findUnique();			
 		return u.role;
 	}
+	
 	
 	public static boolean checkIfExists(String email){
 		List<User> users = find.all();
@@ -136,6 +155,32 @@ public class User extends Model {
 		public static User find(String email){
 			return find.where().eq("email", email).findUnique();
 		}
+		
+	    public static User findByConfirmationString(String confirmationString) {
+	        return find.where().eq("confirmationString", confirmationString).findUnique();
+	    }
+	    
+	    public static boolean confirm(User user) {
+	        if (user == null) {
+	            return false;
+	        }
+	        user.confirmationString = null;
+	        user.validated = true;
+	        user.save();
+	        return true;
+	    }
+	    
+//	    public static boolean validatedUser(String email, String hashedPassword){
+//	    	User user = new User(email, hashedPassword);
+//	    	if(user.validated == true){
+//		        user.confirmationString = null;
+//		        user.validated = true;
+//		        user.save();
+//	    		return true;
+//	    	}
+//	    	return false;
+//	    }
+
 		
 		/**
 		 * Method for deleting user.
