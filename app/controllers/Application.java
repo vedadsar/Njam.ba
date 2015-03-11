@@ -40,13 +40,14 @@ public class Application extends Controller {
 	
 	public static Result toUser(){
 		List <Restaurant> restaurants = findR.all();
+		List <Meal> meals = findM.all();
 		String email = session().get("email");
 		if(email == null)
 			return redirect("/login");
 
 		User u = User.find(email);
 		if(u.role.equals(User.RESTAURANT)){
-			return ok(restaurant.render("", email));
+			return ok(restaurant.render("", email, meals, restaurants));
 		}
 		if(u.role.equals(User.ADMIN)){
 			return ok(admin.render(email, restaurants));
@@ -68,8 +69,8 @@ public class Application extends Controller {
 
 		if(email == null){
 			return ok(registration.render(""));
-		} else {
-			return ok(index.render(" ", email, meals, restaurants));
+		} else { 
+			return ok(restaurant.render(" ", email, meals, restaurants));
 		}
 	}
 
@@ -157,7 +158,7 @@ public class Application extends Controller {
 		
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(index.render(" ", email, meals, restaurants));
+				return ok(restaurant.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
@@ -177,7 +178,7 @@ public class Application extends Controller {
 			if(role.equalsIgnoreCase(User.ADMIN))
 				return ok(admin.render(email, restaurants));
 			else if (role.equalsIgnoreCase(User.RESTAURANT))
-				return ok(index.render(" ", email, meals, restaurants));
+				return ok(restaurant.render(" ", email, meals, restaurants));
 			else			
 				return ok(index.render(" ", email, meals, restaurants));
 		} else {
