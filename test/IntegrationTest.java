@@ -20,30 +20,28 @@ public class IntegrationTest {
       running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
           public void invoke(TestBrowser browser) {
               browser.goTo("http://localhost:3333");
-              assertThat(browser.pageSource()).contains("NJAM.BA");
-              assertThat(browser.pageSource()).contains("Welcome to Njam.ba");
+              assertThat(browser.pageSource()).contains("Njam.ba The tasty way to go.");
+            assertThat(browser.pageSource()).contains("njam.ba");
           }
       });
   }
   
-//  @Test
-//  public void testEmail(){
-//  	running(testServer(333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>(){
-//  		
-//			public void invoke(TestBrowser browser)  {
-//				browser.goTo("http://localhost:3333/");
-//				browser.fill("#email").with("test");
-//				//dadati u index.scala.html ali gdje tacno? 'id -> "email"
+  @Test
+  public void testEmail(){
+  	running(testServer(333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>(){
+  		
+			public void invoke(TestBrowser browser)  {
+				browser.goTo("http://localhost:3333/registration");
 
-//				browser.submit("#email");
-//				browser.fill("#email").with("test@mail.com");
-//				browser.submit("#createUser");
-//				
-//				
-//			}
-//  		
-//  	
-//  });
-//
-//  }
+				browser.fill("#email").with("rtest@najm.ba");
+				browser.fill("#hashedPassword").with("123456");
+				browser.submit("#register");
+				
+				assertThat(browser.pageSource()).contains("njam.ba");
+			}
+ 		
+  	
+  });
+
+  }
 }
