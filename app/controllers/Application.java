@@ -47,7 +47,7 @@ public class Application extends Controller {
 
 		User u = User.find(email);
 		if(u.role.equals(User.RESTAURANT)){
-			return ok(restaurant.render("", email, meals, restaurants));
+			return ok(restaurantOwner.render("", email, meals, restaurants));
 		}
 		if(u.role.equals(User.ADMIN)){
 			return ok(admin.render(email, restaurants));
@@ -70,7 +70,7 @@ public class Application extends Controller {
 		if(email == null){
 			return ok(registration.render(""));
 		} else { 
-			return ok(restaurant.render(" ", email, meals, restaurants));
+			return ok(restaurantOwner.render(" ", email, meals, restaurants));
 		}
 	}
 
@@ -158,7 +158,7 @@ public class Application extends Controller {
 		
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(restaurant.render(" ", email, meals, restaurants));
+				return ok(restaurantOwner.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
@@ -178,7 +178,7 @@ public class Application extends Controller {
 			if(role.equalsIgnoreCase(User.ADMIN))
 				return ok(admin.render(email, restaurants));
 			else if (role.equalsIgnoreCase(User.RESTAURANT))
-				return ok(restaurant.render(" ", email, meals, restaurants));
+				return ok(restaurantOwner.render(" ", email, meals, restaurants));
 			else			
 				return ok(index.render(" ", email, meals, restaurants));
 		} else {
@@ -187,10 +187,23 @@ public class Application extends Controller {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Result logout() {
 		session().clear();
 		flash("success", "You've been logged out");
 		return redirect(routes.Application.index());
+	}
+	
+	/**
+	 * Method taht goes to Public restaurant view
+	 * @return
+	 */
+	public static Result toRestaurant(){
+		List <Meal> meals = findM.all();
+		return ok(restaurant.render(" ", email, meals));
 	}
 
 }
