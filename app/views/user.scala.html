@@ -77,7 +77,7 @@
 		@if(User.checkRole(email).equals(User.USER)){
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
-              <li><a href="/user">Profile</a></li>
+              <li><a href="/user/"@email>Profile</a></li>
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -89,7 +89,7 @@
             <ul class="dropdown-menu">
               <li><a href="@routes.Application.toRegistration">Register</a></li>
               <li><a href="@routes.Application.login">Login</a></li>
-              <li><a href="/restaurant">Profile</a></li>
+              <li><a href="/restaurant/"@email>Profile</a></li>
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>

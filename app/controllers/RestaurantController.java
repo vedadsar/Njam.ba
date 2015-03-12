@@ -1,10 +1,12 @@
 package controllers;
 
 import java.util.List;
+
 import Utilites.Session;
 import models.*;
 import play.data.DynamicForm;
 import play.data.Form;
+import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
@@ -19,6 +21,9 @@ import views.html.*;
 public class RestaurantController extends Controller {
 
 	static Form<Meal> inputForm = new Form<Meal>(Meal.class);
+	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
+	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+
 
 
 	/**
@@ -43,7 +48,7 @@ public class RestaurantController extends Controller {
 			String userEmail= Session.getCurrentUser(ctx()).email;
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");
-			 return redirect("/restaurantOwner");
+			 return redirect("/restaurantOwner/" + userEmail);
 		}
 		return TODO;
 	}
@@ -76,4 +81,14 @@ public class RestaurantController extends Controller {
 	public static Result details(int id){
 		return TODO;
 	}	
+	
+	public static Result restaurant(String email){
+		
+		List <Meal> meals = findM.all();
+		List <Restaurant> restaurants = findR.all();
+		
+		User u = User.find(email);
+		
+		return ok(restaurantOwner.render(email, meals, restaurants));
+	}
 }
