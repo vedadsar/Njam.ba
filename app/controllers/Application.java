@@ -88,7 +88,6 @@ public class Application extends Controller {
 		}
 	}
 	
-	
 
 	/**
 	 * This method just redirects to login page.
@@ -201,9 +200,10 @@ public class Application extends Controller {
 	 * Method taht goes to Public restaurant view
 	 * @return
 	 */
-	public static Result toRestaurant(){
+	public static Result toRestaurant(String name){
+		Restaurant restaurant = Restaurant.findByName(name);
 		List <Meal> meals = findM.all();
-		return ok(restaurant.render(" ", email, meals));
+		return ok(restaurantProfile.render(name, meals));
 	}
 
 }

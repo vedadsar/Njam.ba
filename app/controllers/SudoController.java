@@ -47,8 +47,7 @@ public class SudoController extends Controller{
 		
 		Restaurant.delete(id);
 		User.deleteUser(u);
-		
-		
+		flash("successDeleteRestaurant", "Restaurant successfully deleted");
 		return redirect("/admin/" +Session.getCurrentUser(ctx()).email);		
 	}
 	
