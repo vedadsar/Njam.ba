@@ -193,6 +193,10 @@ public class Application extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+	/**
+	 * Method taht goes to Public restaurant view
+	 * @return
+	 */
 	public static Result toRestaurant(){
 		List <Meal> meals = findM.all();
 		return ok(restaurant.render(" ", email, meals));
