@@ -59,11 +59,20 @@ public class RestaurantController extends Controller {
 		return redirect("/restaurantOwner");
 	}
 	
+	/**
+	 * Method that returns list of restaurants.
+	 * @return list of all meals from Restaurant
+	 */
 	public static Result list(){
 		List<Meal> meals = Meal.all();
 		return TODO;
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static Result details(int id){
 		return TODO;
 	}	
