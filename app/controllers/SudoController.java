@@ -20,24 +20,38 @@ public class SudoController extends Controller{
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 
 	@Security.Authenticated(AdminFilter.class)
-	public static Result createRestaurant(){
-		
-		List <Restaurant> restaurants = findR.all();
-		List<Meal> meals = findM.all();
+	public static Result createRestaurant(){	
 		String email = inputForm.bindFromRequest().get().email;
 		String password = inputForm.bindFromRequest().get().hashedPassword;			
 		String nameOfRestaurant = inputR.bindFromRequest().get().name;
-
-		User.createRestaurant(nameOfRestaurant, email, password);		
-//		User user = User.find(email);
-//		Restaurant.create("No Name", user);
-		//moguce je da je ovaj dio nekoristan
+		
+		User.createRestaurant(nameOfRestaurant, email, password);	
 		flash("successRestaurant", "Successfully added Restaurant");
 		return redirect("/admin/create");
-//		return ok(admin.render(meals, restaurants));
-//		flash("successRestaurant", "Successfully added Restaurant");
-//		return redirect("/admin");
+
 	}
+	@Security.Authenticated(AdminFilter.class)
+	public static Result deleteRestaurant(int id){
+		Restaurant r = Restaurant.find(id);
+		User u = r.user;
+		List<Meal> allMeals = Meal.allById(u);
+		
+		for(Meal m: allMeals){
+			m.restaurant = null;
+			Meal.delete(m);
+		}
+		r.user = null;
+		u.restaurant = null;
+		r.save();		
+		u.save();
+		
+		Restaurant.delete(id);
+		User.deleteUser(u);
+		
+		
+		return redirect("/admin/" +Session.getCurrentUser(ctx()).email);		
+	}
+	
 	
 	@Security.Authenticated(AdminFilter.class)
 	public static Result administrator(String email) {

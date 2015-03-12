@@ -24,7 +24,7 @@ public class User extends Model {
 	public String hashedPassword;
     @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date dateCreation;    
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     public Restaurant restaurant;
     
     public String confirmationString;
@@ -57,11 +57,11 @@ public class User extends Model {
 		} else {
 			User u  = new User(email, password, RESTAURANT);	
 			u.save();
-			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());
-			r.save();
+			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());			
 			u.restaurant = r;
 			u.validated = true;
-			u.save();		
+			u.save();
+			r.save();
 			return true;
 		}
 	}
@@ -170,16 +170,20 @@ public class User extends Model {
 	        return true;
 	    }
 	    
-//	    public static boolean validatedUser(String email, String hashedPassword){
-//	    	User user = new User(email, hashedPassword);
-//	    	if(user.validated == true){
-//		        user.confirmationString = null;
-//		        user.validated = true;
-//		        user.save();
-//	    		return true;
-//	    	}
-//	    	return false;
-//	    }
+	    public static boolean deleteUser(User u){
+	    	if(u == null)
+	    		return false;
+	    	u.delete();
+	    	return true;
+	    }
+	    
+	    public static boolean deleteUser(int id){
+	    	User u =  find.byId(id);
+	    	if(u == null)
+	    		return false;
+	    	u.delete();
+	    	return true;
+	    }
 
 		
 		/**

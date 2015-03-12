@@ -16,16 +16,15 @@ public class Restaurant extends Model{
 	public int id;
 	@Required
 	public String name;
-    @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+   
+	@DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date dateCreation;
     
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL) 
 	public User user;
-		
-	@OneToOne
-	public Location location;
 	
-	@OneToMany 
+	
+	@OneToMany(cascade=CascadeType.ALL) 
 	public List <Meal> meals;
 
 	
@@ -53,8 +52,20 @@ public class Restaurant extends Model{
 		return find.where().eq("name", name).findUnique();
 	}
 		
-	public static void delete(int id){
-		find.byId(id);
+	public static boolean delete(int id){
+		Restaurant r = Restaurant.find(id);
+		r.delete();
+				if (find(id)!=null){
+			return false;
+		}
+	    return true;
+	}
+	
+	public static boolean delete(Restaurant r ){	
+		if(r == null)
+			return false;
+		r.delete();
+		return true;
 	}
 	
 	public static List<Restaurant> all(Location location){

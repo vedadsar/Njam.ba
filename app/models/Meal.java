@@ -19,7 +19,7 @@ public class Meal extends Model {
 	@Required
 	public double price;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL) 
 	public Restaurant restaurant;
 
 	static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
@@ -45,8 +45,7 @@ public class Meal extends Model {
 	}
 	
 	
-	public static List<Meal> allById() {
-		User u=Session.getCurrentUser(Context.current());
+	public static List<Meal> allById(User u) {		
 		int id =u.id;
 		Restaurant r = User.find(id).restaurant;
 		List<Meal> mealsById=find.where().eq("restaurant", r).findList();

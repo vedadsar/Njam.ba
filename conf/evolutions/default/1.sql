@@ -32,7 +32,6 @@ create table restaurant (
   name                      varchar(255),
   date_creation             timestamp,
   user_id                   integer,
-  location_id               integer,
   constraint pk_restaurant primary key (id))
 ;
 
@@ -65,10 +64,8 @@ alter table meal add constraint fk_meal_restaurant_3 foreign key (restaurant_id)
 create index ix_meal_restaurant_3 on meal (restaurant_id);
 alter table restaurant add constraint fk_restaurant_user_4 foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_restaurant_user_4 on restaurant (user_id);
-alter table restaurant add constraint fk_restaurant_location_5 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_restaurant_location_5 on restaurant (location_id);
-alter table user add constraint fk_user_restaurant_6 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_6 on user (restaurant_id);
+alter table user add constraint fk_user_restaurant_5 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_5 on user (restaurant_id);
 
 
 

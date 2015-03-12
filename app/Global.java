@@ -13,6 +13,12 @@ public class Global extends GlobalSettings {
 		User.createRestaurant("Lovac","restoran@njam.ba", "123456");
 		User.createRestaurant("harambasa","test1@njam.ba", "123456");
 		User.createRestaurant("klopa","test2@njam.ba", "123456");
-		}
+		
+		User.createUser(new User("vedad@njam.ba", "123456"));
+		User.createUser(new User("gorjan@njam.ba", "123456"));
+		User.createUser(new User("davor@njam.ba", "123456"));
+		User.createUser(new User("neldin@njam.ba", "123456"));
+		User.createUser(new User("amra@njam.ba", "123456"));
+	}
 }
 

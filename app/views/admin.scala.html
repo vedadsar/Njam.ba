@@ -218,7 +218,11 @@
                       <tbody>  
                       @for(restaurant <- restaurants){                    
                         <tr><td>@restaurant.id</td><td>@restaurant.name</td><td>@restaurant.user.email</td><th>
-                    <button type="button" class="btn btn-danger btn-xs pull-right">DELETE</button></th></tr>
+                       <form method="POST" action="@routes.SudoController.deleteRestaurant(restaurant.id)">
+                       	 <input type="submit" value="delete" class="btn btn-danger btn-xs pull-right" />	
+                
+                       </form>                        
+                    
                       </thead></tr>
                         }
                       </tbody>
