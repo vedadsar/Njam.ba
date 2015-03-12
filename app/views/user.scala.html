@@ -1,50 +1,6 @@
 @(email: String)
 @main("NJAM.BA") {
 
-<!--  
-<body>
-<div class="container">
-	<div class="row clearfix">
-		<div class="col-md-12 column">
-			<h3 class="text-center">
-				njam.ba
-			</h3>
-		</div>
-	</div>
-	<div class="row clearfix">
-		<div class="col-md-12 column">
-			<ul class="nav nav-tabs">
-				<li class="active">
-					<a href="/">Home</a>
-				</li>
-				<li>
-					<a href="restaurants.html">Restaurants</a>
-				</li>
-				<li class="dropdown pull-right">
-					<a href="#" data-toggle="dropdown" class="dropdown-toggle">@email<strong class="caret"></strong></a>
-					<ul class="dropdown-menu">
-						<li>
-							@if(User.checkRole(email).equals(User.ADMIN)){
-								<a href="/admin">Add restaurant</a>
-							}else{
-							<a href="/user">Profile</a>
-							}
-						</li>
-						<li class="divider">
-						</li>
-						<li>
-							<a href="@routes.Application.logout">Log out</a>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-	</div>
-</div>
-</body>
-
--->
-
 <body>
 <!-- new navbar -->
 <nav class="navbar navbar-static" style="background-color:#111;color:#fff;" >
@@ -77,7 +33,7 @@
 		@if(User.checkRole(email).equals(User.USER)){
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
-              <li><a href="/user/"@email>Profile</a></li>
+              <li><a href="/user/@email">Profile</a></li>
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -94,9 +50,6 @@
               <li><a href="/logout">Logout</a></li>
              </ul>
            }
-						
-						
-            
           </li>
         </ul>
       </div>
@@ -201,9 +154,6 @@
 
 </div>
 
-
-
-</body>
-	
+</body>	
 	
 }

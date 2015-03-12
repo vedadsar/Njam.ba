@@ -1,121 +1,6 @@
 @(message: String)(email: String)(meals: List[Meal])(restaurants: List[Restaurant])
 
 @main("Index") {
-	<!-- 
-	<body>
-		<div class="container">
-			<div class="row clearfix">
-				<div class="col-md-12 column">
-					<h3 class="text-center">
-						njam.ba
-					</h3>
-				</div>
-			</div>
-			<div class="row clearfix">
-				<div class="col-md-12 column">
-					<ul class="nav nav-tabs">
-						<li class="active">
-							<a href="/">Home</a>
-						</li>
-						
-						
-						<li>
-							<a href="#">Restaurants</a>
-						</li>
-						
-												<li>
-							<a href="#">Contact</a>
-						</li>
-						<li>
-						@if(flash.get("success") || flash.get("error") || flash.get("errorLink") ){
-		           <div class="alert alert-success" role="alert">
-		           <div class="container">
-		            @flash.get("success")
-		         	@flash.get("error")
-		         	@flash.get("errorLink")
-		             </div>
-	            	</div>
-	            	</li>
-	              }
-						
-						
-						@if(email == null){
-							<li class="pull-right">
-								<a href="/registration">Register</a>
-							</li>
-							<li class="pull-right">
-								<a href="/login">Log in</a>
-							</li>
-						}else{		
-							
-							<li class="dropdown pull-right">
-									<a href="#" data-toggle="dropdown" class="dropdown-toggle">@email<strong class="aret"></strong></a>
-									<ul class="dropdown-menu">
-									<li>
-										<a href="/user">Profile</a>
-									</li>
-									<li class="divider">
-									</li>
-									<li>
-										<a href="@routes.Application.logout">Log out</a>
-									</li>
-									</ul>
-							</li>							
-						}
-						
-						
-					</ul>
-				</div>
-			</div>
-			
-		<div class="container">
-	<div class="row clearfix">
-	
-	@if(User.checkIfExists(email) == true){
-		
-		@if(User.checkRole(email).equals(User.RESTAURANT)){
-			<div class="container">
-				<div class="row clearfix">
-					<div class="col-md-12 column">
-						<h3 class="text-center text-success">
-							Successfuly logged as restaurant. Welcome @email
-						</h3> <button type="button" class="btn btn-block btn-primary" onClick="location.href='/user'">	Add Meal</button>
-					</div>
-				</div>
-			</div>
-		}
-	}
-
-	@for(meal<-meals){		
-		<div class="col-xs-12 col-sm-6 col-md-3">
-            <div class="thumbnail">
-                <img src="http://placehold.it/600x270" alt="">
-                <div class="caption">
-                    <h3 class="text-center">@meal.restaurant.name</h3>
-	                     <h4 class="text-center">@meal.name</h4>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                        Suspendisse aliquam, augue vitae pulvinar feugiat, magna ipsum varius tellus, quis lobortis est nulla nec ligula. 
-                        Aenean cursus enim sit amet tortor rutrum lobortis. 
-                        Vestibulum mattis mauris fringilla mauris volutpat, in euismod arcu ultricies.                    
-                    </p>
-                     <p>Price: <b>@meal.price KM</b></p>
-                    <p class="text-center">
-                        <i class="fa fa-thumbs-o-up votes"></i><i class="fa fa-thumbs-o-down votes"></i>
-                    </p>
-                </div>
-            </div>
-        </div>        
-	}
-	</div>
-</div>		
-		</div>		
-		
-
-	</body>
-	
-	 -->
-	 
 	 <body>
 	 <!-- Navbar -->
 <nav class="navbar navbar-static" style="background-color:#111;color:#fff;" >
@@ -179,16 +64,9 @@
             <ul class="dropdown-menu">
               <li><a href="@routes.Application.toRegistration">Register</a></li>
               <li><a href="@routes.Application.login">Login</a></li>
-              <li><a href="/">Profile</a></li>
-              <li class="divider"></li>
-              <li><a href="/logout">Logout</a></li>
              </ul>
            }
-          
-                      
-           
-          </li>
-              
+          </li>  
           </li>
         </ul>
       </div>
@@ -196,7 +74,7 @@
     
 </nav><!-- /.navbar -->
 
-@if(flash.get("success") || flash.get("error") || flash.get("errorLink") ){
+        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") ){
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
 		            @flash.get("success")
@@ -238,7 +116,7 @@
                   <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
                   
                   <div class="well">
-                          <h3><a href="/restaurant">@restaurant.name</a></h3>
+                          <h3><a href="/restaurantProfile/@restaurant.name">@restaurant.name</a></h3>
                          
                   </div>
                   }   

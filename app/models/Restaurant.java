@@ -76,5 +76,4 @@ public class Restaurant extends Model{
 		return find.all();
 	}
 
-
 }
