@@ -43,7 +43,7 @@ public class RestaurantController extends Controller {
 			String userEmail= Session.getCurrentUser(ctx()).email;
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");
-			 return redirect("/restaurant");
+			 return redirect("/restaurantOwner");
 		}
 		return TODO;
 	}
@@ -56,7 +56,7 @@ public class RestaurantController extends Controller {
 	public static Result deleteMeal() {
 		int mealID = inputForm.bindFromRequest().get().id;
 		Meal.delete(mealID);
-		return redirect("/restaurant");
+		return redirect("/restaurantOwner");
 	}
 	
 	public static Result list(){

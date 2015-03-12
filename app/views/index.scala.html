@@ -117,6 +117,7 @@
 	 -->
 	 
 	 <body>
+	 <!-- Navbar -->
 <nav class="navbar navbar-static" style="background-color:#111;color:#fff;" >
    <div class="container">
     <div class="navbar-header" >
@@ -214,27 +215,16 @@
               <div class="panel" id="midCol">
                 <div class="panel-heading" style="background-color:#555;color:#eee;">Restaurants</div> 
                 <div class="panel-body">
-                  
+                
+                  @for(restaurant<-restaurants){
                   <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
                   
                   <div class="well">
-                          <h3><a href="http://getbootstrap.com">Resaturant's name.</a></h3>
+                          <h3><a href="/restaurant">@restaurant.name</a></h3>
                          
                   </div>
-                  
-                  <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
-                  
-                  <div class="well">
-                          <h3><a href="http://getbootstrap.com">Resaturant's name.</a></h3>
-                         
-                  </div>
-                  
-                  
-                  
-                  <img class="img-responsive" src="//placehold.it/300x200/FFF">    
-                  
-                  
-                  
+                  }   
+                
                </div> 
                </div><!--/panel-->
       		</div><!--/end mid column-->

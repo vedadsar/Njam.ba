@@ -216,8 +216,8 @@
                         <tr><th>ID</th><th>Restaurant's name</th><th>email</th>
 	              
                       <tbody>  
-                      @for(restauran <- restaurants){                    
-                        <tr><td>@restauran.id</td><td>@restauran.name</td><td>@restauran.user.email</td><th>
+                      @for(restaurant <- restaurants){                    
+                        <tr><td>@restaurant.id</td><td>@restaurant.name</td><td>@restaurant.user.email</td><th>
                     <button type="button" class="btn btn-danger btn-xs pull-right">DELETE</button></th></tr>
                       </thead></tr>
                         }
