@@ -32,8 +32,8 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile  <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
             <ul class="dropdown-menu">
-              <li><a href="/registration">Register</a></li>
-              <li><a href="@routes.Application.login">Login</a></li>
+              <li><a href="@routes.Application.toRegistration">Register</a></li>
+              
              </ul>
           </li>
         </ul>
@@ -47,7 +47,7 @@
 		<div class="col-md-12 column">
 			<div class="page-header">
 				<h1>
-					Customer <small>Log in</small>
+					Njam.ba <small>Log in</small>
 				</h1>
 			</div>
 		</div>
@@ -71,6 +71,12 @@
 						 <p class="help-block">@message</p>
 					</div>
 				</div>
+			
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						 <button type="submit" class="btn btn-default">Log in</button>
+					</div>
+				</div>
 				
 					@if(flash.get("inDatabase") || flash.get("failed") || flash.get("success")){
 		           <div class="alert alert-success" role="alert">
@@ -81,12 +87,6 @@
 	            	</div>
 	              }
 				
-				
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						 <button type="submit" class="btn btn-default">Log in</button>
-					</div>
-				</div>
 			</form>
 		</div>
 		<div class="col-md-3 text-right column">
