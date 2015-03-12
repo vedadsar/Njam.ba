@@ -43,6 +43,15 @@ public class Meal extends Model {
 	public static List<Meal> all() {
 		return find.all();
 	}
+	
+	
+	public static List<Meal> allById() {
+		User u=Session.getCurrentUser(Context.current());
+		int id =u.id;
+		Restaurant r = User.find(id).restaurant;
+		List<Meal> mealsById=find.where().eq("restaurant", r).findList();
+		return mealsById;
+	}
 
 	public static boolean create(String name, double price) {
 		Meal m = new Meal(name, price);

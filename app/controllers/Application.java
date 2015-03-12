@@ -73,6 +73,8 @@ public class Application extends Controller {
 			return ok(restaurant.render(" ", email, meals, restaurants));
 		}
 	}
+	
+	
 
 	/**
 	 * This method just redirects to login page.
@@ -155,10 +157,10 @@ public class Application extends Controller {
 	public static Result login() {
 		List <Meal> meals = findM.all();
 		List <Restaurant> restaurants = findR.all();
-		
+		List <Meal> mealsById=Meal.allById();
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(restaurant.render(" ", email, meals, restaurants));
+				return ok(restaurant.render(" ", email, mealsById, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
