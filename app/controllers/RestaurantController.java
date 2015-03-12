@@ -1,6 +1,8 @@
 package controllers;
 
+import java.util.Iterator;
 import java.util.List;
+
 import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
@@ -62,10 +64,26 @@ public class RestaurantController extends Controller {
 	 * @return
 	 */
 	@Security.Authenticated(RestaurantFilter.class)
-	public static Result deleteMeal() {
-		int mealID = inputForm.bindFromRequest().get().id;
-		Meal.delete(mealID);
-		return redirect("/restaurantOwner");
+	public static Result deleteMeal(int id) {		
+		Meal m = Meal.find(id);
+		Restaurant r = m.restaurant;
+		
+		m.restaurant = null;
+		List<Meal> rMeals = r.meals;
+		Iterator<Meal> it = rMeals.iterator();
+		
+		while(it.hasNext()){
+			int index = 0;
+			Meal current = it.next();
+			if(current.id == id){
+				rMeals.remove(index);
+				break;
+			}	
+			index++;
+		}
+		
+		Meal.delete(m);
+		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	
 	/**
