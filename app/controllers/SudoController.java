@@ -4,8 +4,10 @@ import models.*;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.*;
 import play.db.ebean.Model.Finder;
+import Utilites.*;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class SudoController extends Controller{
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 
+	@Security.Authenticated(AdminFilter.class)
 	public static Result createRestaurant(){
 		
 		List <Restaurant> restaurants = findR.all();
@@ -36,9 +39,10 @@ public class SudoController extends Controller{
 //		return redirect("/admin");
 	}
 	
+	@Security.Authenticated(AdminFilter.class)
 	public static Result administrator(String email) {
 
-		List<Meal> meals = findM.all();
+		List<Meal> meals = findM.all(); 
 		List<Restaurant> restaurants = findR.all();
 
 		User u = User.find(email);

@@ -2,14 +2,16 @@ package controllers;
 
 import java.util.List;
 
+import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
-import play.data.DynamicForm;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.*;
+import Utilites.*;
 
 /**
  * Controller class for restaurant. Restaurant is able to create/modify/delete
@@ -31,6 +33,7 @@ public class RestaurantController extends Controller {
 	 * Use Meal.create method from models.
 	 * @return
 	 */
+	@Security.Authenticated(RestaurantFilter.class)
 	public static Result createMeal() {
 		User u= Session.getCurrentUser(ctx());
 		if(!u.role.equalsIgnoreCase("RESTAURANT")){
@@ -58,6 +61,7 @@ public class RestaurantController extends Controller {
 	 * using meal ID which is unique for each meal.
 	 * @return
 	 */
+	@Security.Authenticated(RestaurantFilter.class)
 	public static Result deleteMeal() {
 		int mealID = inputForm.bindFromRequest().get().id;
 		Meal.delete(mealID);
@@ -82,6 +86,7 @@ public class RestaurantController extends Controller {
 		return TODO;
 	}	
 	
+	@Security.Authenticated(RestaurantFilter.class)
 	public static Result restaurant(String email){
 		
 		List <Meal> meals = findM.all();
