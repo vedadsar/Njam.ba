@@ -117,6 +117,7 @@
 	 -->
 	 
 	 <body>
+	 <!-- Navbar -->
 <nav class="navbar navbar-static" style="background-color:#111;color:#fff;" >
    <div class="container">
     <div class="navbar-header" >
@@ -148,7 +149,16 @@
 		@if(User.checkRole(email).equals(User.USER)){
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
-              <li><a href="/user">Profile</a></li>
+              <li><a href="/user/@email">Profile</a></li>
+              <li class="divider"></li>
+              <li><a href="/logout">Logout</a></li>
+             </ul>
+           } 
+           
+           @if(User.checkRole(email).equals(User.RESTAURANT)){
+				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
+           <ul class="dropdown-menu">
+              <li><a href="/restaurantOwner/@email">Profile</a></li>
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -160,7 +170,7 @@
             <ul class="dropdown-menu">
               <li><a href="@routes.Application.toRegistration">Register</a></li>
               <li><a href="@routes.Application.login">Login</a></li>
-              <li><a href="/restaurant">Profile</a></li>
+              <li><a href="/">Profile</a></li>
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -214,27 +224,16 @@
               <div class="panel" id="midCol">
                 <div class="panel-heading" style="background-color:#555;color:#eee;">Restaurants</div> 
                 <div class="panel-body">
-                  
+                
+                  @for(restaurant<-restaurants){
                   <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
                   
                   <div class="well">
-                          <h3><a href="http://getbootstrap.com">Resaturant's name.</a></h3>
+                          <h3><a href="/restaurant">@restaurant.name</a></h3>
                          
                   </div>
-                  
-                  <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
-                  
-                  <div class="well">
-                          <h3><a href="http://getbootstrap.com">Resaturant's name.</a></h3>
-                         
-                  </div>
-                  
-                  
-                  
-                  <img class="img-responsive" src="//placehold.it/300x200/FFF">    
-                  
-                  
-                  
+                  }   
+                
                </div> 
                </div><!--/panel-->
       		</div><!--/end mid column-->

@@ -12,10 +12,11 @@ import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
+import Utilites.AdminFilter;
 import Utilites.Session;
 import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
-import Utilites.MailHelper;
+import Utilites.*;
 
 
 
@@ -38,22 +39,35 @@ public class Application extends Controller {
 		return ok(index.render(" ", email, meals, restaurants));
 	}
 	
-	public static Result toUser(){
+	@Security.Authenticated(UserFilter.class)
+	public static Result toUser(String email){
 		List <Restaurant> restaurants = findR.all();
 		List <Meal> meals = findM.all();
-		String email = session().get("email");
-		if(email == null)
+		String emailE = session().get("email");
+		if(emailE == null)
 			return redirect("/login");
 
 		User u = User.find(email);
 		if(u.role.equals(User.RESTAURANT)){
-			return ok(restaurant.render("", email, meals, restaurants));
+			return redirect("restaurantOwner/" + email);
 		}
 		if(u.role.equals(User.ADMIN)){
-			return ok(admin.render(email, restaurants));
+			return ok(admin.render(email, meals, restaurants));
 		}
 		return ok(user.render(email));
 	}
+	
+	@Security.Authenticated(UserFilter.class)
+	public static Result user(String email){
+		
+		List <Meal> meals = findM.all();
+		List <Restaurant> restaurants = findR.all();
+		
+		User u = User.find(email);
+		
+		return ok(user.render(email));
+	}
+
 
 	/**
 	 * This method just redirects to registration page.
@@ -70,7 +84,7 @@ public class Application extends Controller {
 		if(email == null){
 			return ok(registration.render(""));
 		} else { 
-			return ok(restaurant.render(" ", email, meals, restaurants));
+			return ok(restaurantOwner.render(email, meals, restaurants));
 		}
 	}
 	
@@ -83,7 +97,7 @@ public class Application extends Controller {
 	 */
 	public static Result toLogin() {				
 		if(session().get("email") != null){			
-			return redirect("/user");
+			return redirect("/");
 		} else {
 			return ok(login.render(""));
 		}
@@ -128,24 +142,7 @@ public class Application extends Controller {
 			return redirect("/registration");
 		}
 	}
-
-	public static Result registerRestaurant() {
-		List <Restaurant> restaurants = findR.all();
-		DynamicForm form = Form.form().bindFromRequest();
-		String email = form.data().get("email");
-		String hashedPassword = form.data().get("hashedPassword");
-		String nameOfRestaurant = form.data().get("name");		
-
-		boolean isSuccess = User.createRestaurant(nameOfRestaurant, email, hashedPassword);
-		if (isSuccess == true) {			
-			flash("createdRestaurant", "You successfuly created restaurant with email");
-			return redirect("/admin");
-//			return ok(admin.render(email, restaurants));
-		} else {
-			flash("alreadyRegistered", Messages.get("Restaurant with that email is already registred", email));
-			return ok(admin.render(email, restaurants));
-		}
-	}
+	
 
 	/**
 	 * This method logs in user. If user exists, method will redirect to user
@@ -160,11 +157,12 @@ public class Application extends Controller {
 		List <Meal> mealsById=Meal.allById();
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(restaurant.render(" ", email, mealsById, restaurants));
+				return ok(restaurantOwner.render(email, meals, restaurants));
+
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
-				return ok(admin.render(email, restaurants));
+				return ok(admin.render(email, meals, restaurants));
 		}
 		
 		
@@ -178,21 +176,34 @@ public class Application extends Controller {
 			session("email", email);
 			String role = User.checkRole(email);
 			if(role.equalsIgnoreCase(User.ADMIN))
-				return ok(admin.render(email, restaurants));
+				return redirect("/admin/" + email);
 			else if (role.equalsIgnoreCase(User.RESTAURANT))
-				return ok(restaurant.render(" ", email, meals, restaurants));
+				return redirect("/restaurantOwner/" + email);
 			else			
-				return ok(index.render(" ", email, meals, restaurants));
+				return redirect("/user/" + email);
 		} else {
             flash("failed", Messages.get("Incorrect username/pass or user is not verified"));
 			return redirect("/login");
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static Result logout() {
 		session().clear();
 		flash("success", "You've been logged out");
 		return redirect(routes.Application.index());
+	}
+	
+	/**
+	 * Method taht goes to Public restaurant view
+	 * @return
+	 */
+	public static Result toRestaurant(){
+		List <Meal> meals = findM.all();
+		return ok(restaurant.render(" ", email, meals));
 	}
 
 }

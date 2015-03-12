@@ -1,4 +1,4 @@
-@(message: String)(email: String)(meals: List[Meal])
+@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])
 
 
 @main("Restaurant") {
@@ -31,7 +31,7 @@
 					 <label for="inputEmail3" class="col-sm-2 control-label">Price</label>
 					<div class="col-sm-10">
 						<input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control" id="number" name="price" title="Please use format with dot: 2.20" required >
-						<div class="alert alert-success" role="alert">@message</div>
+						<div class="alert alert-success" role="alert"></div>
 					</div>
 				</div>
 										 
@@ -51,7 +51,6 @@
 
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-static" style="background-color:#111;color:#fff;"  >
    <div class="container">
     <div class="navbar-header"  >
@@ -85,7 +84,6 @@
              </ul>
           </li>
           <li class="dropdown">
-          
             @if(User.checkIfExists(email) == true){
 		
 		@if(User.checkRole(email).equals(User.RESTAURANT)){
@@ -108,7 +106,6 @@
               <li><a href="/logout">Logout</a></li>
              </ul>
            }
-           
           </li>
         </ul>
       </div>
@@ -118,22 +115,43 @@
     <!-- Page Content -->
     <div class="container">
 
-		<!-- Header -->
-		        <header class="masthead">
-		  <div class="container">
-		    <div class="row">
-		      <div class="col-md-6">
-		        <h1><a href="#" title="Scroll down for your viewing pleasure">Njam.ba</a>
-		          <p class="lead">Enjoy delicious food from your favorite restaurant.</p></h1>
-		      </div>
-		      <div class="col-md-6">
-		        <div class="well pull-right">
-		          <img src="//placehold.it/280x100/E7E7E7">        
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</header>
+        <!-- Jumbotron Header -->
+        <header class="jumbotron hero-spacer" style="height: 400px">
+            <h2>Welcome to @email</h2>
+            
+            <div class="col-md-6 column">
+            <form class="form-horizontal" role="form" action="@routes.RestaurantController.createMeal" method = "POST">
+                <div class="form-group">
+                     <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="name" name="name" minlength="4" maxlength="30" title="Maximum 30 chars" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                     <label for="inputEmail3" class="col-sm-2 control-label">Price</label>
+                    <div class="col-sm-10">
+                        <input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control" id="number" name="price" title="Please use format with dot: 2.20" required >
+                       @if(flash.get("success")){
+							<div class="alert alert-success" role="alert">
+							<div class="container">
+								@flash.get("success")
+							</div>
+							</div>
+							}
+                       
+                    </div>
+                </div>
+                                         
+                        <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                         <button type="submit" class="btn btn-default">Create Meal</button>
+                         <button type="submit" class="btn btn-default">Edit Meal</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </header>
+
 
         <!-- Title -->
         <div class="row">

@@ -1,15 +1,17 @@
 package controllers;
 
 import java.util.List;
-
+import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
-import play.data.DynamicForm;
 import play.data.Form;
+import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http.Context;
+import play.mvc.Security;
 import views.html.*;
+import Utilites.*;
 
 /**
  * Controller class for restaurant. Restaurant is able to create/modify/delete
@@ -21,6 +23,9 @@ import views.html.*;
 public class RestaurantController extends Controller {
 
 	static Form<Meal> inputForm = new Form<Meal>(Meal.class);
+	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
+	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+
 
 
 	/**
@@ -28,6 +33,7 @@ public class RestaurantController extends Controller {
 	 * Use Meal.create method from models.
 	 * @return
 	 */
+	@Security.Authenticated(RestaurantFilter.class)
 	public static Result createMeal() {
 		User u= Session.getCurrentUser(ctx());
 		if(!u.role.equalsIgnoreCase("RESTAURANT")){
@@ -45,7 +51,7 @@ public class RestaurantController extends Controller {
 			String userEmail= Session.getCurrentUser(ctx()).email;
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");
-			 return redirect("/restaurant");
+			 return redirect("/restaurantOwner/" + userEmail);
 		}
 		return TODO;
 	}
@@ -55,20 +61,40 @@ public class RestaurantController extends Controller {
 	 * using meal ID which is unique for each meal.
 	 * @return
 	 */
+	@Security.Authenticated(RestaurantFilter.class)
 	public static Result deleteMeal() {
 		int mealID = inputForm.bindFromRequest().get().id;
 		Meal.delete(mealID);
-		return redirect("/restaurant");
+		return redirect("/restaurantOwner");
 	}
 	
+	/**
+	 * Method that returns list of restaurants.
+	 * @return list of all meals from Restaurant
+	 */
 	public static Result list(){
 		List<Meal> meals = Meal.all();
 		return TODO;
 	}
 	
-	
-	
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static Result details(int id){
 		return TODO;
 	}	
+	
+	@Security.Authenticated(RestaurantFilter.class)
+	public static Result restaurant(String email){
+		
+		List <Meal> meals = findM.all();
+		List <Restaurant> restaurants = findR.all();
+		
+		User u = User.find(email);
+		
+		return ok(restaurantOwner.render(email, meals, restaurants));
+	}
 }
