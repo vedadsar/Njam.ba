@@ -78,14 +78,23 @@
 					</div>
 				</div>
 				
-					@if(flash.get("inDatabase") || flash.get("failed") || flash.get("success")){
-		           <div class="alert alert-success" role="alert">
-		            @flash.get("inDatabase")
-		            @flash.get("failed")
-		           	@flash.get("success")
-		             </div>
-	            	</div>
-	              }
+					@if(flash.get("inDatabase") || flash.get("success")){
+			           <div class="alert alert-success" role="alert">
+			            @flash.get("inDatabase")
+			            @flash.get("success")
+			      
+			             </div>  
+	             	}
+	              
+	             	 @if(flash.get("failed")){
+			           <div class="alert alert-warning" role="alert">
+			            @flash.get("failed")
+			             </div>  
+	                 }
+	                 
+	              
+	              
+	              </div>
 				
 			</form>
 		</div>
