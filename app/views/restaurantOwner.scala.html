@@ -94,12 +94,12 @@
                     </div>
                 </div>
             </form>
-                @if(flash.get("successMeal") || flash.get("successEdited") ){
+                @if(flash.get("successMeal") || flash.get("successEdited") || flash.get("deletedMeal") ){
 							<div class="alert alert-success" role="alert">
 							<div class="container">
 								@flash.get("successMeal")
 								@flash.get("successEdited")
-								
+								@flash.get("deletedMeal")
 							</div>
 							</div>
 							}
