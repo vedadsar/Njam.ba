@@ -85,6 +85,32 @@ public class RestaurantController extends Controller {
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	
+	@Security.Authenticated(RestaurantFilter.class)
+	
+		public static Result editMealURL(int id) {	
+		String userEmail= Session.getCurrentUser(ctx()).email;
+        Meal oldMeal = Meal.find.ref(id);
+		return ok(restaurantOwnerEditMeal.render(userEmail,oldMeal,Meal.allById(Session.getCurrentUser(ctx()))));
+	}
+	
+	
+	
+	public static Result editMeal(int id) {		
+		
+		String userEmail= Session.getCurrentUser(ctx()).email;
+		
+		Meal oldMeal = Meal.find.ref(id);
+		
+		String mealName = inputForm.bindFromRequest().field("name").value();
+		double mealPrice = Integer.parseInt(inputForm.bindFromRequest().field("price").value());
+		Meal.modifyMeal(oldMeal, mealName,mealPrice);
+		
+		return redirect("/restaurantOwner/" + userEmail);
+	}
+	
+	
+	
+	
 	/**
 	 * Method that returns list of restaurants.
 	 * @return list of all meals from Restaurant
@@ -108,7 +134,6 @@ public class RestaurantController extends Controller {
 		List <Restaurant> restaurants = findR.all();		
 		User u = User.find(email);
 		List <Meal> meals = Meal.allById(u);
-		
 		return ok(restaurantOwner.render(email, meals, restaurants));
 	}
 }
