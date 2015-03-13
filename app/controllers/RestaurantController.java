@@ -85,6 +85,17 @@ public class RestaurantController extends Controller {
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	
+	@Security.Authenticated(RestaurantFilter.class)
+	public static Result editMeal(int id) {		
+		String mealName = inputForm.bindFromRequest().field("name").value();
+		double mealPrice = Integer.parseInt(inputForm.bindFromRequest().field("price").value());
+		
+		return TODO;
+	}
+	
+	
+	
+	
 	/**
 	 * Method that returns list of restaurants.
 	 * @return list of all meals from Restaurant

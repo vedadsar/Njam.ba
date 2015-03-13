@@ -22,7 +22,7 @@ public class Meal extends Model {
 	@OneToOne(cascade=CascadeType.ALL) 
 	public Restaurant restaurant;
 
-	static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
+	public static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
 			Integer.class, Meal.class);
 
 	public Meal(String name, double price) {
