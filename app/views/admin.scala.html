@@ -101,7 +101,7 @@
       </ul>
       <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
      
-                        @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") ){
+                    @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") ){
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
 		            @flash.get("successRestaurant")
@@ -181,21 +181,22 @@
                         <div class="control-group">
                           <label>Email</label>
                           <div class="controls">
-                           <input type="text" class="form-control" placeholder="email" name="email" id="email">
+                           <input type="email" class="form-control" placeholder="email" name="email" id="email" minlength="7" maxlength="28" required>
                           </div>
                         </div>      
                         
                         <div class="control-group">
                           <label>Password</label>
                           <div class="controls">
-                            <input type="password" class="form-control" name="hashedPassword" id="hashedPassword">
+                            <input type="password" class="form-control" name="hashedPassword" id="hashedPassword" pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+                          	<p class="help-block">Password should be at least 6, maximum 16 characters (UpperCase, LowerCase, Number/SpecialChar)</p>
                           </div>
                         </div> 
                              
                         <div class="control-group">
                           <label>Name of Restaurant</label>
                           <div class="controls">
-                             <input type="text" class="form-control" id="name" name="name" required>
+                             <input type="text" class="form-control" id="name" name="name" minlength="3" maxlength="20" title="Maximum 20 chars" required>
                           </div>
                         </div>    
                         

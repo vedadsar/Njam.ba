@@ -21,6 +21,7 @@ public class User extends Model {
 	public String email;
 	@Required
 	@MinLength(6)
+	@MaxLength(16)
 	public String hashedPassword;
     @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date dateCreation;    
