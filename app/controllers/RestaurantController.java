@@ -89,7 +89,7 @@ public class RestaurantController extends Controller {
 		public static Result editMealURL(int id) {	
 		String userEmail= Session.getCurrentUser(ctx()).email;
         Meal oldMeal = Meal.find(id);
-		return ok(restaurantOwnerEditMeal.render(oldMeal));
+		return ok(restaurantOwnerEditMeal.render(oldMeal, userEmail));
 	}
 	
 	
@@ -108,7 +108,7 @@ public class RestaurantController extends Controller {
 
 		
 		Meal.modifyMeal(oldMeal, mealName,price);
-		
+		flash("successEdited", "You have successfully edited your meal");
 		return redirect("/restaurantOwner/" + userEmail);
 	}
 	
