@@ -102,7 +102,7 @@ public class RestaurantController extends Controller {
 		Meal oldMeal = Meal.find.ref(id);
 		
 		String mealName = inputForm.bindFromRequest().field("name").value();
-		double mealPrice = Integer.parseInt(inputForm.bindFromRequest().field("price").value());
+		double mealPrice = Double.parseDouble(inputForm.bindFromRequest().field("price").value());
 		Meal.modifyMeal(oldMeal, mealName,mealPrice);
 		
 		return redirect("/restaurantOwner/" + userEmail);
