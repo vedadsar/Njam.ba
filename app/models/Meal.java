@@ -127,6 +127,4 @@ public class Meal extends Model {
 			return true;
 	}
 	
-	
-	
 }
