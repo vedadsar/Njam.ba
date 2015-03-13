@@ -86,11 +86,10 @@ public class RestaurantController extends Controller {
 	}
 	
 	@Security.Authenticated(RestaurantFilter.class)
-	
 		public static Result editMealURL(int id) {	
 		String userEmail= Session.getCurrentUser(ctx()).email;
-        Meal oldMeal = Meal.find.ref(id);
-		return ok(restaurantOwnerEditMeal.render(userEmail,oldMeal,Meal.allById(Session.getCurrentUser(ctx()))));
+        Meal oldMeal = Meal.find(id);
+		return ok(restaurantOwnerEditMeal.render(oldMeal));
 	}
 	
 	
@@ -99,11 +98,16 @@ public class RestaurantController extends Controller {
 		
 		String userEmail= Session.getCurrentUser(ctx()).email;
 		
-		Meal oldMeal = Meal.find.ref(id);
+		Meal oldMeal = Meal.find(id);
 		
 		String mealName = inputForm.bindFromRequest().field("name").value();
-		double mealPrice = Double.parseDouble(inputForm.bindFromRequest().field("price").value());
-		Meal.modifyMeal(oldMeal, mealName,mealPrice);
+		String mealPrice = inputForm.bindFromRequest().field("price").value();
+		
+		mealPrice = mealPrice.replace(',', '.');
+		Double price = Double.parseDouble(mealPrice);
+
+		
+		Meal.modifyMeal(oldMeal, mealName,price);
 		
 		return redirect("/restaurantOwner/" + userEmail);
 	}
