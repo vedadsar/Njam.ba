@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.*;
 
 import play.data.format.Formats.DateTime;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
@@ -15,6 +17,8 @@ public class Restaurant extends Model{
 	@Id
 	public int id;
 	@Required
+	@MinLength(3)
+	@MaxLength(20)
 	public String name;
    
 	@DateTime(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -49,13 +49,13 @@
                 <div class="form-group">
                      <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="@meal.name" minlength="4" maxlength="30" title="Maximum 30 chars" required>
+                        <input type="text" class="form-control" id="name" name="name" value="@meal.name" minlength="4" maxlength="30" title="Maximum 30 chars" required>
                     </div>
                 </div>
                 <div class="form-group">
                      <label for="inputEmail3" class="col-sm-2 control-label">Price</label>
                     <div class="col-sm-10">
-                        <input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control" id="number" name="price" placeholder ="@meal.price" title="Please use format with dot: 2.20" required >
+                        <input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control" id="number" name="price" value="@meal.price" title="Please use format with dot: 2.20" required >
                        @if(flash.get("successMeal")){
 							<div class="alert alert-success" role="alert">
 							<div class="container">

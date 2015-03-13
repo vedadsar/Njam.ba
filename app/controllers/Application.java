@@ -187,6 +187,16 @@ public class Application extends Controller {
 	}
 	
 	/**
+	 * Method taht goes to Public restaurant view
+	 * @return
+	 */
+	public static Result toRestaurant(String name){
+		Restaurant restaurant = Restaurant.findByName(name);
+		List <Meal> meals = findM.all();
+		return ok(restaurantProfile.render(Session.getCurrentUser(ctx()).email, name, meals));
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
@@ -194,16 +204,6 @@ public class Application extends Controller {
 		session().clear();
 		flash("success", "You've been logged out");
 		return redirect(routes.Application.index());
-	}
-	
-	/**
-	 * Method taht goes to Public restaurant view
-	 * @return
-	 */
-	public static Result toRestaurant(String name){
-		Restaurant restaurant = Restaurant.findByName(name);
-		List <Meal> meals = findM.all();
-		return ok(restaurantProfile.render(name, meals));
 	}
 
 }
