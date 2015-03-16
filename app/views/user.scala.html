@@ -82,59 +82,28 @@
 </div>
 
 
- <div class="crow"  >
+ <div class="crow" >
  
     <div class="col-md-6 col-md-offset-1">
-      <form class="form-horizontal" role="form">
-        <fieldset >
+      <form class="form-horizontal" role="form" action="@routes.Application.editUser(email)" method="POST">
 
           <!-- Form Name -->
-          <legend >Address Details</legend>
+          <legend>Address Details</legend>
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Line 1</label>
+            <label class="col-sm-2 control-label" for="textinput">Email</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Address Line 1" class="form-control">
+				<input type="email" class="form-control" value="@email" id="email" name="email" readonly>				
             </div>
           </div>
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Line 2</label>
+            <label class="col-sm-2 control-label" for="textinput">Password</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Address Line 2" class="form-control">
-            </div>
-          </div>
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">City</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="City" class="form-control">
-            </div>
-          </div>
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">State</label>
-            <div class="col-sm-4">
-              <input type="text" placeholder="State" class="form-control">
-            </div>
-
-            <label class="col-sm-2 control-label" for="textinput">Postcode</label>
-            <div class="col-sm-4">
-              <input type="text" placeholder="Post Code" class="form-control">
-            </div>
-          </div>
-
-
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Country</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Country" class="form-control">
+						<input type="password" class="form-control" id="hashedPassword" name="hashedPassword" pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+						 <p class="help-block">Password should be at least 6, maximum 16 characters (UpperCase, LowerCase, Number/SpecialChar)</p>
             </div>
           </div>
 
@@ -146,8 +115,12 @@
               </div>
             </div>
           </div>
+          			   @if(flash.get("successUpdate") ){
+			           <div class="alert alert-success" role="alert">
+			            @flash.get("successUpdate")
+			             </div>  
+	             	}
 
-        </fieldset>
       </form>
     </div><!-- /.col-lg-12 -->
     

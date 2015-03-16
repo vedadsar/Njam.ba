@@ -196,6 +196,24 @@ public class Application extends Controller {
 		return ok(restaurantProfile.render(email, name, meals));
 	}
 	
+	
+	/**
+	 * 
+	 * This method is used to change password on user profile page.
+	 * @return redirect on profile page.
+	 */
+	public static Result editUser(String email) {		
+		DynamicForm form = Form.form().bindFromRequest();
+		User currentUser = Session.getCurrentUser(ctx());
+				
+		String hashedPassword = form.data().get("hashedPassword");
+		currentUser.hashedPassword = Hash.hashPassword(hashedPassword);
+		currentUser.save();
+	
+		flash("successUpdate", "You have successfully updated your password");
+		return redirect("/user/" + email);
+	}
+	
 	/**
 	 * 
 	 * @return
