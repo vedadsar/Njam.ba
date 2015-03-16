@@ -19,7 +19,7 @@ public class Meal extends Model {
 	@Required
 	public double price;
 
-	@OneToOne(cascade=CascadeType.ALL) 
+	@ManyToOne(cascade=CascadeType.ALL) 
 	public Restaurant restaurant;
 
 	public static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
@@ -52,10 +52,8 @@ public class Meal extends Model {
 		return mealsById;
 	}
 
-	public static boolean create(String name, double price) {
-		Meal m = new Meal(name, price);
-		User u = Session.getCurrentUser(Context.current());
-		m.restaurant = u.restaurant;
+	public static boolean create(String name, double price,Restaurant currentUserRestaurant) {
+		Meal m = new Meal(name, price,currentUserRestaurant);
 		m.save();
 
 		return true;
