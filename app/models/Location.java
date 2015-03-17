@@ -14,30 +14,33 @@ public class Location extends Model {
 	static Finder<Integer, Location> find =  new Finder<Integer, Location>(Integer.class, Location.class);
 	
 	@Id
-	public Integer id;
+	public Integer id;	
+	@Required
+	public String address;
+	@Required
+	public String number;
 	@Required
 	public String city;
 	@Required
-	public String street;
-	@Required
-	public String number;
+	public String country;
 	
 	@OneToOne
 	public Restaurant restaurant;
 	
 
-	public Location(String city, String street, String number){
-		this.city = city;
-		this.street = street;
+	public Location( String address, String number,String city, String country){		
+		this.address = address;
 		this.number = number;
+		this.city = city;
+		this.country = country;
 	}
 	
-	public static boolean create(String city, String street, String number){
+	public static boolean create(String address, String number,String city, String country){
 		Location location = find.findUnique();
 		if(location != null){
 			return false;
 		} else {
-			new Location(city, street, number).save();
+			new Location(address, number, city, country).save();
 		}
 			return true;
 	}

@@ -12,9 +12,10 @@ create table comment (
 
 create table location (
   id                        integer not null,
-  city                      varchar(255),
-  street                    varchar(255),
+  address                   varchar(255),
   number                    varchar(255),
+  city                      varchar(255),
+  country                   varchar(255),
   restaurant_id             integer,
   constraint pk_location primary key (id))
 ;

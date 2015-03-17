@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
+import models.Location;
 import models.Meal;
 import models.Restaurant;
 import models.User;
@@ -142,10 +143,34 @@ public class Application extends Controller {
 		}
 	}
 	
-	public static Result toRegistrationRestaurant(){
+	public static Result toRegistrationRestaurant(){		
 		return ok(registrationRestaurant.render(email));
 	}
 	
+	
+	public static Result registrationRestaurant(){
+		DynamicForm form = Form.form().bindFromRequest();	
+			
+		String email = form.data().get("email");
+		String hashedPassword = form.data().get("hashedPassword");
+				
+		User restaurantUser = new User (email, hashedPassword, "RESTAURANT");
+		
+		String name = form.data().get("name");
+		User.createRestaurant(name, email, hashedPassword);
+		
+		String address = form.data().get("address");
+		String number = form.data().get("number");
+		String city = form.data().get("city");
+		String country = form.data().get("country");
+//		String postcode = form.data().get("postcode");
+		Location restaurantLocatin = new Location(address, number, city, country);
+		
+		
+		flash("successSendRequest", "You have succesfully send request for restaurant registration!");
+		
+		return ok(registrationRestaurant.render(email));
+	}
 
 	/**
 	 * This method logs in user. If user exists, method will redirect to user

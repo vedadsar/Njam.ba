@@ -56,7 +56,7 @@
 			 <a href="/" class="btn btn-primary" type="button"> Back</a>
 		</div>
 		<div class="col-md-6 column">
-			<form action="@routes.Application.registration" method="POST" class="form-horizontal" role="form">
+			<form action="@routes.Application.registrationRestaurant" method="POST" class="form-horizontal" role="form">
 				<div class="form-group">
 					 <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 					<div class="col-sm-10">
@@ -84,9 +84,17 @@
 			<!-- Address-->
 				<!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Adress</label>
+            <label class="col-sm-2 control-label" for="textinput">Address</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Address" class="form-control">
+              <input type="text" placeholder="Address" class="form-control" id="address" name="address" required>
+            </div>
+          </div>
+          
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">Number</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Address" class="form-control" id="number" name="number" required>
             </div>
           </div>
 
@@ -94,42 +102,34 @@
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">City</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="City" class="form-control">
+              <input type="text" placeholder="City" class="form-control" id="city" name="city" required>
             </div>
           </div>
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">State</label>
-            <div class="col-sm-4">
-              <input type="text" placeholder="State" class="form-control">
-            </div>
-
-            <label class="col-sm-2 control-label" for="textinput">Postcode</label>
-            <div class="col-sm-4">
-              <input type="text" placeholder="Post Code" class="form-control">
-            </div>
-          </div>
-
-
 
           <!-- Text input-->
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">Country</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Country" class="form-control">
+              <input type="text" placeholder="Country" class="form-control" id="country" name="country" required>
+            </div>
+		 </div>
+			<!-- 
+            <label class="col-sm-2 control-label" for="textinput">Postcode</label>
+            <div class="col-sm-4">
+              <input type="text" placeholder="Post Code" class="form-control" id="postcode" name="postcode" required>
             </div>
           </div>
+           -->
           
           <!-- /Address-->
 				
 				
 				
-				@if(flash.get("inDatabase") || flash.get("validate")){
+				@if(flash.get("successSendRequest") ){
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
-		            @flash.get("inDatabase")
-		           	@flash.get("validate")
+		            @flash.get("successSendRequest")
+		           	
 		             </div>
 	            	</div>
 	              }
