@@ -6,6 +6,8 @@
 GET     /                           controllers.Application.index()
 GET   	/registration	            controllers.Application.toRegistration()
 POST	/			                controllers.Application.registration()
+GET     /registrationRestaurant     controllers.Application.toRegistrationRestaurant()
+
 GET     /admin/:email               controllers.SudoController.administrator(email: String)
 POST	/admin/create				controllers.SudoController.createRestaurant()
 POST 	/admin/delete/:id			controllers.SudoController.deleteRestaurant(id: Int)

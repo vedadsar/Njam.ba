@@ -142,6 +142,10 @@ public class Application extends Controller {
 		}
 	}
 	
+	public static Result toRegistrationRestaurant(){
+		return ok(registrationRestaurant.render(email));
+	}
+	
 
 	/**
 	 * This method logs in user. If user exists, method will redirect to user
