@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
+import models.Location;
 import models.Meal;
 import models.Restaurant;
 import models.User;
@@ -54,7 +55,7 @@ public class Application extends Controller {
 		if(u.role.equals(User.ADMIN)){
 			return ok(admin.render(email, meals, restaurants));
 		}
-		return ok(user.render(email));
+		return ok(user.render(email, restaurants));
 	}
 	
 	@Security.Authenticated(UserFilter.class)
@@ -65,7 +66,7 @@ public class Application extends Controller {
 		
 		User u = User.find(email);
 		
-		return ok(user.render(email));
+		return ok(user.render(email, restaurants));
 	}
 
 
@@ -115,15 +116,21 @@ public class Application extends Controller {
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
-
-		User usr = new User(email, hashedPassword);
+		
+		User usr = new User(email, hashedPassword);		
+		Location loc = new Location("", "", "");
+		usr.location = loc;
+		loc.save();
 		usr.confirmationString = UUID.randomUUID().toString();
 		if (usr.checkIfExists(email) == true) {
 			flash("inDatabase",
 					Messages.get("User already exists - please confirm user or login"));
 			return redirect("/login");
 		}
+		loc.user = usr;
 		usr.save();
+		loc.update();
+		
 
 		if (usr.checkA(email, hashedPassword) == true) {
 			// First we need to create url and send confirmation mail to user
@@ -207,10 +214,18 @@ public class Application extends Controller {
 		User currentUser = Session.getCurrentUser(ctx());
 				
 		String hashedPassword = form.data().get("hashedPassword");
+		String city = form.data().get("city");
+		String street = form.data().get("street");
+		String number = form.data().get("number");
+
 		currentUser.hashedPassword = Hash.hashPassword(hashedPassword);
-		currentUser.save();
-	
-		flash("successUpdate", "You have successfully updated your password");
+		currentUser.location.city = city;
+		currentUser.location.street = street;
+		currentUser.location.number = number;
+		currentUser.location.update();
+		currentUser.update();
+		
+		flash("successUpdate", "You have successfully updated contact information");
 		return redirect("/user/" + email);
 	}
 	
