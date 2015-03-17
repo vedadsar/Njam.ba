@@ -24,6 +24,8 @@ public class Location extends Model {
 	
 	@OneToOne
 	public Restaurant restaurant;
+	@OneToOne
+	public User user;
 	
 
 	public Location(String city, String street, String number){
@@ -31,6 +33,7 @@ public class Location extends Model {
 		this.street = street;
 		this.number = number;
 	}
+	
 	
 	public static boolean create(String city, String street, String number){
 		Location location = find.findUnique();

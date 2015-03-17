@@ -43,7 +43,8 @@ public class Restaurant extends Model{
 		this.user = u;
 	}
 	
-	public static  void create(String name, User user){		
+
+	public static void create(String name, User user){		
 		new Restaurant(name, user).save();
 
 	}
