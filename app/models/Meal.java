@@ -44,7 +44,12 @@ public class Meal extends Model {
 		return find.all();
 	}
 	
-	
+	/**Method Returns all meals from a certain restaurant owner
+	 * it  accepts the restaurant user.
+	 * 
+	 * @param u  User
+	 * @return List of meals belonging to a certain User-restaurant 
+	 */
 	public static List<Meal> allById(User u) {		
 		int id =u.id;
 		Restaurant r = User.find(id).restaurant;
@@ -82,7 +87,7 @@ public class Meal extends Model {
 	  * false if the object is successfully deleted it returns true
 	  * 
 	  * @return boolean
-	  * @author GorjanK
+	  * 
 	  */
 	
 	public static boolean delete(Meal m) {
@@ -102,6 +107,9 @@ public class Meal extends Model {
 		return find.where().eq("name", name).findUnique();
 	}
 
+	
+	
+	
 	/**
 	 * 
 	 * @param m   Meal object
@@ -111,7 +119,7 @@ public class Meal extends Model {
 	 * The method reads an object then modifies its values, then it checks 
 	 * if the modified values have changed 
 	 * @return boolean 
-	 * @author GorjanK
+	 * 
 	 */
 	public static boolean modifyMeal(Meal m, String newName, double newPrice) {
 
