@@ -157,14 +157,16 @@ public class Application extends Controller {
 		User restaurantUser = new User (email, hashedPassword, "RESTAURANT");
 		
 		String name = form.data().get("name");
-		User.createRestaurant(name, email, hashedPassword);
 		
-		String address = form.data().get("address");
+		
+		String street = form.data().get("street");
 		String number = form.data().get("number");
 		String city = form.data().get("city");
-		String country = form.data().get("country");
-//		String postcode = form.data().get("postcode");
-		Location restaurantLocatin = new Location(address, number, city, country);
+		User.createRestaurant(name, email, hashedPassword, street, number, city);
+
+		Location restaurantLocatin = new Location(street, number, city);
+		
+		
 		
 		
 		flash("successSendRequest", "You have succesfully send request for restaurant registration! Wait until admin contacts you!");

@@ -28,6 +28,9 @@ public class User extends Model {
     @OneToOne(cascade=CascadeType.ALL)
     public Restaurant restaurant;
     
+    @OneToOne
+    public Location location;
+    
     public String confirmationString;
     public Boolean validated = false;
     
@@ -42,22 +45,29 @@ public class User extends Model {
 	public User(String email, String clearPassword){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(clearPassword);
+		this.dateCreation = new Date();
 		this.role = USER;
 	}
 	
 	public User(String email, String password, String role){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(password);
+		this.dateCreation =new Date();
 		this.role = role;		
 	}
 	
-	public static boolean createRestaurant(String name, String email, String password){
+	public static boolean createRestaurant(String name, String email, String password, String city, String address, String number){
 		User check = find.where().eq("email", email).findUnique();
 		if(check != null){
 			return false;
 		} else {
-			User u  = new User(email, password, RESTAURANT);	
+			User u  = new User(email, password, RESTAURANT);
+			Location location = new Location(city, address, number);
+			location.user = u;
 			u.save();
+			u.location = location;
+			location.save();
+			
 			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());			
 			u.restaurant = r;
 			u.validated = false;

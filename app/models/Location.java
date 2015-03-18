@@ -12,35 +12,35 @@ import play.db.ebean.Model.Finder;
 public class Location extends Model {
 	
 	static Finder<Integer, Location> find =  new Finder<Integer, Location>(Integer.class, Location.class);
+	static Finder<Integer, Restaurant> findRestaurnt =  new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
+
 	
 	@Id
-	public Integer id;	
-	@Required
-	public String address;
-	@Required
-	public String number;
+	public Integer id;		
 	@Required
 	public String city;
 	@Required
-	public String country;
+	public String street;
+	@Required
+	public String number;
+
 	
 	@OneToOne
-	public Restaurant restaurant;
+	public User user;
 	
 
-	public Location( String address, String number,String city, String country){		
-		this.address = address;
-		this.number = number;
+	public Location( String city,String street, String number){				
 		this.city = city;
-		this.country = country;
+		this.street = street;
+		this.number = number;
 	}
 	
-	public static boolean create(String address, String number,String city, String country){
+	public static boolean create(int id, String city,String street, String number){
 		Location location = find.findUnique();
 		if(location != null){
 			return false;
 		} else {
-			new Location(address, number, city, country).save();
+			new Location(city, street, number).save();
 		}
 			return true;
 	}
