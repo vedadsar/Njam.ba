@@ -1,0 +1,7 @@
+@(logs: List[String])
+
+@main("logs"){
+	@for(log <- logs){
+		<h1> @log </h1>
+	}
+}

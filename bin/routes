@@ -24,7 +24,7 @@ GET		/user/:email				controllers.Application.toUser(email: String)
 POST    /user/:email                controllers.Application.editUser(email: String)
 GET     /logout                     controllers.Application.logout()
 GET     /confirm/:confirmationString                 controllers.Validate.validateEmail(confirmationString: String)
-
+GET		/logs						controllers.SudoController.logs()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET 	/webjars/*file 				controllers.WebJarAssets.at(file)

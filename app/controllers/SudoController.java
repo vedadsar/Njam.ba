@@ -10,7 +10,11 @@ import views.html.*;
 import play.db.ebean.Model.Finder;
 import Utilites.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class SudoController extends Controller{
 
@@ -68,5 +72,41 @@ public class SudoController extends Controller{
 
 		return ok(admin.render(email,meals, restaurants));
 	}
-
+	
+	@Security.Authenticated(AdminFilter.class)
+	public static Result logs(){
+		File f = new File("/Users/vedadzornic/Desktop/Project/Njam.ba/logs/application.log");
+		List<String> listOfLogs = new ArrayList<String>();
+		Scanner sc = null;
+		try {
+			sc = new Scanner(f);
+			while(sc.hasNextLine()){
+				String line = sc.nextLine();
+				line.trim();
+				
+				if(line.isEmpty())
+					continue;
+				if(line.charAt(0) != '2' || line.length() < 1){
+					continue;
+				}
+				String log = "";
+				if(line.charAt(0) == '2'){
+					log = line;
+					line = sc.nextLine();
+					if(!line.isEmpty()){
+						log += "\n" +line;
+					}
+					log += "\n";
+				}
+				listOfLogs.add(log);
+			}
+			
+		} catch (FileNotFoundException e) {
+			Logger.error("Could not list logs");
+		}finally{
+			sc.close();
+		}	
+		
+		return ok(logs.render(listOfLogs));
+	}
 }
