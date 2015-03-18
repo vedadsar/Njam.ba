@@ -50,16 +50,17 @@ public class SudoController extends Controller{
 		}
 		r.user = null;
 		u.restaurant = null;
+		u.location = null;
 		r.save();		
 		u.save();
 		
 		Restaurant.delete(id);
+		Location.delete(id);
 		User.deleteUser(u);
 		flash("successDeleteRestaurant", "Restaurant successfully deleted");
 		
-		return redirect("/admin/" +Session.getCurrentUser(ctx()).email);		
+		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);		
 	}
-	
 	
 	@Security.Authenticated(AdminFilter.class)
 	public static Result administrator(String email) {

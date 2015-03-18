@@ -35,7 +35,6 @@ public class Location extends Model {
 		this.number = number;
 	}
 	
-
 	
 	public static boolean create(int id, String city, String street, String number){
 		Location location = find.byId(id);
@@ -62,7 +61,16 @@ public class Location extends Model {
 			return true;
 	}
 	
-
+	public static boolean delete(int id){
+		Location l = Location.findByID(id);
+		l.delete();
+				if (findByID(id)!=null){
+			return false;
+		}
+	    return true;
+	}
+	
+	
 	public static Location findByID(int id){
 		return find.byId(id);
 	}
