@@ -1,4 +1,4 @@
-import models.Meal;
+
 import models.User;
 import play.Application;
 import play.GlobalSettings;

@@ -29,6 +29,8 @@ public class User extends Model {
     public Date dateCreation;    
     @OneToOne(cascade=CascadeType.ALL)
     public Restaurant restaurant;
+	@OneToOne
+	public Location location;
     
     public String confirmationString;
     public Boolean validated = false;

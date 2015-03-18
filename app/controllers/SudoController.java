@@ -15,15 +15,17 @@ public class SudoController extends Controller{
 
 	static Form<User> inputForm = new Form<User>(User.class);
 	static Form<Restaurant> inputR= new Form<Restaurant>(Restaurant.class);
+	static Form<Location> inputL= new Form<Location>(Location.class);
 
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+
 
 	@Security.Authenticated(AdminFilter.class)
 	public static Result createRestaurant(){	
 		String email = inputForm.bindFromRequest().get().email;
 		String password = inputForm.bindFromRequest().get().hashedPassword;			
-		String nameOfRestaurant = inputR.bindFromRequest().get().name;
+		String nameOfRestaurant = inputR.bindFromRequest().get().name;		
 		
 		User.createRestaurant(nameOfRestaurant, email, password);	
 		flash("successRestaurant", "Successfully added Restaurant");
