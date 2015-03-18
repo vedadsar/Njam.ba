@@ -12,9 +12,9 @@ import play.db.ebean.Model.Finder;
 public class Location extends Model {
 	
 	static Finder<Integer, Location> find =  new Finder<Integer, Location>(Integer.class, Location.class);
+
 	static Finder<Integer, Restaurant> findRestaurnt =  new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
 
-	
 	@Id
 	public Integer id;		
 	@Required
@@ -35,14 +35,21 @@ public class Location extends Model {
 		this.number = number;
 	}
 	
-	public static boolean create(int id, String city,String street, String number){
-		Location location = find.findUnique();
+
+	
+	public static boolean create(int id, String city, String street, String number){
+		Location location = find.byId(id);
+
 		if(location != null){
 			return false;
 		} else {
 			new Location(city, street, number).save();
 		}
 			return true;
+	}
+	
+	public void createLocation(String city, String street, String number){
+		new Location(city, street, number).save();
 	}
 	
 	public static boolean create(Location l){
@@ -54,6 +61,7 @@ public class Location extends Model {
 		}
 			return true;
 	}
+	
 
 	public static Location findByID(int id){
 		return find.byId(id);
@@ -70,12 +78,12 @@ public class Location extends Model {
 	public static List<Location> all(int id){
 		return find.where().eq("id", id).findList();
 	}
-	
-	public static List<Location> all(String city){
-		return find.where().eq("city", city).findList();
-	}
-	
+		
 	public static List<Location> all(Restaurant restaurant){
 		return find.where().eq("restaurant", restaurant).findList();
+	}
+	
+	public static List <Restaurant> all(String city){
+		return findRestaurnt.where().eq("city", city).findList();
 	}
 }

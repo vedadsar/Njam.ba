@@ -39,12 +39,12 @@ create table user (
   id                        integer not null,
   email                     varchar(255),
   hashed_password           varchar(255),
-  date_creation             timestamp,
   restaurant_id             integer,
   location_id               integer,
   confirmation_string       varchar(255),
   validated                 boolean,
   role                      varchar(255),
+  date_creation             timestamp not null,
   constraint uq_user_email unique (email),
   constraint pk_user primary key (id))
 ;
