@@ -6,6 +6,7 @@ import java.util.List;
 import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
@@ -39,6 +40,7 @@ public class RestaurantController extends Controller {
 	public static Result createMeal() {
 		User u= Session.getCurrentUser(ctx());
 		if(!u.role.equalsIgnoreCase("RESTAURANT")){
+			Logger.error("Not restaurant tried to create meal.");
 			return ok(wrong.render("Cannot create meal if you're not reastaurant! "));
 		}
 		
@@ -54,6 +56,7 @@ public class RestaurantController extends Controller {
 			 flash("successMeal", "Succesfully created meal!");
 			 return redirect("/restaurantOwner/" + userEmail);
 		}
+		Logger.error("Failed to create meail!");
 		return TODO;
 	}
 
@@ -82,6 +85,7 @@ public class RestaurantController extends Controller {
 		}
 		
 		Meal.delete(m);
+		Logger.info("Restaurant " +r.name +" just deleted meal" +m.name);
 		flash("deletedMeal", "You have successfully deleted your meal");
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
@@ -109,6 +113,7 @@ public class RestaurantController extends Controller {
 
 		
 		Meal.modifyMeal(oldMeal, mealName,price);
+		Logger.info("Restaurant " +oldMeal.restaurant.name +" just edited meal" +oldMeal.name);
 		flash("successEdited", "You have successfully edited your meal");
 		return redirect("/restaurantOwner/" + userEmail);
 	}

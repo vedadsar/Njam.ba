@@ -49,18 +49,20 @@ public class Application extends Controller {
 
 		User u = User.find(email);
 		if(u.role.equals(User.RESTAURANT)){
+			Logger.info("Restaurant " +u.restaurant.name +" has just logged !");
 			return redirect("restaurantOwner/" + email);
 		}
 		if(u.role.equals(User.ADMIN)){
+			Logger.info("Admin " +u.email +" has just logged!");
 			return ok(admin.render(email, meals, restaurants));
 		}
+		Logger.info("User " +u.email +" has just logged");
 		return ok(user.render(email, restaurants));
 	}
 	
 	@Security.Authenticated(UserFilter.class)
 	public static Result user(String email){		
-		List <Restaurant> restaurants = findR.all();
-				
+		List <Restaurant> restaurants = findR.all();				
 		return ok(user.render(email, restaurants));
 	}
 
@@ -134,6 +136,7 @@ public class Application extends Controller {
 					+ usr.confirmationString;
 			URL url = new URL(urlString);
 			MailHelper.send(email, url.toString());
+			Logger.debug("New user registrated, confirmation email has been sent!");
 			if (usr.validated == true) {
 				return redirect("/");
 			}
@@ -159,7 +162,6 @@ public class Application extends Controller {
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
 				return ok(restaurantOwner.render(email, meals, restaurants));
-
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))

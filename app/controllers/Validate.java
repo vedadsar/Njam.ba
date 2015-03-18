@@ -18,14 +18,17 @@ public class Validate extends Controller {
 
         if (confirmationString == null) {
             flash("error", Messages.get("error"));
+            Logger.error("Confirmation string is null");
             return redirect("/");
         }
         
         if (User.confirm(user)) {
             flash("success", Messages.get("Successfully validated"));
+            Logger.info("User just confirmed email " +user.email);
             return redirect("/login");
         } else {
             flash("errorLink", Messages.get("error.confirm"));
+            Logger.error("User " +user.email +" have troubles with confirming email");
             return redirect("/");
         }
     }

@@ -1,6 +1,7 @@
 package controllers;
 
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -29,12 +30,14 @@ public class SudoController extends Controller{
 		
 		User.createRestaurant(nameOfRestaurant, email, password);	
 		flash("successRestaurant", "Successfully added Restaurant");
+		Logger.info("Administrator " +Session.getCurrentUser(ctx()).email +" just created restaurant" );
 		return redirect("/admin/create");
 
 	}
 	@Security.Authenticated(AdminFilter.class)
 	public static Result deleteRestaurant(int id){
 		Restaurant r = Restaurant.find(id);
+		String rName = r.name;
 		User u = r.user;
 		List<Meal> allMeals = Meal.allById(u);
 		
@@ -49,6 +52,7 @@ public class SudoController extends Controller{
 		
 		Restaurant.delete(id);
 		User.deleteUser(u);
+		Logger.info("Administrator " +Session.getCurrentUser(ctx()).email +" just deleted restaurant " +rName);
 		flash("successDeleteRestaurant", "Restaurant successfully deleted");
 		return redirect("/admin/" +Session.getCurrentUser(ctx()).email);		
 	}
