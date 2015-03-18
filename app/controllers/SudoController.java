@@ -30,9 +30,21 @@ public class SudoController extends Controller{
 		String email = inputForm.bindFromRequest().get().email;
 		String password = inputForm.bindFromRequest().get().hashedPassword;			
 		String nameOfRestaurant = inputR.bindFromRequest().get().name;		
+		/*
+		 * Trying to create restaurant. Using logger and flash.
+		 */
+		try{
+			User.createRestaurant(nameOfRestaurant, email, password);	
+			Logger.info("Admin " +Session.getCurrentUser(ctx()).email +" just created restaurant "
+					+ nameOfRestaurant);
+			flash("successRestaurant", "Successfully added Restaurant");
+		}catch(Exception e){
+			Logger.error("Admin " +Session.getCurrentUser(ctx()).email +" just failed to create restaurant "
+					+ nameOfRestaurant +"\nError message: " +e.getMessage());
+			flash("failRestaurant", "Failed to create restaurant");
+			return redirect("/admin/create");
+		}
 		
-		User.createRestaurant(nameOfRestaurant, email, password);	
-		flash("successRestaurant", "Successfully added Restaurant");
 		return redirect("/admin/create");
 
 	}
@@ -40,20 +52,35 @@ public class SudoController extends Controller{
 	public static Result deleteRestaurant(int id){
 		Restaurant r = Restaurant.find(id);
 		User u = r.user;
+		//For logger.
+		String resName = r.name;
+		String userMail = u.email;
+		
 		List<Meal> allMeals = Meal.allById(u);
 		
 		for(Meal m: allMeals){
 			m.restaurant = null;
-			Meal.delete(m);
+			//Deleting meals. Using try catch for logging errors.
+			try{	
+				Meal.delete(m);
+			}catch(Exception e){
+				Logger.error("Failed to delete meal " +m.id +": "
+					+m.name +".\nError message: " +e.getMessage());
+			}
 		}
 		r.user = null;
 		u.restaurant = null;
 		r.save();		
 		u.save();
-		
-		Restaurant.delete(id);
-		User.deleteUser(u);
-		flash("successDeleteRestaurant", "Restaurant successfully deleted");
+		try{
+			Restaurant.delete(id);
+			User.deleteUser(u);
+			Logger.info("Deleted restaurant " +resName +" and his owner " +userMail);
+			flash("successDeleteRestaurant", "Restaurant successfully deleted");
+		}catch(Exception e){
+			Logger.error("Failed to delete restaurant/user " +resName +", " +userMail);
+			flash("failDeleteRestaurant", "Restaurant failed to  delete");
+		}
 		return redirect("/admin/" +Session.getCurrentUser(ctx()).email);		
 	}
 	

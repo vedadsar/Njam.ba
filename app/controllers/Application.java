@@ -59,12 +59,8 @@ public class Application extends Controller {
 	}
 	
 	@Security.Authenticated(UserFilter.class)
-	public static Result user(String email){
-		
-		List <Meal> meals = findM.all();
-		List <Restaurant> restaurants = findR.all();
-		
-		User u = User.find(email);
+	public static Result user(String email){	
+		List <Restaurant> restaurants = findR.all();		
 		
 		return ok(user.render(email, restaurants));
 	}
