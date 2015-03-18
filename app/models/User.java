@@ -60,7 +60,7 @@ public class User extends Model {
 			u.save();
 			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());			
 			u.restaurant = r;
-			u.validated = true;
+			u.validated = false;
 			u.save();
 			r.save();
 			return true;

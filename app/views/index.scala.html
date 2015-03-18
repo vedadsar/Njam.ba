@@ -75,12 +75,13 @@
     
 </nav><!-- /.navbar -->
 
-        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") ){
+        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("successApprovedRestaurant")){
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
 		            @flash.get("success")
 		         	@flash.get("error")
 		         	@flash.get("errorLink")
+		         	@flash.get("successApprovedRestaurant")
 		             </div>
 	            	</div>
 	            	

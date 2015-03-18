@@ -48,6 +48,7 @@ public class SudoController extends Controller{
 		Restaurant.delete(id);
 		User.deleteUser(u);
 		flash("successDeleteRestaurant", "Restaurant successfully deleted");
+		
 		return redirect("/admin/" +Session.getCurrentUser(ctx()).email);		
 	}
 	
@@ -63,4 +64,19 @@ public class SudoController extends Controller{
 		return ok(admin.render(email,meals, restaurants));
 	}
 
+	
+	
+	public static Result approveRestaurant(int id){
+		
+		Restaurant restaurant = Restaurant.find(id);
+		
+		User userRestaurant = restaurant.user;
+				
+		userRestaurant.validated = true;
+		userRestaurant.update();
+		
+		flash("successApprovedRestaurant", "Restaurant successfully approved!");	
+		return redirect("/admin/" + id);
+		
+	}
 }

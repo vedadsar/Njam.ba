@@ -167,9 +167,9 @@ public class Application extends Controller {
 		Location restaurantLocatin = new Location(address, number, city, country);
 		
 		
-		flash("successSendRequest", "You have succesfully send request for restaurant registration!");
+		flash("successSendRequest", "You have succesfully send request for restaurant registration! Wait until admin contacts you!");
 		
-		return ok(registrationRestaurant.render(email));
+		return redirect("/");
 	}
 
 	/**
