@@ -15,6 +15,7 @@ public class SudoController extends Controller{
 
 	static Form<User> inputForm = new Form<User>(User.class);
 	static Form<Restaurant> inputR= new Form<Restaurant>(Restaurant.class);
+	static Form<Location> inputL= new Form<Location>(Location.class);
 
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
@@ -25,18 +26,16 @@ public class SudoController extends Controller{
 		
 		String email = inputForm.bindFromRequest().get().email;
 		String password = inputForm.bindFromRequest().get().hashedPassword;			
-		String nameOfRestaurant = inputR.bindFromRequest().get().name;
+		String nameOfRestaurant = inputR.bindFromRequest().get().name;		
 		
-		String street = inputR.bindFromRequest().get().street;
-		String number = inputR.bindFromRequest().get().number;
-		String city = inputR.bindFromRequest().get().city;
+		
 		
 		User.createRestaurant(nameOfRestaurant, email, password, street, number, city);	
 		flash("successRestaurant", "Successfully added Restaurant");
 		return redirect("/admin/create");
 
 	}
-	*/
+ 	*/
 	
 	
 	@Security.Authenticated(AdminFilter.class)

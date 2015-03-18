@@ -47,8 +47,8 @@ public class RestaurantController extends Controller {
 		
 		mealPrice = mealPrice.replace(',', '.');
 		Double price = Double.parseDouble(mealPrice);
-		
-		if (Meal.create(mealName, price) == true) {
+		Restaurant currentUser=u.restaurant;
+		if (Meal.create(mealName, price,currentUser) == true) {
 			String userEmail= Session.getCurrentUser(ctx()).email;
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");

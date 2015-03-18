@@ -29,6 +29,7 @@ GET     /restaurantProfile/:name                 controllers.Application.toResta
 GET     /login                      controllers.Application.toLogin()
 POST	/login       		        controllers.Application.login()
 GET		/user/:email				controllers.Application.toUser(email: String)
+POST    /user/:email                controllers.Application.editUser(email: String)
 GET     /logout                     controllers.Application.logout()
 GET     /confirm/:confirmationString                 controllers.Validate.validateEmail(confirmationString: String)
 
