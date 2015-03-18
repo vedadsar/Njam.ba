@@ -9,9 +9,10 @@ POST	/			                controllers.Application.registration()
 POST    /registrationRestaurant     controllers.Application.registrationRestaurant()
 GET     /registrationRestaurant     controllers.Application.toRegistrationRestaurant()
 
+POST    /contact                    controllers.ContactController.sendMail()
+GET     /contact                    controllers.ContactController.contacts()
 
 GET     /admin/:email               controllers.SudoController.administrator(email: String)
-
 
 POST 	/admin/delete/:id			controllers.SudoController.deleteRestaurant(id: Int)
 
