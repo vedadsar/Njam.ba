@@ -9,11 +9,11 @@ import models.Location;
 import models.Meal;
 import models.Restaurant;
 import models.User;
+import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
-import Utilites.AdminFilter;
 import Utilites.Session;
 import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
@@ -32,8 +32,7 @@ public class Application extends Controller {
 	 * 
 	 * @return
 	 */
-	public static Result index() {
-
+	public static Result index() {		
 		List <Meal> meals = findM.all();
 		List <Restaurant> restaurants = findR.all();
 		email = session("email");
@@ -59,13 +58,9 @@ public class Application extends Controller {
 	}
 	
 	@Security.Authenticated(UserFilter.class)
-	public static Result user(String email){
-		
-		List <Meal> meals = findM.all();
+	public static Result user(String email){		
 		List <Restaurant> restaurants = findR.all();
-		
-		User u = User.find(email);
-		
+				
 		return ok(user.render(email, restaurants));
 	}
 
@@ -122,7 +117,7 @@ public class Application extends Controller {
 		usr.location = loc;
 		loc.save();
 		usr.confirmationString = UUID.randomUUID().toString();
-		if (usr.checkIfExists(email) == true) {
+		if (User.checkIfExists(email) == true) {
 			flash("inDatabase",
 					Messages.get("User already exists - please confirm user or login"));
 			return redirect("/login");
@@ -132,7 +127,7 @@ public class Application extends Controller {
 		loc.update();
 		
 
-		if (usr.checkA(email, hashedPassword) == true) {
+		if (User.checkA(email, hashedPassword) == true) {
 			// First we need to create url and send confirmation mail to user
 			// (with url inside).
 			String urlString = "http://localhost:9000" + "/" + "confirm/"

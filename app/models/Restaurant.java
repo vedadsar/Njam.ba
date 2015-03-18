@@ -60,7 +60,7 @@ public class Restaurant extends Model{
 	public static boolean delete(int id){
 		Restaurant r = Restaurant.find(id);
 		r.delete();
-				if (find(id)!=null){
+		if (find(id)!=null){
 			return false;
 		}
 	    return true;
