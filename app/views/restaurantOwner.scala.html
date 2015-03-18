@@ -94,12 +94,12 @@
                     </div>
                 </div>
             </form>
-                @if(flash.get("successMeal") || flash.get("successEdited") ){
+                @if(flash.get("successMeal") || flash.get("successEdited") || flash.get("deletedMeal") ){
 							<div class="alert alert-success" role="alert">
 							<div class="container">
 								@flash.get("successMeal")
 								@flash.get("successEdited")
-								
+								@flash.get("deletedMeal")
 							</div>
 							</div>
 							}
@@ -128,7 +128,7 @@
                         <p>@meal.price KM</p>
                       
                         <form method="POST" action="@routes.RestaurantController.deleteMeal(meal.id)">
-                       		 <input type="submit" value="Delete" class="btn btn-danger btn-xs " />	 
+                       		 <input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Delete" class="btn btn-danger btn-xs " />	 
                        		 <a href="@routes.RestaurantController.editMealURL(meal.id)" class="btn btn-danger btn-xs " role="button">Edit</a> 
                        	 </form>                                    	   
                        

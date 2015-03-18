@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
+import com.avaje.ebean.annotation.CreatedTimestamp;
+
 import Utilites.*;
 import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.*;
@@ -21,11 +23,14 @@ public class User extends Model {
 	public String email;
 	@Required
 	@MinLength(6)
+	@MaxLength(16)
 	public String hashedPassword;
-    @DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+	@CreatedTimestamp
     public Date dateCreation;    
     @OneToOne(cascade=CascadeType.ALL)
     public Restaurant restaurant;
+	@OneToOne
+	public Location location;
     
     public String confirmationString;
     public Boolean validated = false;
@@ -41,12 +46,14 @@ public class User extends Model {
 	public User(String email, String clearPassword){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(clearPassword);
+		this.dateCreation = new Date();
 		this.role = USER;
 	}
 	
 	public User(String email, String password, String role){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(password);
+		this.dateCreation = new Date();
 		this.role = role;		
 	}
 	
@@ -193,6 +200,7 @@ public class User extends Model {
 		public static void delete( int id){
 			find.byId(id).delete();
 		}
+		
 		
 		/**
 		 * Method for listing all users ( not restaurants )

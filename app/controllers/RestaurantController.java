@@ -82,6 +82,7 @@ public class RestaurantController extends Controller {
 		}
 		
 		Meal.delete(m);
+		flash("deletedMeal", "You have successfully deleted your meal");
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	
