@@ -17,6 +17,7 @@ POST	/restaurantOwner/delete/:id		controllers.RestaurantController.deleteMeal(id
 GET     /restaurantOwner/editmeal/:id		controllers.RestaurantController.editMealURL(id: Int)
 POST    /restaurantOwner/editmeal/:id		controllers.RestaurantController.editMeal(id: Int)
 
+
 GET     /restaurantProfile/:name                 controllers.Application.toRestaurant(name: String)
 GET     /login                      controllers.Application.toLogin()
 POST	/login       		        controllers.Application.login()

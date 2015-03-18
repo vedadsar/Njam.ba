@@ -1,15 +1,25 @@
 package controllers;
 
+import Utilites.MailHelper;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
+
 import models.Meal;
 import models.Restaurant;
 import models.User;
+import play.Play;
 import play.data.Form;
 import play.i18n.Messages;
+import play.libs.F.Function;
+import play.libs.F.Promise;
+import play.libs.ws.WS;
+import play.libs.ws.WSResponse;
 import play.mvc.*;
 import views.html.*;
 import Utilites.AdminFilter;
@@ -196,14 +206,20 @@ public class Application extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
-	/**
-	 * Method taht goes to Public restaurant view
-	 * @return
-	 */
+/**
+ * Method that goes to the restorant view
+ * @param name
+ * @return
+ */
+	
+	
 	public static Result toRestaurant(String name){
 		Restaurant restaurant = Restaurant.findByName(name);
 		List <Meal> meals = findM.all();
 		return ok(restaurantProfile.render(name, meals));
 	}
 
+	
+	
+	
 }
