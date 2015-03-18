@@ -153,8 +153,6 @@ public class Application extends Controller {
 			
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
-				
-		User restaurantUser = new User (email, hashedPassword, "RESTAURANT");
 		
 		String name = form.data().get("name");
 		
@@ -164,7 +162,6 @@ public class Application extends Controller {
 		String city = form.data().get("city");
 		User.createRestaurant(name, email, hashedPassword, street, number, city);
 
-		Location restaurantLocatin = new Location(street, number, city);
 		
 		
 		
