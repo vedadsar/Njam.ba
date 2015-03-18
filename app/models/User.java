@@ -57,18 +57,14 @@ public class User extends Model {
 		this.role = role;		
 	}
 	
-	public static boolean createRestaurant(String name, String email, String password, String city, String adress, String number){
+	public static boolean createRestaurant(String name, String email, String password){
 		User check = find.where().eq("email", email).findUnique();
 		if(check != null){
 			return false;
 		} else {
 			User u  = new User(email, password, RESTAURANT);	
-			Location l = new Location(city, adress, number);
-			l.user = u;
 			u.save();
-			u.location = l;
-			l.save();
-			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());	
+			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());			
 			u.restaurant = r;
 			u.validated = true;
 			u.save();

@@ -198,9 +198,11 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result toRestaurant(String name){
+		
 		Restaurant restaurant = Restaurant.findByName(name);
-		List <Meal> meals = findM.all();
-		return ok(restaurantProfile.render(email, name, meals));
+		User restaurantUser = restaurant.user;
+		List<Meal> restaurantMeals = Meal.allById(restaurantUser);
+		return ok(restaurantProfile.render(email, name, restaurantMeals));
 	}
 	
 	

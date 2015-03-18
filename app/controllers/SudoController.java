@@ -25,12 +25,9 @@ public class SudoController extends Controller{
 	public static Result createRestaurant(){	
 		String email = inputForm.bindFromRequest().get().email;
 		String password = inputForm.bindFromRequest().get().hashedPassword;			
-		String nameOfRestaurant = inputR.bindFromRequest().get().name;
-		String city = inputL.bindFromRequest().get().city;
-		String street = inputL.bindFromRequest().get().street; 
-		String number = inputL.bindFromRequest().get().number;
+		String nameOfRestaurant = inputR.bindFromRequest().get().name;		
 		
-		User.createRestaurant(nameOfRestaurant, email, password, city, street, number);	
+		User.createRestaurant(nameOfRestaurant, email, password);	
 		flash("successRestaurant", "Successfully added Restaurant");
 		return redirect("/admin/create");
 
