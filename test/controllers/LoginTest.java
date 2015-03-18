@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import models.*;
 
 public class LoginTest extends WithApplication {
-
+/*
 	
 	@Before
 	public void setup(){
@@ -45,5 +45,5 @@ public class LoginTest extends WithApplication {
 		assertFalse(session(result).containsKey("email"));
 	}
 	
-	
+	*/
 }

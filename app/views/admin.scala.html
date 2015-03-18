@@ -101,11 +101,11 @@
       </ul>
       <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
      
-                    @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") ){
+                    @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")){
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
-		            @flash.get("successRestaurant")
 		         	@flash.get("successDeleteRestaurant")
+		         	@flash.get("successApprovedRestaurant")
 		             </div>
 	            	</div>
 	            	
@@ -138,7 +138,11 @@
                        <form method="POST" action="@routes.SudoController.deleteRestaurant(restaurant.id)">
                        	 <input type="submit" value="delete" class="btn btn-danger btn-xs pull-right" />	
                 
-                       </form>                        
+                       </form> 
+                       <form method="POST" action="@routes.SudoController.approveRestaurant(restaurant.id)">
+                       	 <input type="submit" value="approve" class="btn btn-default btn-xs pull-right" />	
+                
+                       </form>                       
                     
                       </thead></tr>
                         }
@@ -176,7 +180,6 @@
                   </div>
                   <div class="panel-body">
 
-                      <form class="form form-vertical" action="@routes.SudoController.createRestaurant" method = "POST" >
                        
                         <div class="control-group">
                           <label>Email</label>
@@ -194,15 +197,29 @@
                         </div> 
                              
                         <div class="control-group">
-                          <label>Name of Restaurant</label>
+                          <label>Street</label>
                           <div class="controls">
-                             <input type="text" class="form-control" id="name" name="name" minlength="3" maxlength="20" title="Maximum 20 chars" required>
+                             <input type="text" class="form-control" id="street" name="street" minlength="3" maxlength="20" title="Maximum 20 chars" required>
+                          </div>
+                        </div>  
+                        
+                        <div class="control-group">
+                          <label>Number</label>
+                          <div class="controls">
+                             <input type="text" class="form-control" id="city" name="city" minlength="3" maxlength="20" title="Maximum 20 chars" required>
                           </div>
                         </div>    
                           
                         
                         
                         
+                        
+                        <div class="control-group">
+                          <label>City</label>
+                          <div class="controls">
+                             <input type="text" class="form-control" id="city" name="city" minlength="3" maxlength="20" title="Maximum 20 chars" required>
+                          </div>
+                        </div>      
                         
                         <div class="control-group">
                             <label></label>

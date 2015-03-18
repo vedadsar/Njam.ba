@@ -20,18 +20,24 @@ public class SudoController extends Controller{
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 
-
+	/*
 	@Security.Authenticated(AdminFilter.class)
 	public static Result createRestaurant(){	
+		
 		String email = inputForm.bindFromRequest().get().email;
 		String password = inputForm.bindFromRequest().get().hashedPassword;			
 		String nameOfRestaurant = inputR.bindFromRequest().get().name;		
 		
-		User.createRestaurant(nameOfRestaurant, email, password);	
+		
+		
+		User.createRestaurant(nameOfRestaurant, email, password, street, number, city);	
 		flash("successRestaurant", "Successfully added Restaurant");
 		return redirect("/admin/create");
 
 	}
+ 	*/
+	
+	
 	@Security.Authenticated(AdminFilter.class)
 	public static Result deleteRestaurant(int id){
 		Restaurant r = Restaurant.find(id);
@@ -50,6 +56,7 @@ public class SudoController extends Controller{
 		Restaurant.delete(id);
 		User.deleteUser(u);
 		flash("successDeleteRestaurant", "Restaurant successfully deleted");
+		
 		return redirect("/admin/" +Session.getCurrentUser(ctx()).email);		
 	}
 	
@@ -65,4 +72,19 @@ public class SudoController extends Controller{
 		return ok(admin.render(email,meals, restaurants));
 	}
 
+	
+	
+	public static Result approveRestaurant(int id){
+		
+		Restaurant restaurant = Restaurant.find(id);
+		
+		User userRestaurant = restaurant.user;
+				
+		userRestaurant.validated = true;
+		userRestaurant.update();
+		
+		flash("successApprovedRestaurant", "Restaurant successfully approved!");	
+		return redirect("/admin/" + id);
+		
+	}
 }

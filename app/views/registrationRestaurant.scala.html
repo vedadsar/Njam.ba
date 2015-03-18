@@ -1,0 +1,150 @@
+@(email: String)
+
+@main("Registration") {
+
+<body>
+<!-- new navbar -->
+<nav class="navbar navbar-static" style="background-color:#111;color:#fff;" >
+   <div class="container">
+    <div class="navbar-header" >
+      <a class="navbar-brand" href="/" target="ext"><b>Home</b></a>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+      </a>
+    </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">  
+          <!--           
+          <li><a href="#">Meals</a></li>  
+          <li><a href="#">Restaurants</a></li>
+            -->
+          
+        </ul>
+        <ul class="nav navbar-right navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search  <i class="glyphicon glyphicon-search"></i></a>
+            <ul class="dropdown-menu" style="padding:12px;">
+                <form class="form-inline">
+     				<button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button><input type="text" class="form-control pull-left" placeholder="Search">
+                </form>
+             </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile  <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+            
+              <li><a href="@routes.Application.login">Login</a></li>
+             </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav><!-- /.navbar -->
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<div class="page-header">
+				<h1>
+					Njam.ba <small>Registration of restaurants</small>
+				</h1>
+			</div>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-3 column">
+			 <a href="/" class="btn btn-primary" type="button"> Back</a>
+		</div>
+		<div class="col-md-6 column">
+			<form action="@routes.Application.registrationRestaurant" method="POST" class="form-horizontal" role="form">
+				<div class="form-group">
+					 <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+					<div class="col-sm-10">
+						<input type="email" class="form-control" id="email" name="email" required>
+						<p class="help-block">Please provide your E-mail</p>
+					</div>
+				</div>
+				<div class="form-group">
+					 <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+					<div class="col-sm-10">
+						<input type="password" class="form-control" id="hashedPassword" name="hashedPassword" pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+						 <p class="help-block">Password should be at least 6, maximum 16 characters (UpperCase, LowerCase, Number/SpecialChar)</p>
+					</div>
+				</div>
+			
+				<div class="form-group">
+					 <label for="inputName3" class="col-sm-2 control-label">Name</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="name" name="name" pattern=".{3,20}" required title="3 to 20 characters">
+						<p class="help-block">Password should be at least 3, maximum 20 characters </p>
+					</div>
+				</div>
+			
+			
+			<!-- Address-->
+				<!-- Text input-->
+          
+          <!-- Text input-->
+          
+          
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">Street</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Street Address" class="form-control" id="street" name="street" required>
+            </div>
+          </div>
+          
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">Number</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Number" class="form-control" id="number" name="number" required>
+            </div>
+          </div>
+
+<div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">City</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="City" class="form-control" id="city" name="city" required>
+            </div>
+          </div>
+          
+			<!-- 
+            <label class="col-sm-2 control-label" for="textinput">Postcode</label>
+            <div class="col-sm-4">
+              <input type="text" placeholder="Post Code" class="form-control" id="postcode" name="postcode" required>
+            </div>
+          </div>
+           -->
+          
+          <!-- /Address-->
+				
+				
+				
+				@if(flash.get("successSendRequest") ){
+		           <div class="alert alert-success" role="alert">
+		           <div class="container">
+		            @flash.get("successSendRequest")
+		           	
+		             </div>
+	            	</div>
+	              }
+	              
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						 <button type="submit" class="btn btn-default">Register</button>
+						 <button type="submit" class="btn btn-default">Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-3 text-right column">
+			<p>Already member?<a href="/login" class="btn btn-link" type="button">Log in</a></p>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+	
+	
+}

@@ -149,6 +149,36 @@ public class Application extends Controller {
 		}
 	}
 	
+	public static Result toRegistrationRestaurant(){		
+		return ok(registrationRestaurant.render(email));
+	}
+	
+	
+	public static Result registrationRestaurant(){
+		DynamicForm form = Form.form().bindFromRequest();	
+			
+		String email = form.data().get("email");
+		String hashedPassword = form.data().get("hashedPassword");
+				
+		User restaurantUser = new User (email, hashedPassword, "RESTAURANT");
+		
+		String name = form.data().get("name");
+		
+		
+		String street = form.data().get("street");
+		String number = form.data().get("number");
+		String city = form.data().get("city");
+		User.createRestaurant(name, email, hashedPassword, street, number, city);
+
+		Location restaurantLocatin = new Location(street, number, city);
+		
+		
+		
+		
+		flash("successSendRequest", "You have succesfully send request for restaurant registration! Wait until admin contacts you!");
+		
+		return redirect("/");
+	}
 
 	/**
 	 * This method logs in user. If user exists, method will redirect to user
