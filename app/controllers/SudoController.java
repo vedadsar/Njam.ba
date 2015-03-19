@@ -80,6 +80,7 @@ public class SudoController extends Controller{
 
 		try{
 			Restaurant.delete(id);
+			Location.delete(id);
 			User.deleteUser(u);
 			Logger.info("Deleted restaurant " +resName +" and his owner " +userMail);
 			flash("successDeleteRestaurant", "Restaurant successfully deleted");

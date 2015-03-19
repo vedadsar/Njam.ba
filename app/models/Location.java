@@ -64,7 +64,7 @@ public class Location extends Model {
 	public static boolean delete(int id){
 		Location l = Location.findByID(id);
 		l.delete();
-				if (findByID(id)!=null){
+		if (findByID(id)!=null){
 			return false;
 		}
 	    return true;
