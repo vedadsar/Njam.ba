@@ -32,6 +32,7 @@ POST    /user/:email                controllers.Application.editUser(email: Stri
 GET     /logout                     controllers.Application.logout()
 GET     /confirm/:confirmationString                 controllers.Validate.validateEmail(confirmationString: String)
 
+GET     /faqPage                    controllers.Application.showFaq()
 POST    /admin/faq                  controllers.FaqController.create()
 
 # Map static resources from the /public folder to the /assets URL path

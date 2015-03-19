@@ -26,6 +26,7 @@ public class SudoController extends Controller{
 
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+	static Finder<Integer, Faq> findF =  new Finder<Integer,Faq>(Integer.class, Faq.class);
 
 		
 	
@@ -75,7 +76,9 @@ public class SudoController extends Controller{
 		List<Meal> meals = findM.all(); 
 		List<Restaurant> restaurants = findR.all();
 		List<String> logs = lastLogs();
-		return ok(admin.render(email,meals, restaurants, logs));
+		List <Faq> faqs = findF.all();
+
+		return ok(admin.render(email,meals, restaurants, logs, faqs));
 	}
 	
 	@Security.Authenticated(AdminFilter.class)
