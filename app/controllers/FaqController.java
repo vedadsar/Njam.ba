@@ -9,7 +9,10 @@ import Utilites.AdminFilter;
 public class FaqController extends Controller {
 	
 	
-	
+	/**
+	 * 
+	 * @return
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result create() {
 		
