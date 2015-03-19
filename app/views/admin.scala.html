@@ -64,11 +64,13 @@
    </div>
    <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
    <hr>
-      @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")){
+      @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")  || flash.get("successFaq")){
    <div class="alert alert-success" role="alert">
       <div class="container">
          @flash.get("successDeleteRestaurant")
          @flash.get("successApprovedRestaurant")
+         @flash.get("successFaq")
+         
       </div>
    </div>
    }
@@ -134,19 +136,21 @@
       </div>
       <!--/col-->
       <div class="col-md-4">
+      <form action="@routes.FaqController.create" method="POST">
          <div class="panel panel-primary">
+         
             <div class="panel-heading">Add FAQ</div>
             <div class="panel-body">
                <div class="control-group">
                   <label>Question</label>
                   <div class="controls">
-                     <input type="text" class="form-control" id="street" name="street" minlength="3" maxlength="20" title="Maximum 20 chars" required>
+                     <input type="text" class="form-control" id="question" name="question" minlength="3" maxlength="50" title="Maximum 20 chars" required>
                   </div>
                </div>
                <div class="control-group">
                   <label>Answer</label>
                   <div class="controls">
-                     <textarea rows="5" cols="49" name="answer"></textarea>
+                     <textarea rows="5" cols="49" name="answer" minlength="1" ></textarea>
                   </div>
                </div>
                <div class="control-group">
