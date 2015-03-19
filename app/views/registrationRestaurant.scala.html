@@ -1,45 +1,9 @@
 @(email: String)
 
-@main("Registration") {
+@main(email) {
 
 <body>
-<!-- new navbar -->
-<nav class="navbar navbar-static" style="background-color:#111;color:#fff;" >
-   <div class="container">
-    <div class="navbar-header" >
-      <a class="navbar-brand" href="/" target="ext"><b>Home</b></a>
-      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="glyphicon glyphicon-chevron-down"></span>
-      </a>
-    </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">  
-          <!--           
-          <li><a href="#">Meals</a></li>  
-          <li><a href="#">Restaurants</a></li>
-            -->
-          
-        </ul>
-        <ul class="nav navbar-right navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search  <i class="glyphicon glyphicon-search"></i></a>
-            <ul class="dropdown-menu" style="padding:12px;">
-                <form class="form-inline">
-     				<button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button><input type="text" class="form-control pull-left" placeholder="Search">
-                </form>
-             </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile  <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
-            <ul class="dropdown-menu">
-            
-              <li><a href="@routes.Application.login">Login</a></li>
-             </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-</nav><!-- /.navbar -->
+
 
 <div class="container">
 	<div class="row clearfix">
@@ -88,24 +52,24 @@
           
           
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Street</label>
+            <label class="col-sm-2 control-label" for="textinput">City</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Street Address" class="form-control" id="street" name="street" required>
+              <input type="text" placeholder="City" class="form-control" id="city" name="city" pattern=".{2,20}" required>
             </div>
           </div>
           
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Number</label>
+            <label class="col-sm-2 control-label" for="textinput">Street</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Number" class="form-control" id="number" name="number" required>
+              <input type="text" placeholder="Street" class="form-control" id="street" name="street" pattern=".{3,30}" required>
             </div>
           </div>
 
 <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">City</label>
+            <label class="col-sm-2 control-label" for="textinput">Number</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="City" class="form-control" id="city" name="city" required>
+              <input type="text" placeholder="City" class="form-control" id="number" name="number" pattern=".{1,10}" required>
             </div>
           </div>
           
@@ -118,8 +82,7 @@
            -->
           
           <!-- /Address-->
-				
-				
+	
 				
 				@if(flash.get("successSendRequest") ){
 		           <div class="alert alert-success" role="alert">

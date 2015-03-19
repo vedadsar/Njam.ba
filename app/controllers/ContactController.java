@@ -1,6 +1,7 @@
 package controllers;
 
 import Utilites.MailHelper;
+import Utilites.Session;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -40,7 +41,7 @@ public class ContactController extends Controller{
 	 * @return contact form view.
 	 */
 	public static Result contacts(){
-		return ok(contact.render(new Form<Contact>(Contact.class)));
+		return ok(contact.render(new Form<Contact>(Contact.class), Session.getCurrentUser(ctx()).email));
 	}
 	
 	/**
@@ -82,8 +83,8 @@ public class ContactController extends Controller{
 							return redirect("/contact");
 						} else {
 							flash("error", "There has been a problem");
-							return ok(contact.render(submit));
-
+							return ok(contact.render(submit, Session.getCurrentUser(ctx()).email));
+						
 						}
 					}
 				});
