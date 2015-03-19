@@ -82,7 +82,7 @@ public class ContactController extends Controller{
 							String message = newMessage.message;
 
 							flash("success", "Message sent");
-							MailHelper.send(email, message);
+							MailHelper.sendSudo(email,title, message);
 							email = session("email");
 							return redirect("/contact");
 						} else {
