@@ -171,17 +171,14 @@ public class SudoController extends Controller{
 		return lastLogs;
 	}
 	
-	public static Result approveRestaurant(int id){
-		
-		Restaurant restaurant = Restaurant.find(id);
-		
-		User userRestaurant = restaurant.user;
-				
+	public static Result approveRestaurant(int id){		
+		Restaurant restaurant = Restaurant.find(id);		
+		User userRestaurant = restaurant.user;				
 		userRestaurant.validated = true;
 		userRestaurant.update();
 		
+		Logger.info("Restaurant " +restaurant.name +" has been approved!");
 		flash("successApprovedRestaurant", "Restaurant successfully approved!");	
-		return redirect("/admin/" + id);
-		
+		return redirect("/admin/" + id);		
 	}
 }

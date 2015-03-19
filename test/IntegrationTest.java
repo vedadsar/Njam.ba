@@ -43,7 +43,7 @@ public class IntegrationTest {
 				browser.submit("#register");
 				
 				
-				assertThat(browser.pageSource()).contains("Njam.ba");
+				assertThat(browser.pageSource()).contains("Please check your email");
 			}
  		
   	
