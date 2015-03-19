@@ -10,6 +10,13 @@ create table comment (
   content                   varchar(255))
 ;
 
+create table faq (
+  id                        integer not null,
+  question                  varchar(255),
+  answer                    varchar(255),
+  constraint pk_faq primary key (id))
+;
+
 create table location (
   id                        integer not null,
   city                      varchar(255),
@@ -49,6 +56,8 @@ create table user (
   constraint pk_user primary key (id))
 ;
 
+create sequence faq_seq;
+
 create sequence location_seq;
 
 create sequence meal_seq;
@@ -78,6 +87,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists comment;
 
+drop table if exists faq;
+
 drop table if exists location;
 
 drop table if exists meal;
@@ -87,6 +98,8 @@ drop table if exists restaurant;
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists faq_seq;
 
 drop sequence if exists location_seq;
 
