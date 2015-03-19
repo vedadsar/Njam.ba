@@ -9,6 +9,7 @@ import models.Location;
 import models.Meal;
 import models.Restaurant;
 import models.User;
+import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.*;
@@ -118,7 +119,7 @@ public class Application extends Controller {
 		usr.location = loc;
 		loc.save();
 		usr.confirmationString = UUID.randomUUID().toString();
-		if (usr.checkIfExists(email) == true) {
+		if (User.checkIfExists(email) == true) {
 			flash("inDatabase",
 					Messages.get("User already exists - please confirm user or login"));
 			return redirect("/login");
@@ -128,7 +129,7 @@ public class Application extends Controller {
 		loc.update();
 		
 
-		if (usr.checkA(email, hashedPassword) == true) {
+		if (User.checkA(email, hashedPassword) == true) {
 			// First we need to create url and send confirmation mail to user
 			// (with url inside).
 			String urlString = "http://localhost:9000" + "/" + "confirm/"
@@ -139,6 +140,7 @@ public class Application extends Controller {
 				return redirect("/");
 			}
 			flash("validate", Messages.get("Please check your email"));
+			Logger.info("User with email " +email +" registred. Verification email has been sent!");
 			return redirect("/registration");
 		} else {
 			return redirect("/registration");
@@ -162,13 +164,13 @@ public class Application extends Controller {
 		String street = form.data().get("street");
 		String number = form.data().get("number");
 		String city = form.data().get("city");
-		User.createRestaurant(name, email, hashedPassword, street, number, city);
-
-		
-		
-		
-		
-		flash("successSendRequest", "You have succesfully send request for restaurant registration! Wait until admin contacts you!");
+		try{
+			User.createRestaurant(name, email, hashedPassword, street, number, city);
+			Logger.info("Restaurant " +name +" with email " +email +" registred. Visit admin panel to approve.");
+			flash("successSendRequest", "You have succesfully send request for restaurant registration! Wait until admin contacts you!");
+		}catch(Exception e){
+			Logger.error("Restaurant " +name +" with email" +email +" failed to register.");
+		}			
 		
 		return redirect("/");
 	}
@@ -250,6 +252,7 @@ public class Application extends Controller {
 		currentUser.location.update();
 		currentUser.update();
 		
+		Logger.info("User with email " +currentUser.email +" jsut edited his info!" );
 		flash("successUpdate", "You have successfully updated contact information");
 		return redirect("/user/" + email);
 	}
