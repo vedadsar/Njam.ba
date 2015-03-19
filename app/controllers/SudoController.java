@@ -9,9 +9,11 @@ import play.mvc.Security;
 import views.html.*;
 import play.db.ebean.Model.Finder;
 import Utilites.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -97,10 +99,8 @@ public class SudoController extends Controller{
 
 		List<Meal> meals = findM.all(); 
 		List<Restaurant> restaurants = findR.all();
-
-		User u = User.find(email);
-
-		return ok(admin.render(email,meals, restaurants));
+		List<String> logs = lastLogs();
+		return ok(admin.render(email,meals, restaurants, logs));
 	}
 	
 	@Security.Authenticated(AdminFilter.class)
@@ -148,7 +148,29 @@ public class SudoController extends Controller{
 		}	
 		return listOfLogs;
 	}
-
+	
+	/**
+	 * Method which takes all logs and give us only 10 last logs.
+	 * @return
+	 */
+	public static List<String> lastLogs(){
+		List<String> allLogs = logList();
+		List<String> lastLogs = new ArrayList<String>();
+		Iterator<String> it = allLogs.iterator();
+		int arraySize = allLogs.size();
+		int idx = 0;
+		
+		while(it.hasNext()){
+			if(idx + 10 < arraySize){
+				idx ++;
+				it.next();
+				continue;
+			}
+			lastLogs.add(it.next());			
+		}
+		
+		return lastLogs;
+	}
 	
 	
 	public static Result approveRestaurant(int id){

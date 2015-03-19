@@ -13,7 +13,6 @@ import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
-import Utilites.AdminFilter;
 import Utilites.Session;
 import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
@@ -53,7 +52,8 @@ public class Application extends Controller {
 			return redirect("restaurantOwner/" + email);
 		}
 		if(u.role.equals(User.ADMIN)){
-			return ok(admin.render(email, meals, restaurants));
+			List<String> logs = SudoController.lastLogs();
+			return ok(admin.render(email, meals, restaurants, logs));
 		}
 		return ok(user.render(email, restaurants));
 	}
@@ -183,7 +183,7 @@ public class Application extends Controller {
 	public static Result login() {
 		List <Meal> meals = findM.all();
 		List <Restaurant> restaurants = findR.all();
-		
+		List<String> logs = SudoController.lastLogs();
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
 				return ok(restaurantOwner.render(email, meals, restaurants));
@@ -191,7 +191,7 @@ public class Application extends Controller {
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
-				return ok(admin.render(email, meals, restaurants));
+				return ok(admin.render(email, meals, restaurants, logs));
 		}
 		
 		
