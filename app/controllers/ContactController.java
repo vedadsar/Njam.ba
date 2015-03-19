@@ -25,6 +25,8 @@ import views.html.*;
  *
  */
 public class ContactController extends Controller{ 
+	
+	static String email = null;
 
 	public static class Contact {
 		@Required
@@ -41,7 +43,8 @@ public class ContactController extends Controller{
 	 * @return contact form view.
 	 */
 	public static Result contacts(){
-		return ok(contact.render(new Form<Contact>(Contact.class), Session.getCurrentUser(ctx()).email));
+		email = session("email");
+		return ok(contact.render(new Form<Contact>(Contact.class), email));
 	}
 	
 	/**
@@ -80,10 +83,11 @@ public class ContactController extends Controller{
 
 							flash("success", "Message sent");
 							MailHelper.send(email, message);
+							email = session("email");
 							return redirect("/contact");
 						} else {
 							flash("error", "There has been a problem");
-							return ok(contact.render(submit, Session.getCurrentUser(ctx()).email));
+							return ok(contact.render(submit, email));
 						
 						}
 					}
