@@ -149,10 +149,7 @@ public class SudoController extends Controller{
 		return listOfLogs;
 	}
 	
-	/**
-	 * Method which takes all logs and give us only 10 last logs.
-	 * @return
-	 */
+	/*	
 	public static List<String> lastLogs(){
 		List<String> allLogs = logList();
 		List<String> lastLogs = new ArrayList<String>();
@@ -163,6 +160,7 @@ public class SudoController extends Controller{
 		while(it.hasNext()){
 			if(idx + 10 < arraySize){
 				idx ++;
+				allLogs.
 				it.next();
 				continue;
 			}
@@ -170,8 +168,20 @@ public class SudoController extends Controller{
 		}
 		
 		return lastLogs;
-	}
+	}*/
 	
+	public static List<String> lastLogs(){
+		List<String> allLogs = logList();
+		ArrayList<String> lastLogs = new ArrayList<String>();		
+		int currentIdx = allLogs.size() -1;
+		
+		for(int i=0; i<10; i++){
+			String currentLog = allLogs.get(currentIdx);
+			lastLogs.add(currentLog);
+			currentIdx --;
+		}		
+		return lastLogs;
+	}
 	
 	public static Result approveRestaurant(int id){
 		
