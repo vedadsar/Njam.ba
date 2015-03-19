@@ -6,6 +6,7 @@ import java.util.List;
 import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
@@ -52,8 +53,10 @@ public class RestaurantController extends Controller {
 			String userEmail= Session.getCurrentUser(ctx()).email;
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");
+			 Logger.info("Restaurant " +currentUser.name +" just created meal");
 			 return redirect("/restaurantOwner/" + userEmail);
 		}
+		Logger.error("Restaurant " +currentUser.name +" failed to create meal.");
 		return TODO;
 	}
 
@@ -80,9 +83,13 @@ public class RestaurantController extends Controller {
 			}	
 			index++;
 		}
-		
-		Meal.delete(m);
-		flash("deletedMeal", "You have successfully deleted your meal");
+		try{
+			Meal.delete(m);
+			Logger.info("Restaurant " +r.name +" just deleted meal.");
+			flash("deletedMeal", "You have successfully deleted your meal");
+		}catch(Exception e){
+			Logger.info("Restaurant " +r.name +" just failed to delete meal.");
+		}
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	
@@ -107,9 +114,13 @@ public class RestaurantController extends Controller {
 		mealPrice = mealPrice.replace(',', '.');
 		Double price = Double.parseDouble(mealPrice);
 
-		
-		Meal.modifyMeal(oldMeal, mealName,price);
-		flash("successEdited", "You have successfully edited your meal");
+		try{
+			Meal.modifyMeal(oldMeal, mealName,price);
+			flash("successEdited", "You have successfully edited your meal");
+			Logger.info("User " +userEmail +" just edited meal " +oldMeal.id);
+		}catch(Exception e){
+			Logger.error("User " +userEmail +" failed to edit meal " +oldMeal.id);
+		}
 		return redirect("/restaurantOwner/" + userEmail);
 	}
 	
