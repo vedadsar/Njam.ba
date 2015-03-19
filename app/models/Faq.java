@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+
 import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
 
@@ -12,6 +13,7 @@ public class Faq extends Model {
 	@Required
 	public String question;
 	@Required
+	@Column(columnDefinition="TEXT")
 	public String answer;
 	
 	public static Finder<Integer, Faq> find = new Finder<Integer, Faq>(Integer.class, Faq.class);
