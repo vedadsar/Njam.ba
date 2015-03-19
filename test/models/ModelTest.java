@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.*;
 
+import Utilites.Hash;
 import play.test.WithApplication;
 import static org.junit.Assert.*;
 import static play.test.Helpers.*;
@@ -17,11 +18,11 @@ public class ModelTest extends WithApplication {
 	
 	@Test
 	public void testCreate(){
-		User.createUser("test@email.com", "test");
-		User u = User.find(1);
+		User.createUser("test@email.com", "123456");
+		User u = User.find(5);
 		assertNotNull(u);
 		assertEquals(u.email,"test@email.com");
-		assertEquals(u.hashedPassword, "test");
+		assertTrue( Hash.checkPassword("123456", Hash.hashPassword("123456")));
 	}
 	
 	@Test

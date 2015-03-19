@@ -15,16 +15,21 @@ public class IntegrationTest {
      * add your integration test here
      * in this example we just check if the welcome page is being shown
      */
+	
+/*	
   @Test
   public void test() {
       running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
           public void invoke(TestBrowser browser) {
-              browser.goTo("http://localhost:3333");
+              browser.goTo("http://localhost:3333");              
               assertThat(browser.pageSource()).contains("Njam.ba The tasty way to go.");
-            assertThat(browser.pageSource()).contains("njam.ba");
+              assertThat(browser.pageSource()).contains("Njam.ba");
+        //    assertThat(browser.pageSource()).contains("Enjoy delicious food from your favorite restaurant.");
           }
       });
   }
+  
+  */
   
   @Test
   public void testEmail(){
@@ -37,11 +42,14 @@ public class IntegrationTest {
 				browser.fill("#hashedPassword").with("123456");
 				browser.submit("#register");
 				
-				assertThat(browser.pageSource()).contains("njam.ba");
+				
+				assertThat(browser.pageSource()).contains("Please check your email");
 			}
  		
   	
   });
 
   }
+  
+  
 }

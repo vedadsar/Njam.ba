@@ -1,263 +1,193 @@
-@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])
-
-@main("Administrator") {
- 
- <body>
-<!-- Header -->
-<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">Home</a>
-      <a class="navbar-brand" href="#">Dashboard</a>
-    </div>
-    <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        
-        <li class="dropdown">
-          <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Admin <span class="caret"></span></a>
-          <ul id="g-account-menu" class="dropdown-menu" role="menu">
-            <li><a href="/admin/@email">My Profile</a></li>
-          </ul>
-        </li>
-        <li><a href="/logout"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
-      </ul>
-    </div>
-  </div><!-- /container -->
-</div>
-<!-- /Header -->
-
-<!-- Main -->
-<div class="container-fluid">
-<div class="row">
-	<div class="col-sm-3">
+@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])(logs: List[String])
+@main(email) {
+<body>
+   
+   <!-- Main -->
+   <div class="container-fluid">
+   <div class="row">
+   <div class="col-sm-2">
       <!-- Left column -->
       <a href="#"><strong><i class="glyphicon glyphicon-wrench"></i> Tools</strong></a>  
-      
       <hr>
-      
       <ul class="list-unstyled">
-        <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">
-          <h5>Settings <i class="glyphicon glyphicon-chevron-down"></i></h5>
-          </a>
+         <li class="nav-header">
+            <a href="#" data-toggle="collapse" data-target="#userMenu">
+               <h5>Settings <i class="glyphicon glyphicon-chevron-down"></i></h5>
+            </a>
             <ul class="list-unstyled collapse in" id="userMenu">
-                <li class="active"> <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge badge-info">4</span></a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Options</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Shoutbox</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-user"></i> Staff List</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-flag"></i> Transactions</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i> Rules</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+               <li class="active"> <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-envelope"></i> Messages <span class="badge badge-info">4</span></a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Options</a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Shoutbox</a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-user"></i> Staff List</a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-flag"></i> Transactions</a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i> Rules</a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
             </ul>
-        </li>
-        <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#menu2">
-          <h5>Reports <i class="glyphicon glyphicon-chevron-right"></i></h5>
-          </a>
-        
+         </li>
+         <li class="nav-header">
+            <a href="#" data-toggle="collapse" data-target="#menu2">
+               <h5>Reports <i class="glyphicon glyphicon-chevron-right"></i></h5>
+            </a>
             <ul class="list-unstyled collapse" id="menu2">
-                <li><a href="#">Information &amp; Stats</a>
-                </li>
-                <li><a href="#">Views</a>
-                </li>
-                <li><a href="#">Requests</a>
-                </li>
-                <li><a href="#">Timetable</a>
-                </li>
-                <li><a href="#">Alerts</a>
-                </li>
+               <li><a href="#">Information &amp; Stats</a>
+               </li>
+               <li><a href="#">Views</a>
+               </li>
+               <li><a href="#">Requests</a>
+               </li>
+               <li><a href="#">Timetable</a>
+               </li>
+               <li><a href="#">Alerts</a>
+               </li>
             </ul>
-        </li>
-        <li class="nav-header">
-        <a href="#" data-toggle="collapse" data-target="#menu3">
-          <h5>Social Media <i class="glyphicon glyphicon-chevron-right"></i></h5>
-          </a>
-        
+         </li>
+         <li class="nav-header">
+            <a href="#" data-toggle="collapse" data-target="#menu3">
+               <h5>Social Media <i class="glyphicon glyphicon-chevron-right"></i></h5>
+            </a>
             <ul class="list-unstyled collapse" id="menu3">
-                <li><a href="#"><i class="glyphicon glyphicon-circle"></i> Facebook</a></li>
-                <li><a href="#"><i class="glyphicon glyphicon-circle"></i> Twitter</a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-circle"></i> Facebook</a></li>
+               <li><a href="#"><i class="glyphicon glyphicon-circle"></i> Twitter</a></li>
             </ul>
-        </li>
+         </li>
       </ul>
-           
       <hr>
-      
       <a href="#"><strong><i class="glyphicon glyphicon-link"></i> Resources</strong></a>  
-      
-      
-  	</div><!-- /col-3 -->
-    <div class="col-sm-9">
-      	
-      <!-- column 2 -->	
-      <ul class="list-inline pull-right">
-         <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
-         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-comment"></i><span class="count">3</span></a><ul class="dropdown-menu" role="menu"><li><a href="#">1. Is there a way..</a></li><li><a href="#">2. Hello, admin. I would..</a></li><li><a href="#"><strong>All messages</strong></a></li></ul></li>
-         <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
-         <li><a title="Add Widget" data-toggle="modal" href="#addWidgetModal"><span class="glyphicon glyphicon-plus-sign"></span> Add Widget</a></li>
-      </ul>
-      <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
-     
-                    @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") ){
-		           <div class="alert alert-success" role="alert">
-		           <div class="container">
-		            @flash.get("successRestaurant")
-		         	@flash.get("successDeleteRestaurant")
-		             </div>
-	            	</div>
-	            	
-	              }
-	      
-      	<hr>
-      
-		<div class="row">
-           
-            
-          
-            <!-- center left-->	
-            
-         	<div class="col-md-8">
-         	
-			  <div class="well">Restaurant users <span class="badge pull-right">@restaurants.length</span></div>
-			  	
-					
-		 <div class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="panel panel-primary">
-            
-            <table class="table table-striped">
-                      <thead>
-                        <tr><th>ID</th><th>Restaurant's name</th><th>email</th>
-	              
-                      <tbody>  
-                      @for(restaurant <- restaurants){                    
-                        <tr><td>@restaurant.id</td><td>@restaurant.name</td><td>@restaurant.user.email</td><th>
-                       <form method="POST" action="@routes.SudoController.deleteRestaurant(restaurant.id)">
-                       	 <input type="submit" value="delete" class="btn btn-danger btn-xs pull-right" />	
-                
-                       </form>                        
-                    
-                      </thead></tr>
+   </div>
+   <!-- /col-3 -->
+   <div class="col-sm-10">
+   <!-- column 2 -->	
+   <div class="list-inline pull-right">
+      <button class="btn btn-success" type="button">Total restaurants <span class="badge">@restaurants.length</span></button>
+      <button class="btn btn-success" type="button">Total meals <span class="badge">@meals.length</span></button>
+   </div>
+   <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
+   <hr>
+      @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")){
+   <div class="alert alert-success" role="alert">
+      <div class="container">
+         @flash.get("successDeleteRestaurant")
+         @flash.get("successApprovedRestaurant")
+      </div>
+   </div>
+   }
+   <div class="row">
+      <!-- center left-->	
+      <div class="col-md-8">
+         <div class="row">
+            <div class="col-lg-12 col-md-12">
+               <div class="panel panel-primary">
+                  <div class="panel-heading">Restaurants</div>
+                  <table class="table table-striped">
+                     <thead>
+                        <tr>
+                           <th>ID</th>
+                           <th>Restaurant</th>
+                           <th>Email</th>
+                           <th>Status</th>
+                           <th>City</th>
+                           <th>Street</th>
+                           <th>Number</th>
+                           <th></th>
+                           <th></th>
+                     <tbody>
+                        @for(restaurant <- restaurants){                    
+                        <td>@restaurant.id</td>
+                        <td>@restaurant.name</td>
+                        <td>@restaurant.user.email</td>
+                        <td>@restaurant.user.validated</td>
+                        <td>@restaurant.user.location.city</td>
+                        <td>@restaurant.user.location.street</td>
+                        <td>@restaurant.user.location.number</td>
+                        <td>
+                           <form method="POST" action="@routes.SudoController.deleteRestaurant(restaurant.id)">
+                           <input type="submit" onclick = "if (! confirm('Are you sure you want approve this restaurant?')) { return false; }" value="delete" class="btn btn-danger btn-xs " />	 
+                           </form>
+                        </td>
+                        @if(restaurant.user.validated == false){
+                        <td>
+                           <form method="POST" action="@routes.SudoController.approveRestaurant(restaurant.id)">
+                           <input type="submit" onclick = "if (! confirm('Are you sure you want approve this restaurant?')) { return false; }" value="approve" class="btn btn-default btn-xs " />	 
+                           </form>
+                        </td>
                         }
-                      </tbody>
-                      
-               	</table>
+                        </thead>
+                        </tr>
+                        }
+                     </tbody>
+                  </table>
+               </div>
+               <hr>
+               <div class="row">
+                  <div class="col-lg-12 col-md-12">
+                     <ul class="list-group">
+                        <a href="#" class="list-group-item active">System logs</a>
+                       @for(log <- logs){
+                        	<li class="list-group-item">@log</li>
+                        }
+                     </ul>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
-			
-              <hr>
-        <div class="well">Customers users <span class="badge pull-right">25</span></div>
-              
-              <div class="panel panel-default">
-                  <div class="panel-heading"><h4>New Requests</h4></div>
-                  <div class="panel-body">
-                    <div class="list-group">
-                    <a href="#" class="list-group-item active">Hosting virtual mailbox serv..</a>
-                    <a href="#" class="list-group-item">Dedicated server doesn't..</a>
-                    <a href="#" class="list-group-item">RHEL 6 install on new..</a>
-                    </div>
+         </div>
+      </div>
+      <!--/col-->
+      <div class="col-md-4">
+         <div class="panel panel-primary">
+            <div class="panel-heading">Add FAQ</div>
+            <div class="panel-body">
+               <div class="control-group">
+                  <label>Question</label>
+                  <div class="controls">
+                     <input type="text" class="form-control" id="street" name="street" minlength="3" maxlength="20" title="Maximum 20 chars" required>
                   </div>
-              </div>
-   
-          	</div><!--/col-->
-        	<div class="col-md-4">
-				<div class="panel panel-default">
-                  
-                  <div class="panel panel-default">
-                  <div class="panel-heading">
-                        <div class="panel-title">
-                      <i class="glyphicon glyphicon-wrench pull-right"></i>
-                        <h4>Add restaurant </h4>
-                        </div>
+               </div>
+               <div class="control-group">
+                  <label>Answer</label>
+                  <div class="controls">
+                     <textarea rows="5" cols="49" name="answer"></textarea>
                   </div>
-                  <div class="panel-body">
-
-                      <form class="form form-vertical" action="@routes.SudoController.createRestaurant" method = "POST" >
-                       
-                        <div class="control-group">
-                          <label>Email</label>
-                          <div class="controls">
-                           <input type="email" class="form-control" placeholder="email" name="email" id="email" minlength="7" maxlength="28" required>
-                          </div>
-                        </div>      
-                        
-                        <div class="control-group">
-                          <label>Password</label>
-                          <div class="controls">
-                            <input type="password" class="form-control" name="hashedPassword" id="hashedPassword" pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
-                          	<p class="help-block">Password should be at least 6, maximum 16 characters (UpperCase, LowerCase, Number/SpecialChar)</p>
-                          </div>
-                        </div> 
-                             
-                        <div class="control-group">
-                          <label>Name of Restaurant</label>
-                          <div class="controls">
-                             <input type="text" class="form-control" id="name" name="name" minlength="3" maxlength="20" title="Maximum 20 chars" required>
-                          </div>
-                        </div>    
-                        
-                        <div class="control-group">
-                            <label></label>
-                          <div class="controls">
-                          <button type="submit" class="btn btn-primary">
-                              Post
-                            </button>
-                          </div>
-                        </div>   
-                        
-                      </form>
-                
-                
-                  </div><!--/panel content-->
-                </div><!--/panel-->
-              
-                <table class="table table-striped">
-                      <thead>
-                        <tr><th>Number</th><th>Username</th><th>Restaurant's name</th></tr>
-                      </thead>
-                      <tbody>
-                        <tr><td>1</td><td>restoran@@njam.ba</td><td>Lovac</td></tr>
-                        
-                      </tbody>
-               	</table>
-              
-              	
-			
-</div>
-</div>
-<!-- /Main -->
-
-<footer class="text-center">This Bootstrap 3 dashboard layout is compliments of <a href="http://www.bootply.com/85850"><strong>Bootply.com</strong></a></footer>
-
-<div class="modal" id="addWidgetModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title">Add Widget</h4>
+               </div>
+               <div class="control-group">
+                  <label></label>
+                  <div class="controls">
+                     <button type="submit" class="btn btn-primary">
+                     Add
+                     </button>
+                  </div>
+               </div>
+               </form>
+            </div>
+            <!--/panel content-->
+         </div>
+         <!--/panel-->
       </div>
-      <div class="modal-body">
-        <p>Add a widget stuff here..</p>
+   </div>
+   <!-- /Main -->
+   <div class="modal" id="addWidgetModal">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+               <h4 class="modal-title">Add Widget</h4>
+            </div>
+            <div class="modal-body">
+               <p>Add a widget stuff here..</p>
+            </div>
+            <div class="modal-footer">
+               <a href="#" data-dismiss="modal" class="btn">Close</a>
+               <a href="#" class="btn btn-primary">Save changes</a>
+            </div>
+         </div>
+         <!-- /.modal-content -->
       </div>
-      <div class="modal-footer">
-        <a href="#" data-dismiss="modal" class="btn">Close</a>
-        <a href="#" class="btn btn-primary">Save changes</a>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dalog -->
-</div><!-- /.modal -->
-
-
-
-  
-	<!-- script references -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/scripts.js"></script>
-	</body>
-		}
-	
+      <!-- /.modal-dalog -->
+   </div>
+   <!-- /.modal -->
+   <!-- script references -->
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/scripts.js"></script>
+</body>
+}
