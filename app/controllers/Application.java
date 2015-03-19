@@ -157,19 +157,13 @@ public class Application extends Controller {
 		String hashedPassword = form.data().get("hashedPassword");
 		
 		String name = form.data().get("name");
-		
-		
+
 		String street = form.data().get("street");
 		String number = form.data().get("number");
 		String city = form.data().get("city");
-		User.createRestaurant(name, email, hashedPassword, street, number, city);
-
-		
-		
-		
+		User.createRestaurant(name, email, hashedPassword, city, street, number);
 		
 		flash("successSendRequest", "You have succesfully send request for restaurant registration! Wait until admin contacts you!");
-		
 		return redirect("/");
 	}
 

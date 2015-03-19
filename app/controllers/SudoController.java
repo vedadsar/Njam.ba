@@ -181,7 +181,7 @@ public class SudoController extends Controller{
 		userRestaurant.update();
 		
 		flash("successApprovedRestaurant", "Restaurant successfully approved!");	
-		return redirect("/admin/" + id);
+		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 		
 	}
 }
