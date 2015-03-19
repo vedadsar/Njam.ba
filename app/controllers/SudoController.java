@@ -13,6 +13,7 @@ import Utilites.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -147,39 +148,26 @@ public class SudoController extends Controller{
 			sc.close();
 		}	
 		return listOfLogs;
-	}
+	}	
 	
-	/*	
-	public static List<String> lastLogs(){
-		List<String> allLogs = logList();
-		List<String> lastLogs = new ArrayList<String>();
-		Iterator<String> it = allLogs.iterator();
-		int arraySize = allLogs.size();
-		int idx = 0;
-		
-		while(it.hasNext()){
-			if(idx + 10 < arraySize){
-				idx ++;
-				allLogs.
-				it.next();
-				continue;
-			}
-			lastLogs.add(it.next());			
-		}
-		
-		return lastLogs;
-	}*/
 	
 	public static List<String> lastLogs(){
 		List<String> allLogs = logList();
 		ArrayList<String> lastLogs = new ArrayList<String>();		
-		int currentIdx = allLogs.size() -1;
+		int counter = 0;
 		
-		for(int i=0; i<10; i++){
-			String currentLog = allLogs.get(currentIdx);
-			lastLogs.add(currentLog);
-			currentIdx --;
+		if(allLogs.isEmpty())
+			return null;
+		
+		for(String log: allLogs){			
+			lastLogs.add(log);
+			counter++;						
+			if(counter >= 10)
+				break;
+		
 		}		
+		Collections.reverse(lastLogs);
+		
 		return lastLogs;
 	}
 	
