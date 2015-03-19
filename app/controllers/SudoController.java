@@ -24,15 +24,16 @@ public class SudoController extends Controller{
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 
-
+	/* Not using this method anymore.
 	@Security.Authenticated(AdminFilter.class)
 	public static Result createRestaurant(){	
+		
 		String email = inputForm.bindFromRequest().get().email;
 		String password = inputForm.bindFromRequest().get().hashedPassword;			
 		String nameOfRestaurant = inputR.bindFromRequest().get().name;		
 		/*
 		 * Trying to create restaurant. Using logger and flash.
-		 */
+		 *
 		try{
 			User.createRestaurant(nameOfRestaurant, email, password);	
 			Logger.info("Admin " +Session.getCurrentUser(ctx()).email +" just created restaurant "
@@ -43,11 +44,14 @@ public class SudoController extends Controller{
 					+ nameOfRestaurant +"\nError message: " +e.getMessage());
 			flash("failRestaurant", "Failed to create restaurant");
 			return redirect("/admin/create");
-		}
-		
+		}		
+
 		return redirect("/admin/create");
 
-	}
+	}*/
+ 	
+	
+	
 	@Security.Authenticated(AdminFilter.class)
 	public static Result deleteRestaurant(int id){
 		Restaurant r = Restaurant.find(id);
@@ -70,8 +74,10 @@ public class SudoController extends Controller{
 		}
 		r.user = null;
 		u.restaurant = null;
+		u.location = null;
 		r.save();		
 		u.save();
+
 		try{
 			Restaurant.delete(id);
 			User.deleteUser(u);
@@ -82,8 +88,8 @@ public class SudoController extends Controller{
 			flash("failDeleteRestaurant", "Restaurant failed to  delete");
 		}
 		return redirect("/admin/" +Session.getCurrentUser(ctx()).email);		
+
 	}
-	
 	
 	@Security.Authenticated(AdminFilter.class)
 	public static Result administrator(String email) {
@@ -142,4 +148,19 @@ public class SudoController extends Controller{
 		return listOfLogs;
 	}
 
+	
+	
+	public static Result approveRestaurant(int id){
+		
+		Restaurant restaurant = Restaurant.find(id);
+		
+		User userRestaurant = restaurant.user;
+				
+		userRestaurant.validated = true;
+		userRestaurant.update();
+		
+		flash("successApprovedRestaurant", "Restaurant successfully approved!");	
+		return redirect("/admin/" + id);
+		
+	}
 }

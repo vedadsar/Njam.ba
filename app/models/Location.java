@@ -12,22 +12,24 @@ import play.db.ebean.Model.Finder;
 public class Location extends Model {
 	
 	static Finder<Integer, Location> find =  new Finder<Integer, Location>(Integer.class, Location.class);
-	static Finder<Integer, Restaurant> findR =  new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
+
+	static Finder<Integer, Restaurant> findRestaurnt =  new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
 
 	@Id
-	public Integer id;
+	public Integer id;		
 	@Required
 	public String city;
 	@Required
 	public String street;
 	@Required
 	public String number;
+
 	
 	@OneToOne
 	public User user;
 	
 
-	public Location(String city, String street, String number){
+	public Location( String city,String street, String number){				
 		this.city = city;
 		this.street = street;
 		this.number = number;
@@ -36,6 +38,7 @@ public class Location extends Model {
 	
 	public static boolean create(int id, String city, String street, String number){
 		Location location = find.byId(id);
+
 		if(location != null){
 			return false;
 		} else {
@@ -58,7 +61,16 @@ public class Location extends Model {
 			return true;
 	}
 	
-
+	public static boolean delete(int id){
+		Location l = Location.findByID(id);
+		l.delete();
+				if (findByID(id)!=null){
+			return false;
+		}
+	    return true;
+	}
+	
+	
 	public static Location findByID(int id){
 		return find.byId(id);
 	}
@@ -80,6 +92,6 @@ public class Location extends Model {
 	}
 	
 	public static List <Restaurant> all(String city){
-		return findR.where().eq("city", city).findList();
+		return findRestaurnt.where().eq("city", city).findList();
 	}
 }

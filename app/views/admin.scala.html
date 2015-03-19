@@ -34,7 +34,7 @@
 <!-- Main -->
 <div class="container-fluid">
 <div class="row">
-	<div class="col-sm-3">
+	<div class="col-sm-2">
       <!-- Left column -->
       <a href="#"><strong><i class="glyphicon glyphicon-wrench"></i> Tools</strong></a>  
       
@@ -90,22 +90,20 @@
       
       
   	</div><!-- /col-3 -->
-    <div class="col-sm-9">
+    <div class="col-sm-10">
       	
       <!-- column 2 -->	
-      <ul class="list-inline pull-right">
-         <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
-         <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-comment"></i><span class="count">3</span></a><ul class="dropdown-menu" role="menu"><li><a href="#">1. Is there a way..</a></li><li><a href="#">2. Hello, admin. I would..</a></li><li><a href="#"><strong>All messages</strong></a></li></ul></li>
-         <li><a href="#"><i class="glyphicon glyphicon-user"></i></a></li>
-         <li><a title="Add Widget" data-toggle="modal" href="#addWidgetModal"><span class="glyphicon glyphicon-plus-sign"></span> Add Widget</a></li>
-      </ul>
+      <div class="list-inline pull-right">
+      <button class="btn btn-success" type="button">Total restaurants <span class="badge">@restaurants.length</span></button>
+      <button class="btn btn-success" type="button">Total meals <span class="badge">@meals.length</span></button>
+      </div>
       <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
      
-                    @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") ){
+                    @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")){
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
-		            @flash.get("successRestaurant")
 		         	@flash.get("successDeleteRestaurant")
+		         	@flash.get("successApprovedRestaurant")
 		             </div>
 	            	</div>
 	            	
@@ -120,95 +118,102 @@
             <!-- center left-->	
             
          	<div class="col-md-8">
-         	
-			  <div class="well">Restaurant users <span class="badge pull-right">@restaurants.length</span></div>
-			  	
-					
+		
 		 <div class="row">
         <div class="col-lg-12 col-md-12">
             <div class="panel panel-primary">
-            
+              <div class="panel-heading">Restaurants</div>
+
             <table class="table table-striped">
                       <thead>
-                        <tr><th>ID</th><th>Restaurant's name</th><th>email</th>
-	              
+                        <tr>
+                        <th>ID</th>
+                        <th>Restaurant</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>City</th>
+                        <th>Street</th>
+                         <th>Number</th>
+                         <th></th>
+                        <th></th>
+
                       <tbody>  
                       @for(restaurant <- restaurants){                    
-                        <tr><td>@restaurant.id</td><td>@restaurant.name</td><td>@restaurant.user.email</td><th>
-                       <form method="POST" action="@routes.SudoController.deleteRestaurant(restaurant.id)">
-                       	 <input type="submit" value="delete" class="btn btn-danger btn-xs pull-right" />	
-                
-                       </form>                        
-                    
-                      </thead></tr>
+                        <td>@restaurant.id</td>
+                        <td>@restaurant.name</td>
+                        <td>@restaurant.user.email</td>
+                        <td>@restaurant.user.validated</td>
+                        <td>@restaurant.user.location.city</td>
+                        <td>@restaurant.user.location.street</td>
+                        <td>@restaurant.user.location.number</td>
+                         <td><form method="POST" action="@routes.SudoController.deleteRestaurant(restaurant.id)">
+                       	 <input type="submit" value="delete" class="btn btn-danger btn-xs" />	
+                       	 </form></td>
+                       	 @if(restaurant.user.validated == false){
+                        <td> <form method="POST" action="@routes.SudoController.approveRestaurant(restaurant.id)">
+                       	 <input type="submit" value="approve" class="btn btn-default btn-xs" /></form>                       
+                        </td>
+                         }
+                      </thead>
+                      </tr>
                         }
                       </tbody>
                       
                	</table>
+               	
             </div>
+                           	              <hr>
+		
+		 			<div class="row">
+		        	 <div class="col-lg-12 col-md-12">
+		 
+                             <ul class="list-group">
+                               <a href="#" class="list-group-item active">System logs</a>
+                             
+ 			 <li class="list-group-item">Cras justo odio</li>
+  			<li class="list-group-item">Dapibus ac facilisis in</li>
+  			<li class="list-group-item">Morbi leo risus</li>
+ 			 <li class="list-group-item">Porta ac consectetur ac</li>
+  			<li class="list-group-item">Vestibulum at eros</li>
+			</ul>
+				</div>
+               
+               
+               </div>
+            
         </div>
     </div>
 			
-              <hr>
-        <div class="well">Customers users <span class="badge pull-right">25</span></div>
               
-              <div class="panel panel-default">
-                  <div class="panel-heading"><h4>New Requests</h4></div>
-                  <div class="panel-body">
-                    <div class="list-group">
-                    <a href="#" class="list-group-item active">Hosting virtual mailbox serv..</a>
-                    <a href="#" class="list-group-item">Dedicated server doesn't..</a>
-                    <a href="#" class="list-group-item">RHEL 6 install on new..</a>
-                    </div>
-                  </div>
-              </div>
    
           	</div><!--/col-->
         	<div class="col-md-4">
-				<div class="panel panel-default">
                   
-                  <div class="panel panel-default">
-                  <div class="panel-heading">
-                        <div class="panel-title">
-                      <i class="glyphicon glyphicon-wrench pull-right"></i>
-                        <h4>Add restaurant </h4>
-                        </div>
-                  </div>
+                  <div class="panel panel-primary">
+              <div class="panel-heading">Add FAQ</div>
                   <div class="panel-body">
 
-                      <form class="form form-vertical" action="@routes.SudoController.createRestaurant" method = "POST" >
                        
                         <div class="control-group">
-                          <label>Email</label>
+                          <label>Question</label>
                           <div class="controls">
-                           <input type="email" class="form-control" placeholder="email" name="email" id="email" minlength="7" maxlength="28" required>
+                             <input type="text" class="form-control" id="street" name="street" minlength="3" maxlength="20" title="Maximum 20 chars" required>
                           </div>
-                        </div>      
+                        </div>  
                         
                         <div class="control-group">
-                          <label>Password</label>
+                          <label>Answer</label>
                           <div class="controls">
-                            <input type="password" class="form-control" name="hashedPassword" id="hashedPassword" pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
-                          	<p class="help-block">Password should be at least 6, maximum 16 characters (UpperCase, LowerCase, Number/SpecialChar)</p>
-                          </div>
-                        </div> 
-                             
-                        <div class="control-group">
-                          <label>Name of Restaurant</label>
-                          <div class="controls">
-                             <input type="text" class="form-control" id="name" name="name" minlength="3" maxlength="20" title="Maximum 20 chars" required>
+                             <textarea rows="5" cols="49" name="answer"></textarea>
+                  
                           </div>
                         </div>    
-                          
-                        
-                        
-                        
                         
                         <div class="control-group">
                             <label></label>
                           <div class="controls">
                           <button type="submit" class="btn btn-primary">
-                              Post
+                              Send
                             </button>
                           </div>
                         </div>   
@@ -219,23 +224,11 @@
                   </div><!--/panel content-->
                 </div><!--/panel-->
               
-                <table class="table table-striped">
-                      <thead>
-                        <tr><th>Number</th><th>Username</th><th>Restaurant's name</th></tr>
-                      </thead>
-                      <tbody>
-                        <tr><td>1</td><td>restoran@@njam.ba</td><td>Lovac</td></tr>
-                        
-                      </tbody>
-               	</table>
               
-              	
-			
 </div>
 </div>
 <!-- /Main -->
 
-<footer class="text-center">This Bootstrap 3 dashboard layout is compliments of <a href="http://www.bootply.com/85850"><strong>Bootply.com</strong></a></footer>
 
 <div class="modal" id="addWidgetModal">
   <div class="modal-dialog">
