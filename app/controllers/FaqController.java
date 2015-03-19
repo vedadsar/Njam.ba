@@ -6,36 +6,71 @@ import play.data.DynamicForm;
 import play.data.Form;
 import Utilites.AdminFilter;
 
+/**
+ * 
+ * @author neldindzekovic
+ *
+ */
 public class FaqController extends Controller {
 	
 	
+	
 	/**
-	 * 
-	 * @return
+	 * This method creates new FAQ.
+	 * @return Redirects to FAQ page.
 	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result create() {
+		DynamicForm inputForm = Form.form().bindFromRequest();
 		
-		DynamicForm form = Form.form().bindFromRequest();
-		String question = form.data().get("question");
-		String answer = form.data().get("answer");
+		String question = inputForm.data().get("question");
+		String answer = inputForm.data().get("answer");
 		
 		boolean success = Faq.create(question, answer);
 		
 		if (success == true) {
 			flash("successFaq", "Succesfuly created FAQ!");
-			return redirect("/admin/");
+			return redirect("/admin");
 		}
 		
 		flash("failFaq", "Creating FAQ failed!");
-		return redirect("/admin/");
+		return redirect("/admin");
 	}
 	
+	/**
+	 * This method deletes FAQ.
+	 * @param id Id of FAQ to delete.
+	 * @return Redirects to FAQ page.
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result delete(int id) {
 		Faq.delete(id);
 		flash("deleteFaq", "Succesfuly deleted FAQ!");
-		return redirect("/admin/faq");
+		return redirect("/admin");
+	}
+	
+	/**
+	 * This method edits FAQ.
+	 * @param id Id of FAQ to edit.
+	 * @return Redirects to FAQ page.
+	 */
+	@Security.Authenticated(AdminFilter.class)
+	public static Result edit(int id) {
+		DynamicForm inputForm = Form.form().bindFromRequest();
+		Faq f = Faq.findById(id);
+		String question = inputForm.data().get("question");
+		String answer = inputForm.data().get("answer");
+		
+		boolean success = Faq.edit(f, question, answer);
+		
+		if (success == true) {
+			flash("successEditFaq", "Succesfuly edited FAQ!");
+			return redirect("/admin");
+		}
+		
+		flash("failEditFaq", "Editing FAQ failed!");
+		return redirect("/admin");
 	}
 	
 }
+
