@@ -89,7 +89,8 @@
       <button class="btn btn-success" type="button">Total meals <span class="badge">@meals.length</span></button>
    </div>
    <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
-   @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")){
+   <hr>
+      @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")){
    <div class="alert alert-success" role="alert">
       <div class="container">
          @flash.get("successDeleteRestaurant")
@@ -97,7 +98,6 @@
       </div>
    </div>
    }
-   <hr>
    <div class="row">
       <!-- center left-->	
       <div class="col-md-8">
@@ -128,7 +128,7 @@
                         <td>@restaurant.user.location.number</td>
                         <td>
                            <form method="POST" action="@routes.SudoController.deleteRestaurant(restaurant.id)">
-                              <input type="submit" value="delete" class="btn btn-danger btn-xs" />	
+                           <input type="submit" onclick = "if (! confirm('Are you sure you want delete this restaurant?')) { return false; }" value="delete" class="btn btn-danger btn-xs " />	 
                            </form>
                         </td>
                         @if(restaurant.user.validated == false){
