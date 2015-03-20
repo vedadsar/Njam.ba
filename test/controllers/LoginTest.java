@@ -2,8 +2,11 @@ package controllers;
 
 import org.junit.*;
 
+import Utilites.Session;
+
 import com.google.common.collect.ImmutableMap;
 
+import play.mvc.Content;
 import play.mvc.Result;
 import play.test.WithApplication;
 import static play.test.Helpers.*;
@@ -11,11 +14,11 @@ import static org.junit.Assert.*;
 import models.*;
 
 public class LoginTest extends WithApplication {
-/*
+
 	
 	@Before
 	public void setup(){
-		fakeApplication(inMemoryDatabase(), fakeGlobal());
+		fakeApplication(inMemoryDatabase());
 	}
 	
 	@Test
@@ -23,27 +26,54 @@ public class LoginTest extends WithApplication {
 		Result result = callAction(
 				controllers.routes.ref.Application.login(),
 				fakeRequest().withFormUrlEncodedBody( ImmutableMap.of(
-						"email", "restoran@njam.ba",
+						"email", "suad@suad.com",
 						"hashedPassword", "123456"
 						))
 				);
-		assertEquals(200, status(result));
-		assertEquals("restoran@njam.ba", session(result).get("email"));
+		assertEquals(303, status(result));
+		assertEquals("suad@suad.com", session(result).get("email"));
 	}
+	
 	
 	@Test
 	public void authenticateFail(){
 		Result result = callAction(
 				controllers.routes.ref.Application.login(),
 				fakeRequest().withFormUrlEncodedBody( ImmutableMap.of(
-						"email", "restoran@njam.ba",
-						"hashedPassword", "13456"
+						"email", "suad@suad.com",
+						"hashedPassword", "654321"
 						))
 				);
-		assertEquals(200, status(result));
+		assertEquals(303, status(result));
 		assertEquals(null, session(result).get("email"));
 		assertFalse(session(result).containsKey("email"));
 	}
 	
-	*/
+	@Test
+	public void registerRestaurant(){
+		Result result = callAction(
+				controllers.routes.ref.Application.registrationRestaurant(),
+				fakeRequest().withFormUrlEncodedBody( ImmutableMap.of(
+						"email", "testRestaurant@njam.ba",
+						"hashedPassword", "123456",
+						"name", "TEST",
+						"street", "Test street",
+						"number", "Test number"						
+				
+				)));
+		assertEquals(303, status(result));			
+	}
+	
+	@Test
+	public void approveRestaurant(){
+		Result result = callAction(
+				controllers.routes.ref.SudoController.approveRestaurant(1),
+				fakeRequest(POST, null ));
+		
+		assertEquals(303, status(result));		
+	}			
+	
+	
+	
+	
 }
