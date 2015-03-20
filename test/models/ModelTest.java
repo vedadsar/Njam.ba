@@ -65,7 +65,7 @@ public class ModelTest extends WithApplication  {
 	@Test
 	public void faqTest(){
 		Faq.create("Test question", "Test answer");
-		Faq f = Faq.find(1);
+		Faq f = Faq.find(2);
 		assertNotNull(f);
 		assertEquals(f.answer, "Test answer");
 		
