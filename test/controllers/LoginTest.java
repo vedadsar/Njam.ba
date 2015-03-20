@@ -2,8 +2,11 @@ package controllers;
 
 import org.junit.*;
 
+import Utilites.Session;
+
 import com.google.common.collect.ImmutableMap;
 
+import play.mvc.Content;
 import play.mvc.Result;
 import play.test.WithApplication;
 import static play.test.Helpers.*;
@@ -45,6 +48,32 @@ public class LoginTest extends WithApplication {
 		assertEquals(null, session(result).get("email"));
 		assertFalse(session(result).containsKey("email"));
 	}
+	
+	@Test
+	public void registerRestaurant(){
+		Result result = callAction(
+				controllers.routes.ref.Application.registrationRestaurant(),
+				fakeRequest().withFormUrlEncodedBody( ImmutableMap.of(
+						"email", "testRestaurant@njam.ba",
+						"hashedPassword", "123456",
+						"name", "TEST",
+						"street", "Test street",
+						"number", "Test number"						
+				
+				)));
+		assertEquals(303, status(result));			
+	}
+	
+	@Test
+	public void approveRestaurant(){
+		Result result = callAction(
+				controllers.routes.ref.SudoController.approveRestaurant(1),
+				fakeRequest(POST, null ));
+		
+		assertEquals(303, status(result));		
+	}			
+	
+	
 	
 	
 }
