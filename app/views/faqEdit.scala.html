@@ -1,0 +1,48 @@
+@(email: String)(faqs: Faq)
+@main(email) {
+
+<div class="container">
+<div class="row clearfix">
+   <div class="col-md-12 column">
+      <div class="page-header">
+         <h1>
+            Njam.ba <small>FAQ edit</small>
+         </h1>
+      </div>
+   </div>
+</div>
+<div class="row clearfix">
+   <div class="col-md-3 column">
+      <a href="/admin/@email"   class="btn btn-primary" type="button"> Back</a>
+   </div>
+   <div class="col-md-6 column">
+      <form class="form-horizontal" role="form" action="@routes.FaqController.editFaq(faqs.id)" method="POST">
+         <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">Question</label>
+            <div class="col-sm-10">
+               <input type="text" class="form-control" placeholder="Question" value="@faqs.question" name="question" id="question" required>				
+            </div>
+         </div>
+         <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">Answer</label>					
+            <div class="col-sm-10">
+             <textarea rows="5" cols="69" placeholder="Answer" name="answer" id="answer" >@faqs.answer</textarea>
+               <p class="help-block"></p>
+            </div>
+         </div>
+                                 <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                         <button type="submit" class="btn btn-default">Update FAQ</button>
+                         
+                    </div>
+                </div>
+         
+      </form>
+      </div>
+   </div>
+</div>
+
+</div>
+</body>
+</html>	
+}

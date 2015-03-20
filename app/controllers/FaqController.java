@@ -1,11 +1,25 @@
 package controllers;
 
-import play.mvc.*;
-import models.*;
-import play.data.DynamicForm;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.UUID;
+
+import models.Faq;
+import models.Location;
+import models.Meal;
+import models.Restaurant;
+import models.User;
+import play.Logger;
 import play.data.Form;
+import play.i18n.Messages;
+import play.mvc.*;
+import views.html.*;
 import Utilites.AdminFilter;
 import Utilites.Session;
+import play.data.DynamicForm;
+import play.db.ebean.Model.Finder;
+import Utilites.*;
 
 /**
  * 
@@ -52,30 +66,35 @@ public class FaqController extends Controller {
 
 		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 	}
-	
-	/**
-	 * This method edits FAQ.
-	 * @param id Id of FAQ to edit.
-	 * @return Redirects to FAQ page.
-	 */
+
 	@Security.Authenticated(AdminFilter.class)
-	public static Result edit(int id) {
+	public static Result editFaq(int id) {
 		DynamicForm inputForm = Form.form().bindFromRequest();
 		Faq f = Faq.findById(id);
 		String question = inputForm.data().get("question");
 		String answer = inputForm.data().get("answer");
 		
-		boolean success = Faq.edit(f, question, answer);
+		f.question = question;
+		f.answer = answer;
+		f.save();
 		
-		if (success == true) {
+//		boolean success = Faq.edit(f, question, answer);
+//		
+//		if (success == true) {
 			flash("successEditFaq", "Succesfuly edited FAQ!");
-			return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
-		}
-		
-		flash("failEditFaq", "Editing FAQ failed!");		
+			return redirect("/faqEdit/" + f.id);
+//		}
+//		
+//		flash("failEditFaq", "Editing FAQ failed!");		
+//
+//		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 
-		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
-
+	}
+	
+	public static Result showEditFaq(int id) {		
+		String userEmail= Session.getCurrentUser(ctx()).email;
+        Faq faqList = Faq.findById(id);
+		return ok(faqEdit.render(userEmail, faqList));
 	}
 }
 

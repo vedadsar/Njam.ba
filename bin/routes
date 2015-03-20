@@ -36,6 +36,10 @@ GET     /faqPage                    controllers.Application.showFaq()
 POST    /admin/faq                  controllers.FaqController.create()
 POST    /admin/faq/delete/:id       controllers.FaqController.delete(id: Int)
 
+GET     /faqEdit/:id                controllers.FaqController.showEditFaq(id: Int)
+POST    /faqEdit/:id                controllers.FaqController.editFaq(id: Int)
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET 	/webjars/*file 				controllers.WebJarAssets.at(file)
