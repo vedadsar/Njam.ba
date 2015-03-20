@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
+import models.Faq;
 import models.Location;
 import models.Meal;
 import models.Restaurant;
@@ -26,6 +27,7 @@ public class Application extends Controller {
 	static String email = null;
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
+	static Finder<Integer, Faq> findF =  new Finder<Integer,Faq>(Integer.class, Faq.class);
 
 	/**
 	 * This method just redirects to index page.
@@ -44,6 +46,7 @@ public class Application extends Controller {
 	public static Result toUser(String email){
 		List <Restaurant> restaurants = findR.all();
 		List <Meal> meals = findM.all();
+
 		String emailE = session().get("email");
 		if(emailE == null)
 			return redirect("/login");
@@ -54,16 +57,18 @@ public class Application extends Controller {
 		}
 		if(u.role.equals(User.ADMIN)){
 			List<String> logs = SudoController.lastLogs();
-			return ok(admin.render(email, meals, restaurants, logs));
+			List <Faq> faqs = findF.all();
+			
+			return ok(admin.render(email, meals, restaurants, logs, faqs));
 		}
-		return ok(user.render(email, restaurants));
+		return ok(user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 	
 	@Security.Authenticated(UserFilter.class)
 	public static Result user(String email){	
-		List <Restaurant> restaurants = findR.all();		
-		
-		return ok(user.render(email, restaurants));
+		List <Restaurant> restaurants = findR.all();	
+
+		return ok(user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 
 
@@ -186,6 +191,8 @@ public class Application extends Controller {
 		List <Meal> meals = findM.all();
 		List <Restaurant> restaurants = findR.all();
 		List<String> logs = SudoController.lastLogs();
+		List <Faq> faqs = findF.all();
+
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
 				return ok(restaurantOwner.render(email, meals, restaurants));
@@ -193,7 +200,7 @@ public class Application extends Controller {
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
-				return ok(admin.render(email, meals, restaurants, logs));
+				return ok(admin.render(email, meals, restaurants, logs, faqs));
 		}
 		
 		
@@ -256,6 +263,13 @@ public class Application extends Controller {
 		flash("successUpdate", "You have successfully updated contact information");
 		return redirect("/user/" + email);
 	}
+	
+	public static Result showFaq() {		
+		List <Faq> faqs = findF.all();
+		email = session("email");
+		return ok(faqPage.render(email, faqs));
+	}
+
 	
 	/**
 	 * 

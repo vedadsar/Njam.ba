@@ -12,6 +12,8 @@ import Utilites.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,6 +28,7 @@ public class SudoController extends Controller{
 
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+	static Finder<Integer, Faq> findF =  new Finder<Integer,Faq>(Integer.class, Faq.class);
 
 		
 	
@@ -75,7 +78,9 @@ public class SudoController extends Controller{
 		List<Meal> meals = findM.all(); 
 		List<Restaurant> restaurants = findR.all();
 		List<String> logs = lastLogs();
-		return ok(admin.render(email,meals, restaurants, logs));
+		List <Faq> faqs = findF.all();
+
+		return ok(admin.render(email,meals, restaurants, logs, faqs));
 	}
 	
 	@Security.Authenticated(AdminFilter.class)
@@ -150,7 +155,9 @@ public class SudoController extends Controller{
 		User userRestaurant = restaurant.user;				
 		userRestaurant.validated = true;
 		userRestaurant.update();
+		String urlString = "http://localhost:9000" + "/" + "login";
 		
+		MailHelper.send(userRestaurant.email, "Your account has been approved. You can log at:" + urlString);
 		Logger.info("Restaurant " +restaurant.name +" has been approved!");
 		flash("successApprovedRestaurant", "Restaurant successfully approved!");
 		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);

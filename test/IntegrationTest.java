@@ -29,7 +29,7 @@ public class IntegrationTest {
       });
   }
   
-  */
+  
   
   @Test
   public void testEmail(){
@@ -51,5 +51,5 @@ public class IntegrationTest {
 
   }
   
-  
+  */
 }

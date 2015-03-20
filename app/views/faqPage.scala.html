@@ -1,0 +1,37 @@
+@(email: String)(faqs: List[Faq])
+@main(email) {
+
+<div class="container">
+<div class="row clearfix">
+   <div class="col-md-12 column">
+      <div class="page-header">
+         <h1>
+            Njam.ba <small>Frequently asked questions</small>
+         </h1>
+      </div>
+   </div>
+</div>
+    <br />
+
+    <div class="panel-group" id="accordion">
+            @for(faq<-faqs){
+   
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse@faq.id">
+        @faq.question</a>
+      </h4>
+    </div>
+    <div id="collapse@faq.id" class="panel-collapse collapse">
+      <div class="panel-body">@faq.answer</div>
+    </div>
+  </div>
+  }
+  </div>
+</div>
+
+   
+</body>
+</html>	
+}

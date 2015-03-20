@@ -1,5 +1,9 @@
 package Utilites;
 
+import java.util.Iterator;
+import java.util.List;
+
+import models.User;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerPlugin;
 
@@ -19,6 +23,30 @@ public class MailHelper {
 //		mail.addAttachment("data.txt", "data".getBytes(), "text/plain", "Simple data", EmailAttachment.INLINE);
 		
 		// sends text, HTML or both...
+		mail.setBodyText(message);
+		mail.setBodyHtml(String.format("<html><body><strong> %s </strong>: <p> %s </p> </body></html>", email, message));
+		MailerPlugin.send(mail);
+		
+	}
+	
+	
+public static void sendSudo(String email,String title, String message){
+		
+		Email mail = new Email();
+		mail.setSubject("Contact Form Notification from: " +email +" Subject: " + title);
+		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
+		mail.addTo("Bitter Contact <bit.play.test@gmail.com>");
+		mail.addTo(email);
+		List<User>adminList = User.findAdmins();
+		
+
+		Iterator <User>	sudoIterator=adminList.iterator();
+		while (sudoIterator.hasNext()) {
+			mail.addTo(sudoIterator.next().email);
+			}
+				
+		
+
 		mail.setBodyText(message);
 		mail.setBodyHtml(String.format("<html><body><strong> %s </strong>: <p> %s </p> </body></html>", email, message));
 		MailerPlugin.send(mail);

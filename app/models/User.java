@@ -166,6 +166,12 @@ public class User extends Model {
 			return find.byId(id);
 		}
 		
+		
+		public static List<User> findAdmins(){
+						
+			return find.where().eq("role", ADMIN).findList();
+		}
+		
 		public static User find(String email){
 			return find.where().eq("email", email).findUnique();
 		}

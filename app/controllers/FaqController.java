@@ -5,6 +5,7 @@ import models.*;
 import play.data.DynamicForm;
 import play.data.Form;
 import Utilites.AdminFilter;
+import Utilites.Session;
 
 /**
  * 
@@ -30,11 +31,13 @@ public class FaqController extends Controller {
 		
 		if (success == true) {
 			flash("successFaq", "Succesfuly created FAQ!");
-			return redirect("/admin");
+
+			return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 		}
 		
 		flash("failFaq", "Creating FAQ failed!");
-		return redirect("/admin");
+		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
+
 	}
 	
 	/**
@@ -46,7 +49,8 @@ public class FaqController extends Controller {
 	public static Result delete(int id) {
 		Faq.delete(id);
 		flash("deleteFaq", "Succesfuly deleted FAQ!");
-		return redirect("/admin");
+
+		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 	}
 	
 	/**
@@ -65,12 +69,13 @@ public class FaqController extends Controller {
 		
 		if (success == true) {
 			flash("successEditFaq", "Succesfuly edited FAQ!");
-			return redirect("/admin");
+			return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 		}
 		
-		flash("failEditFaq", "Editing FAQ failed!");
-		return redirect("/admin");
+		flash("failEditFaq", "Editing FAQ failed!");		
+
+		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
+
 	}
-	
 }
 
