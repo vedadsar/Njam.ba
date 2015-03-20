@@ -13,7 +13,7 @@ create table comment (
 create table faq (
   id                        integer not null,
   question                  varchar(255),
-  answer                    varchar(255),
+  answer                    TEXT,
   constraint pk_faq primary key (id))
 ;
 

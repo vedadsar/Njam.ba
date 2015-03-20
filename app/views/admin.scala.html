@@ -1,4 +1,4 @@
-@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])(logs: List[String])
+@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])(logs: List[String])(faqs: List[Faq])
 @main(email) {
 <body>
    
@@ -121,14 +121,40 @@
                   </table>
                </div>
                <hr>
+               
                <div class="row">
                   <div class="col-lg-12 col-md-12">
-                     <ul class="list-group">
-                        <a href="#" class="list-group-item active">System logs</a>
+               <div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs primary" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">System logs</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">FAQ</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home"> 
+    
+    <ul class="list-group">
                        @for(log <- logs){
                         	<li class="list-group-item">@log</li>
                         }
                      </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="profile">
+        <ul class="list-group">
+                       @for(faq <- faqs){
+                        	<li class="list-group-item"><b>@faq.question</b>
+                        	<br>
+                        	<i>@faq.answer</i>
+                        	</li>
+                        }
+                     </ul>
+    </div>
+  </div>
+
+</div>
                   </div>
                </div>
             </div>
@@ -144,7 +170,7 @@
                <div class="control-group">
                   <label>Question</label>
                   <div class="controls">
-                     <input type="text" class="form-control" id="question" name="question" minlength="3" maxlength="50" title="Maximum 20 chars" required>
+                     <input type="text" class="form-control" id="question" name="question" minlength="3" maxlength="80" title="Maximum 20 chars" required>
                   </div>
                </div>
                <div class="control-group">

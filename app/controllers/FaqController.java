@@ -5,6 +5,7 @@ import models.*;
 import play.data.DynamicForm;
 import play.data.Form;
 import Utilites.AdminFilter;
+import Utilites.Session;
 
 public class FaqController extends Controller {
 	
@@ -24,18 +25,17 @@ public class FaqController extends Controller {
 		
 		if (success == true) {
 			flash("successFaq", "Succesfuly created FAQ!");
-			return redirect("/admin/");
+			return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 		}
 		
 		flash("failFaq", "Creating FAQ failed!");
-		return redirect("/admin/");
+		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 	}
 	
 	@Security.Authenticated(AdminFilter.class)
 	public static Result delete(int id) {
 		Faq.delete(id);
 		flash("deleteFaq", "Succesfuly deleted FAQ!");
-		return redirect("/admin/faq");
+		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 	}
-	
 }
