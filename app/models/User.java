@@ -214,6 +214,10 @@ public class User extends Model {
 			find.byId(id).delete();
 		}
 		
+		public static void update( int id){
+			find.byId(id).update();
+		}
+
 		
 		/**
 		 * Method for listing all users ( not restaurants )

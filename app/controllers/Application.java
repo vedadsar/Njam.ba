@@ -15,6 +15,7 @@ import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
+import Utilites.AdminFilter;
 import Utilites.Session;
 import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
@@ -269,8 +270,7 @@ public class Application extends Controller {
 		email = session("email");
 		return ok(faqPage.render(email, faqs));
 	}
-
-	
+		
 	/**
 	 * 
 	 * @return

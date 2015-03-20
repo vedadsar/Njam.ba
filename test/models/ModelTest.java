@@ -42,7 +42,18 @@ public class ModelTest extends WithApplication  {
 		User.deleteUser(5);
 		assertNull(User.find(5));
 	}
-
+	
+	@Test
+	public void updateUser(){
+		User.createUser("tester@test.ba", Hash.hashPassword("123456"));
+		
+		User user = User.find(2);
+		user.email = "tester@test.ba";
+		user.validated = false;
+		assertEquals(user.email, "tester@test.ba");
+		assertEquals(user.validated, false );
+		
+	}
 	
 	@Test
 	public void mealTest(){
@@ -65,13 +76,13 @@ public class ModelTest extends WithApplication  {
 	@Test
 	public void faqTest(){
 		Faq.create("Test question", "Test answer");
-		Faq f = Faq.find(2);
+		Faq f = Faq.findById(2);
 		assertNotNull(f);
 		assertEquals(f.answer, "Test answer");
 		
 		int id = f.id;
 		Faq.delete(id);
-		assertNull(Faq.find(id));
+		assertNull(Faq.findById(id));
 	}
 	
 }
