@@ -1,4 +1,3 @@
-This is your new Play application
-=================================
-
-This file will be packaged with your application, when using `activator dist`.
+Gorjan: Radim na Search Metodi kao i implementaciji ispisa search-a i view
+vjerovatno cu Search isto probati da modifikujem pa mozda da  bude 
+SEARCH neovisan od stranice vec da bude div koji cemo importovati za sve linkove koji posjeduju search
