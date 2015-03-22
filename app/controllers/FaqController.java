@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.UUID;
-
+import play.Logger;
 import models.Faq;
 import models.Location;
 import models.Meal;
@@ -45,6 +45,7 @@ public class FaqController extends Controller {
 		
 		if (success == true) {
 			flash("successFaq", "Succesfuly created FAQ!");
+			Logger.info("Administrator " + Session.getCurrentUser(ctx()).email +  " just created new FAQ: " + question);
 
 			return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 		}
@@ -63,6 +64,7 @@ public class FaqController extends Controller {
 	public static Result delete(int id) {
 		Faq.delete(id);
 		flash("deleteFaq", "Succesfuly deleted FAQ!");
+		Logger.info("Administrator " + Session.getCurrentUser(ctx()).email +  " just deleted FAQ");
 
 		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 	}
@@ -76,13 +78,15 @@ public class FaqController extends Controller {
 		
 		f.question = question;
 		f.answer = answer;
-		f.save();
+		f.update();
 		
 //		boolean success = Faq.edit(f, question, answer);
 //		
 //		if (success == true) {
 			flash("successEditFaq", "Succesfuly edited FAQ!");
-			return redirect("/faqEdit/" + f.id);
+			Logger.info("Administrator " + Session.getCurrentUser(ctx()).email +  " just edited FAQ: " + question);
+
+			return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 //		}
 //		
 //		flash("failEditFaq", "Editing FAQ failed!");		
