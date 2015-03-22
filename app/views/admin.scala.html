@@ -148,7 +148,7 @@
     <div role="tabpanel" class="tab-pane" id="profile">
     
         <div class="panel-group" id="accordion">
-            @for(faq<-faqs){
+            @for(faq <-faqs){
    
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -160,8 +160,8 @@
     <div id="collapse@faq.id" class="panel-collapse collapse">
       <div class="panel-body">@faq.answer<br>
           <div class="col-md-1 column pull-right">
-      <form method="POST" action="@routes.FaqController.showEditFaq(faq.id)">
-      <input type="submit" value="edit" class="btn btn-warning btn-xs pull-right disabled " />	 
+      <form action="@routes.FaqController.showEditFaq(faq.id)">
+      <input type="submit" value="edit" class="btn btn-warning btn-xs pull-right" />	 
        </form>
        </div>
                  <div class="col-md-1 column pull-right">
@@ -194,13 +194,13 @@
                <div class="control-group">
                   <label>Question</label>
                   <div class="controls">
-                     <input type="text" class="form-control" id="question" name="question" minlength="3" maxlength="80" title="Maximum 20 chars" required>
+                     <input type="text" class="form-control" id="question" name="question" minlength="3" maxlength="80" title="Maximum 80 chars" required>
                   </div>
                </div>
                <div class="control-group">
                   <label>Answer</label>
                   <div class="controls">
-                     <textarea rows="5" cols="49" name="answer" minlength="1" ></textarea>
+                     <textarea rows="5" cols="75" name="answer" minlength="1" required></textarea>
                   </div>
                </div>
                <div class="control-group">
