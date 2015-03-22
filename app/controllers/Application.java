@@ -280,5 +280,9 @@ public class Application extends Controller {
 		flash("success", "You've been logged out");
 		return redirect(routes.Application.index());
 	}
-
+	
+	public static Result showFileUpload()
+	{
+		return ok(fileUpload.render("","", Restaurant.all())); // NOT FINISHED
+	}
 }

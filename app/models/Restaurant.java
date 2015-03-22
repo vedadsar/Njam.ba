@@ -31,6 +31,8 @@ public class Restaurant extends Model{
 	@OneToMany(cascade=CascadeType.ALL) 
 	public List <Meal> meals;
 
+	@OneToMany(cascade=CascadeType.ALL) 
+	public List <Image> image;
 	
 	public static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	

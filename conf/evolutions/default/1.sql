@@ -17,6 +17,14 @@ create table faq (
   constraint pk_faq primary key (id))
 ;
 
+create table image (
+  id                        integer not null,
+  img_location              varchar(255),
+  restaurant_id             integer,
+  meal_id                   integer,
+  constraint pk_image primary key (id))
+;
+
 create table location (
   id                        integer not null,
   city                      varchar(255),
@@ -58,6 +66,8 @@ create table user (
 
 create sequence faq_seq;
 
+create sequence image_seq;
+
 create sequence location_seq;
 
 create sequence meal_seq;
@@ -68,16 +78,20 @@ create sequence user_seq;
 
 alter table comment add constraint fk_comment_author_1 foreign key (author_id) references user (id) on delete restrict on update restrict;
 create index ix_comment_author_1 on comment (author_id);
-alter table location add constraint fk_location_user_2 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_location_user_2 on location (user_id);
-alter table meal add constraint fk_meal_restaurant_3 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_meal_restaurant_3 on meal (restaurant_id);
-alter table restaurant add constraint fk_restaurant_user_4 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_user_4 on restaurant (user_id);
-alter table user add constraint fk_user_restaurant_5 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_5 on user (restaurant_id);
-alter table user add constraint fk_user_location_6 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_user_location_6 on user (location_id);
+alter table image add constraint fk_image_restaurant_2 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_image_restaurant_2 on image (restaurant_id);
+alter table image add constraint fk_image_meal_3 foreign key (meal_id) references meal (id) on delete restrict on update restrict;
+create index ix_image_meal_3 on image (meal_id);
+alter table location add constraint fk_location_user_4 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_location_user_4 on location (user_id);
+alter table meal add constraint fk_meal_restaurant_5 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_meal_restaurant_5 on meal (restaurant_id);
+alter table restaurant add constraint fk_restaurant_user_6 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_user_6 on restaurant (user_id);
+alter table user add constraint fk_user_restaurant_7 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_7 on user (restaurant_id);
+alter table user add constraint fk_user_location_8 foreign key (location_id) references location (id) on delete restrict on update restrict;
+create index ix_user_location_8 on user (location_id);
 
 
 
@@ -88,6 +102,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 drop table if exists comment;
 
 drop table if exists faq;
+
+drop table if exists image;
 
 drop table if exists location;
 
@@ -100,6 +116,8 @@ drop table if exists user;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists faq_seq;
+
+drop sequence if exists image_seq;
 
 drop sequence if exists location_seq;
 
