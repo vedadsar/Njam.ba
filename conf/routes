@@ -36,7 +36,7 @@ GET     /faqPage                    controllers.Application.showFaq()
 POST    /admin/faq                  controllers.FaqController.create()
 POST    /admin/faq/delete/:id       controllers.FaqController.delete(id: Int)
 
-GET     /search                controllers.SearchController.autocomplete(q: String)
+GET     /search                controllers.SearchController.searchByGeneric(q: String,typeGen: String)
 
 GET     /faqEdit/:id                controllers.FaqController.showEditFaq(id: Int)
 POST    /faqEdit/:id                controllers.FaqController.editFaq(id: Int)

@@ -32,7 +32,7 @@ public class Restaurant extends Model{
 	public List <Meal> meals;
 
 	
-	static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
+	public static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	
 	public Restaurant(String name){
 		this.name = name;

@@ -1,20 +1,8 @@
-@(message: String)(email: String)(meals: List[Meal])(restaurants: List[Restaurant])
+@(message: String)(email: String)(restaurants: List[Restaurant])(srchResultRestaurant: List[Restaurant])(srchResultMeal: List[Meal])
 
 @main(email) {
 	 <body>
-
-        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest")){
-		           <div class="alert alert-success" role="alert">
-		           <div class="container">
-		            @flash.get("success")
-		         	@flash.get("error")
-		         	@flash.get("errorLink")
-		         	@flash.get("successApprovedRestaurant")
-		         	@flash.get("successSendRequest")
-		             </div>
-	            	</div>
-	              }
-
+      
 <header class="masthead">
   <div class="container">
     <div class="row">
@@ -50,7 +38,7 @@
                          
                   </div>
                   }   
-                
+                 
                </div> 
                </div><!--/panel-->
       		</div><!--/end mid column-->
@@ -58,40 +46,59 @@
       		<!-- right content column-->
       		<div class="col-md-9" id="content">
             	<div class="panel">
-    			<div class="panel-heading" style="background-color:#111;color:#fff;">Meals</div>   
+    			<div class="panel-heading" style="background-color:#111;color:#fff;">Search Results</div>   
               	<div class="panel-body">
                   
                   <!-- Page Features -->
         <div class="row text-center">
 
-			@for(meal<-meals){
-			
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
-                    <div class="caption">
-                         <h3 class="text-center">@meal.restaurant.name</h3>
-	                     <h4 class="text-center">@meal.name</h4>
-                        <p>Food descritption</p>
-                        <p>Food price: @meal.price KM</p>
-                        <p>
-                        	<a href="#" class="btn btn-default">More Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-           } 
-
-        </div>
+		
         <!-- /.row -->
-                
-                  
-                  
-                  <div class="well text-center"> 
-                    <h1>Centered Text</h1>
-                    This was a 2.x challenge that seems a little easier in 3.
-                    <br><br>
+               
+                  <table class="table table-striped">
+                     <thead>
+                           
+                     <tbody>
+                     @if(srchResultRestaurant==null){
+                      @for(meal<-srchResultMeal){               
+                        <td>@meal.name</td>
+                        <td><a href="/restaurantProfile/@meal.restaurant.name">@meal.restaurant.name</a></td>
+                        <td>@meal.restaurant.user.location.city</td>
+                        <td>@meal.restaurant.user.location.street</td>
+                        <td>@meal.price KM </td>
+                        <td>     </td>
+                        
+                          </thead>
+                        </tr>
+                        }
+                        
+                        }
+                        
+                         @if(srchResultMeal==null){
+                        	@for(restaurant<-srchResultRestaurant){
+                          <div style=>
+                        <td ><a href="/restaurantProfile/@restaurant.name"><strong>@restaurant.name</strong></a></td>
+                        <td>  @restaurant.user.location.city </td>
+                             <td> @restaurant.user.email    </td>
+                             <td>@restaurant.user.location.street</td>
+                             <td>@restaurant.user.location.number</td>
+                             
+                        </div>
+                          </thead>
+                        </tr>
+                        }
+                        
+                        }
+                        
+                     </tbody>
+                  </table>
+               </div>
+							 
+					
+				
+					
+                   </div>
+                   </div>
                     <div style="font-size:70pt">
                       <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
                       <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
@@ -99,7 +106,7 @@
                     </div>
                     
                   </div>
-                  
+                 
                   <hr>
                   
                   
