@@ -53,7 +53,7 @@
                       
         </ul>
         <ul class="nav navbar-right navbar-nav">
-          <li class="dropdown">
+          <li class="dropdown">          
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search  <i class="glyphicon glyphicon-search"></i></a>
             <ul class="dropdown-menu" style="padding:10px;">
                 <form class="form-inline" method="GET" action="/search" >
@@ -67,14 +67,21 @@
                 </form>
              </ul>
           </li>
-          <li class="dropdown">
           
+          <ul class="nav navbar-right navbar-nav">
+          <li class="dropdown">          
+              <li><a href="cart">Cart <i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+             </ul>
+          
+          <li class="dropdown">
+
           @if(User.checkIfExists(email) == true){
 		
 		@if(User.checkRole(email).equals(User.USER)){
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
               <li><a href="/user/@email">Profile</a></li>
+              <li><a href="cart">Cart</a></li>
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -84,6 +91,8 @@
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
               <li><a href="/restaurantOwner/@email">Profile</a></li>
+              <li><a href="cart">Cart</a></li>
+     
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -92,6 +101,8 @@
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
               <li><a href="/admin/@email">Profile</a></li>
+              <li><a href="cart">Cart</a></li>
+   
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -99,6 +110,7 @@
            
          	 
            } else {
+           
            
            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile  <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
             <ul class="dropdown-menu">

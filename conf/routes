@@ -43,6 +43,8 @@ GET     /search                controllers.SearchController.searchByGeneric(q: S
 GET     /faqEdit/:id                controllers.FaqController.showEditFaq(id: Int)
 POST    /faqEdit/:id                controllers.FaqController.editFaq(id: Int)
 
+GET     /cart                   controllers.CartController.showCart()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
