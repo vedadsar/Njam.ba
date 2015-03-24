@@ -71,7 +71,7 @@ public class Application extends Controller {
 
 		return ok(user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
 	}
-
+	
 
 	/**
 	 * This method just redirects to registration page.
