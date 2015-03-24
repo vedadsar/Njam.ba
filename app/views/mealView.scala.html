@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>MealView</title>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-</head>
+@(email: String)(meal: Meal)
+
+@main(email) {
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="page-header">
-				<h1> Lovac <small>Restaurant</small></h1>
+				<h1> @meal.restaurant.name <small>Restaurant</small></h1>
 			</div>
 		</div>
 		<div class="row">
@@ -20,7 +17,7 @@
   					<div class="panel-body">
   						<div class="row">
   							<div class="page-header">
-  								<h1 class="text-center"> Burek </h1>
+  								<h1 class="text-center"> @meal.name </h1>
   							</div>
   							<div class="column col-md-12">
 	  							<div class="row">
@@ -65,7 +62,7 @@
   						</div>
     					<div class="row">
     						<div class="column col-md-2 pull-right">
-    							<a class="btn btn-success" href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart</a>
+    							<a class="btn btn-success" href="@routes.CartController.addMealToBasket(meal.id)"><span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart</a>
     						</div>
     						<div class="column col-md-2 pull-right">
     							<div class="input-group">
@@ -83,7 +80,7 @@
     							</div>
     						</div>
     						<div class="column col-md-2 pull-right">
-    							<h4 class="text-right text-danger"> 5,00 KM </h4>
+    							<h4 class="text-right text-danger"> @meal.price </h4>
     						</div>
     					</div>
   					</div>
@@ -91,7 +88,5 @@
 			</div>
 		</div>
 	</div>
-
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </body>
-</html>
+}

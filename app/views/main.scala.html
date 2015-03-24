@@ -17,6 +17,7 @@
 	
 	<link href="@routes.Assets.at("stylesheets/bootstrap.min.css")" rel='stylesheet'>
 	<link href="@routes.Assets.at("stylesheets/style.css ")" rel="stylesheet">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
   <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -70,7 +71,7 @@
           
           <ul class="nav navbar-right navbar-nav">
           <li class="dropdown">          
-              <li><a href="cart">Cart <i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+              <li><a href="/cart">Cart <i class="glyphicon glyphicon-shopping-cart"></i></a></li>
              </ul>
           
           <li class="dropdown">
@@ -81,7 +82,6 @@
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
               <li><a href="/user/@email">Profile</a></li>
-              <li><a href="cart">Cart</a></li>
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -91,8 +91,6 @@
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
               <li><a href="/restaurantOwner/@email">Profile</a></li>
-              <li><a href="cart">Cart</a></li>
-     
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
@@ -101,8 +99,6 @@
 				 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Profile @email <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
            <ul class="dropdown-menu">
               <li><a href="/admin/@email">Profile</a></li>
-              <li><a href="cart">Cart</a></li>
-   
               <li class="divider"></li>
               <li><a href="/logout">Logout</a></li>
              </ul>
