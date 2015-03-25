@@ -47,6 +47,11 @@ GET      /mealView/:id              controllers.CartController.viewMeal(id: Int)
 GET     /cart                 controllers.CartController.showCart()
 POST    /mealView/:id          controllers.CartController.addMealToBasket(id: Int)
 
+GET     /creditStatus        controllers.PaypalController.showPurchase()
+POST    /creditpurchase        controllers.PaypalController.purchaseProcessing()
+GET     /creditsuccess         controllers.PaypalController.creditSuccess()
+GET     /creditfail            controllers.PaypalController.creditFail()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
