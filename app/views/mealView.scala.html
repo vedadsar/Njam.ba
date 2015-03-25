@@ -62,8 +62,11 @@
   						</div>
     					<div class="row">
     						<div class="column col-md-2 pull-right">
-    							<a class="btn btn-success" href="@routes.CartController.addMealToBasket(meal.id)"><span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart</a>
-    						</div>
+    						
+    							<form method="POST" action="@routes.CartController.addMealToBasket(meal.id)">
+	                           <input type="submit" value="approve" class="btn btn-success " />	 
+	                           </form> 						
+       						</div>
     						<div class="column col-md-2 pull-right">
     							<div class="input-group">
       								<span class="input-group-btn">

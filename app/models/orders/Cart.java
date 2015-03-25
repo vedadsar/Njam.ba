@@ -12,6 +12,7 @@ import javax.persistence.OneToOne;
 import models.Meal;
 import models.User;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class Cart extends Model {
@@ -19,9 +20,11 @@ public class Cart extends Model {
 	@Id
 	public int id;
 	@OneToMany
-	public List<CartItem> cartItems;
-	@OneToOne(cascade=CascadeType.ALL) 
-	public User user;
+	public List<CartItem> cartItems = new ArrayList<CartItem>(0);
+	
+	
+	static Finder<Integer, Cart> find = new Finder<Integer, Cart>(Integer.class, Cart.class);
+
 	
 	public Cart(int id){
 		this.id = id;
@@ -36,7 +39,7 @@ public class Cart extends Model {
 			}
 		}
 		if (!itemExists) {
-			CartItem cartItem = new CartItem(this, 1, meal.price, meal);
+			CartItem cartItem = new CartItem(this, 1, 15, meal);
 			cartItems.add(cartItem);
 		}
 	}
@@ -56,6 +59,10 @@ public class Cart extends Model {
 	
 	public int getItemNumber(){
 		return cartItems.size();
+	}
+	
+	public static Cart findById(int id){
+		return find.byId(id);
 	}
 		
 }
