@@ -42,7 +42,7 @@ public class User extends Model {
     public static final String RESTAURANT = "RESTAURANT";
 	
     	
-	static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
+	public static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
 	
 	public User(String email, String clearPassword){
 		this.email = email;

@@ -1,0 +1,42 @@
+@(email: String)
+@main(email) {
+	
+	<h2>RESULTS:</h2>
+	<ol id="user-list">
+	</ol>
+	<p id = "burek">rest</p>
+	
+   <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-2.1.3.js")"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/scripts.js"></script>
+	
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+	$.ajax({
+		  method: "POST",
+		  url: "/userSearch",
+		  accepts: {
+		        json: "application/json"
+		    },
+		  data: { name: document.getElementById("burek").innerHTML }
+		}).done(function(msg) {
+			console.log("PROSLO");
+			console.log(msg);
+			  for (var i = 0; i < msg.length; i++) {
+				  $("#user-list").append( msg[i]);
+				  $("#user-list").append( "<br></br>");
+				  console.log(msg[i]);
+				  }
+		 }).fail(function( msg ) {
+			  console.log("FAILED");
+			  console.log(msg);
+		   	  alert( "Request failed!" );
+		  });
+	});
+	</script>
+	
+	
+	
+}
