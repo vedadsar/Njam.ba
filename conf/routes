@@ -44,7 +44,7 @@ GET     /faqEdit/:id                controllers.FaqController.showEditFaq(id: In
 POST    /faqEdit/:id                controllers.FaqController.editFaq(id: Int)
 
 GET      /mealView/:id              controllers.CartController.viewMeal(id: Int)
-GET     /cart                   controllers.CartController.showCart()
+GET     /cart                 controllers.CartController.showCart()
 POST    /mealView/:id          controllers.CartController.addMealToBasket(id: Int)
 
 

@@ -5,15 +5,16 @@
 
 create table cart (
   id                        integer not null,
-  user_id                   integer,
   constraint pk_cart primary key (id))
 ;
 
 create table cart_item (
+  id                        integer not null,
   cart_id                   integer,
   quantity                  integer,
-  price                     double,
-  meal_id                   integer)
+  total_price               double,
+  meal_id                   integer,
+  constraint pk_cart_item primary key (id))
 ;
 
 create table comment (
@@ -72,6 +73,8 @@ create table user (
 
 create sequence cart_seq;
 
+create sequence cart_item_seq;
+
 create sequence faq_seq;
 
 create sequence location_seq;
@@ -82,24 +85,22 @@ create sequence restaurant_seq;
 
 create sequence user_seq;
 
-alter table cart add constraint fk_cart_user_1 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_cart_user_1 on cart (user_id);
-alter table cart_item add constraint fk_cart_item_cart_2 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
-create index ix_cart_item_cart_2 on cart_item (cart_id);
-alter table cart_item add constraint fk_cart_item_meal_3 foreign key (meal_id) references meal (id) on delete restrict on update restrict;
-create index ix_cart_item_meal_3 on cart_item (meal_id);
-alter table comment add constraint fk_comment_author_4 foreign key (author_id) references user (id) on delete restrict on update restrict;
-create index ix_comment_author_4 on comment (author_id);
-alter table location add constraint fk_location_user_5 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_location_user_5 on location (user_id);
-alter table meal add constraint fk_meal_restaurant_6 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_meal_restaurant_6 on meal (restaurant_id);
-alter table restaurant add constraint fk_restaurant_user_7 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_user_7 on restaurant (user_id);
-alter table user add constraint fk_user_restaurant_8 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_8 on user (restaurant_id);
-alter table user add constraint fk_user_location_9 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_user_location_9 on user (location_id);
+alter table cart_item add constraint fk_cart_item_cart_1 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
+create index ix_cart_item_cart_1 on cart_item (cart_id);
+alter table cart_item add constraint fk_cart_item_meal_2 foreign key (meal_id) references meal (id) on delete restrict on update restrict;
+create index ix_cart_item_meal_2 on cart_item (meal_id);
+alter table comment add constraint fk_comment_author_3 foreign key (author_id) references user (id) on delete restrict on update restrict;
+create index ix_comment_author_3 on comment (author_id);
+alter table location add constraint fk_location_user_4 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_location_user_4 on location (user_id);
+alter table meal add constraint fk_meal_restaurant_5 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_meal_restaurant_5 on meal (restaurant_id);
+alter table restaurant add constraint fk_restaurant_user_6 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_user_6 on restaurant (user_id);
+alter table user add constraint fk_user_restaurant_7 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_7 on user (restaurant_id);
+alter table user add constraint fk_user_location_8 foreign key (location_id) references location (id) on delete restrict on update restrict;
+create index ix_user_location_8 on user (location_id);
 
 
 
@@ -126,6 +127,8 @@ drop table if exists user;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists cart_seq;
+
+drop sequence if exists cart_item_seq;
 
 drop sequence if exists faq_seq;
 

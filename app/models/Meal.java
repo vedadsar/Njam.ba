@@ -28,7 +28,7 @@ public class Meal extends Model {
 	public Restaurant restaurant;
 	
 	@OneToMany
-	public List <CartItem> cartItems;
+	public List <CartItem> cartItems = new ArrayList<CartItem>(0);
 	
 	public static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
 			Integer.class, Meal.class);
