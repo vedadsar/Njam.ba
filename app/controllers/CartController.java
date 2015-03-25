@@ -10,6 +10,7 @@ import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
 import models.orders.Cart;
+import models.orders.CartItem;
 import play.Logger;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -30,10 +31,12 @@ public class CartController extends Controller {
 	
 	public static Result addMealToBasket(int id){
 		Meal meal = Meal.find(id);
-//		User user = User.find(id);
-//		Cart cart = new Cart(user.id);
-//		cart.addMeal(meal);
-//		cart.save();
+		Cart cart = new Cart(id);
+		CartItem cartItem = new CartItem(cart, 1, meal.price, meal);
+		cart.addMeal(meal);
+		cart.save();
+		cartItem.save();
+		
 		flash("SucessAdded", "Meal...");
 		return redirect("/");
 	}
@@ -43,5 +46,5 @@ public class CartController extends Controller {
 		email = session("email");
 		return ok(mealView.render(email, meal));
 	}
-	
+		
 }
