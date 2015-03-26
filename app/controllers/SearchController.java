@@ -91,17 +91,30 @@ public class SearchController extends Controller {
 	public static Result ajaxList() {
 		DynamicForm form = Form.form().bindFromRequest();
 		String name = form.data().get("name");
-		
-		List<User> users = searchAllUsers(name);
-		List<String> emails = new ArrayList<String>();
-		
-		for (int i = 0; i < users.size(); i++) {
-		    String value = users.get(i).email;
-		    emails.add(value);
+
+		if (name.equals("") == false) {
+			List<User> users = searchAllUsers(name);
+			if (users.isEmpty()) {
+				List<String> empty = new ArrayList<String>();
+				empty.add("No results found!");
+				JsonNode failNode = Json.toJson(empty);
+				return ok(failNode);
+			}
+
+			List<String> emails = new ArrayList<String>();
+			for (int i = 0; i < users.size(); i++) {
+				String value = users.get(i).email;
+				emails.add(value);
+			}
+			JsonNode jsonNode = Json.toJson(emails);
+			return ok(jsonNode);
+			
+		} else {
+			List<String> empty = new ArrayList<String>();
+			empty.add("No results found!");
+			JsonNode failNode = Json.toJson(empty);
+			return ok(failNode);
 		}
-		
-		JsonNode jsonNode = Json.toJson(emails);
-	    return ok(jsonNode);
 	}
 
 	/** Methods which search the string 
