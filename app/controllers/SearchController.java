@@ -2,8 +2,13 @@ package controllers;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import play.libs.Json;
 import play.Logger;
 import models.Faq;
 import models.Location;
@@ -78,6 +83,39 @@ public class SearchController extends Controller {
 		}
 		return TODO;
 	}
+	
+	public static Result ajaxSearch() {
+		return ok(userSearch.render(""));
+	}
+	
+	public static Result ajaxList() {
+		DynamicForm form = Form.form().bindFromRequest();
+		String name = form.data().get("name");
+
+		if (name.equals("") == false) {
+			List<User> users = searchAllUsers(name);
+			if (users.isEmpty()) {
+				List<String> empty = new ArrayList<String>();
+				empty.add("No results found!");
+				JsonNode failNode = Json.toJson(empty);
+				return ok(failNode);
+			}
+
+			List<String> emails = new ArrayList<String>();
+			for (int i = 0; i < users.size(); i++) {
+				String value = users.get(i).email;
+				emails.add(value);
+			}
+			JsonNode jsonNode = Json.toJson(emails);
+			return ok(jsonNode);
+			
+		} else {
+			List<String> empty = new ArrayList<String>();
+			empty.add("No results found!");
+			JsonNode failNode = Json.toJson(empty);
+			return ok(failNode);
+		}
+	}
 
 	/** Methods which search the string 
 	 * seqemce 
@@ -101,4 +139,10 @@ public class SearchController extends Controller {
 		return restaurants;
 	}
 
+	public static List<User> searchAllUsers(String q) {
+		List<User> users = User.find.where()
+				.ilike("email", "%" + q + "%").findList();
+		return users;
+	}
+	
 }

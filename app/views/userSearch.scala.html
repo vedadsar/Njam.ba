@@ -1,0 +1,56 @@
+@(email: String)
+@main(email) {
+	
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+         <script type="text/javascript"  src="@routes.Assets.at("javascripts/bootstrap.min.js")"></script>		
+   <script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-2.1.3.js")"></script>
+   <script type="text/javascript"  src="@routes.Assets.at("javascripts/scripts.js")"></script>
+	
+	
+	<form class="form-inline" id="search">
+  		<input type="text" id="searchTerm" name="s" placeholder="Search...">
+  		<input type="submit" value="Search">
+	</form>
+	
+	<h2>RESULTS:</h2>
+	<ol id="user-list">
+	</ol>
+	
+	
+	<script type="text/javascript">
+
+	$('input').click(function() {
+		   $('ol').empty();
+		});
+	
+	$("#search").submit(function(e) {
+	$.ajax({
+		  method: "POST",
+		  url: "/userSearch",
+		  accepts: {
+		        json: "application/json"
+		    },
+		  data: {name: $('#searchTerm').val()}
+		}).done(function(msg) {
+			console.log("SUCCESSFULL JSON");
+			if(msg[0] == "No results found!"){
+				$("#user-list").append( msg[0]);
+				} else {
+			  for (var i = 0; i < msg.length; i++) {
+				  $("#user-list").append( "<li> " + msg[i] + "</li>");
+				  console.log(msg[i]);
+				  }
+				}
+		 }).fail(function( msg ) {
+			  console.log("FAILED");
+			  console.log(msg);
+		   	  alert( "Request failed!" );
+		  });
+				e.preventDefault();
+	});
+	</script>
+	
+	
+	}
+	
