@@ -84,10 +84,20 @@ public class SearchController extends Controller {
 		return TODO;
 	}
 	
+	/**
+	 * This method renders userSearch HTML page.
+	 * @return
+	 */
 	public static Result ajaxSearch() {
 		return ok(userSearch.render(""));
 	}
 	
+	/**
+	 * This method takes text from search bar and finds users who contain 
+	 * that string in their email, and packs them all in ArrayList and sends them
+	 * back to Ajax function as JSON.
+	 * @return Result as JSON
+	 */
 	public static Result ajaxList() {
 		DynamicForm form = Form.form().bindFromRequest();
 		String name = form.data().get("name");
