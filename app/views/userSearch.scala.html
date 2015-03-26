@@ -8,11 +8,6 @@
    <script type="text/javascript"  src="@routes.Assets.at("javascripts/scripts.js")"></script>
 	
 	
-	<!--  <form class="form-inline" method="POST" id="test">
-     <input type="text" name="q" id="q" class="form-control pull-left" id="search" placeholder="Search" 
-     <button type="submit" class="btn btn-xs pull-right"><i class="glyphicon glyphicon-search"></i></button>
-	</form>-->
-	
 	<form class="form-inline" id="search">
   		<input type="text" id="searchTerm" name="s" placeholder="Search...">
   		<input type="submit" value="Search">
@@ -29,7 +24,7 @@
 		   $('ol').empty();
 		});
 	
-	$("#search").submit(function() {
+	$("#search").submit(function(e) {
 	$.ajax({
 		  method: "POST",
 		  url: "/userSearch",
@@ -43,8 +38,7 @@
 				$("#user-list").append( msg[0]);
 				} else {
 			  for (var i = 0; i < msg.length; i++) {
-				  $("#user-list").append( msg[i]);
-				  $("#user-list").append( "<br></br>");
+				  $("#user-list").append( "<li> " + msg[i] + "</li>");
 				  console.log(msg[i]);
 				  }
 				}
@@ -53,7 +47,7 @@
 			  console.log(msg);
 		   	  alert( "Request failed!" );
 		  });
-	  return false;
+				e.preventDefault();
 	});
 	</script>
 	
