@@ -29,9 +29,7 @@
 		   $('ol').empty();
 		});
 	
-		console.log("READY PROSO");
 	$("#search").submit(function() {
-		console.log("SUBMIT PROSO");
 	$.ajax({
 		  method: "POST",
 		  url: "/userSearch",
@@ -40,10 +38,8 @@
 		    },
 		  data: {name: $('#searchTerm').val()}
 		}).done(function(msg) {
-			console.log("PROSLO");
-			console.log(msg[0]);
+			console.log("SUCCESSFULL JSON");
 			if(msg[0] == "No results found!"){
-				console.log("Its equal to FAIL");
 				$("#user-list").append( msg[0]);
 				} else {
 			  for (var i = 0; i < msg.length; i++) {
