@@ -52,4 +52,22 @@ public class IntegrationTest {
   }
   
   */
+	
+//	@Test
+//	public void testLogin() {
+//		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+//				HTMLUNIT, new Callback<TestBrowser>() {
+//					public void invoke(TestBrowser browser) {
+//
+//						browser.goTo("http://localhost:3333/login");
+//						browser.fill("#email").with("suad@suad.com");
+//						browser.fill("#password").with("123456");
+//						browser.submit("#submit");
+//						assertThat(browser.pageSource()).contains("Restaurants");
+//						assertThat(browser.pageSource()).contains("Meals");
+//					}
+//				});
+//
+//	}
+	
 }

@@ -41,5 +41,21 @@ public class ApplicationTest {
 //        assertThat(contentAsString(html)).contains("Your new application is ready.");
 //    }
 
+//	@Test
+//	public void testLogout() {
+//		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+//				HTMLUNIT, new Callback<TestBrowser>() {
+//					public void invoke(TestBrowser browser) {
+//						browser.goTo("http://localhost:3333/login");
+//						browser.fill("#email").with("suad@suad.com");
+//						browser.fill("#password").with("123456");
+//						browser.submit("#loginForm");
+//						browser.goTo("http://localhost:3333/logout");
+//						assertThat(browser.pageSource()).contains("Scroll down for your viewing pleasure");
+//						
+//					}
+//				});
+//	}
+	
 
 }

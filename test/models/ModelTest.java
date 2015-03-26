@@ -85,4 +85,17 @@ public class ModelTest extends WithApplication  {
 		assertNull(Faq.findById(id));
 	}
 	
+	@Test
+	public void testFindNonExisting() {
+		User u = User.find(1000);
+
+		assertNull(u);
+	}
+	
+	@Test
+	public void testFindNonExistingMeal(){
+		Meal c = Meal.find(1500);
+		assertNull(c);
+	}
+	
 }
