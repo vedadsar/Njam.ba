@@ -109,7 +109,9 @@ public class Meal extends Model {
 		return find.where().eq("name", name).findUnique();
 	}
 
-	
+	public static <Image> void create(){
+		Image();
+	}
 	
 	
 	/**

@@ -21,36 +21,46 @@ public class Image extends Model {
 	@Required
 	public String imgLocation;
 	
-	@ManyToOne(cascade=CascadeType.ALL) 
-	public Restaurant restaurant;
-	
-	@ManyToOne(cascade=CascadeType.ALL) 
-	public Meal meal;
 	
 	public static Finder<Integer, Image> find = new Finder<Integer, Image>(Integer.class, Image.class);
 	
 	
-	public Image(String imgLocation) {
-		this.imgLocation = imgLocation;
-			
+
+	public Image( String imgLocation) {
+	
+		this.imgLocation=imgLocation;
 	}
-		
-	public static boolean create(String imgLocation) {
+	
+	
+	
+	public static boolean createRestaurantImg(String imgLocation) {
 		Image img = new Image(imgLocation);
 		img.save();
 		return true;
 	}
 	
-
+	public static boolean createMealImg(String imgLocation) {
+		Image img = new Image(imgLocation);
+		img.save();
+		return true;
+	}
 
 	public static void delete(int id) {
 		find.byId(id).delete();
 	}
 	
 
-	public static List<Image>  findAllByOwner(Restaurant owner) {
+	public static List<Image>  findAllByOwnerNoMeal(Restaurant owner) {
 
-		 List<Image> gallery =find.where().eq("restaurant", owner).findList();
+		 List<Image> gallery =find.where().eq("restaurant.id", owner.id).eq("meal.id", null).findList();
+		 
+		return gallery;
+	}
+	
+	
+	public static List<Image>  findAllByOwnerandMeal(Restaurant owner, Meal m) {
+
+		 List<Image> gallery =find.where().eq("Restaurant.id", owner.id).eq("meal.id", m.id).findList();
 		 
 		return gallery;
 	}
