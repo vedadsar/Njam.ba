@@ -1,5 +1,7 @@
 package models.orders;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.ManyToOne;
 import models.Meal;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.db.ebean.Model.Finder;
 
 @Entity
 public class CartItem extends Model {
@@ -24,6 +27,14 @@ public class CartItem extends Model {
 	@ManyToOne
 	public Meal meal;
 	
+	public String getMealName(){
+		return meal.name;
+	}
+	
+	public static Finder<Integer, CartItem> find = new Finder<Integer, CartItem>(
+			Integer.class, CartItem.class);
+
+	
 	public CartItem(Cart cart, int quantity, double totalPrice, Meal meal){
 		this.cart = cart;
 		this.quantity = quantity;
@@ -33,7 +44,7 @@ public class CartItem extends Model {
 	}
 	
 	public void increaseQuantity(){
-		quantity += 1;
+		this.quantity += 1;
 		calculatePrice();
 	}
 	
@@ -45,4 +56,9 @@ public class CartItem extends Model {
 	public void calculatePrice(){
 		totalPrice = meal.price * quantity;
 	}
+	
+	public static List<CartItem> all() {
+		return find.all();
+	}
+
 }
