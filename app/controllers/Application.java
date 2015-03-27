@@ -289,4 +289,11 @@ public class Application extends Controller {
 	{
 		return ok(fileUpload.render("","", Restaurant.all())); // NOT FINISHED
 	}
+	
+	public static Result MealIMGList(int id)
+	{
+		Meal m = Meal.find(id);
+		return ok(fileUpload.render("","", Restaurant.all())); // NOT FINISHED
+	}
+	
 }
