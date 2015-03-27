@@ -7,6 +7,7 @@ create table cart (
   id                        integer not null,
   user_id                   integer,
   paid                      boolean,
+  total                     double,
   constraint pk_cart primary key (id))
 ;
 
@@ -65,6 +66,7 @@ create table user (
   hashed_password           varchar(255),
   restaurant_id             integer,
   location_id               integer,
+  cart_id                   integer,
   confirmation_string       varchar(255),
   validated                 boolean,
   role                      varchar(255),
@@ -105,6 +107,8 @@ alter table user add constraint fk_user_restaurant_8 foreign key (restaurant_id)
 create index ix_user_restaurant_8 on user (restaurant_id);
 alter table user add constraint fk_user_location_9 foreign key (location_id) references location (id) on delete restrict on update restrict;
 create index ix_user_location_9 on user (location_id);
+alter table user add constraint fk_user_cart_10 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
+create index ix_user_cart_10 on user (cart_id);
 
 
 

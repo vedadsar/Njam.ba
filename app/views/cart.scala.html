@@ -1,4 +1,4 @@
-@(email: String)(cartitems: List[orders.CartItem])
+@(email: String)(cartitems: List[orders.CartItem])(total: Double)
 @main(email) {
 
 <body>
@@ -32,7 +32,7 @@
 						<div class="col-xs-2"><img class="img-responsive" src="http://placehold.it/100x70">
 						</div>
 						<div class="col-xs-4">
-							<h4 class="product-name"><strong>@cartitem.meal.name</strong></h4><h4><small></small></h4>
+							<h4 class="product-name"><strong>@cartitem.meal.name</strong></h4><h4><small>@cartitem.totalPrice KM</small></h4>
 						</div>
 						<div class="col-xs-6">
 							<div class="col-xs-6 text-right">
@@ -43,9 +43,9 @@
 								<input type="text" class="form-control input-sm" value="@cartitem.quantity">
 							</div>
 							<div class="col-xs-2">
-								<button type="button" class="btn btn-link btn-xs">
-									<span class="glyphicon glyphicon-trash"> </span>
-								</button>
+								<form method="POST" action="@routes.CartController.removeFromBasket(cartitem.meal.id)">
+								<input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Delete" class="btn btn-danger btn-xs " /> 
+								</form>
 							</div>
 						</div>
 					</div>
@@ -67,9 +67,6 @@
 	                           <input type="image" <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" value="approve"/>
 	                           	 
 	                           </form> 				
-								
-								
-								
 							</div>
 						</div>
 					</div>
@@ -77,11 +74,12 @@
 				<div class="panel-footer">
 					<div class="row text-center">
 						<div class="col-xs-9">
-							<h4 class="text-right"><strong>Total</strong></h4>
+												
+							<h4 class="text-right"><strong>TOTAL: @total</strong></h4>
 						</div>
 						<div class="col-xs-3">
 							<button type="button" class="btn btn-success btn-block">
-								Checkout
+								Checkout 
 							</button>
 						</div>
 					</div>

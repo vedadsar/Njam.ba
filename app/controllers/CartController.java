@@ -24,6 +24,7 @@ import Utilites.*;
 public class CartController extends Controller {
 	
 	static String email;
+	static double total;
 	static Finder<Integer, Meal> findM = new Finder<Integer, Meal>(Integer.class, Meal.class);
 	static Finder<Integer, CartItem> findI = new Finder<Integer, CartItem>(Integer.class, CartItem.class);
 	static List<CartItem> cartItems = new ArrayList<CartItem>(0);
@@ -33,8 +34,19 @@ public class CartController extends Controller {
 	public static Result showCart(){
 		email = session("email");
 		User u = Session.getCurrentUser(ctx());
-		
-		return ok(cart.render(email, Cart.findByUserId(u.id).cartItems));
+		total = 0;
+		Cart newCart = Cart.findByUserId(u.id);
+		List<CartItem> cartItems = newCart.cartItems;
+		for (CartItem cartItem : cartItems) {
+			total = total + cartItem.totalPrice;
+		}
+
+		if(Session.getCurrentUser(ctx()) == null){
+			flash("loginP", "Please login");
+			return redirect("/login");
+		}
+
+		return ok(cart.render(email, Cart.findByUserId(u.id).cartItems, total));		
 	}
 	
 	
@@ -49,9 +61,6 @@ public class CartController extends Controller {
 			cartItems.add(cartItem);
 			cart.paid = false;
 			cart.save();
-			User u = Session.getCurrentUser(ctx());
-			cart.user.id = u.id;
-			u.save();
 			cartItem.save();
 		} else {
 			System.out.println("Else u kontroleru");
@@ -63,10 +72,33 @@ public class CartController extends Controller {
 		return redirect("/cart");
 	}
 	
+	public static Result removeFromBasket(int id) {
+		Meal meal = Meal.find(id);
+		User u = Session.getCurrentUser(ctx());
+		Cart cart = Cart.findByUserId(u.id);
+		
+		for (Iterator<CartItem> it = cartItems.iterator(); 
+				it.hasNext();) {
+			CartItem cartItem = CartItem.find.byId(cart.cartItems.indexOf(1));
+			if (cartItem.meal.find(meal.id).equals(Meal.find(id))) {
+				if (cartItem.quantity > 1) {
+					cartItem.decreaseQuantity();
+				} else {
+					it.remove();
+				}
+			}
+		}		
+		
+		flash("successR", "Meal successfully removed");
+		return redirect("/cart");
+	}
+	
+	
 	public static Result viewMeal(int id){
 		Meal meal = Meal.find(id);
+		
 		email = session("email");
 		return ok(mealView.render(email, meal));
 	}
-		
+			
 }

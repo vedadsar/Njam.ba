@@ -24,13 +24,13 @@ public class MailHelper {
 		
 		// sends text, HTML or both...
 		mail.setBodyText(message);
-		mail.setBodyHtml(String.format("<html><body><strong> %s </strong>: <p> %s </p> </body></html>", email, message));
+		mail.setBodyHtml(String.format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>","Thanks for signing up to njam.ba!", "We wish you a pleasant shopping time.", message));
 		MailerPlugin.send(mail);
 		
 	}
 	
 	
-public static void sendSudo(String email,String title, String message){
+	public static void sendSudo(String email,String title, String message){
 		
 		Email mail = new Email();
 		mail.setSubject("Contact Form Notification from: " +email +" Subject: " + title);

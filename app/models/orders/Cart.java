@@ -1,7 +1,9 @@
 package models.orders;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import Utilites.Session;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import models.User;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
+import play.twirl.api.Content;
 
 @Entity
 public class Cart extends Model {
@@ -26,6 +29,8 @@ public class Cart extends Model {
 	public User user;
 	@Required
 	public boolean paid;
+	@Required
+	public double total;
 	
 	
 	static Finder<Integer, Cart> findC = new Finder<Integer, Cart>(Integer.class, Cart.class);
@@ -37,6 +42,7 @@ public class Cart extends Model {
 		this.id = id;
 		this.user = user;
 		this.paid = false;
+		this.total = 0;
 	}
 	
 	public void addMeal(Meal meal) {
@@ -63,20 +69,6 @@ public class Cart extends Model {
 		newItem.save();
 		cartItems.add(newItem);
 	}
-
-//
-//	public void removeMeal(Meal meal) {
-//		for (Iterator<CartItem> it = cartItems.iterator(); it.hasNext();) {
-//			CartItem carttItem = (CartItem) it.next();
-//			if (cartItem.meal.find(id).equals(Meal.find(id))) {
-//				if (cartItem.quantity > 1) {
-//					cartItem.decreaseQuantity();
-//				} else {
-//					it.remove();
-//				}
-//			}
-//		}
-//	}
 	
 	public static Cart find(int id) {
 		return findC.byId(id);
