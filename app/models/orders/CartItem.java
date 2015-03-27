@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import models.Meal;
+import models.User;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -60,5 +61,4 @@ public class CartItem extends Model {
 	public static List<CartItem> all() {
 		return find.all();
 	}
-
 }

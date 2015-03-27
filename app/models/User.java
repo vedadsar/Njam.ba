@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
+import models.orders.Cart;
+
 import com.avaje.ebean.annotation.CreatedTimestamp;
 
 import Utilites.*;
@@ -31,7 +33,8 @@ public class User extends Model {
     public Restaurant restaurant;
 	@OneToOne
 	public Location location;
-    
+    @OneToOne
+    public Cart cart;
     
     public String confirmationString;
     public Boolean validated = false;

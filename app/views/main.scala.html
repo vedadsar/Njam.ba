@@ -68,10 +68,14 @@
              </ul>
           </li>
           
+          @if(User.checkIfExists(email) == true){
+          			@if(User.checkRole(email).equals(User.USER)){
           <ul class="nav navbar-right navbar-nav">
           <li class="dropdown">          
               <li><a href="/cart">Cart <i class="glyphicon glyphicon-shopping-cart"></i></a></li>
              </ul>
+             }
+          }
           
           <li class="dropdown">
 

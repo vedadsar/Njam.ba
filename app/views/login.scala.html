@@ -40,10 +40,11 @@
 					</div>
 				</div>
 				
-					@if(flash.get("inDatabase") || flash.get("success")){
+					@if(flash.get("inDatabase") || flash.get("success") || flash.get("loginP")){
 			           <div class="alert alert-success" role="alert">
 			            @flash.get("inDatabase")
 			            @flash.get("success")
+			      		@flash.get("loginP")
 			      
 			             </div>  
 	             	}
