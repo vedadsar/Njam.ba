@@ -73,7 +73,7 @@ public class Application extends Controller {
 
 		return ok(user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
 	}
-
+	
 
 	/**
 	 * This method just redirects to registration page.
@@ -251,12 +251,14 @@ public class Application extends Controller {
 		DynamicForm form = Form.form().bindFromRequest();
 		User currentUser = Session.getCurrentUser(ctx());
 				
-		String hashedPassword = form.data().get("hashedPassword");
+		String newHashedPassword= form.data().get("hashedPassword");
+		
+		
 		String city = form.data().get("city");
 		String street = form.data().get("street");
 		String number = form.data().get("number");
-
-		currentUser.hashedPassword = Hash.hashPassword(hashedPassword);
+		
+		currentUser.hashedPassword = Hash.hashPassword(newHashedPassword);
 		currentUser.location.city = city;
 		currentUser.location.street = street;
 		currentUser.location.number = number;

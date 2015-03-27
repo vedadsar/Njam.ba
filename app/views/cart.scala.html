@@ -1,0 +1,94 @@
+@(email: String)(cartitems: List[orders.CartItem])(total: Double)
+@main(email) {
+
+<body>
+
+    
+<div class="container">
+	<div class="row">
+		<div class="col-xs-8">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div class="panel-title">
+						<div class="row">
+							<div class="col-xs-6">
+								<h5><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h5>
+							</div>
+							<div class="col-xs-6">
+								<button type="button" class="btn btn-primary btn-sm btn-block">
+									<span class="glyphicon glyphicon-share-alt"></span> Continue shopping
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body">
+									<hr>
+					@for(cartitem <- cartitems){
+					<div class="row">
+				
+				
+				
+						<div class="col-xs-2"><img class="img-responsive" src="http://placehold.it/100x70">
+						</div>
+						<div class="col-xs-4">
+							<h4 class="product-name"><strong>@cartitem.meal.name</strong></h4><h4><small>@cartitem.totalPrice KM</small></h4>
+						</div>
+						<div class="col-xs-6">
+							<div class="col-xs-6 text-right">
+								<h6><strong><span class="text-muted">x</span></strong></h6>
+							</div>
+							<div class="col-xs-4">
+							
+								<input type="text" class="form-control input-sm" value="@cartitem.quantity">
+							</div>
+							<div class="col-xs-2">
+								<form method="POST" action="@routes.CartController.removeFromBasket(cartitem.meal.id)">
+								<input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Delete" class="btn btn-danger btn-xs " /> 
+								</form>
+							</div>
+						</div>
+					</div>
+					}
+					
+					<hr>
+					
+					<div class="row">
+						<div class="text-center">
+							<div class="col-xs-9">
+								<h6 class="text-right">Added items?</h6>
+							</div>
+							<div class="col-xs-3">
+								<button type="button" class="btn btn-default btn-sm btn-block">
+									Update cart
+								</button>
+								
+								<form method="POST" action="@routes.PaypalController.purchaseProcessing">
+	                           <input type="image" <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" value="approve"/>
+	                           	 
+	                           </form> 				
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<div class="row text-center">
+						<div class="col-xs-9">
+												
+							<h4 class="text-right"><strong>TOTAL: @total</strong></h4>
+						</div>
+						<div class="col-xs-3">
+							<button type="button" class="btn btn-success btn-block">
+								Checkout 
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+
+}

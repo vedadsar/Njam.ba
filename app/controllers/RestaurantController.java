@@ -7,6 +7,7 @@ import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
 import play.Logger;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.db.ebean.Model.Finder;
 import play.mvc.Controller;
@@ -152,5 +153,69 @@ public class RestaurantController extends Controller {
 		User u = User.find(email);
 		List <Meal> meals = Meal.allById(u);
 		return ok(restaurantOwner.render(email, meals, restaurants));
+	}
+	
+
+	public static Result editRestaurantURL(String email){
+		String userEmail = Session.getCurrentUser(ctx()).email;	
+		User user = User.find(userEmail);
+		Restaurant  restaurant = Restaurant.find(user.id);
+		return ok(restaurantOwnerEditProfile.render(userEmail, restaurant));
+		
+	}
+	
+	public static Result editRestaurant(String email){
+		
+		DynamicForm form = Form.form().bindFromRequest();
+		User currentUser = Session.getCurrentUser(ctx());
+				
+		String hashedPassword = form.data().get("hashedPassword");
+		if ( !hashedPassword.isEmpty()){
+			currentUser.hashedPassword = Hash.hashPassword(hashedPassword);
+		}
+		String name = form.data().get("name");
+		String city = form.data().get("city");
+		String street = form.data().get("street");
+		String number = form.data().get("number");
+
+		
+		currentUser.restaurant.name = name;
+		currentUser.location.city = city;
+		currentUser.location.street = street;
+		currentUser.location.number = number;
+		currentUser.restaurant.update();
+		currentUser.location.update();
+		currentUser.update();
+		
+		/*
+		
+		DynamicForm form = Form.form().bindFromRequest();	
+		
+		User currentUser = Session.getCurrentUser(ctx());
+		int id = currentUser.id;
+		Restaurant restaurant = findR.byId(id);
+		
+		String userEmail = form.data().get("email");
+		String userHashedPassword = form.data().get("hashedPassword");
+		User.modifyUser(currentUser, userEmail, userHashedPassword);
+		
+		String name = form.data().get("name");
+		Restaurant.modifyRestaurant(restaurant, userEmail, userHashedPassword, name);
+		
+		Location location =  restaurant.user.location;
+		String city = form.data().get("city");
+		String street = form.data().get("street");
+		String number = form.data().get("number");
+		
+		Location.modifyLocation(location, city,street, number);
+		location.save();
+		restaurant.save();
+		currentUser.save();
+		*/
+		
+		flash("successEdited", "You have successfully edited your restaurant Profile");
+		
+		return redirect("/restaurantOwner/"+ email);
+		
 	}
 }

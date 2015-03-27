@@ -1,9 +1,12 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
+import models.orders.*;
+import models.orders.CartItem;
 import Utilites.Session;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -18,6 +21,8 @@ public class Meal extends Model {
 	public String name;
 	@Required
 	public double price;
+	@Required
+	public String description;
 
 	@ManyToOne(cascade=CascadeType.ALL) 
 	public Restaurant restaurant;
@@ -25,13 +30,18 @@ public class Meal extends Model {
  
 	public List <Image> image;
 	
+
+	@OneToMany
+	public List <CartItem> cartItems = new ArrayList<CartItem>(0);
+
 	
 	public static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
 			Integer.class, Meal.class);
 
-	public Meal(String name, double price) {
+	public Meal(String name, double price, String description) {
 		this.name = name;
 		this.price = price;
+		this.description = description;
 	}
 
 	public Meal(String name, double price, Restaurant restaurant) {
@@ -39,12 +49,16 @@ public class Meal extends Model {
 		this.price = price;
 		this.restaurant = restaurant;
 	}
+
 	public Meal(String name, double price, Restaurant restaurant,Image image) {
 		this.name = name;
 		this.price = price;
 		this.restaurant = restaurant;
 		this.image.add(image);
 	}
+
+	
+
 
 	public static List<Meal> all(String name) {
 		return find.where().eq("name", name).findList();
@@ -120,10 +134,11 @@ public class Meal extends Model {
 
 	public static Meal find(int id) {
 		return find.byId(id);
-	}
+	} 
 
 	public static Meal findByName(String name) {
 		return find.where().eq("name", name).findUnique();
+
 	}
 
 	
@@ -132,6 +147,7 @@ public static List<Image>  findMealIMGS(Meal m) {
 		return m.image;
 	}
 	
+
 	
 	/**
 	 * 
@@ -156,6 +172,10 @@ public static List<Image>  findMealIMGS(Meal m) {
 		}
 		else
 			return true;
+	}
+	
+	public void addMealToCart(CartItem cartItem){
+		cartItems.add(cartItem);
 	}
 	
 }

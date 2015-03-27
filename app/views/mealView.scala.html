@@ -1,0 +1,94 @@
+@(email: String)(meal: Meal)
+@main(email) {
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="page-header">
+				<h1> @meal.restaurant.name <small>Restaurant</small></h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column col-md-2">
+				<a class="btn btn-primary" href="#"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+			</div>
+			<div class="column col-md-10">
+				<div class="panel panel-default">
+  					<div class="panel-body">
+  						<div class="row">
+  							<div class="page-header">
+  								<h1 class="text-center"> @meal.name </h1>
+  							</div>
+  							<div class="column col-md-12">
+	  							<div class="row">
+	  								<div class="column col-md-6">	
+	 									<a href="#" class="thumbnail">
+	      									<img src="burek.jpg">
+	    								</a>
+	    								<div class="row">							  									
+		  									<div class="col-xs-3 col-md-3">
+		    									<a href="#" class="thumbnail">
+		      										<img src="food1.jpg">
+		    									</a>
+		  									</div>
+		  									<div class="col-xs-3 col-md-3">
+		    									<a href="#" class="thumbnail">
+		      										<img src="food1.jpg">
+		    									</a>
+		  									</div>
+		  									<div class="col-xs-3 col-md-3">
+		    									<a href="#" class="thumbnail">
+		      										<img src="food1.jpg">
+		    									</a>
+		  									</div>
+		  									<div class="col-xs-3 col-md-3">
+		    									<a href="#" class="thumbnail">
+		      										<img src="food1.jpg">
+		    									</a>
+		  									</div>
+	  									</div>
+	  								</div>
+	  								<div class="column col-md-6">
+	  									<div class="row">
+	  										<div class="column col-md-12">
+	  											<p>
+	  												Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non rutrum lorem. Aenean auctor lorem ut purus pellentesque, eget feugiat mi lobortis. Sed maximus rhoncus libero vel ultrices. Donec lobortis magna mi, quis maximus augue placerat sit amet. Nulla a turpis mattis, lacinia nunc nec, aliquam urna. Aenean in arcu nunc. Nunc congue diam lacus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed lectus urna, semper vel commodo quis, ornare quis erat. Curabitur maximus tortor sit amet libero maximus, in tincidunt turpis suscipit. Cras at porttitor justo. Sed eu elementum turpis. Suspendisse potenti. Curabitur ac vulputate dui. Nulla bibendum nisi ac quam ullamcorper convallis. Quisque a velit nisl.
+	  											</p>
+	  										</div>
+	  									</div>
+	  								</div>
+	  							</div>
+  							</div>
+  						</div>
+    					<div class="row">
+    						<div class="column col-md-2 pull-right">
+    						
+    							<form method="POST" action="@routes.CartController.addMealToBasket(meal.id, 1)">
+	                           <input type="submit" value="Add To Cart" class="btn btn-success " />	 
+	                           </form> 						
+       						</div>
+    						<div class="column col-md-2 pull-right">
+    							<div class="input-group">
+      								<span class="input-group-btn">
+        								<button class="btn btn-primary" type="button">
+        									<span class="glyphicon glyphicon-minus"></span>
+        								</button>
+      								</span>
+      								<input type="number" class="form-control" value="1">
+      								<span class="input-group-btn">
+        								<button class="btn btn-primary" type="button">
+        									<span class="glyphicon glyphicon-plus"></span>
+        								</button>
+      								</span>
+    							</div>
+    						</div>
+    						<div class="column col-md-2 pull-right">
+    							<h4 class="text-right text-danger"> @meal.price </h4>
+    						</div>
+    					</div>
+  					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+}
