@@ -104,12 +104,8 @@ public class Restaurant extends Model{
 	
 
 	public static List<Image>  findRestaurantIMGS(Restaurant owner) {
-        List<Image> test;
-		for( Image img: owner.image){
-		 Logger.debug(img.imgLocation);
-		}
-		 
-		return test;
+        
+		return owner.image;
 	}
 
 }

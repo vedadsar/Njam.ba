@@ -127,6 +127,12 @@ public class Meal extends Model {
 	}
 
 	
+public static List<Image>  findMealIMGS(Meal m) {
+        
+		return m.image;
+	}
+	
+	
 	/**
 	 * 
 	 * @param m   Meal object

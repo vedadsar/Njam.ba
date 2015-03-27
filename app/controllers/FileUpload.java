@@ -41,7 +41,7 @@ public class FileUpload extends Controller {
 	public static Result saveMealIMG(int id) {
 		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
-		List<Image> totalMealpics =  Image.findAllByMeal(m);
+		List<Image> totalMealpics =  Meal.findMealIMGS(m);
 		if (totalMealpics.size() < 5) {
 
 			MultipartFormData body = request().body().asMultipartFormData();
@@ -73,7 +73,7 @@ public class FileUpload extends Controller {
 	public static Result saveRestaurantIMG() {
 		User u = Session.getCurrentUser(ctx());
 		List <Image> totalRestaurantPics = Restaurant.findRestaurantIMGS(u.restaurant);
-        if(u.restaurant.image.size()<3){
+        if(totalRestaurantPics.size()<3){
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
 
