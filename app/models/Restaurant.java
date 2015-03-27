@@ -1,10 +1,14 @@
 package models;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.persistence.*;
 
+import play.Logger;
 import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.MinLength;
@@ -32,7 +36,7 @@ public class Restaurant extends Model{
 	public List <Meal> meals;
 
    
-	public List <Image> image;
+	public  List <Image> image;
 	
 	public static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	
@@ -95,6 +99,17 @@ public class Restaurant extends Model{
 	
 	public static List<Restaurant> all(){
 		return find.all();
+	}
+	
+	
+
+	public static List<Image>  findRestaurantIMGS(Restaurant owner) {
+        List<Image> test;
+		for( Image img: owner.image){
+		 Logger.debug(img.imgLocation);
+		}
+		 
+		return test;
 	}
 
 }

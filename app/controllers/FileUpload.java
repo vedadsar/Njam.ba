@@ -72,8 +72,8 @@ public class FileUpload extends Controller {
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result saveRestaurantIMG() {
 		User u = Session.getCurrentUser(ctx());
-		List <Image> totalRestaurantPics = Image.findAllByOwnerNoMeal(u.restaurant);
-        if(totalRestaurantPics.size()<3){
+		List <Image> totalRestaurantPics = Restaurant.findRestaurantIMGS(u.restaurant);
+        if(u.restaurant.image.size()<3){
 		MultipartFormData body = request().body().asMultipartFormData();
 		FilePart filePart = body.getFile("image");
 

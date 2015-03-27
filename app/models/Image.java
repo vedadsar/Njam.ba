@@ -38,12 +38,7 @@ public class Image extends Model {
 	}
 	
 
-	public static List<Image>  findAllByOwnerNoMeal(Restaurant owner) {
 
-		 List<Image> gallery =find.where().eq("restaurant_id", owner.id).findList();
-		 
-		return gallery;
-	}
 	
 	
 	public static List<Image>  findAllByMeal(Meal meal) {
