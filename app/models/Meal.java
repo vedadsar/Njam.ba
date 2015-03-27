@@ -21,8 +21,8 @@ public class Meal extends Model {
 
 	@ManyToOne(cascade=CascadeType.ALL) 
 	public Restaurant restaurant;
-
-	@OneToMany(cascade=CascadeType.ALL) 
+	
+ 
 	public List <Image> image;
 	
 	
@@ -38,6 +38,12 @@ public class Meal extends Model {
 		this.name = name;
 		this.price = price;
 		this.restaurant = restaurant;
+	}
+	public Meal(String name, double price, Restaurant restaurant,Image image) {
+		this.name = name;
+		this.price = price;
+		this.restaurant = restaurant;
+		this.image.add(image);
 	}
 
 	public static List<Meal> all(String name) {
@@ -61,6 +67,15 @@ public class Meal extends Model {
 		return mealsById;
 	}
 
+	
+	public static boolean createMealImg(Meal m, String imgLocation) {
+	    Image img = new Image(imgLocation);
+	    m.image.add(img);
+        m.save();
+		return true;
+	}
+	
+	
 	public static boolean create(String name, double price,Restaurant currentUserRestaurant) {
 		Meal m = new Meal(name, price,currentUserRestaurant);
 		m.save();
@@ -77,7 +92,9 @@ public class Meal extends Model {
 		}
 		return true;
 	}
-
+	
+	
+	
 	public static void delete(int id) {
 		find.byId(id).delete();
 	}
@@ -109,10 +126,6 @@ public class Meal extends Model {
 		return find.where().eq("name", name).findUnique();
 	}
 
-	public static <Image> void create(){
-		Image();
-	}
-	
 	
 	/**
 	 * 

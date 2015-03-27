@@ -31,19 +31,7 @@ public class Image extends Model {
 		this.imgLocation=imgLocation;
 	}
 	
-	
-	
-	public static boolean createRestaurantImg(String imgLocation) {
-		Image img = new Image(imgLocation);
-		img.save();
-		return true;
-	}
-	
-	public static boolean createMealImg(String imgLocation) {
-		Image img = new Image(imgLocation);
-		img.save();
-		return true;
-	}
+		
 
 	public static void delete(int id) {
 		find.byId(id).delete();
@@ -52,15 +40,15 @@ public class Image extends Model {
 
 	public static List<Image>  findAllByOwnerNoMeal(Restaurant owner) {
 
-		 List<Image> gallery =find.where().eq("restaurant.id", owner.id).eq("meal.id", null).findList();
+		 List<Image> gallery =find.where().eq("restaurant_id", owner.id).findList();
 		 
 		return gallery;
 	}
 	
 	
-	public static List<Image>  findAllByOwnerandMeal(Restaurant owner, Meal m) {
+	public static List<Image>  findAllByMeal(Meal meal) {
 
-		 List<Image> gallery =find.where().eq("Restaurant.id", owner.id).eq("meal.id", m.id).findList();
+		 List<Image> gallery =find.where().eq("meal_id", meal.id).findList();
 		 
 		return gallery;
 	}

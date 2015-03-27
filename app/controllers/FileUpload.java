@@ -41,15 +41,16 @@ public class FileUpload extends Controller {
 	public static Result saveMealIMG(int id) {
 		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
-		List<Image> totalMealpics =  Image.findAllByOwnerandMeal(u.restaurant,m);
+		List<Image> totalMealpics =  Image.findAllByMeal(m);
 		if (totalMealpics.size() < 5) {
 
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart filePart = body.getFile("image");
 			File image = filePart.getFile();
-			String saveLocation = "public" + File.separator + "images"
-					+ File.separator + "UserId" + u.restaurant.id
-					+ File.separator + "meal" + File.separator + new Date()
+			
+			String saveLocation = "public" + System.getProperty("file.separator") + "images"
+					+ System.getProperty("file.separator") + "UserId" + u.restaurant.id + System.getProperty("file.separator")
+					+ "Meal" + System.getProperty("file.separator") + new Date().toString().replaceAll("\\D+","")
 					+ filePart.getFilename();
 
 			File saveFolder = new File(saveLocation).getParentFile();
@@ -61,12 +62,10 @@ public class FileUpload extends Controller {
 				 Logger.debug(e.toString());
 			}
 			Logger.debug(saveLocation);
-			Image.createMealImg(saveLocation);
-		}
-		else{
+			Meal.createMealImg(m, saveLocation);
 			return TODO;
 		}
-
+		else
 		return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
@@ -80,9 +79,9 @@ public class FileUpload extends Controller {
 
 		File image = filePart.getFile();
 
-		String saveLocation = "public" + File.separator + "images"
-				+ File.separator + "UserId" + u.restaurant.id + File.separator
-				+ "profile" + File.separator + new Date()
+		String saveLocation = "public" + System.getProperty("file.separator") + "images"
+				+ System.getProperty("file.separator") + "UserId" + u.restaurant.id + System.getProperty("file.separator")
+				+ "profile" + System.getProperty("file.separator") + new Date().toString().replaceAll("\\D+","")
 				+ filePart.getFilename();
 
 		File saveFolder = new File(saveLocation).getParentFile();
@@ -95,7 +94,7 @@ public class FileUpload extends Controller {
 			Logger.debug(e.toString());
 		}
 		Logger.debug(saveLocation);
-		Image.createRestaurantImg(saveLocation);
+		Restaurant.createRestaurantImg(u.restaurant, saveLocation);
        return TODO;
        }else
 		return ok(wrong.render("LIMIT HAS BEEN REACHED"));

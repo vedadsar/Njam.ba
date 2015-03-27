@@ -31,7 +31,7 @@ public class Restaurant extends Model{
 	@OneToMany(cascade=CascadeType.ALL) 
 	public List <Meal> meals;
 
-	@OneToMany(cascade=CascadeType.ALL) 
+   
 	public List <Image> image;
 	
 	public static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
@@ -45,10 +45,24 @@ public class Restaurant extends Model{
 		this.user = u;
 	}
 	
+	public Restaurant(User u, Image image){
+		this.user = u;
+		this.image.add(image);
+	}
+
 
 	public static void create(String name, User user){		
 		new Restaurant(name, user).save();
 
+	}
+	
+	
+	
+	public static boolean createRestaurantImg(Restaurant u, String imgLocation) {
+	    Image img = new Image(imgLocation);
+        u.image.add(img);
+	    u.save();
+		return true;
 	}
 	
 	public static Restaurant find(int id){
