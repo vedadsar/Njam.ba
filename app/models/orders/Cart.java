@@ -61,11 +61,13 @@ public class Cart extends Model {
 				System.out.println("U ifu je u Cart");
 				cartItem.increaseQuantity();
 				cartItem.update();
+				cartItem.cart.total = cartItem.totalPrice;
 				return;
 			}
 		}
 		System.out.println("U elsu je");
 		CartItem newItem = new CartItem(this, 1, meal.price, meal);
+		newItem.cart.total += newItem.totalPrice;
 		newItem.save();
 		cartItems.add(newItem);
 	}

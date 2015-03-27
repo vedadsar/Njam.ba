@@ -59,6 +59,7 @@ public class CartController extends Controller {
 			cart.addMeal(meal);
 			CartItem cartItem = new CartItem(cart, 1, meal.price, meal);
 			cartItems.add(cartItem);
+			cart.total += cartItem.totalPrice;
 			cart.paid = false;
 			cart.save();
 			cartItem.save();
