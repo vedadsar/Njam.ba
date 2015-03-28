@@ -27,7 +27,7 @@ import play.mvc.Security;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import views.html.wrong;
+import views.html.*;
 import models.*;
 import Utilites.RestaurantFilter;
 
@@ -36,21 +36,35 @@ import com.google.common.io.Files;
 
 public class FileUpload extends Controller {
 
-
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result saveMealIMG(int id) {
 		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
-		List<Image> totalMealpics =  Meal.findMealIMGS(m);
-		if (totalMealpics.size() < 5) {
+	    Logger.debug(m.name);
+	    int sizeOfList=0;
+	    
+	    if(m.image==null){
+	      		m.image=new ArrayList<>();}
+	    	else
+	    		sizeOfList=m.image.size();
+	   
+	   
+	     Logger.debug(String.valueOf(m.image.size()));
+	    
+	        
+	    
+		if( sizeOfList<5)  {
 
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart filePart = body.getFile("image");
 			File image = filePart.getFile();
-			
-			String saveLocation = "public" + System.getProperty("file.separator") + "images"
-					+ System.getProperty("file.separator") + "UserId" + u.restaurant.id + System.getProperty("file.separator")
-					+ "Meal" + System.getProperty("file.separator") + new Date().toString().replaceAll("\\D+","")
+
+			String saveLocation = "public"
+					+ System.getProperty("file.separator") + "images"
+					+ System.getProperty("file.separator") + "UserId"
+					+ u.restaurant.id + System.getProperty("file.separator")
+					+ "Meal" + System.getProperty("file.separator")
+					+ new Date().toString().replaceAll("\\D+", "")
 					+ filePart.getFilename();
 
 			File saveFolder = new File(saveLocation).getParentFile();
@@ -59,44 +73,60 @@ public class FileUpload extends Controller {
 				Files.move(image, new File(saveLocation));
 
 			} catch (IOException e) {
-				 Logger.debug(e.toString());
+				Logger.debug(e.toString());
 			}
 			Logger.debug(saveLocation);
 			Meal.createMealImg(m, saveLocation);
 			return TODO;
-		}
-		else
-		return ok(wrong.render("LIMIT HAS BEEN REACHED"));
+		} else
+			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result saveRestaurantIMG() {
 		User u = Session.getCurrentUser(ctx());
-		List <Image> totalRestaurantPics = Restaurant.findRestaurantIMGS(u.restaurant);
-        if(totalRestaurantPics.size()<3){
-		MultipartFormData body = request().body().asMultipartFormData();
-		FilePart filePart = body.getFile("image");
+		List<Image> totalRestaurantPics = Restaurant
+				.findRestaurantIMGS(u.restaurant);
+		if (totalRestaurantPics.size() < 3) {
+			MultipartFormData body = request().body().asMultipartFormData();
+			FilePart filePart = body.getFile("image");
 
-		File image = filePart.getFile();
+			File image = filePart.getFile();
 
-		String saveLocation = "public" + System.getProperty("file.separator") + "images"
-				+ System.getProperty("file.separator") + "UserId" + u.restaurant.id + System.getProperty("file.separator")
-				+ "profile" + System.getProperty("file.separator") + new Date().toString().replaceAll("\\D+","")
-				+ filePart.getFilename();
+			String saveLocation = "public"
+					+ System.getProperty("file.separator") + "images"
+					+ System.getProperty("file.separator") + "UserId"
+					+ u.restaurant.id + System.getProperty("file.separator")
+					+ "profile" + System.getProperty("file.separator")
+					+ new Date().toString().replaceAll("\\D+", "")
+					+ filePart.getFilename();
 
-		File saveFolder = new File(saveLocation).getParentFile();
-		saveFolder.mkdirs();
-		try {
-			Files.move(image, new File(saveLocation));
+			File saveFolder = new File(saveLocation).getParentFile();
+			saveFolder.mkdirs();
+			try {
+				Files.move(image, new File(saveLocation));
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Logger.debug(e.toString());
-		}
-		Logger.debug(saveLocation);
-		Restaurant.createRestaurantImg(u.restaurant, saveLocation);
-       return TODO;
-       }else
-		return ok(wrong.render("LIMIT HAS BEEN REACHED"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				Logger.debug(e.toString());
+			}
+			Logger.debug(saveLocation);
+			Restaurant.createRestaurantImg(u.restaurant, saveLocation);
+			return TODO;
+		} else
+			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
+
+	
+	@Security.Authenticated(RestaurantFilter.class)
+	public static Result deleteImg(int id){
+		Image.deleteImg(id);
+	   
+	        return ok(succsess.render("It has succseeded"));
+	
+	}
+	
+
+	
+	
 }

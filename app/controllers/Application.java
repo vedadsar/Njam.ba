@@ -287,15 +287,15 @@ public class Application extends Controller {
 	}
 	
 	@Security.Authenticated(RestaurantFilter.class)
-	public static Result showFileUpload()
-	{
-		return ok(fileUpload.render("","", Restaurant.all())); // NOT FINISHED
+	public static Result showFileUpload(int id)
+	{Meal m = Meal.find(id);
+		return ok(fileUploadMeal.render("","", m,Restaurant.all())); // NOT FINISHED
 	}
 	
 	public static Result MealIMGList(int id)
 	{
 		Meal m = Meal.find(id);
-		return ok(fileUpload.render("","", Restaurant.all())); // NOT FINISHED
+		return ok(fileUploadMeal.render("","",m, Restaurant.all())); // NOT FINISHED
 	}
 	
 }

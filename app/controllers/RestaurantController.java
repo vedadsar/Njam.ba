@@ -51,12 +51,15 @@ public class RestaurantController extends Controller {
 		Double price = Double.parseDouble(mealPrice);
 		Restaurant currentUser=u.restaurant;
 		
-		if (Meal.create(mealName, price,currentUser) == true) {
+		if ((Meal.create(mealName, price,currentUser)) == true) {
+			Meal m = findM.where().eq("name", mealName).eq("price", mealPrice).eq("restaurant_id",u.restaurant.id ).findUnique();
 			String userEmail= Session.getCurrentUser(ctx()).email;
+			Logger.debug(m.name);
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");
 			 Logger.info("Restaurant " +currentUser.name +" just created meal");
-			 return redirect("/restaurantOwner/" + userEmail);
+			 return ok(fileUploadMeal.render("","", m,Restaurant.all()));
+			 // return redirect("/restaurantOwner/" + userEmail);
 		}
 		Logger.error("Restaurant " +currentUser.name +" failed to create meal.");
 		return TODO;
