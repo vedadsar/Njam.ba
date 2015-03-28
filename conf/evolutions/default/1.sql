@@ -36,7 +36,6 @@ create table faq (
 
 create table image (
   id                        integer not null,
-  meal_id                   integer not null,
   img_location              varchar(255),
   constraint pk_image primary key (id))
 ;
@@ -106,20 +105,18 @@ alter table cart_item add constraint fk_cart_item_meal_3 foreign key (meal_id) r
 create index ix_cart_item_meal_3 on cart_item (meal_id);
 alter table comment add constraint fk_comment_author_4 foreign key (author_id) references user (id) on delete restrict on update restrict;
 create index ix_comment_author_4 on comment (author_id);
-alter table image add constraint fk_image_meal_5 foreign key (meal_id) references meal (id) on delete restrict on update restrict;
-create index ix_image_meal_5 on image (meal_id);
-alter table location add constraint fk_location_user_6 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_location_user_6 on location (user_id);
-alter table meal add constraint fk_meal_restaurant_7 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_meal_restaurant_7 on meal (restaurant_id);
-alter table restaurant add constraint fk_restaurant_user_8 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_user_8 on restaurant (user_id);
-alter table user add constraint fk_user_restaurant_9 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_9 on user (restaurant_id);
-alter table user add constraint fk_user_location_10 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_user_location_10 on user (location_id);
-alter table user add constraint fk_user_cart_11 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
-create index ix_user_cart_11 on user (cart_id);
+alter table location add constraint fk_location_user_5 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_location_user_5 on location (user_id);
+alter table meal add constraint fk_meal_restaurant_6 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_meal_restaurant_6 on meal (restaurant_id);
+alter table restaurant add constraint fk_restaurant_user_7 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_user_7 on restaurant (user_id);
+alter table user add constraint fk_user_restaurant_8 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_8 on user (restaurant_id);
+alter table user add constraint fk_user_location_9 foreign key (location_id) references location (id) on delete restrict on update restrict;
+create index ix_user_location_9 on user (location_id);
+alter table user add constraint fk_user_cart_10 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
+create index ix_user_cart_10 on user (cart_id);
 
 
 

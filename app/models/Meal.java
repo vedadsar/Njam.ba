@@ -26,8 +26,7 @@ public class Meal extends Model {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	public Restaurant restaurant;
-   
-	@OneToMany(cascade = CascadeType.ALL)
+
 	public List<Image> image= new ArrayList<Image>();
 
 	@OneToMany
@@ -80,6 +79,7 @@ public class Meal extends Model {
 
 	public static boolean createMealImg(Meal m, String imgLocation) {
 		Image img = new Image(imgLocation);
+		img.save();
 		Logger.debug(imgLocation);
 		Logger.debug(m.name);
 		m.image.add(img);
