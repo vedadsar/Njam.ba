@@ -52,14 +52,14 @@ public class FileUpload extends Controller {
 
 	public static int sizeOfList(String modelType) {
 		if (modelType.equals("meal")) {
-			if (m.image.isEmpty()) {
+			if (isEmpty(m.image)) {
 				return 0;
 			} else
 				return m.image.size();
 		}
 
 		if (modelType.equals("restaurant")) {
-			if (u.restaurant.image.isEmpty()) {
+			if (isEmpty(u.restaurant.image)) {
 				return 0;
 			} else
 				return u.restaurant.image.size();
@@ -123,7 +123,9 @@ public class FileUpload extends Controller {
 				Logger.debug(e.toString());
 			}
 			Logger.debug(saveLocation);
-			Meal.createMealImg(m, saveLocation);
+			m.createMealImgNS(saveLocation);
+			m.save();
+			//Meal.createMealImg(m, saveLocation);
 
 			return ok(fileUploadMeal.render("", "", m, Restaurant.all()));
 		} else
