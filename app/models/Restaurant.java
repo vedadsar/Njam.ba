@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -34,7 +35,8 @@ public class Restaurant extends Model {
 	@OneToMany(cascade = CascadeType.ALL)
 	public List<Meal> meals;
 
-	public List<Image> image;
+
+	public List<Image> image= new ArrayList<Image>();
 
 	public static Finder<Integer, Restaurant> find = new Finder<Integer, Restaurant>(
 			Integer.class, Restaurant.class);

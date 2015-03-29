@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.*;
@@ -26,8 +27,8 @@ public class Meal extends Model {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	public Restaurant restaurant;
-
-	public List<Image> image= new ArrayList<Image>();
+    
+	public List<Image> image=Collections.EMPTY_LIST;
 
 	@OneToMany
 	public List<CartItem> cartItems = new ArrayList<CartItem>(0);
@@ -39,19 +40,21 @@ public class Meal extends Model {
 		this.name = name;
 		this.price = price;
 		this.description = description;
+		this.image= Collections.EMPTY_LIST;
 	}
 
 	public Meal(String name, double price, Restaurant restaurant) {
 		this.name = name;
 		this.price = price;
 		this.restaurant = restaurant;
+		this.image= Collections.EMPTY_LIST;
 	}
 
 	public Meal(String name, double price, Restaurant restaurant, Image image) {
 		this.name = name;
 		this.price = price;
 		this.restaurant = restaurant;
-		this.image.add(image);
+		this.image=Collections.EMPTY_LIST;
 	}
 
 	public static List<Meal> all(String name) {
@@ -79,11 +82,7 @@ public class Meal extends Model {
 
 	public static boolean createMealImg(Meal m, String imgLocation) {
 		Image img = new Image(imgLocation);
-		img.save();
-		Logger.debug(imgLocation);
-		Logger.debug(m.name);
 		m.image.add(img);
-		Logger.debug(String.valueOf(m.image.size()));
 		m.save();
 		return true;
 	}

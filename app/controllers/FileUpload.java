@@ -6,6 +6,7 @@ import Utilites.Session;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -33,51 +34,98 @@ import Utilites.RestaurantFilter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.io.Files;
+import java.util.Collections;
 
 public class FileUpload extends Controller {
 
+	private static Meal m;
+	private static User u;
+	private static File image;
+	private static String folderId;
+	private static String imageFolder;
+	private static String imgFileName;
+	
+	
+	public static boolean isEmpty(Collection coll) {
+	    return (coll == null || coll.isEmpty());
+	}
+
+	public static int sizeOfList(String modelType) {
+		if (modelType.equals("meal")) {
+			if (m.image.isEmpty()) {
+				return 0;
+			} else
+				return m.image.size();
+		}
+
+		if (modelType.equals("restaurant")) {
+			if (u.restaurant.image.isEmpty()) {
+				return 0;
+			} else
+				return u.restaurant.image.size();
+		}
+		return -1;
+
+	}
+
 	@Security.Authenticated(RestaurantFilter.class)
+	public static String locationPath(String folderId, String imageFolder,
+			String fileName) {
+
+		String saveLocation = "public" + System.getProperty("file.separator")
+				+ "images" + System.getProperty("file.separator") + "UserId"
+				+ folderId + System.getProperty("file.separator") + imageFolder
+				+ System.getProperty("file.separator")
+				+ new Date().toString().replaceAll("\\D+", "") + fileName;
+
+		return saveLocation;
+	}
+
+	// public static Result checkEmpty(File image) {
+	// if (image != null) {
+	// return image;
+	// }
+
+	// return ok(wrong.render("Sorry you have not sent a file"));
+	// }
+
 	public static Result saveMealIMG(int id) {
-		Meal m = Meal.find(id);
-		User u = Session.getCurrentUser(ctx());
-	    Logger.debug(m.name);
-	    int sizeOfList=0;
-	    
-	    if(m.image==null){
-	      		m.image=new ArrayList<>();}
-	    	else
-	    		sizeOfList=m.image.size();
-	   
-	   
-	     Logger.debug(String.valueOf(m.image.size()));
-	    
-	        
-	    
-		if( sizeOfList<5)  {
+
+		u = Session.getCurrentUser(ctx());
+		m = Meal.find(id);
+
+		folderId = String.valueOf(u.restaurant.id);
+		imageFolder = "meal";
+
+		if (sizeOfList(imageFolder) < 5) {
 
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart filePart = body.getFile("image");
-			File image = filePart.getFile();
 
-			String saveLocation = "public"
-					+ System.getProperty("file.separator") + "images"
-					+ System.getProperty("file.separator") + "UserId"
-					+ u.restaurant.id + System.getProperty("file.separator")
-					+ "Meal" + System.getProperty("file.separator")
-					+ new Date().toString().replaceAll("\\D+", "")
-					+ filePart.getFilename();
+			try {
+				image = filePart.getFile();
+			} catch (NullPointerException e) {
+				Logger.debug(("Empty File Upload" + e));
+				return ok(wrong.render("OOPS you didnt send a file"));
+			}
 
+			imgFileName = filePart.getFilename();
+
+
+			String saveLocation = locationPath(folderId, imageFolder,
+					imgFileName);
 			File saveFolder = new File(saveLocation).getParentFile();
 			saveFolder.mkdirs();
+
 			try {
 				Files.move(image, new File(saveLocation));
-
 			} catch (IOException e) {
 				Logger.debug(e.toString());
 			}
 			Logger.debug(saveLocation);
 			Meal.createMealImg(m, saveLocation);
-			return TODO;
+
+			return ok(fileUploadMeal.render("", "", m, Restaurant.all()));
 		} else
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
@@ -85,48 +133,47 @@ public class FileUpload extends Controller {
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result saveRestaurantIMG() {
 		User u = Session.getCurrentUser(ctx());
-		List<Image> totalRestaurantPics = Restaurant
-				.findRestaurantIMGS(u.restaurant);
-		if (totalRestaurantPics.size() < 3) {
+
+		folderId = String.valueOf(u.restaurant.id);
+		imageFolder = "restaurant";
+
+		if (sizeOfList(imageFolder) < 3) {
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart filePart = body.getFile("image");
 
-			File image = filePart.getFile();
+			try {
+				image = filePart.getFile();
+			} catch (NullPointerException e) {
+				Logger.debug(("Empty File Upload" + e));
+				return ok(wrong.render("OOPS you didnt send a file"));
+			}
 
-			String saveLocation = "public"
-					+ System.getProperty("file.separator") + "images"
-					+ System.getProperty("file.separator") + "UserId"
-					+ u.restaurant.id + System.getProperty("file.separator")
-					+ "profile" + System.getProperty("file.separator")
-					+ new Date().toString().replaceAll("\\D+", "")
-					+ filePart.getFilename();
+			imgFileName = filePart.getFilename();
 
+			String saveLocation = locationPath(folderId, imageFolder,
+					imgFileName);
 			File saveFolder = new File(saveLocation).getParentFile();
 			saveFolder.mkdirs();
+
 			try {
 				Files.move(image, new File(saveLocation));
-
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				Logger.debug(e.toString());
 			}
-			Logger.debug(saveLocation);
+
 			Restaurant.createRestaurantImg(u.restaurant, saveLocation);
 			return TODO;
 		} else
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
-	
 	@Security.Authenticated(RestaurantFilter.class)
-	public static Result deleteImg(int id){
+	public static Result deleteImg(int id) {
 		Image.deleteImg(id);
-	   
-	        return ok(succsess.render("It has succseeded"));
-	
-	}
-	
 
-	
-	
+		return ok(succsess.render("It has succseeded"));
+
+	}
+
 }

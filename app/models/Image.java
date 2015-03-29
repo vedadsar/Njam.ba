@@ -25,6 +25,7 @@ public class Image extends Model {
 	public static Finder<Integer, Image> find = new Finder<Integer, Image>(
 			Integer.class, Image.class);
 
+	
 	public Image(String imgLocation) {
 		this.imgLocation = imgLocation;
 	}
