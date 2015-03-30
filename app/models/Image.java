@@ -21,6 +21,16 @@ public class Image extends Model {
 	public int id;
 	@Required
 	public String imgLocation;
+	
+	
+
+
+	
+	@ManyToOne
+	public Meal meal;
+	
+	@ManyToOne
+	public Restaurant restaurant;
 
 	public static Finder<Integer, Image> find = new Finder<Integer, Image>(
 			Integer.class, Image.class);

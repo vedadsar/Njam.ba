@@ -24,10 +24,11 @@ public class Meal extends Model {
 	@Required
 	public String description;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne 
 	public Restaurant restaurant;
     
-	public List<Image> image;
+	@OneToMany(mappedBy="meal",cascade = CascadeType.ALL)
+	public List<Image> image=new ArrayList<Image>();
 
 	@OneToMany
 	public List<CartItem> cartItems = new ArrayList<CartItem>(0);
