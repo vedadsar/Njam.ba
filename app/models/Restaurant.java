@@ -1,11 +1,8 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.persistence.*;
 
@@ -35,24 +32,26 @@ public class Restaurant extends Model {
 	@OneToMany(cascade = CascadeType.ALL)
 	public List<Meal> meals;
 
-	//@OneToMany(cascade = CascadeType.ALL, mappedBy="user")
-	public List<Image> image= new ArrayList<Image>();
+	@OneToMany(mappedBy="restaurant",cascade = CascadeType.ALL)
+	public List<Image> image=new ArrayList<Image>();
 
 	public static Finder<Integer, Restaurant> find = new Finder<Integer, Restaurant>(
 			Integer.class, Restaurant.class);
 
 	public Restaurant(String name) {
-		this.name = name;
+		this.name = name; 
+		this.image= new ArrayList<Image>(0);
 	}
 
 	public Restaurant(String name, User u) {
 		this.name = name;
 		this.user = u;
+		this.image= new ArrayList<Image>(0);
 	}
 
 	public Restaurant(User u, Image image) {
 		this.user = u;
-		this.image.add(image);
+		this.image= new ArrayList<Image>(0);
 	}
 
 	public static void create(String name, User user) {
@@ -64,6 +63,7 @@ public class Restaurant extends Model {
 		Image img = new Image(imgLocation);
 		u.image.add(img);
 		u.save();
+		
 		return true;
 	}
 

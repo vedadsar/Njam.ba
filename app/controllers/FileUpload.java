@@ -55,6 +55,7 @@ public class FileUpload extends Controller {
 			if (isEmpty(m.image)) {
 				return 0;
 			} else
+				Logger.debug(String.valueOf(m.image.size()));
 				return m.image.size();
 		}
 
@@ -123,8 +124,8 @@ public class FileUpload extends Controller {
 				Logger.debug(e.toString());
 			}
 			Logger.debug(saveLocation);
-			m.createMealImgNS(saveLocation);
-			m.save();
+			Meal.createMealImg(m, saveLocation);
+		
 			//Meal.createMealImg(m, saveLocation);
 
 			return ok(fileUploadMeal.render("", "", m, Restaurant.all()));

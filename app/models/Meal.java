@@ -82,9 +82,8 @@ public class Meal extends Model {
 
 	public static boolean createMealImg(Meal m, String imgLocation) {
 		Image img = new Image(imgLocation);
-		img.save();
-		Logger.debug(img.imgLocation);
 		m.image.add(img);
+		Logger.debug(String.valueOf(m.image.size()));
 		m.save();
 		return true;
 	}
