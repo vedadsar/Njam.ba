@@ -35,7 +35,8 @@ public class CartController extends Controller {
 		email = session("email");
 		User u = Session.getCurrentUser(ctx());
 		total = 0;
-		Cart newCart = Cart.findByUserId(u.id);
+//		Cart newCart = Cart.findByUserId(u.id);
+		Cart newCart = Cart.findLastCart(u.id);
 		List<CartItem> cartItems = newCart.cartItems;
 		for (CartItem cartItem : cartItems) {
 			total = total + cartItem.totalPrice;
@@ -45,17 +46,37 @@ public class CartController extends Controller {
 			flash("loginP", "Please login");
 			return redirect("/login");
 		}
+		
 
-		return ok(cart.render(email, Cart.findByUserId(u.id).cartItems, total));		
+		return ok(cart.render(email, Cart.findLastCart(u.id).cartItems, total));		
 	}
 	
 	
-	public static Result addMealToBasket(int id, int cartID){
+	public static Result addMealToBasket(int id){
 		Meal meal = Meal.find(id);
+		/*
 		Cart cart = findC.byId(cartID);
 		Logger.debug(String.valueOf(cartID));
-		if(cart == null){
-			cart = new Cart(cartID, Session.getCurrentUser(ctx()));
+		*/
+		User user = Session.getCurrentUser(ctx());
+//		Cart cart = Cart.findByUserId(user.id);
+		Cart cart = Cart.findLastCart(user.id);
+//		Cart cart = null ;
+
+		if(Session.getCurrentUser(ctx())==null){			
+			flash("Warning", "If you want to order food please Login.");
+		} else{
+			cart = Cart.findLastCart(user.id);
+		}
+		
+		
+		System.out.println("U cart-u je" + cart);
+		
+		
+		if(cart == null || cart.paid==true || Cart.timeGap(user.id) == false)  {
+			System.out.println("time gap : " + Cart.timeGap(user.id));
+			System.out.println("U davorovom Ifu");
+			cart = new Cart(user);
 			cart.addMeal(meal);
 			CartItem cartItem = new CartItem(cart, 1, meal.price, meal);
 			cartItems.add(cartItem);
@@ -63,11 +84,32 @@ public class CartController extends Controller {
 			cart.paid = false;
 			cart.save();
 			cartItem.save();
+			System.out.println("U If je" + cart);
 		} else {
 			System.out.println("Else u kontroleru");
 			cart.addMealToCart(meal);
 			cart.update();
 			}
+		
+		/*
+		Cart newCart = null;
+		if (cart.paid==false || Cart.timeGap(user.id) == false){
+			newCart = new Cart(user);
+			newCart.addMeal(meal);
+			CartItem newCartItem = new CartItem(cart, 1, meal.price, meal);
+			cartItems.add(newCartItem);
+			newCart.total += newCartItem.totalPrice;
+			newCart.paid=false;
+			newCart.save();
+			newCartItem.save();
+		} else {
+			
+			newCart.addMealToCart(meal);
+			newCart.update();
+		}
+		*/
+	
+		
 		
 		flash("SucessAdded", "Meal...");
 		return redirect("/cart");
@@ -76,7 +118,9 @@ public class CartController extends Controller {
 	public static Result removeFromBasket(int id) {
 		Meal meal = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
-		Cart cart = Cart.findByUserId(u.id);
+//		Cart cart = Cart.findByUserId(u.id);
+		Cart cart = Cart.findLastCart(u.id);
+	
 		
 		for (Iterator<CartItem> it = cartItems.iterator(); 
 				it.hasNext();) {
