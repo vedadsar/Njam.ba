@@ -97,7 +97,7 @@ public class Cart extends Model {
 	
 	public static Cart findLastCart(int userId){
 		List<Cart> carts = findC.where().eq("user_id", userId).findList();
-		if(carts.size() == 0)
+		if(carts.size()==0)
 			return null;
 		Cart lastCart=carts.get(carts.size()-1);
 		if (lastCart==null)
@@ -109,11 +109,18 @@ public class Cart extends Model {
 		Cart lastCart = Cart.findLastCart(userId);
 		Date currentDate = new Date();
 		long currentDateSec = currentDate.getTime();
-		long time = lastCart.date.getTime() - currentDateSec;
-		System.out.println("time" + time);
-		if ( time < 60000){
-			return true;
+		long time=0;
+		try {
+			time = lastCart.date.getTime() - currentDateSec;
+			System.out.println("time" + time);
+			if ( time == 0 || time < 60000){
+				return true;
+			}
+		} catch (NullPointerException e) {			
+			e.printStackTrace();
 		}
+		
+		
 		return false;
 	}
 }

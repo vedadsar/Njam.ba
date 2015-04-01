@@ -47,6 +47,10 @@ public class CartController extends Controller {
 			return redirect("/login");
 		}
 		
+		if (newCart == null || cartItems==null){
+			return redirect("/index");
+		}
+		
 
 		return ok(cart.render(email, Cart.findLastCart(u.id).cartItems, total));		
 	}

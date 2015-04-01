@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.*;
 
 import models.orders.*;
-import models.orders.CartItem;
 import Utilites.Session;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -142,6 +141,10 @@ public class Meal extends Model {
 	
 	public void addMealToCart(CartItem cartItem){
 		cartItems.add(cartItem);
+	}
+	
+	public static boolean check(int id) {
+		return find.where().eq("id", id).findUnique() != null;
 	}
 	
 }

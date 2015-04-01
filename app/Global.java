@@ -18,10 +18,16 @@ public class Global extends GlobalSettings {
 		User.createRestaurant("Klopa","restoran2@njam.ba", "123456","Tuzla", "Marsala Tita", "22");
 
 		Restaurant res = Restaurant.find(1);
-		Meal.create("Pizza", 5.00, res);
-		Meal.create("Supa", 3.00, res);
-		Meal.create("Cevapi", 5.00, res);
-		Meal.create("Pjeskavica", 6.00, res);
+		for( int i=1; i<=4; i++){
+			if (Meal.check(i)==false){
+				Meal.create("Pizza", 5.00, res);
+				Meal.create("Supa", 3.00, res);
+				Meal.create("Cevapi", 5.00, res);
+				Meal.create("Pjeskavica", 6.00, res);
+			}
+				
+		}
+		
 		
 		Faq.create("Kako ću znati da li je restoran primio moju narudžbu? ", 
 				"Kada napravite finalni korak klikom na dugme Naruči, na vašem ekranu će se kroz nekoliko minuta "
