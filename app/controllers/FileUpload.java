@@ -3,6 +3,8 @@ package controllers;
 import Utilites.RestaurantFilter;
 import Utilites.Session;
 
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,9 +34,15 @@ import views.html.*;
 import models.*;
 import Utilites.RestaurantFilter;
 
+import java.awt.Graphics2D;
+
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.io.Files;
+
 import java.util.Collections;
+
+import javax.imageio.ImageIO;
 
 public class FileUpload extends Controller {
 
@@ -44,10 +52,9 @@ public class FileUpload extends Controller {
 	private static String folderId;
 	private static String imageFolder;
 	private static String imgFileName;
-	
-	
+
 	public static boolean isEmpty(Collection coll) {
-	    return (coll == null || coll.isEmpty());
+		return (coll == null || coll.isEmpty());
 	}
 
 	public static int sizeOfList(String modelType) {
@@ -56,7 +63,7 @@ public class FileUpload extends Controller {
 				return 0;
 			} else
 				Logger.debug(String.valueOf(m.image.size()));
-				return m.image.size();
+			return m.image.size();
 		}
 
 		if (modelType.equals("restaurant")) {
@@ -82,13 +89,30 @@ public class FileUpload extends Controller {
 		return saveLocation;
 	}
 
-	// public static Result checkEmpty(File image) {
-	// if (image != null) {
-	// return image;
-	// }
-
-	// return ok(wrong.render("Sorry you have not sent a file"));
-	// }
+	public static void imageResize(int width, int height, File resizeImage,  String fileLocation
+			) {
+	
+		try {
+			
+			BufferedImage bdest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			BufferedImage bsrc=ImageIO.read(resizeImage);
+	
+			Logger.error("converted");
+		  File outputfile = new File(fileLocation);
+		  Graphics2D g = bdest.createGraphics();
+		  AffineTransform newConstraints = AffineTransform.getScaleInstance((double)width/bsrc.getWidth(),
+		          (double)height/bsrc.getHeight());
+		  g.drawRenderedImage(bsrc, newConstraints);
+		  ImageIO.write(bdest, "jpg", outputfile);
+		  Logger.error("converted");
+		} catch (IOException e) {
+			Logger.error("No image found");
+		}
+	}
+	
+	
+	
+	
 
 	public static Result saveMealIMG(int id) {
 
@@ -112,22 +136,22 @@ public class FileUpload extends Controller {
 
 			imgFileName = filePart.getFilename();
 
-
 			String saveLocation = locationPath(folderId, imageFolder,
 					imgFileName);
 			File saveFolder = new File(saveLocation).getParentFile();
 			saveFolder.mkdirs();
-
+       
 			try {
-				Files.move(image, new File(saveLocation));
+				 File imageFile=new File(saveLocation);
+				Files.move(image,imageFile );
+				imageResize(800, 500, imageFile,saveLocation);
 			} catch (IOException e) {
 				Logger.debug(e.toString());
 			}
 			Logger.debug(saveLocation);
 			Meal.createMealImg(m, saveLocation);
-		
-			//Meal.createMealImg(m, saveLocation);
 
+            Logger.debug("Passed resize?");
 			return ok(fileUploadMeal.render("", "", m, Restaurant.all()));
 		} else
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
@@ -166,6 +190,7 @@ public class FileUpload extends Controller {
 			}
 
 			Restaurant.createRestaurantImg(u.restaurant, saveLocation);
+
 			return TODO;
 		} else
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
