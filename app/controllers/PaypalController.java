@@ -132,11 +132,15 @@ public class PaypalController extends Controller {
 		paymentExecution.setPayerId(payerID);
 		
 		Payment newPayment = payment.execute(apiContext, paymentExecution);
-		
+		User u = Session.getCurrentUser(ctx());
+		Cart newCart = Cart.findLastCart(u.id);
+		newCart.paid=true;
+		newCart.update();
 		} catch(PayPalRESTException e){
 			Logger.warn(e.getMessage());
-		}		
-		return ok(creditStatus.render("Proslo"));
+		}
+		flash("PaidOK","Thank You for ordering> Wait until restaurant confirm your order.");
+		return redirect("/user/"+Session.getCurrentUser(ctx()).email);
 	}
 	
 	public static Result creditFail(){
