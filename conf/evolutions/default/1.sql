@@ -58,6 +58,7 @@ create table restaurant (
   name                      varchar(255),
   date_creation             timestamp,
   user_id                   integer,
+  min_order                 double,
   constraint pk_restaurant primary key (id))
 ;
 

@@ -233,9 +233,10 @@ public class Application extends Controller {
 	public static Result toRestaurant(String name){
 		
 		Restaurant restaurant = Restaurant.findByName(name);
+		double minOrder = restaurant.minOrder;
 		User restaurantUser = restaurant.user;
 		List<Meal> restaurantMeals = Meal.allById(restaurantUser);
-		return ok(restaurantProfile.render(email, name, restaurantMeals));
+		return ok(restaurantProfile.render(email, name, minOrder, restaurantMeals));
 	}
 	
 	

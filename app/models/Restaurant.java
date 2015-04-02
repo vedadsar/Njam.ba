@@ -27,6 +27,7 @@ public class Restaurant extends Model{
 	@OneToOne(cascade=CascadeType.ALL) 
 	public User user;
 	
+	public double minOrder;
 	
 	@OneToMany(cascade=CascadeType.ALL) 
 	public List <Meal> meals;
