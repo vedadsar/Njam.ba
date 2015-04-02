@@ -54,7 +54,7 @@ public class PaypalController extends Controller {
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			User u = Session.getCurrentUser(ctx());
-			Cart cart = Cart.findByUserId(u.id);
+			Cart cart = Cart.findLastCart(u.id);
 			
 			double total = cart.total;
 			double cartID = cart.id;

@@ -35,19 +35,26 @@ public class CartController extends Controller {
 		email = session("email");
 		User u = Session.getCurrentUser(ctx());
 		total = 0;
-//		Cart newCart = Cart.findByUserId(u.id);
+
 		Cart newCart = Cart.findLastCart(u.id);
-		List<CartItem> cartItems = newCart.cartItems;
-		for (CartItem cartItem : cartItems) {
-			total = total + cartItem.totalPrice;
+		List<CartItem> cartItems;
+		try {
+			cartItems = newCart.cartItems;
+			for (CartItem cartItem : cartItems) {
+				total = total + cartItem.totalPrice;
+			}
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 
 		if(Session.getCurrentUser(ctx()) == null){
 			flash("loginP", "Please login");
 			return redirect("/login");
 		}
 		
-		if (newCart == null || cartItems==null){
+		if  ( Cart.timeGap(u.id)==false || newCart.paid==true){
 			return redirect("/index");
 		}
 		

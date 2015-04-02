@@ -90,7 +90,7 @@ public class Cart extends Model {
 	} 
 	
 	public static Cart findByUserId(int userId){
-//		return findC.where().eq("user_id", userId).findUnique();
+
 		return findC.where().eq("user_id", userId).findList().get(findC.findRowCount() - 1);
 	}
 
@@ -107,6 +107,8 @@ public class Cart extends Model {
 	
 	public static boolean timeGap(int userId){
 		Cart lastCart = Cart.findLastCart(userId);
+		if(lastCart==null)
+			return false;
 		Date currentDate = new Date();
 		long currentDateSec = currentDate.getTime();
 		long time=0;
