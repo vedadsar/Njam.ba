@@ -16,6 +16,9 @@
 		      <div class="col-md-6">
 		        <h1><a href="/" title="Scroll down for your viewing pleasure">Njam.ba</a>
 		          <p class="lead">Enjoy delicious food from your favorite restaurant.</p></h1>
+		      @(nesto String){nesto=@meal}
+		       
+		          <a href="/"><img src="@routes.Assets.at()" width="75" heigth="75" alt=""></a>
 		      </div>
 		      <div class="col-md-6">
 		        <div class="well pull-right">
@@ -44,6 +47,8 @@
                     <img src="http://placehold.it/800x500" alt="">
                     <div class="caption">
                         <h3>@meal.name</h3>
+                        
+                        
                         <p>Lorem ipsum dolor sit amet, consectetur ng elit.</p>
                          <div class="row">
                         <p>@meal.price KM</p>
