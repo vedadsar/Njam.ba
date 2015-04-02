@@ -33,6 +33,7 @@ public class Restaurant extends Model{
 
 	
 	public static Finder<Integer, Restaurant> find =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
+	public static Finder<Integer, User> findU =  new Finder<Integer,User>(Integer.class, User.class);
 	
 	public Restaurant(String name){
 		this.name = name;
@@ -56,6 +57,7 @@ public class Restaurant extends Model{
 	public static Restaurant findByName(String name){
 		return find.where().eq("name", name).findUnique();
 	}
+	
 		
 	public static boolean delete(int id){
 		Restaurant r = Restaurant.find(id);

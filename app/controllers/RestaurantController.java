@@ -148,17 +148,18 @@ public class RestaurantController extends Controller {
 	
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result restaurant(String email){			
-		List <Restaurant> restaurants = findR.all();		
+		List <Restaurant> restaurants = findR.all();	
 		User u = User.find(email);
 		List <Meal> meals = Meal.allById(u);
+		
 		return ok(restaurantOwner.render(email, meals, restaurants));
 	}
 	
 
-	public static Result editRestaurantURL(String email){
-		String userEmail = Session.getCurrentUser(ctx()).email;	
-		User user = User.find(userEmail);
-		Restaurant  restaurant = Restaurant.find(user.id);
+	public static Result editRestaurantURL(String name){
+		
+		String userEmail= Session.getCurrentUser(ctx()).email;
+		Restaurant  restaurant = Restaurant.findByName(name);
 		return ok(restaurantOwnerEditProfile.render(userEmail, restaurant));
 		
 	}
