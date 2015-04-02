@@ -8,6 +8,7 @@ create table cart (
   user_id                   integer,
   paid                      boolean,
   total                     double,
+  date                      timestamp,
   constraint pk_cart primary key (id))
 ;
 

@@ -82,6 +82,14 @@
 								Checkout 
 							</button>
 						</div>
+						
+						@if(flash.get("SucessAdded") || flash.get("Warning") ){
+			           <div class="alert alert-success" role="alert">
+			            @flash.get("SucessAdded")
+			            @flash.get("Warning")
+			      
+			             </div>  
+	             	}
 					</div>
 				</div>
 			</div>
