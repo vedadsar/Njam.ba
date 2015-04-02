@@ -113,7 +113,10 @@
 						<div class="caption">
 									
 							<p>
-								<a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
+							 <form method="POST" action="@routes.FileUpload.deleteImg(img.imgLocation)">
+                       		 <input type="submit" onclick = "if (! confirm('Are you sure you want delete this picture?')) { return false; }" value="Delete" class="btn btn-danger btn-xs " />	 
+                       		</form>       
+								
 							</p>
 						</div>
 					</div>

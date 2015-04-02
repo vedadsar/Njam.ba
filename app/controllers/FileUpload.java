@@ -181,8 +181,8 @@ public class FileUpload extends Controller {
 	
 
 	@Security.Authenticated(RestaurantFilter.class)
-	public static Result deleteImg(int id) {
-		Image.deleteImg(id);
+	public static Result deleteImg(String imgLocation) {
+		Image.deleteImg(imgLocation);
 	   return ok(succsess.render("It has succseeded"));
 	}
 

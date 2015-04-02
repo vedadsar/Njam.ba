@@ -40,14 +40,14 @@ public class Image extends Model {
 		this.imgLocation = imgLocation;
 	}
 
-	public static void deleteImg(int id) {
-		Image temp= find.byId(id);
+	public static void deleteImg(String imgLocation) {
+		Image temp= find.where().eq("imgLocation",imgLocation).findUnique();
 		deleteImgHdd(temp);
 		temp.delete();
 	}
 
 	public static void deleteImgHdd(Image harakiri) {
-		File toDelete = new File(harakiri.imgLocation);
+		File toDelete = new File("public"+System.getProperty("file.separator")+harakiri.imgLocation);
 		toDelete.delete();
 
 	}
