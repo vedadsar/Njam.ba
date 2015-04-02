@@ -1,4 +1,4 @@
-@(message: String)(email: String)(meal: Meal)(restaurants: List[Restaurant])
+@(message: String)(email: String)(meal: Meal)(restaurants: List[Restaurant])(imageList: List[Image])
 
 @main(email) {
 	 <body>
@@ -22,7 +22,7 @@
       <div class="col-md-6">
         <h1><a href="#" title="Scroll down for your viewing pleasure">Njam.ba</a>
           <p class="lead">Please Upload your Picture</p></h1>
-          ddds
+       
       </div>
       <div class="col-md-6">
         <div class="well pull-right">
@@ -36,7 +36,7 @@
 <!-- Begin Body -->
 <div class="container">
 	<div class="no-gutter row">
-      		
+      		 
       			
       		<!--mid column-->
       		<div class="col-md-3">
@@ -48,8 +48,10 @@
                   <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
                   
                   <div class="well">
-                          <h3><a href="/restaurantProfile/@restaurant.name">@restaurant.name</a></h3>
-                         
+                  
+              
+                     
+                     
                   </div>
                   }   
                 
@@ -88,16 +90,40 @@
 		         	<input type="file" style="padding: 1%; margin-left: auto;  margin-right: auto;font-size:12;width: 205px" name="image" id="image"> 
 		          	<input type="submit" value="Send file" />
                     </form>
+                    
+                       <a class="btn btn-danger pull-right" href="/restaurantOwner/@email" role="button">GO BACK</a>
                    </div>
                  </div>
                   
                   <hr>
-                  
-                  
+                
+                </div>
+              <div class="row">
+              <div>
+            
+                  @if(imageList.iterator.hasNext){	
+                  	
+                  	@for(img <- imageList){
              	
                   </div><!--/panel-body-->
+                  
+                  <div class="col-md-4">
+					<div class="thumbnail">
+						<img alt="300x200" src="@routes.Assets.at(img.imgLocation)" />
+						<div class="caption">
+									
+							<p>
+								<a class="btn btn-primary" href="#">Action</a> <a class="btn" href="#">Action</a>
+							</p>
+						</div>
+					</div>
+				}}
+				</div>
+	          </div>  
+
+			</div>
+			
                 </div><!--/panel-->
-              	<!--/end right column-->
       	</div> 
   	</div>
 </div>

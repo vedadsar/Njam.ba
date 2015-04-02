@@ -16,9 +16,9 @@
 		      <div class="col-md-6">
 		        <h1><a href="/" title="Scroll down for your viewing pleasure">Njam.ba</a>
 		          <p class="lead">Enjoy delicious food from your favorite restaurant.</p></h1>
-		      @(nesto String){nesto=@meal}
+		     
 		       
-		          <a href="/"><img src="@routes.Assets.at()" width="75" heigth="75" alt=""></a>
+		          <a href="/"><img src="" width="75" heigth="75" alt=""></a>
 		      </div>
 		      <div class="col-md-6">
 		        <div class="well pull-right">
@@ -44,7 +44,10 @@
 
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
+                     @if(meal.image.iterator().hasNext()!=true){
+                	 <img src="http://placehold.it/800x500" alt="">
+                }else{                
+                    <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="">}
                     <div class="caption">
                         <h3>@meal.name</h3>
                         

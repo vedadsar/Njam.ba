@@ -58,7 +58,7 @@ public class RestaurantController extends Controller {
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");
 			 Logger.info("Restaurant " +currentUser.name +" just created meal");
-			 return ok(fileUploadMeal.render("","", m,Restaurant.all()));
+			 return ok(fileUploadMeal.render("",userEmail, m,Restaurant.all(),m.image));
 			 // return redirect("/restaurantOwner/" + userEmail);
 		}
 		Logger.error("Restaurant " +currentUser.name +" failed to create meal.");

@@ -2,14 +2,15 @@
 @main(email) {
 <body>
 	<div class="container">
-		<div class="row">
-			<div class="page-header">
-				<h1> @meal.restaurant.name <small>Restaurant</small></h1>
-			</div>
-		</div>
-		<div class="row">
-			<div class="column col-md-2">
-				<a class="btn btn-primary" href="#"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+		<div clasimport models._
+import controllers._
+import play.api.i18n._
+import play.api.mvc._
+import play.api.data._
+import views.html._
+import play.api.templates._
+import play.api.templates.PlayMagic._
+import scalaz.std.iterablen-primary" href="#"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
 			</div>
 			<div class="column col-md-10">
 				<div class="panel panel-default">
@@ -24,8 +25,8 @@
 	 									<a href="#" class="thumbnail">
 	      									<img src="burek.jpg">
 	    								</a>
-	    								<div class="row">		@meal.image.iterator().next().imgLocation.toString().
-	    									<a href="/"><img src="@routes.Assets.at(meal.image.iterator().next().imgLocation)" width="75" heigth="75" alt=""></a>			  									
+	    								<div class="row">		
+	    												  									
 		  									<div class="col-xs-3 col-md-3">
 		    									<a href="#" class="thumbnail">
 		      										<img src="food1.jpg">

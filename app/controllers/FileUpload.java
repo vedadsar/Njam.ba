@@ -80,9 +80,9 @@ public class FileUpload extends Controller {
 			saveFolder.mkdirs();
 	
 			try {
-				 File imageFile=new File(saveLocation);
+				 File imageFile=new File("public"+System.getProperty("file.separator")+saveLocation);
 				Files.move(image,imageFile );
-				imageResize(800, 500, imageFile,saveLocation);
+				imageResize(800, 500, imageFile,"public"+System.getProperty("file.separator")+saveLocation);
 			} catch (IOException e) {
 				Logger.debug(e.toString());
 			}
@@ -90,7 +90,7 @@ public class FileUpload extends Controller {
 			Meal.createMealImg(m, saveLocation);
 	
 	        Logger.debug("Passed resize?");
-			return ok(fileUploadMeal.render("", "", m, Restaurant.all()));
+			return ok(fileUploadMeal.render("", "", m, Restaurant.all(),m.image));
 		} else
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
@@ -122,9 +122,9 @@ public class FileUpload extends Controller {
 	
 			try {
 				
-			    File imageFile=new File(saveLocation);
+			    File imageFile=new File("public"+System.getProperty("file.separator")+saveLocation);
 				Files.move(image,imageFile );
-				imageResize(800, 500, imageFile,saveLocation);
+				imageResize(800, 500, imageFile,"public"+System.getProperty("file.separator")+saveLocation);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				Logger.debug(e.toString());
@@ -142,8 +142,8 @@ public class FileUpload extends Controller {
 	public static String locationPath(String folderId, String imageFolder,
 			String fileName) {
 	
-		String saveLocation = "public" + System.getProperty("file.separator")
-				+ "images" + System.getProperty("file.separator") + "UserId"
+		String saveLocation = 
+				"images" + System.getProperty("file.separator") + "UserId"
 				+ folderId + System.getProperty("file.separator") + imageFolder
 				+ System.getProperty("file.separator")
 				+ new Date().toString().replaceAll("\\D+", "") + fileName;
@@ -151,15 +151,14 @@ public class FileUpload extends Controller {
 		return saveLocation;
 	}
 
+	
 	public static boolean isEmpty(Collection coll) {
 		return (coll == null || coll.isEmpty());
 	}
 
-	public static void imageResize(int width, int height, File resizeImage,  String fileLocation
-			) {
+	public static void imageResize(int width, int height, File resizeImage,  String fileLocation){
 	
-		try {
-			
+		try {			
 			BufferedImage bdest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			BufferedImage bsrc=ImageIO.read(resizeImage);
 	
@@ -171,7 +170,8 @@ public class FileUpload extends Controller {
 		  g.drawRenderedImage(bsrc, newConstraints);
 		  ImageIO.write(bdest, "jpg", outputfile);
 		  Logger.error("converted");
-		} catch (IOException e) {
+	    	} catch (IOException e) {
+	    		
 			Logger.error("No image found");
 		}
 	}
@@ -183,9 +183,7 @@ public class FileUpload extends Controller {
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result deleteImg(int id) {
 		Image.deleteImg(id);
-
-		return ok(succsess.render("It has succseeded"));
-
+	   return ok(succsess.render("It has succseeded"));
 	}
 
 	public static int sizeOfList(String modelType) {

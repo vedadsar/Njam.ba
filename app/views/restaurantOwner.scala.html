@@ -77,15 +77,21 @@
         <!-- Page Features -->
         @for(meal<-meals){
         	
+        	
+        	
 
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
+                @if(meal.image.iterator().hasNext()!=true){
+                	 <img src="http://placehold.it/800x500" alt="">
+                }else{                
+                    <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="">}
+                    
                     <div class="caption">
                         <h3>@meal.name</h3>
                         <p>Lorem ipsum dolor sit amet, <div>     @for(image<-meal.image){
                         	
-                        	@image.imgLocation
+                        
                         }</div> sectetur adipisicing elit.</p>
                         <p>@meal.price KM</p>
                       
