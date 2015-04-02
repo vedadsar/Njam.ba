@@ -57,6 +57,7 @@ public class CartController extends Controller {
 		}
 		
 		if  ( Cart.timeGap(u.id)==false || newCart.paid==true){
+			flash("Warning", "Please add Meal to your cart.");
 			return redirect("/");
 		}
 		
@@ -89,7 +90,6 @@ public class CartController extends Controller {
 		
 		if(cart == null || cart.paid==true || Cart.timeGap(user.id) == false)  {
 			System.out.println("time gap : " + Cart.timeGap(user.id));
-			System.out.println("U davorovom Ifu");
 			cart = new Cart(user);
 			cart.addMeal(meal);
 			CartItem cartItem = new CartItem(cart, 1, meal.price, meal);
@@ -125,7 +125,7 @@ public class CartController extends Controller {
 	
 		
 		
-		flash("SucessAdded", "Meal...");
+		flash("SucessAdded", "Successfully added Meal.");
 		return redirect("/cart");
 	}
 	
