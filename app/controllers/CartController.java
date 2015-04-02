@@ -55,7 +55,8 @@ public class CartController extends Controller {
 		}
 		
 		if  ( Cart.timeGap(u.id)==false || newCart.paid==true){
-			return redirect("/index");
+			flash("Warning","Please add meal to cart");
+			return redirect("/");
 		}
 		
 
@@ -122,7 +123,7 @@ public class CartController extends Controller {
 	
 		
 		
-		flash("SucessAdded", "Meal...");
+		flash("SucessAdded", "Successfully added Meal.");
 		return redirect("/cart");
 	}
 	
