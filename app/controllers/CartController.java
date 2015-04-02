@@ -25,6 +25,7 @@ public class CartController extends Controller {
 	
 	static String email;
 	static double total;
+	static double minOrder;
 	static Finder<Integer, Meal> findM = new Finder<Integer, Meal>(Integer.class, Meal.class);
 	static Finder<Integer, CartItem> findI = new Finder<Integer, CartItem>(Integer.class, CartItem.class);
 	static List<CartItem> cartItems = new ArrayList<CartItem>(0);
@@ -42,6 +43,7 @@ public class CartController extends Controller {
 			cartItems = newCart.cartItems;
 			for (CartItem cartItem : cartItems) {
 				total = total + cartItem.totalPrice;
+				minOrder = cartItem.meal.restaurant.minOrder;
 			}
 		} catch (NullPointerException e) {
 			// TODO Auto-generated catch block
@@ -55,16 +57,17 @@ public class CartController extends Controller {
 		}
 		
 		if  ( Cart.timeGap(u.id)==false || newCart.paid==true){
-			return redirect("/index");
+			return redirect("/");
 		}
 		
 
-		return ok(cart.render(email, Cart.findLastCart(u.id).cartItems, total));		
+		return ok(cart.render(email, Cart.findLastCart(u.id).cartItems, total, minOrder));		
 	}
 	
 	
 	public static Result addMealToBasket(int id){
 		Meal meal = Meal.find(id);
+		
 		/*
 		Cart cart = findC.byId(cartID);
 		Logger.debug(String.valueOf(cartID));

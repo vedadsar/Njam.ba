@@ -177,9 +177,11 @@ public class RestaurantController extends Controller {
 		String city = form.data().get("city");
 		String street = form.data().get("street");
 		String number = form.data().get("number");
+		double minOrder = Double.parseDouble(form.data().get("minOrder"));
 
 		
 		currentUser.restaurant.name = name;
+		currentUser.restaurant.minOrder = minOrder;
 		currentUser.location.city = city;
 		currentUser.location.street = street;
 		currentUser.location.number = number;
