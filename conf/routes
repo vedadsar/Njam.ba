@@ -19,7 +19,7 @@ POST   /admin/approve/:id                   controllers.SudoController.approveRe
 GET    /fileUpload/:id                      controllers.Application.showFileUpload(id: Int)
 POST   /fileUpload/Meal/:id                 controllers.FileUpload.saveMealIMG(id: Int)
 POST   /fileUpload/Restaurant/              controllers.FileUpload.saveRestaurantIMG()
-GET    /fileUpload/deleteimg/:image         controllers.FileUpload.deleteImg(image: String)
+GET    /fileUpload/deleteimg/:image/:meal         controllers.FileUpload.deleteImg(image: String,meal: Int)
 
 
 

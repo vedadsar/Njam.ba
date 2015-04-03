@@ -25,6 +25,7 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
+import play.db.ebean.Model.Finder;
 import play.libs.F.Function;
 import play.libs.F.Promise;
 import play.mvc.Controller;
@@ -83,7 +84,7 @@ public class FileUpload extends Controller {
 	
 			String saveLocation = locationPath(folderId, imageFolder,
 					imgFileName);
-			File saveFolder = new File(saveLocation).getParentFile();
+			File saveFolder = new File("public"+System.getProperty("file.separator")+saveLocation).getParentFile();
 			saveFolder.mkdirs();
 	
 			try {
@@ -179,6 +180,7 @@ public class FileUpload extends Controller {
 			
 			File imageFile = new File(fileLocation);
 			BufferedImage image=ImageIO.read(imageFile);
+			Logger.debug(fileLocation);
 			BufferedImage thumbnail =
 					  Scalr.resize(image, Scalr.Method.AUTOMATIC
 							  , Scalr.Mode.FIT_TO_HEIGHT,
@@ -199,7 +201,8 @@ public class FileUpload extends Controller {
 	
 
 	@Security.Authenticated(RestaurantFilter.class)
-	public static Result deleteImg(String imgLocation) {
+	public static Result deleteImg(String imgLocation,int mealID) {
+	     Meal m = Meal.find(mealID);
 		 Image.deleteImg(imgLocation);
 		
 		return ok(fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image));
