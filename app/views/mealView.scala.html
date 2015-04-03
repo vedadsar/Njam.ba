@@ -2,22 +2,21 @@
 @main(email) {
 <body>
 	<div class="container">
-		<div clasimport models._
-import controllers._
-import play.api.i18n._
-import play.api.mvc._
-import play.api.data._
-import views.html._
-import play.api.templates._
-import play.api.templates.PlayMagic._
-import scalaz.std.iterablen-primary" href="#"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+		<div class="row">
+			<div class="page-header">
+				<h1> @meal.restaurant.name <small>Restaurant</small></h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="column col-md-2">
+				<a class="btn btn-primary" href="#"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
 			</div>
 			<div class="column col-md-10">
 				<div class="panel panel-default">
   					<div class="panel-body">
   						<div class="row">
   							<div class="page-header">
-  								<h1 class="text-center"></h1>
+  								<h1 class="text-center"> @meal.name </h1>
   							</div>
   							<div class="column col-md-12">
 	  							<div class="row">
@@ -25,8 +24,7 @@ import scalaz.std.iterablen-primary" href="#"><span class="glyphicon glyphicon-a
 	 									<a href="#" class="thumbnail">
 	      									<img src="burek.jpg">
 	    								</a>
-	    								<div class="row">		
-	    												  									
+	    								<div class="row">							  									
 		  									<div class="col-xs-3 col-md-3">
 		    									<a href="#" class="thumbnail">
 		      										<img src="food1.jpg">
@@ -47,7 +45,6 @@ import scalaz.std.iterablen-primary" href="#"><span class="glyphicon glyphicon-a
 		      										<img src="food1.jpg">
 		    									</a>
 		  									</div>
-		  									
 	  									</div>
 	  								</div>
 	  								<div class="column col-md-6">
@@ -65,9 +62,7 @@ import scalaz.std.iterablen-primary" href="#"><span class="glyphicon glyphicon-a
     					<div class="row">
     						<div class="column col-md-2 pull-right">
     						
-    							<form method="POST" action="@routes.CartController.addMealToBasket(meal.id, 1)">
-	                           <input type="submit" value="Add To Cart" class="btn btn-success " />	 
-	                           </form> 						
+    												
        						</div>
     						<div class="column col-md-2 pull-right">
     							<div class="input-group">

@@ -158,7 +158,13 @@ public class RestaurantController extends Controller {
 		return ok(restaurantOwner.render(email, meals, restaurants));
 	}
 	
-
+	@Security.Authenticated(RestaurantFilter.class)
+	public static Result restaurantFW(){
+			restaurant(Session.getCurrentUser(ctx()).email);
+			return TODO;
+	}
+	
+	@Security.Authenticated(RestaurantFilter.class)
 	public static Result editRestaurantURL(String email){
 		String userEmail = Session.getCurrentUser(ctx()).email;	
 		User user = User.find(userEmail);

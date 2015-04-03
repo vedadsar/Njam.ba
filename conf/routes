@@ -19,7 +19,9 @@ POST   /admin/approve/:id                   controllers.SudoController.approveRe
 GET    /fileUpload/:id                      controllers.Application.showFileUpload(id: Int)
 POST   /fileUpload/Meal/:id                 controllers.FileUpload.saveMealIMG(id: Int)
 POST   /fileUpload/Restaurant/              controllers.FileUpload.saveRestaurantIMG()
-POST   /fileUpload/deleteimg/:image         controllers.FileUpload.deleteImg(image: String)
+GET    /fileUpload/deleteimg/:image         controllers.FileUpload.deleteImg(image: String)
+
+
 
 GET    /restaurantOwner/:email              controllers.RestaurantController.restaurant(email: String)
 GET    /restaurantOwnerEditProfile/:email   controllers.RestaurantController.editRestaurantURL(email: String)

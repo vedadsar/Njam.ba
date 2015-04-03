@@ -5,6 +5,8 @@ import Utilites.Session;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,14 +36,19 @@ import views.html.*;
 import models.*;
 import Utilites.RestaurantFilter;
 
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import com.avaje.ebean.config.EncryptDeploy.Mode;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.io.Files;
 
 import java.util.Collections;
 
 import javax.imageio.ImageIO;
+
+import org.imgscalr.*;
+import org.imgscalr.Scalr.Method;
 
 public class FileUpload extends Controller {
 
@@ -90,7 +97,9 @@ public class FileUpload extends Controller {
 			Meal.createMealImg(m, saveLocation);
 	
 	        Logger.debug("Passed resize?");
-			return ok(fileUploadMeal.render("", "", m, Restaurant.all(),m.image));
+			return ok(fileUploadMeal.render("",Session.getCurrentUser(ctx()).email, m, Restaurant.all(),m.image));
+			
+			
 		} else
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
@@ -117,22 +126,27 @@ public class FileUpload extends Controller {
 	
 			String saveLocation = locationPath(folderId, imageFolder,
 					imgFileName);
-			File saveFolder = new File(saveLocation).getParentFile();
+			File saveFolder = new File("public"+System.getProperty("file.separator")+saveLocation).getParentFile();
 			saveFolder.mkdirs();
 	
+			
+			
+			
 			try {
-				
-			    File imageFile=new File("public"+System.getProperty("file.separator")+saveLocation);
-				Files.move(image,imageFile );
+			  File imageFile=new File("public"+System.getProperty("file.separator")+saveLocation);
+			  	Files.move(image,imageFile );
 				imageResize(800, 500, imageFile,"public"+System.getProperty("file.separator")+saveLocation);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				Logger.debug(e.toString());
 			}
-	
+			Logger.debug(saveLocation);
 			Restaurant.createRestaurantImg(u.restaurant, saveLocation);
-	
-			return TODO;
+		     Logger.debug("Passed resize?");
+			
+				
+		
+			return ok(restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all()));
+			
 		} else
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
@@ -156,34 +170,39 @@ public class FileUpload extends Controller {
 		return (coll == null || coll.isEmpty());
 	}
 
-	public static void imageResize(int width, int height, File resizeImage,  String fileLocation){
+
+ 	public static void imageResize(int width, int height, File resizeImage,  String fileLocation){
+
 	
-		try {			
-			BufferedImage bdest = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-			BufferedImage bsrc=ImageIO.read(resizeImage);
-	
-			Logger.error("converted");
-		  File outputfile = new File(fileLocation);
-		  Graphics2D g = bdest.createGraphics();
-		  AffineTransform newConstraints = AffineTransform.getScaleInstance((double)width/bsrc.getWidth(),
-		          (double)height/bsrc.getHeight());
-		  g.drawRenderedImage(bsrc, newConstraints);
-		  ImageIO.write(bdest, "jpg", outputfile);
-		  Logger.error("converted");
-	    	} catch (IOException e) {
+		try {		
+
+			
+			File imageFile = new File(fileLocation);
+			BufferedImage image=ImageIO.read(imageFile);
+			BufferedImage thumbnail =
+					  Scalr.resize(image, Scalr.Method.AUTOMATIC
+							  , Scalr.Mode.FIT_TO_HEIGHT,
+					               500);
+			
+			File saveFile=new File (fileLocation);
+			 ImageIO.write(thumbnail,"png",saveFile);
+
+
+  	} catch (IOException e) {
 	    		
-			Logger.error("No image found");
+		Logger.error("No image found");
 		}
 	}
-	
+
 	
 	
 	
 
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result deleteImg(String imgLocation) {
-		Image.deleteImg(imgLocation);
-	   return ok(succsess.render("It has succseeded"));
+		 Image.deleteImg(imgLocation);
+		
+		return ok(fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image));
 	}
 
 	public static int sizeOfList(String modelType) {
@@ -194,12 +213,12 @@ public class FileUpload extends Controller {
 				Logger.debug(String.valueOf(m.image.size()));
 			return m.image.size();
 		}
-	
+	Restaurant r = Session.getCurrentUser(ctx()).restaurant;
 		if (modelType.equals("restaurant")) {
-			if (isEmpty(u.restaurant.image)) {
+			if ( r == null || r.image.isEmpty()) {
 				return 0;
 			} else
-				return u.restaurant.image.size();
+				return r.image.size();
 		}
 		return -1;
 	

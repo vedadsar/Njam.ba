@@ -51,7 +51,7 @@ public class Restaurant extends Model {
 
 	public Restaurant(User u, Image image) {
 		this.user = u;
-		this.image= new ArrayList<Image>(0);
+		this.image.add(image);
 	}
 
 	public static void create(String name, User user) {
