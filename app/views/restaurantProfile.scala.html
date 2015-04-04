@@ -1,4 +1,4 @@
-@(email: String)(name: String)(meals: List[Meal])
+@(email: String)(name: String)(minOrder: Double)(meals: List[Meal])
 
 @main(email) {
 
@@ -10,23 +10,19 @@
     <div class="container">
 
 		<!-- Header -->
-		        <header class="masthead">
-		  <div class="container">
-		    <div class="row">
-		      <div class="col-md-6">
-		        <h1><a href="/" title="Scroll down for your viewing pleasure">Njam.ba</a>
-		          <p class="lead">Enjoy delicious food from your favorite restaurant.</p></h1>
-		     
-		       
-		          <a href="/"><img src="" width="75" heigth="75" alt=""></a>
-		      </div>
-		      <div class="col-md-6">
-		        <div class="well pull-right">
-		          <img src="//placehold.it/280x100/E7E7E7">        
-		        </div>
-		      </div>
-		    </div>
-		  </div>
+
+		<header class="masthead">
+			<div class="container">
+				<div class="row">
+					<div class="page-header">
+						<h1> @name <small>Restaurant</small></h1>
+						@if(minOrder > 0) {
+							<h4 class="text-right"><small>Minimal order for this restaurant is @minOrder KM.</small></h4>
+						}
+					</div>
+				</div>
+			</div>
+
 		</header>
 
         <!-- Title -->

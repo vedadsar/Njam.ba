@@ -29,17 +29,32 @@ public class Restaurant extends Model {
 	@OneToOne(cascade = CascadeType.ALL)
 	public User user;
 
+
 	@OneToMany(cascade = CascadeType.ALL)
 	public List<Meal> meals;
 
 	@OneToMany(mappedBy="restaurant",cascade = CascadeType.ALL)
 	public List<Image> image=new ArrayList<Image>();
 
-	public static Finder<Integer, Restaurant> find = new Finder<Integer, Restaurant>(
-			Integer.class, Restaurant.class);
+	public static Finder<Integer, Restaurant> find = new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
+
+	public static Finder<Integer, User> findU =  new Finder<Integer,User>(Integer.class, User.class);
+	
+	public double minOrder;
 
 	public Restaurant(String name) {
 		this.name = name; 
+		this.image= new ArrayList<Image>(0);
+
+	
+
+	
+	
+
+	
+	public Restaurant(String name){
+
+		this.name = name;
 		this.image= new ArrayList<Image>(0);
 	}
 
@@ -75,7 +90,9 @@ public class Restaurant extends Model {
 		return find.where().eq("name", name).findUnique();
 	}
 
+
 	public static boolean delete(int id) {
+
 		Restaurant r = Restaurant.find(id);
 		r.delete();
 		if (find(id) != null) {

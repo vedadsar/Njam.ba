@@ -180,4 +180,10 @@ public class Meal extends Model {
 		cartItems.add(cartItem);
 	}
 
+	
+	public static boolean check(int id) {
+		return find.where().eq("id", id).findUnique() != null;
+	}
+	
+
 }

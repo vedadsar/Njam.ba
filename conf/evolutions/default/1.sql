@@ -8,6 +8,7 @@ create table cart (
   user_id                   integer,
   paid                      boolean,
   total                     double,
+  date                      timestamp,
   constraint pk_cart primary key (id))
 ;
 
@@ -65,6 +66,7 @@ create table restaurant (
   name                      varchar(255),
   date_creation             timestamp,
   user_id                   integer,
+  min_order                 double,
   constraint pk_restaurant primary key (id))
 ;
 

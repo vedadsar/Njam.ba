@@ -22,6 +22,12 @@ POST   /fileUpload/Restaurant/              controllers.FileUpload.saveRestauran
 GET    /fileUpload/deleteimg/:image/:meal         controllers.FileUpload.deleteImg(image: String,meal: Int)
 
 
+GET     /restaurantOwner/:email     controllers.RestaurantController.restaurant(email: String)
+GET     /restaurantOwnerEditProfile/:name     controllers.RestaurantController.editRestaurantURL(name: String)
+POST    /restaurantOwnerEditProfile/:email     controllers.RestaurantController.editRestaurant(email: String)
+POST    /restaurantOwner/           controllers.RestaurantController.createMeal()
+POST	/restaurantOwner/delete/:id		controllers.RestaurantController.deleteMeal(id: Int)
+
 
 GET    /restaurantOwner/:email              controllers.RestaurantController.restaurant(email: String)
 GET    /restaurantOwnerEditProfile/:email   controllers.RestaurantController.editRestaurantURL(email: String)
@@ -41,9 +47,16 @@ POST   /user/:email                         controllers.Application.editUser(ema
 GET    /logout                              controllers.Application.logout()
 GET    /confirm/:confirmationString         controllers.Validate.validateEmail(confirmationString: String)
 
+
 GET    /faqPage                             controllers.Application.showFaq()
 POST   /admin/faq                           controllers.FaqController.create()
 POST   /admin/faq/delete/:id                controllers.FaqController.delete(id: Int)
+
+GET      /mealView/:id              controllers.CartController.viewMeal(id: Int)
+GET     /cart                 controllers.CartController.showCart()
+POST    /cart             controllers.CartController.removeFromBasket(id: Int)
+POST    /mealView/:id          controllers.CartController.addMealToBasket(id: Int)
+
 
 GET    /search                              controllers.SearchController.searchByGeneric(q: String,typeGen: String)
 
@@ -61,6 +74,8 @@ POST   /creditpurchase                      controllers.PaypalController.purchas
 GET    /creditsuccess                       controllers.PaypalController.creditSuccess()
 GET    /creditfail                          controllers.PaypalController.creditFail()
 
+POST   /userSearch					controllers.SearchController.ajaxList()
+GET 	/userSearch			        controllers.SearchController.ajaxSearch()
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                        controllers.Assets.at(path="/public", file)

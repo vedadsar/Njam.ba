@@ -1,4 +1,4 @@
-@(email: String)(cartitems: List[orders.CartItem])(total: Double)
+@(email: String)(cartitems: List[orders.CartItem])(total: Double)(minOrder: Double)
 @main(email) {
 
 <body>
@@ -15,14 +15,13 @@
 								<h5><span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h5>
 							</div>
 							<div class="col-xs-6">
-								<button type="button" class="btn btn-primary btn-sm btn-block">
-									<span class="glyphicon glyphicon-share-alt"></span> Continue shopping
-								</button>
+								
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="panel-body">
+					
 									<hr>
 					@for(cartitem <- cartitems){
 					<div class="row">
@@ -44,7 +43,7 @@
 							</div>
 							<div class="col-xs-2">
 								<form method="POST" action="@routes.CartController.removeFromBasket(cartitem.meal.id)">
-								<input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Delete" class="btn btn-danger btn-xs " /> 
+								<input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Remove" class="btn btn-danger btn-xs " disabled/> 
 								</form>
 							</div>
 						</div>
@@ -55,33 +54,46 @@
 					
 					<div class="row">
 						<div class="text-center">
-							<div class="col-xs-9">
-								<h6 class="text-right">Added items?</h6>
-							</div>
-							<div class="col-xs-3">
-								<button type="button" class="btn btn-default btn-sm btn-block">
-									Update cart
-								</button>
+							
 								
-								<form method="POST" action="@routes.PaypalController.purchaseProcessing">
-	                           <input type="image" <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" value="approve"/>
-	                           	 
-	                           </form> 				
-							</div>
+								@if(minOrder <= total) {
+									<div class="col-xs-9"></div>
+									<div class="col-xs-3">
+									<form method="POST" action="@routes.PaypalController.purchaseProcessing">
+	                        			<input type="image" <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" value="approve"/>
+	                        		</form>
+	                        		</div>
+								} else {
+									<div class="col-xs-3"></div>
+									<div class="col-xs-9">
+									<h5 class="text-right text-danger"><strong>Total for your order is less than minimal order.</strong></h5>
+									</div>
+								}			
+							
 						</div>
 					</div>
+					<hr>
+					<h5 class="text-right text-danger"><strong>Minimal order: @minOrder KM</strong></h5>
 				</div>
 				<div class="panel-footer">
 					<div class="row text-center">
 						<div class="col-xs-9">
 												
-							<h4 class="text-right"><strong>TOTAL: @total</strong></h4>
+							<h4 class="text-right"><strong>TOTAL: @total KM</strong></h4>
 						</div>
 						<div class="col-xs-3">
-							<button type="button" class="btn btn-success btn-block">
+							<button type="button" class="btn btn-success btn-block" disabled>
 								Checkout 
 							</button>
 						</div>
+						
+						@if(flash.get("SucessAdded") || flash.get("Warning") ){
+			           <div class="alert alert-success" role="alert">
+			            @flash.get("SucessAdded")
+			            @flash.get("Warning")
+			      
+			             </div>  
+	             	}
 					</div>
 				</div>
 			</div>

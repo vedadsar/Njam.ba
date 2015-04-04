@@ -152,23 +152,28 @@ public class RestaurantController extends Controller {
 	
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result restaurant(String email){			
-		List <Restaurant> restaurants = findR.all();		
+		List <Restaurant> restaurants = findR.all();	
 		User u = User.find(email);
 		List <Meal> meals = Meal.allById(u);
+		
 		return ok(restaurantOwner.render(email, meals, restaurants));
 	}
 	
+<<<<<<< HEAD
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result restaurantFW(){
 			restaurant(Session.getCurrentUser(ctx()).email);
 			return TODO;
 	}
 	
-	@Security.Authenticated(RestaurantFilter.class)
-	public static Result editRestaurantURL(String email){
-		String userEmail = Session.getCurrentUser(ctx()).email;	
-		User user = User.find(userEmail);
-		Restaurant  restaurant = Restaurant.find(user.id);
+	
+
+       @Security.Authenticated(RestaurantFilter.class)
+	public static Result editRestaurantURL(String name){
+		
+		String userEmail= Session.getCurrentUser(ctx()).email;
+		Restaurant  restaurant = Restaurant.findByName(name);
+
 		return ok(restaurantOwnerEditProfile.render(userEmail, restaurant));
 		
 	}
@@ -186,9 +191,11 @@ public class RestaurantController extends Controller {
 		String city = form.data().get("city");
 		String street = form.data().get("street");
 		String number = form.data().get("number");
+		double minOrder = Double.parseDouble(form.data().get("minOrder"));
 
 		
 		currentUser.restaurant.name = name;
+		currentUser.restaurant.minOrder = minOrder;
 		currentUser.location.city = city;
 		currentUser.location.street = street;
 		currentUser.location.number = number;

@@ -16,6 +16,8 @@ import models.Location;
 import models.Meal;
 import models.Restaurant;
 import models.User;
+import models.orders.Cart;
+import models.orders.CartItem;
 import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
@@ -34,6 +36,7 @@ import com.paypal.base.rest.PayPalRESTException;
 
 public class PaypalController extends Controller {
 	
+	
 	public static Result showPurchase(){
 		return ok(creditStatus.render(""));
 	}
@@ -50,12 +53,22 @@ public class PaypalController extends Controller {
 			APIContext apiContext = new APIContext(accessToken);
 			apiContext.setConfigurationMap(sdkConfig);
 			
+			User u = Session.getCurrentUser(ctx());
+			Cart cart = Cart.findLastCart(u.id);
+			
+			double total = cart.total;
+			double cartID = cart.id;
+			String price = String.format("%1.2f",total);
 			Amount amount = new Amount();
-			amount.setTotal("6.00");
+			amount.setTotal(price);
 			amount.setCurrency("USD");
 			
+			String description = String.format("Description: %s\n"
+					+ "Total Price: %s\n"
+					+ "Cart ID: %s\n", "Njam.ba", cart.total, cart.id);
+			
 			Transaction transaction = new Transaction();
-			transaction.setDescription("Davor Handsome");
+			transaction.setDescription(description);
 			transaction.setAmount(amount);
 			
 			List<Transaction> transactions = new ArrayList<Transaction>();
@@ -63,6 +76,7 @@ public class PaypalController extends Controller {
 			
 			Payer payer = new Payer();
 			payer.setPaymentMethod("paypal");
+			
 			
 			
 			Payment payment = new Payment();
@@ -118,11 +132,15 @@ public class PaypalController extends Controller {
 		paymentExecution.setPayerId(payerID);
 		
 		Payment newPayment = payment.execute(apiContext, paymentExecution);
-		
+		User u = Session.getCurrentUser(ctx());
+		Cart newCart = Cart.findLastCart(u.id);
+		newCart.paid=true;
+		newCart.update();
 		} catch(PayPalRESTException e){
 			Logger.warn(e.getMessage());
-		}		
-		return ok(creditStatus.render("Proslo"));
+		}
+		flash("PaidOK","Thank You for ordering> Wait until restaurant confirm your order.");
+		return redirect("/user/"+Session.getCurrentUser(ctx()).email);
 	}
 	
 	public static Result creditFail(){
