@@ -50,12 +50,16 @@ public class RestaurantController extends Controller {
 		mealPrice = mealPrice.replace(',', '.');
 		Double price = Double.parseDouble(mealPrice);
 		Restaurant currentUser=u.restaurant;
-		if (Meal.create(mealName, price,currentUser) == true) {
+		
+		if ((Meal.create(mealName, price,currentUser)) == true) {
+			Meal m = findM.where().eq("name", mealName).eq("price", mealPrice).eq("restaurant_id",u.restaurant.id ).findUnique();
 			String userEmail= Session.getCurrentUser(ctx()).email;
+			Logger.debug(m.name);
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");
 			 Logger.info("Restaurant " +currentUser.name +" just created meal");
-			 return redirect("/restaurantOwner/" + userEmail);
+			 return ok(fileUploadMeal.render("",userEmail, m,Restaurant.all(),m.image));
+			 // return redirect("/restaurantOwner/" + userEmail);
 		}
 		Logger.error("Restaurant " +currentUser.name +" failed to create meal.");
 		return TODO;
@@ -156,10 +160,20 @@ public class RestaurantController extends Controller {
 	}
 	
 
+	@Security.Authenticated(RestaurantFilter.class)
+	public static Result restaurantFW(){
+			restaurant(Session.getCurrentUser(ctx()).email);
+			return TODO;
+	}
+	
+	
+
+       @Security.Authenticated(RestaurantFilter.class)
 	public static Result editRestaurantURL(String name){
 		
 		String userEmail= Session.getCurrentUser(ctx()).email;
 		Restaurant  restaurant = Restaurant.findByName(name);
+
 		return ok(restaurantOwnerEditProfile.render(userEmail, restaurant));
 		
 	}

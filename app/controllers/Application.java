@@ -14,8 +14,10 @@ import play.Logger;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.*;
+import play.mvc.Http.MultipartFormData;
 import views.html.*;
 import Utilites.AdminFilter;
+import Utilites.RestaurantFilter;
 import Utilites.Session;
 import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
@@ -117,6 +119,7 @@ public class Application extends Controller {
 	 */
 	public static Result registration() throws MalformedURLException {
 		DynamicForm form = Form.form().bindFromRequest();
+				
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
 		
@@ -283,5 +286,18 @@ public class Application extends Controller {
 		flash("success", "You've been logged out");
 		return redirect(routes.Application.index());
 	}
+	
+	@Security.Authenticated(RestaurantFilter.class)
+	public static Result showFileUpload(int id)
+	{Meal m = Meal.find(id);
 
+		return ok(fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image)); // NOT FINISHED
+	}
+	
+	public static Result MealIMGList(int id)
+	{
+		Meal m = Meal.find(id);
+		return ok(fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
+	}
+	
 }

@@ -31,8 +31,7 @@ public class SearchController extends Controller {
 	public static DynamicForm form = DynamicForm.form().bindFromRequest();
 
 	public static Result autocomplete(String q) {
-		List<Meal> meals = Meal.find.where().like("name", "%" + q + "%")
-				.findList();
+		List<Meal> meals = Meal.find.where().like("name", "%" + q + "%").findList();
 
 		for (Meal m : meals) {
 			return TODO;
