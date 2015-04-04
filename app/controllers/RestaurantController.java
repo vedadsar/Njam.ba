@@ -159,7 +159,7 @@ public class RestaurantController extends Controller {
 		return ok(restaurantOwner.render(email, meals, restaurants));
 	}
 	
-<<<<<<< HEAD
+
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result restaurantFW(){
 			restaurant(Session.getCurrentUser(ctx()).email);

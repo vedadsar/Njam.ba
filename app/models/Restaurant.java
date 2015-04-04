@@ -42,16 +42,8 @@ public class Restaurant extends Model {
 	
 	public double minOrder;
 
-	public Restaurant(String name) {
-		this.name = name; 
-		this.image= new ArrayList<Image>(0);
 
-	
-
-	
-	
-
-	
+		
 	public Restaurant(String name){
 
 		this.name = name;

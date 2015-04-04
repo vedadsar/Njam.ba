@@ -60,6 +60,15 @@ public class FileUpload extends Controller {
 	private static String imageFolder;
 	private static String imgFileName;
 
+	
+	/** Method  Saves image to the meal id  which enters the method
+	 * 	 * 
+	 * @param id of Meal
+	 * @return
+	 */
+	
+	
+	@Security.Authenticated(RestaurantFilter.class)
 	public static Result saveMealIMG(int id) {
 	
 		u = Session.getCurrentUser(ctx());
@@ -68,6 +77,8 @@ public class FileUpload extends Controller {
 		folderId = String.valueOf(u.restaurant.id);
 		imageFolder = "meal";
 	
+		
+		//Picture count check
 		if (sizeOfList(imageFolder) < 5) {
 	
 			MultipartFormData body = request().body().asMultipartFormData();
@@ -88,13 +99,18 @@ public class FileUpload extends Controller {
 			saveFolder.mkdirs();
 	
 			try {
+				
+				
 				 File imageFile=new File("public"+System.getProperty("file.separator")+saveLocation);
-				Files.move(image,imageFile );
-				imageResize(800, 500, imageFile,"public"+System.getProperty("file.separator")+saveLocation);
+		//File saving
+				 Files.move(image,imageFile );
+		 //Image file resize method
+		        	imageResize(800, 500, imageFile,"public"+System.getProperty("file.separator")+saveLocation);
 			} catch (IOException e) {
 				Logger.debug(e.toString());
 			}
 			Logger.debug(saveLocation);
+ 	    //Image location saving to Database.		
 			Meal.createMealImg(m, saveLocation);
 	
 	        Logger.debug("Passed resize?");
@@ -105,13 +121,20 @@ public class FileUpload extends Controller {
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
+	
+	/**
+	 * Method which saves current active restaurants 
+	 * profile images
+	 * @return
+	 */
+	
 	@Security.Authenticated(RestaurantFilter.class)
-	public static Result saveRestaurantIMG() {
+		public static Result saveRestaurantIMG() {
 		User u = Session.getCurrentUser(ctx());
 	
 		folderId = String.valueOf(u.restaurant.id);
 		imageFolder = "restaurant";
-	
+	//Picture count check
 		if (sizeOfList(imageFolder) < 3) {
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart filePart = body.getFile("image");
@@ -135,12 +158,16 @@ public class FileUpload extends Controller {
 			
 			try {
 			  File imageFile=new File("public"+System.getProperty("file.separator")+saveLocation);
+			// File saving  
 			  	Files.move(image,imageFile );
+		    // Resizing of  file to default size	  	
 				imageResize(800, 500, imageFile,"public"+System.getProperty("file.separator")+saveLocation);
 			} catch (IOException e) {
 				Logger.debug(e.toString());
 			}
 			Logger.debug(saveLocation);
+			
+			//Image file location saving to DB
 			Restaurant.createRestaurantImg(u.restaurant, saveLocation);
 		     Logger.debug("Passed resize?");
 			
@@ -152,6 +179,15 @@ public class FileUpload extends Controller {
 			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
+	
+	/**
+	 * 
+	 * @param Path String building which removes all 
+	 * invalid characters  from timestamp using regex
+	 * @param 
+	 * @param 
+	 * @return Finished String
+	 */
 	
 	@Security.Authenticated(RestaurantFilter.class)
 	public static String locationPath(String folderId, String imageFolder,
@@ -172,10 +208,16 @@ public class FileUpload extends Controller {
 	}
 
 
+	/**
+	 * Image resize method using imgscalr Library
+	 * @param width
+	 * @param height
+	 * @param resizeImage
+	 * @param fileLocation
+	 */
  	public static void imageResize(int width, int height, File resizeImage,  String fileLocation){
 
-	
-		try {		
+			try {		
 
 			
 			File imageFile = new File(fileLocation);
@@ -198,7 +240,15 @@ public class FileUpload extends Controller {
 
 	
 	
-	
+	/**
+	 * Delete Image method 
+	 * Method receives the id of Meal to be  changed
+	 * and  the string name of the location File in DB
+	 * 
+	 * @param imgLocation
+	 * @param mealID
+	 * @return
+	 */
 
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result deleteImg(String imgLocation,int mealID) {
@@ -208,6 +258,14 @@ public class FileUpload extends Controller {
 		return ok(fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image));
 	}
 
+	
+	/**
+	 * Image array list checker for 
+	 * classes Meal and Restaurant
+	 * @param modelType
+	 * @return
+	 */
+	
 	public static int sizeOfList(String modelType) {
 		if (modelType.equals("meal")) {
 			if (isEmpty(m.image)) {
