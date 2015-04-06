@@ -92,10 +92,14 @@ public class Cart extends Model {
 		for (CartItem cartItem : cartItems) {
 			if (cartItem.meal.id == meal.id) {
 				System.out.println("U ifu je u Cart");
-				String itemQuantity = I
-				cartItem.increaseQuantity();
-				cartItem.update();
+				String itemQuantity = inputForm.bindFromRequest().field("quantity").value();
+				int quantity = Integer.parseInt(itemQuantity);
+				
+				cartItem.quantity = quantity;
+				cartItem.totalPrice = cartItem.meal.price*quantity;
 				cartItem.cart.total = cartItem.totalPrice;
+				cartItem.update();
+				cartItem.cart.update();
 				return;
 			}
 		}
