@@ -6,7 +6,7 @@
     
 <div class="container">
 	<div class="row">
-		<div class="col-xs-8">
+		<div class="col-xs-10">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<div class="panel-title">
@@ -42,8 +42,8 @@
 								<input type="text" class="form-control input-sm" value="@cartitem.quantity">
 							</div>
 							<div class="col-xs-2">
-								<form method="POST" action="@routes.CartController.removeFromBasket(cartitem.meal.id)">
-								<input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Remove" class="btn btn-danger btn-xs " disabled/> 
+								<form method="POST" action="@routes.CartController.removeFromCart(cartitem.meal.id)">
+								<input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Remove" class="btn btn-danger btn-xs " /> 
 								</form>
 							</div>
 						</div>

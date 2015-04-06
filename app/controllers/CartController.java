@@ -129,28 +129,19 @@ public class CartController extends Controller {
 		return redirect("/cart");
 	}
 	
-	public static Result removeFromBasket(int id) {
-		Meal meal = Meal.find(id);
+	public static Result removeFromCart(int id) {
+		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
-//		Cart cart = Cart.findByUserId(u.id);
-		Cart cart = Cart.findLastCart(u.id);
-	
+		Cart cart = Cart.findByUserId(u.id);
 		
-		for (Iterator<CartItem> it = cartItems.iterator(); 
-				it.hasNext();) {
-			CartItem cartItem = CartItem.find.byId(cart.cartItems.indexOf(1));
-			if (cartItem.meal.find(meal.id).equals(Meal.find(id))) {
-				if (cartItem.quantity > 1) {
-					cartItem.decreaseQuantity();
-				} else {
-					it.remove();
-				}
-			}
-		}		
+		cart.removeMeal(m);
 		
-		flash("successR", "Meal successfully removed");
+		cart.update();
+		
 		return redirect("/cart");
 	}
+		
+
 	
 	
 	public static Result viewMeal(int id){
