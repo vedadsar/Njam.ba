@@ -165,7 +165,7 @@ public class Cart extends Model {
 				} else {
 					System.out.println("Usao je u else da brise basketItem");
 					basketItem.delete();
-					basketItem.cart.total = basketItem.totalPrice;
+					basketItem.cart.total = 0;
 				}
 			}
 		}
