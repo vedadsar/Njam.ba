@@ -129,28 +129,36 @@ public class CartController extends Controller {
 		return redirect("/cart");
 	}
 	
-	public static Result removeFromBasket(int id) {
-		Meal meal = Meal.find(id);
-		User u = Session.getCurrentUser(ctx());
-//		Cart cart = Cart.findByUserId(u.id);
-		Cart cart = Cart.findLastCart(u.id);
-	
+	public static Result bindQuantity(int mealId){
+		Meal meal = Meal.find(mealId);
 		
-		for (Iterator<CartItem> it = cartItems.iterator(); 
-				it.hasNext();) {
-			CartItem cartItem = CartItem.find.byId(cart.cartItems.indexOf(1));
-			if (cartItem.meal.find(meal.id).equals(Meal.find(id))) {
-				if (cartItem.quantity > 1) {
-					cartItem.decreaseQuantity();
-				} else {
-					it.remove();
-				}
-			}
-		}		
+		User user = Session.getCurrentUser(ctx());
+		Cart cart = Cart.findLastCart(user.id);
+
+		if(Session.getCurrentUser(ctx())==null){			
+			flash("Warning", "If you want to order food please Login.");
+		} else{
+			cart = Cart.findLastCart(user.id);
+		}
 		
-		flash("successR", "Meal successfully removed");
+		cart.addMealToCartButton(meal);
+		cart.update();
 		return redirect("/cart");
 	}
+	
+	public static Result removeFromCart(int id) {
+		Meal m = Meal.find(id);
+		User u = Session.getCurrentUser(ctx());
+		Cart cart = Cart.findByUserId(u.id);
+		
+		cart.removeMeal(m);
+		
+		cart.update();
+		
+		return redirect("/cart");
+	}
+		
+
 	
 	
 	public static Result viewMeal(int id){
