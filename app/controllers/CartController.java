@@ -129,6 +129,10 @@ public class CartController extends Controller {
 		return redirect("/cart");
 	}
 	
+	public static Result bindQuantity(int mealId){
+		return TODO;
+	}
+	
 	public static Result removeFromCart(int id) {
 		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
