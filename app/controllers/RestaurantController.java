@@ -171,10 +171,10 @@ public class RestaurantController extends Controller {
        @Security.Authenticated(RestaurantFilter.class)
 	public static Result editRestaurantURL(String name){
 		
-		String userEmail= Session.getCurrentUser(ctx()).email;
+		User user = Session.getCurrentUser(ctx());
 		Restaurant  restaurant = Restaurant.findByName(name);
 
-		return ok(restaurantOwnerEditProfile.render(userEmail, restaurant));
+		return ok(restaurantOwnerEditProfile.render(Session.getCurrentUser(ctx()).email, user));
 		
 	}
 	
