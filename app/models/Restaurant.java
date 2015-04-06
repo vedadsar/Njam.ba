@@ -77,6 +77,9 @@ public class Restaurant extends Model {
 	public static Restaurant find(int id) {
 		return find.byId(id);
 	}
+	public static User findUser(int userId) {
+		return findU.byId(userId);
+	}
 
 	public static Restaurant findByName(String name) {
 		return find.where().eq("name", name).findUnique();
