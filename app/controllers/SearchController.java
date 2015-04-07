@@ -28,7 +28,27 @@ import Utilites.*;
 
 public class SearchController extends Controller {
 
+	public static String sequenceBuilt;
+	public static String locationBuilt;
+	public static String restaurantBuilt;
+
+	public static int max;
+	public static boolean ascending;
+	
+	
 	public static DynamicForm form = DynamicForm.form().bindFromRequest();
+
+	
+	public static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
+			Integer.class, Meal.class);
+	
+	
+	
+	
+	public static Result redirect (){
+		return ok(searchAdvanced.render(" ", " ", Restaurant.all(),
+				Restaurant.all(), Meal.all()));
+	}
 
 	public static Result autocomplete(String q) {
 		List<Meal> meals = Meal.find.where().like("name", "%" + q + "%").findList();
@@ -126,8 +146,44 @@ public class SearchController extends Controller {
 		}
 	}
 
+	
+	
+	public static void buildSearchfromForm(){
+		 sequenceBuilt= form.data().get("sequence");
+		 locationBuilt=form.data().get("location");
+	     restaurantBuilt=form.data().get("restaurant");
+	  //   max=Integer.parseInt(form.data().get("max"));
+	}
+	
+	
+	public static void buildSearchFromString(String inSequence,String inLocation,String inrestaurant,String inMin,String inMax){
+		sequenceBuilt= inSequence;
+		locationBuilt=inLocation;
+		restaurantBuilt=inrestaurant;
+	
+		max=Integer.parseInt(inMax);
+		
+		
+	}
+	
+		
+		
+	public static Result advancedSearch(){
+		buildSearchfromForm();
+
+		List<User> users=(List<User>) User.find.where().ilike("city",  "%" + sequenceBuilt + "%");		
+	List<Restaurant> restaurants= Restaurant.find.where().ilike("", arg1)		
+List <Meal> m = find.where().ilike("name","%"+sequenceBuilt+"%").findList();    //.select("location.id,location.city").where().ilike("location.city", locationBuilt).findList();
+//	List <Meal> me = findM.where().eq("name", sequence).eq("price", mealPrice).eq("restaurant_id",u.restaurant.id ).findUnique();
+			
+
+	
+	return TODO ;
+	
+	}
+	
 	/** Methods which search the string 
-	 * seqemce 
+	 * seqemce  
 	 * 
 	 * @param q String sequence
 	 * @return
@@ -136,9 +192,8 @@ public class SearchController extends Controller {
 	 
 	
 	public static List<Meal> searchAllMeals(String q) {
-		List<Meal> meals = Meal.find.where().ilike("name", "%" + q + "%")
-				.findList();
-
+		List<Meal> meals = Meal.find.where().ilike("name", "%" + q + "%").
+				
 		return meals;
 	}
 

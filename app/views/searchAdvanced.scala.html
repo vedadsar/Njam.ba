@@ -1,0 +1,149 @@
+@(message: String)(email: String)(restaurants: List[Restaurant])(srchResultRestaurant: List[Restaurant])(srchResultMeal: List[Meal])
+
+@main(email) {
+	 <body>
+      
+<header class="masthead">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1><a href="#" title="Scroll down for your viewing pleasure">Njam.ba</a>
+          <p class="lead">Enjoy delicious food from your favorite restaurant.</p></h1>
+      </div>
+      <div class="col-md-6">
+        <div class="well pull-right">
+          <img src="//placehold.it/280x100/E7E7E7">        
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Begin Body -->
+
+
+<div class="container">
+
+
+
+
+<div class="container">
+	<div class="no-gutter row">
+      		
+      			
+      		<!--mid column-->
+      		<div class="col-md-6 column">
+<form  action="@routes.SearchController.advancedSearch" method="post">
+  <div class="form-group">
+    <label for="sequence">Please enter Search</label>
+    <input type="text" class="form-control" id="name" placeholder="Enter search">
+     </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Location</label>
+    <input type="text" class="form-control" id="location" placeholder="Filter Search">
+  </div>
+    <div class="form-group">
+    <label for="exampleInputPassword1">Restaurant</label>
+    <input type="text" class="form-control" id="restaurant" placeholder="Filter Search">
+  </div>
+ 
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Check me out
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+      		</div><!--/end mid column-->
+      		
+      		<!-- right content column-->
+      		<div class="col-md-9" id="content">
+            	<div class="panel">
+    			<div class="panel-heading" style="background-color:#111;color:#fff;">Search Results</div>   
+              	<div class="panel-body">
+                  
+                  <!-- Page Features -->
+        <div class="row text-center">
+
+		
+        <!-- /.row -->
+               
+                  <table class="table table-striped">
+                     <thead>
+                           
+                     <tbody>
+                     @if(srchResultRestaurant==null){
+                      @for(meal<-srchResultMeal){               
+                        <td>@meal.name</td>
+                        <td><a href="/restaurantProfile/@meal.restaurant.name">@meal.restaurant.name</a></td>
+                        <td>@meal.restaurant.user.location.city</td>
+                        <td>@meal.restaurant.user.location.street</td>
+                        <td>@meal.price KM </td>
+                        <td>     </td>
+                        
+                          </thead>
+                        </tr>
+                        }
+                        
+                        }
+                        
+                         @if(srchResultMeal==null){
+                        	@for(restaurant<-srchResultRestaurant){
+                          <div style=>
+                        <td ><a href="/restaurantProfile/@restaurant.name"><strong>@restaurant.name</strong></a></td>
+                        <td>  @restaurant.user.location.city </td>
+                             <td> @restaurant.user.email    </td>
+                             <td>@restaurant.user.location.street</td>
+                             <td>@restaurant.user.location.number</td>
+                             
+                        </div>
+                          </thead>
+                        </tr>
+                        }
+                        
+                        }
+                        
+                     </tbody>
+                  </table>
+               </div>
+							 
+					
+				
+					
+                   </div>
+                   </div>
+                    <div style="font-size:70pt">
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                    </div>
+                    
+                  </div>
+                 
+                  <hr>
+                  
+                  
+             	
+                  </div><!--/panel-body-->
+                </div><!--/panel-->
+              	<!--/end right column-->
+      	</div> 
+  	</div>
+</div>
+<footer>
+  <div class="container">
+  	<div class="row">
+      <div class="col-md-12 text-right"><h5>©Company 2014</h5></div>
+    </div>
+  </div>
+</footer>
+
+
+	<!-- script references -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts.js"></script>
+	</body>
+	
+}

@@ -1,0 +1,132 @@
+@(message: String)(email: String)(meals: List[Meal])(restaurants: List[Restaurant])
+
+@main(email) {
+	 <body>
+
+        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("AddM") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest") || flash.get("Warning")){
+		           <div class="alert alert-success" role="alert">
+		           <div class="container">
+		            @flash.get("success")
+		         	@flash.get("error")
+		         	@flash.get("errorLink")
+		         	@flash.get("successApprovedRestaurant")
+		         	@flash.get("successSendRequest")
+		         	@flash.get("AddM")
+		         	@flash.get("Warning")
+		             </div>
+	            	</div>
+	              }
+
+<header class="masthead">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1><a href="#" title="Scroll down for your viewing pleasure">Njam.ba</a>
+          <p class="lead">Enjoy delicious food from your favorite restaurant.</p></h1>
+      </div>
+      <div class="col-md-6">
+        <div class="well pull-right">
+          <img src="//placehold.it/280x100/E7E7E7">        
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Begin Body -->
+<div class="container">
+	<div class="no-gutter row">
+      		
+      			
+      		<!--mid column-->
+      		<div class="col-md-3">
+              <div class="panel" id="midCol">
+                <div class="panel-heading" style="background-color:#555;color:#eee;">Restaurants</div> 
+                <div class="panel-body">
+                
+                  @for(restaurant<-restaurants){
+                  <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
+                  
+                  <div class="well">
+                          <h3><a href="/restaurantProfile/@restaurant.name">@restaurant.name</a></h3>
+                         
+                  </div>
+                  }   
+                
+               </div> 
+               </div><!--/panel-->
+      		</div><!--/end mid column-->
+      		
+      		<!-- right content column-->
+      		<div class="col-md-9" id="content">
+            	<div class="panel">
+    			<div class="panel-heading" style="background-color:#111;color:#fff;">Meals</div>   
+              	<div class="panel-body">
+                  
+                  <!-- Page Features -->
+        <div class="row text-center">
+
+			@for(meal<-meals){
+			
+            <div class="col-md-3 col-sm-6 hero-feature">
+                <div class="thumbnail">
+                      @if(meal.image.iterator().hasNext()!=true){
+                	 <img src="http://placehold.it/800x500" alt="">
+                }else{                
+                    <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="">}
+                    <div class="caption">
+                         <h3 class="text-center">@meal.restaurant.name</h3>
+	                     <h4 class="text-center">@meal.name</h4>
+                        <p>Food descritption</p>
+                        <p>Food price: @meal.price KM</p>
+                        <p>
+                        	<a href="/mealView/@meal.id" class="btn btn-default">More Info</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+           } 
+
+        </div>
+        <!-- /.row -->
+                
+                  
+                  
+                  <div class="well text-center"> 
+                    <h1>Centered Text</h1>
+                        <br><br>
+                    <div style="font-size:70pt">
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                    </div>
+                    
+                  </div>
+                  
+                  <hr>
+                  
+                  
+             	
+                  </div><!--/panel-body-->
+                </div><!--/panel-->
+              	<!--/end right column-->
+      	</div> 
+  	</div>
+</div>
+<footer>
+  <div class="container">
+  	<div class="row">
+      <div class="col-md-12 text-right"><h5>©Company 2014</h5></div>
+    </div>
+  </div>
+</footer>
+
+
+	<!-- script references -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts.js"></script>
+	</body>
+	
+}
