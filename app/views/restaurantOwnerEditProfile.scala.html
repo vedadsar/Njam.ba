@@ -73,7 +73,7 @@
           	<div class="form-group">
             	<label class="col-sm-3 control-label" for="textinput">Minimal Order</label>
             	<div class="col-sm-9">
-              		<input type="text" placeholder="Minimal Order" class="form-control" value ="@user.restaurant.minOrder" id="minOrder" name="minOrder" pattern=".{1,10}" required>
+              		<input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control"  value ="@user.restaurant.minOrder"   placeholder="Minimal Order" id="minOrder" name="minOrder" pattern=".{1,10}" required>
             	</div>
           	</div>
           
