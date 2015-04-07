@@ -39,19 +39,22 @@
       		
       			
       		<!--mid column-->
-      		<div class="col-md-3">
+      		<div class="col-md-3 ">
               <div class="panel" id="midCol">
                 <div class="panel-heading" style="background-color:#555;color:#eee;">Restaurants</div> 
                 <div class="panel-body">
-                
                   @for(restaurant<-restaurants){
-                  <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
-                  
-                  <div class="well">
-                          <h3><a href="/restaurantProfile/@restaurant.name">@restaurant.name</a></h3>
-                         
-                  </div>
+                 
+                  	
+		                  <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
+		                  
+		                  <div class="well-responsive">
+		                          <h3><a href="/restaurantProfile/@restaurant.name">@restaurant.name</a></h3>
+		                         
+		                  </div>
+                 
                   }   
+                 
                 
                </div> 
                </div><!--/panel-->
