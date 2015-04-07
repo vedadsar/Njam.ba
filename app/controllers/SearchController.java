@@ -43,11 +43,12 @@ public class SearchController extends Controller {
 			Integer.class, Meal.class);
 	
 	
-	
+
 	
 	public static Result redirect (){
+		List<Meal> mealsEmpty = new ArrayList<>();
 		return ok(searchAdvanced.render(" ", " ", Restaurant.all(),
-				Restaurant.all(), Meal.all()));
+				mealsEmpty,"","",""));
 	}
 
 	public static Result autocomplete(String q) {
@@ -147,55 +148,70 @@ public class SearchController extends Controller {
 	}
 
 	
-	
+	/**Method for building search parameters from  advancedSearch Form
+	 * and binds the values to static class variables.
+	 */
 	public static void buildSearchfromForm(){
-		 sequenceBuilt= form.data().get("sequence");
-		 locationBuilt=form.data().get("location");
-	     restaurantBuilt=form.data().get("restaurant");
-	  //   max=Integer.parseInt(form.data().get("max"));
+		 sequenceBuilt= form.bindFromRequest().field("sequence").value();
+		 locationBuilt=form.bindFromRequest().field("location").value();
+	     restaurantBuilt=form.bindFromRequest().field("restaurant").value();
+	     Logger.debug(locationBuilt);
 	}
 	
 	
+	/**
+	 * Method to build search parameters based on String input
+	 */
 	public static void buildSearchFromString(String inSequence,String inLocation,String inrestaurant,String inMin,String inMax){
 		sequenceBuilt= inSequence;
 		locationBuilt=inLocation;
 		restaurantBuilt=inrestaurant;
 	
-		max=Integer.parseInt(inMax);
-		
-		
 	}
 	
 		
-		
+/**
+ * Result of advanced search also the default route method
+ * for listing meals from parameters.
+ * @return
+ */
 	public static Result advancedSearch(){
 		buildSearchfromForm();
+		List<Meal> m = mealAdvancedSearch();
+			Logger.debug(String.valueOf(m.size()));
 
-		List<User> users=(List<User>) User.find.where().ilike("city",  "%" + sequenceBuilt + "%");		
-	List<Restaurant> restaurants= Restaurant.find.where().ilike("", arg1)		
-List <Meal> m = find.where().ilike("name","%"+sequenceBuilt+"%").findList();    //.select("location.id,location.city").where().ilike("location.city", locationBuilt).findList();
-//	List <Meal> me = findM.where().eq("name", sequence).eq("price", mealPrice).eq("restaurant_id",u.restaurant.id ).findUnique();
-			
-
-	
-	return TODO ;
+		
+	return ok(searchAdvanced.render(" ", " ", Restaurant.all(),
+			 m,sequenceBuilt,locationBuilt,restaurantBuilt));
 	
 	}
 	
+	
+	/**Scalable method  for searching through the
+	 * meal database
+	 * 
+	 * @return List<Meal> that satisfies the search parameter
+	 */
+	public static List <Meal> mealAdvancedSearch(){
+	List <Meal> m = find.where().ilike("name","%"+sequenceBuilt+"%").ilike("restaurant.user.location.city", "%"+locationBuilt+"%").ilike("restaurant.name","%"+restaurantBuilt+"%").findList(); 
+	return m;	
+	}
+	
+	
+	
 	/** Methods which search the string 
-	 * seqemce  
+	 * sequence  for meals
 	 * 
 	 * @param q String sequence
 	 * @return
 	 */
-	 
-	 
-	
+	 	
 	public static List<Meal> searchAllMeals(String q) {
-		List<Meal> meals = Meal.find.where().ilike("name", "%" + q + "%").
+		List<Meal> meals = Meal.find.where().ilike("name", "%" + q + "%").findList();
 				
 		return meals;
 	}
+
 
 	public static List searchAllRestaurants(String q) {
 		List<Restaurant> restaurants = Restaurant.find.where()

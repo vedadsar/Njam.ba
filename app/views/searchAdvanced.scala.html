@@ -1,4 +1,4 @@
-@(message: String)(email: String)(restaurants: List[Restaurant])(srchResultRestaurant: List[Restaurant])(srchResultMeal: List[Meal])
+@(message: String)(email: String)(restaurants: List[Restaurant])(srchResultMeal: List[Meal])(sequence: String)(location: String)(restaurant: String)
 
 @main(email) {
 	 <body>
@@ -36,15 +36,15 @@
 <form  action="@routes.SearchController.advancedSearch" method="post">
   <div class="form-group">
     <label for="sequence">Please enter Search</label>
-    <input type="text" class="form-control" id="name" placeholder="Enter search">
+    <input type="text" class="form-control" id="sequence" name="sequence" placeholder="Enter search">
      </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Location</label>
-    <input type="text" class="form-control" id="location" placeholder="Filter Search">
+    <label for="location">Location</label>
+    <input type="text" class="form-control" id="location" name="location" placeholder="Filter Search">
   </div>
     <div class="form-group">
-    <label for="exampleInputPassword1">Restaurant</label>
-    <input type="text" class="form-control" id="restaurant" placeholder="Filter Search">
+    <label for="restaurant">Restaurant</label>
+    <input type="text" class="form-control" id="restaurant" name="restaurant" placeholder="Filter Search">
   </div>
  
   <div class="checkbox">
@@ -73,7 +73,7 @@
                      <thead>
                            
                      <tbody>
-                     @if(srchResultRestaurant==null){
+                   
                       @for(meal<-srchResultMeal){               
                         <td>@meal.name</td>
                         <td><a href="/restaurantProfile/@meal.restaurant.name">@meal.restaurant.name</a></td>
@@ -86,30 +86,14 @@
                         </tr>
                         }
                         
-                        }
                         
-                         @if(srchResultMeal==null){
-                        	@for(restaurant<-srchResultRestaurant){
-                          <div style=>
-                        <td ><a href="/restaurantProfile/@restaurant.name"><strong>@restaurant.name</strong></a></td>
-                        <td>  @restaurant.user.location.city </td>
-                             <td> @restaurant.user.email    </td>
-                             <td>@restaurant.user.location.street</td>
-                             <td>@restaurant.user.location.number</td>
-                             
-                        </div>
-                          </thead>
-                        </tr>
-                        }
                         
-                        }
-                        
-                     </tbody>
+                                        
+                            </tbody>
                   </table>
                </div>
 							 
-					
-				
+									
 					
                    </div>
                    </div>
