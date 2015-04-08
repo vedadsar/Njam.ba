@@ -66,6 +66,12 @@ GET    /creditfail                          controllers.PaypalController.creditF
 POST   /userSearch                          controllers.SearchController.ajaxList()
 GET    /userSearch                          controllers.SearchController.ajaxSearch()
 
+# API service practice
+GET    /users                               controllers.Application.allUsers()
+GET    /meals                               controllers.RestaurantController.listMeals()
+GET    /restaurants                         controllers.RestaurantController.listRestaurants()
+POST    /loginJson                           controllers.json.loginService.loginToJson()
+
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                        controllers.Assets.at(path="/public", file)
 
