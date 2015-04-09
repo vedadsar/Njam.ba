@@ -145,7 +145,13 @@ public class Application extends Controller {
 			String urlString = "http://localhost:9000" + "/" + "confirm/"
 					+ usr.confirmationString;
 			URL url = new URL(urlString);
+			try{
 			MailHelper.send(email, url.toString());
+			} catch(Exception e){
+				flash("ErrorMail", "Pleas try again");
+				Logger.error("Sending meail error: " + e.getMessage());
+				return redirect("/");
+			}
 			if (usr.validated == true) {
 				return redirect("/");
 			}
