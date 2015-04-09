@@ -152,22 +152,28 @@ public class Cart extends Model {
 		return false;
 	}
 	
-	public void removeMeal(Meal m) {
+public void removeMeal(Meal m) {
 		
-		Iterator<CartItem> it = cartItems.iterator();  {
+		Iterator<CartItem> it = cartItems.iterator();  
+		while(it.hasNext()){
 			CartItem basketItem = (CartItem) it.next();
-			if (basketItem.meal.find(m.id).equals(Meal.find(m.id))) {
-				if (basketItem.quantity > 1) {
+			//if (basketItem.meal.find(m.id).equals(Meal.find(m.id))) {
+			if(basketItem.meal.id == m.id){
+			
+			if (basketItem.quantity > 1) {
 					basketItem.decreaseQuantity();
 					System.out.println("Smanjuje se quantity");
 					basketItem.cart.total = basketItem.totalPrice;
 					basketItem.update();
 				} else {
 					System.out.println("Usao je u else da brise basketItem");
-					basketItem.delete();
+					basketItem.totalPrice = 0;
 					basketItem.cart.total = 0;
+					basketItem.delete();
+					
+					
 				}
-			}
+			}  
 		}
 	}
 }
