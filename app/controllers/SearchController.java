@@ -65,18 +65,18 @@ public class SearchController extends Controller {
 		// if typegen is not sellected default action is to search all meals
 		
 		if (typeGen == null) {
-			return ok(searchResult.render(" ", currentEmail, Restaurant.all(),
+			return ok(views.html.widgets.searchResult.render(" ", currentEmail, Restaurant.all(),
 					RestaurantEmpty, searchAllMeals(q)));
 		}
         
 		
 		if (typeGen.equals("Meal")) {
-			return ok(searchResult.render(" ", currentEmail, Restaurant.all(),
+			return ok(views.html.widgets.searchResult.render(" ", currentEmail, Restaurant.all(),
 					RestaurantEmpty, searchAllMeals(q)));
 
 		}
 		if (typeGen.equals("Restaurant")) {
-			return ok(searchResult.render(" ", currentEmail, Restaurant.all(),
+			return ok(views.html.widgets.searchResult.render(" ", currentEmail, Restaurant.all(),
 					searchAllRestaurants(q), mealsEmpty));
 
 		}
@@ -88,7 +88,7 @@ public class SearchController extends Controller {
 	 * @return
 	 */
 	public static Result ajaxSearch() {
-		return ok(userSearch.render(""));
+		return ok(views.html.user.userSearch.render(""));
 	}
 	
 	/**

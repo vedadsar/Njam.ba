@@ -44,7 +44,7 @@ public class ContactController extends Controller{
 	 */
 	public static Result contacts(){
 		email = session("email");
-		return ok(contact.render(new Form<Contact>(Contact.class), email));
+		return ok(views.html.widgets.contact.render(new Form<Contact>(Contact.class), email));
 	}
 	
 	/**
@@ -87,7 +87,7 @@ public class ContactController extends Controller{
 							return redirect("/contact");
 						} else {
 							flash("error", "There has been a problem");
-							return ok(contact.render(submit, email));
+							return ok(views.html.widgets.contact.render(submit, email));
 						
 						}
 					}

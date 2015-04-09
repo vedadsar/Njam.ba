@@ -88,7 +88,7 @@ public class FileUpload extends Controller {
 				image = filePart.getFile();
 			} catch (NullPointerException e) {
 				Logger.debug(("Empty File Upload" + e));
-				return ok(wrong.render("OOPS you didnt send a file"));
+				return ok(views.html.admin.wrong.render("OOPS you didnt send a file"));
 			}
 	
 			imgFileName = filePart.getFilename();
@@ -114,11 +114,11 @@ public class FileUpload extends Controller {
 			Meal.createMealImg(m, saveLocation);
 	
 	        Logger.debug("Passed resize?");
-			return ok(fileUploadMeal.render("",Session.getCurrentUser(ctx()).email, m, Restaurant.all(),m.image));
+			return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email, m, Restaurant.all(),m.image));
 			
 			
 		} else
-			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
+			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
 	
@@ -143,7 +143,7 @@ public class FileUpload extends Controller {
 				image = filePart.getFile();
 			} catch (NullPointerException e) {
 				Logger.debug(("Empty File Upload" + e));
-				return ok(wrong.render("OOPS you didnt send a file"));
+				return ok(views.html.admin.wrong.render("OOPS you didnt send a file"));
 			}
 	
 			imgFileName = filePart.getFilename();
@@ -173,10 +173,10 @@ public class FileUpload extends Controller {
 			
 				
 		
-			return ok(restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all()));
+			return ok(views.html.restaurant.restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all()));
 			
 		} else
-			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
+			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
 	
@@ -255,7 +255,7 @@ public class FileUpload extends Controller {
 	     Meal m = Meal.find(mealID);
 		 Image.deleteImg(imgLocation);
 		
-		return ok(fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image));
+		return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image));
 	}
 
 	
