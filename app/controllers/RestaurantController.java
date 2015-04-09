@@ -3,6 +3,9 @@ package controllers;
 import java.util.Iterator;
 import java.util.List;
 
+import akka.event.Logging.Debug;
+import controllers.json.MealList;
+import controllers.json.RestaurantList;
 import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
@@ -136,10 +139,26 @@ public class RestaurantController extends Controller {
 	 * Method that returns list of restaurants.
 	 * @return list of all meals from Restaurant
 	 */
-	public static Result list(){
+	public static Result listMeals(){
 		List<Meal> meals = Meal.all();
-		return TODO;
+		if(request().accepts("text/html")){
+			return redirect("/");
+		}
+		System.out.println("Meals:" + meals.size());
+		return ok(MealList.mealList(meals));
+		
 	}
+	
+	public static Result listRestaurants(){
+		List<Restaurant> restaurants = Restaurant.all();
+		if(request().accepts("text/html")){
+			return redirect("/");
+		}
+		return ok(RestaurantList.restaurantsList(restaurants));
+		
+	}
+
+	
 	
 	/**
 	 * 

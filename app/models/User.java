@@ -227,7 +227,7 @@ public class User extends Model {
 		 * @return
 		 */
 		public static List<User> allUsers(){
-			return find.where().eq("isRestaurant", "false").findList();
+			return find.all();
 		}
 		
 		/**

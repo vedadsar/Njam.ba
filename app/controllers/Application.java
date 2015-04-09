@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
+import controllers.json.UserList;
 import models.Faq;
 import models.Location;
 import models.Meal;
@@ -298,6 +299,16 @@ public class Application extends Controller {
 	{
 		Meal m = Meal.find(id);
 		return ok(fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
+	}
+	
+	public static Result allUsers(){
+		
+		if(request().accepts("text/html")){
+			return redirect("/");
+		}
+		
+		return ok(UserList.usersList(User.allUsers()));
+		
 	}
 	
 }
