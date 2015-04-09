@@ -63,16 +63,16 @@ public class Application extends Controller {
 			List<String> logs = SudoController.lastLogs();
 			List <Faq> faqs = findF.all();
 			
-			return ok(admin.render(email, meals, restaurants, logs, faqs));
+			return ok(views.html.admin.admin.render(email, meals, restaurants, logs, faqs));
 		}
-		return ok(user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
+		return ok(views.html.user.user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 	
 	@Security.Authenticated(UserFilter.class)
 	public static Result user(String email){	
 		List <Restaurant> restaurants = findR.all();	
 
-		return ok(user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
+		return ok(views.html.user.user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 	
 
@@ -86,12 +86,12 @@ public class Application extends Controller {
 		List <Restaurant> restaurants = findR.all();
 		
 		if((session().get("email") != null) )
-			return ok(wrong.render("Cannot acces to registration page while you're logged in"));
+			return ok(views.html.admin.wrong.render("Cannot acces to registration page while you're logged in"));
 
 		if(email == null){
 			return ok(registration.render(""));
 		} else { 
-			return ok(restaurantOwner.render(email, meals, restaurants));
+			return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants));
 		}
 	}
 	
@@ -206,12 +206,12 @@ public class Application extends Controller {
 
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(restaurantOwner.render(email, meals, restaurants));
+				return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants));
 
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
 			if(Session.getCurrentRole(ctx()).equals(User.ADMIN))
-				return ok(admin.render(email, meals, restaurants, logs, faqs));
+				return ok(views.html.admin.admin.render(email, meals, restaurants, logs, faqs));
 		}
 		
 		
@@ -246,7 +246,7 @@ public class Application extends Controller {
 		double minOrder = restaurant.minOrder;
 		User restaurantUser = restaurant.user;
 		List<Meal> restaurantMeals = Meal.allById(restaurantUser);
-		return ok(restaurantProfile.render(email, name, minOrder, restaurantMeals));
+		return ok(views.html.restaurant.restaurantProfile.render(email, name, minOrder, restaurantMeals));
 	}
 	
 	
@@ -281,7 +281,7 @@ public class Application extends Controller {
 	public static Result showFaq() {		
 		List <Faq> faqs = findF.all();
 		email = session("email");
-		return ok(faqPage.render(email, faqs));
+		return ok(views.html.widgets.faqPage.render(email, faqs));
 	}
 		
 	/**
@@ -298,13 +298,13 @@ public class Application extends Controller {
 	public static Result showFileUpload(int id)
 	{Meal m = Meal.find(id);
 
-		return ok(fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image)); // NOT FINISHED
+		return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image)); // NOT FINISHED
 	}
 	
 	public static Result MealIMGList(int id)
 	{
 		Meal m = Meal.find(id);
-		return ok(fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
+		return ok(views.html.restaurant.fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
 	}
 	
 	public static Result allUsers(){

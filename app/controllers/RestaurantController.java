@@ -44,7 +44,7 @@ public class RestaurantController extends Controller {
 	public static Result createMeal() {
 		User u= Session.getCurrentUser(ctx());
 		if(!u.role.equalsIgnoreCase("RESTAURANT")){
-			return ok(wrong.render("Cannot create meal if you're not reastaurant! "));
+			return ok(views.html.admin.wrong.render("Cannot create meal if you're not reastaurant! "));
 		}
 		
 		String mealName = inputForm.bindFromRequest().field("name").value();
@@ -61,7 +61,7 @@ public class RestaurantController extends Controller {
 			 session("email", userEmail);
 			 flash("successMeal", "Succesfully created meal!");
 			 Logger.info("Restaurant " +currentUser.name +" just created meal");
-			 return ok(fileUploadMeal.render("",userEmail, m,Restaurant.all(),m.image));
+			 return ok(views.html.restaurant.fileUploadMeal.render("",userEmail, m,Restaurant.all(),m.image));
 			 // return redirect("/restaurantOwner/" + userEmail);
 		}
 		Logger.error("Restaurant " +currentUser.name +" failed to create meal.");
@@ -105,7 +105,7 @@ public class RestaurantController extends Controller {
 		public static Result editMealURL(int id) {	
 		String userEmail= Session.getCurrentUser(ctx()).email;
         Meal oldMeal = Meal.find(id);
-		return ok(restaurantOwnerEditMeal.render(oldMeal, userEmail));
+		return ok(views.html.restaurant.restaurantOwnerEditMeal.render(oldMeal, userEmail));
 	}
 	
 	
@@ -175,7 +175,7 @@ public class RestaurantController extends Controller {
 		User u = User.find(email);
 		List <Meal> meals = Meal.allById(u);
 		
-		return ok(restaurantOwner.render(email, meals, restaurants));
+		return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants));
 	}
 	
 
@@ -193,7 +193,7 @@ public class RestaurantController extends Controller {
 		User user = Session.getCurrentUser(ctx());
 		Restaurant  restaurant = Restaurant.findByName(name);
 
-		return ok(restaurantOwnerEditProfile.render(Session.getCurrentUser(ctx()).email, user));
+		return ok(views.html.restaurant.restaurantOwnerEditProfile.render(Session.getCurrentUser(ctx()).email, user));
 		
 	}
 	

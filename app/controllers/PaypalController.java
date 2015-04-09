@@ -38,7 +38,7 @@ public class PaypalController extends Controller {
 	
 	
 	public static Result showPurchase(){
-		return ok(creditStatus.render(""));
+		return ok(views.html.user.creditStatus.render(""));
 	}
 	
 	public static Result purchaseProcessing(){

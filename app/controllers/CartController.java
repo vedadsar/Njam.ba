@@ -62,7 +62,7 @@ public class CartController extends Controller {
 		}
 		
 
-		return ok(cart.render(email, Cart.findLastCart(u.id).cartItems, total, minOrder));		
+		return ok(views.html.widgets.cart.render(email, Cart.findLastCart(u.id).cartItems, total, minOrder));		
 	}
 	
 	
@@ -165,7 +165,7 @@ public class CartController extends Controller {
 		Meal meal = Meal.find(id);
 		
 		email = session("email");
-		return ok(mealView.render(email, meal));
+		return ok(views.html.restaurant.mealView.render(email, meal));
 	}
 			
 }

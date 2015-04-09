@@ -85,6 +85,9 @@
                         <p>Food price: @meal.price KM</p>
                         <p>
                         	<a href="/mealView/@meal.id" class="btn btn-default">More Info</a>
+                        	<form method="POST" action="@routes.CartController.addMealToBasket(meal.id)">
+	                           <input type="submit" value="Add To Cart" class="btn btn-default" />	 
+	                           </form> 
                         </p>
                     </div>
                 </div>
