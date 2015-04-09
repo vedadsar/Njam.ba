@@ -21,13 +21,19 @@ import views.html.*;
 
 /**
  * Controller for Contact form.
- * @author amrapoprzanovic
  *
  */
 public class ContactController extends Controller{ 
 	
 	static String email = null;
 
+	/**
+	 * Inner class of Contact that contains
+	 * user email, Title of message that user is sending
+	 * and context of message.
+	 * @author amrapoprzanovic
+	 *
+	 */
 	public static class Contact {
 		@Required
 		@Email
@@ -48,8 +54,9 @@ public class ContactController extends Controller{
 	}
 	
 	/**
-	 * Method taht sends email.
-	 * @return contactt page with message that email was sent.
+	 * Method that sends email to administrator of web application
+	 * with a question.
+	 * @return contact page with message that email was sent.
 	 */
 	public static Promise<Result> sendMail() {
 		//need this to get the google recapctha value

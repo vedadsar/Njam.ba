@@ -23,7 +23,6 @@ public class Location extends Model {
 	public String street;
 	@Required
 	public String number;
-
 	
 	@OneToOne
 	public User user;

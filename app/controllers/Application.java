@@ -36,7 +36,7 @@ public class Application extends Controller {
 	/**
 	 * This method just redirects to index page.
 	 * 
-	 * @return
+	 * @return index view of page.
 	 */
 	public static Result index() {
 
@@ -46,6 +46,12 @@ public class Application extends Controller {
 		return ok(index.render(" ", email, meals, restaurants));
 	}
 	
+	/**
+	 * Depending on the type of user who is logged onto the page,
+	 * redirects user to it profile (Customer / Restaurant /Admin ).
+	 * @param email - users email.
+	 * @return redirection to users profile.
+	 */
 	@Security.Authenticated(UserFilter.class)
 	public static Result toUser(String email){
 		List <Restaurant> restaurants = findR.all();
@@ -79,7 +85,7 @@ public class Application extends Controller {
 	/**
 	 * This method just redirects to registration page.
 	 * 
-	 * @return
+	 * @return redirection to registation view.
 	 */
 	public static Result toRegistration() {
 		List <Meal> meals = findM.all();
@@ -115,7 +121,7 @@ public class Application extends Controller {
 	 * already exists, method will redirect to register page, with error
 	 * message.
 	 * 
-	 * @return
+	 * @return redirection to login view.
 	 * @throws MalformedURLException 
 	 */
 	public static Result registration() throws MalformedURLException {
@@ -163,11 +169,20 @@ public class Application extends Controller {
 		}
 	}
 	
+	/**
+	 * This method redirects visitor  of page to registration for restaurants.
+	 * (If visitor want to register as new restaurant).
+	 * @return redirection to registatrtion for reastaurants.
+	 */
 	public static Result toRegistrationRestaurant(){		
 		return ok(registrationRestaurant.render(email));
 	}
 	
 	
+	/**
+	 * Takes the information from new user and creates new Object restaurant.
+	 * @return redirection to index view after new restaurant is created.
+	 */
 	public static Result registrationRestaurant(){
 		DynamicForm form = Form.form().bindFromRequest();	
 			
@@ -237,8 +252,9 @@ public class Application extends Controller {
 	}
 	
 	/**
-	 * Method taht goes to Public restaurant view
-	 * @return
+	 * Method that goes to Public restaurant view of restaurant 
+	 * that user chose and shows to user all meals from it.
+	 * @return profile restaurant view which user choose.
 	 */
 	public static Result toRestaurant(String name){
 		
@@ -285,8 +301,8 @@ public class Application extends Controller {
 	}
 		
 	/**
-	 * 
-	 * @return
+	 * This method log off user.
+	 * @return user to index view.
 	 */
 	public static Result logout() {
 		session().clear();
@@ -294,6 +310,11 @@ public class Application extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result showFileUpload(int id)
 	{Meal m = Meal.find(id);
@@ -301,12 +322,20 @@ public class Application extends Controller {
 		return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image)); // NOT FINISHED
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public static Result MealIMGList(int id)
 	{
 		Meal m = Meal.find(id);
 		return ok(views.html.restaurant.fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
 	}
 	
+	/**
+	 * Return List of Users which is converted to JSON.
+	 */
 	public static Result allUsers(){
 		
 		if(request().accepts("text/html")){
