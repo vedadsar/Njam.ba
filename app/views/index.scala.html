@@ -3,7 +3,7 @@
 @main(email) {
 	 <body>
 
-        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("AddM") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest") || flash.get("Warning")){
+        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("AddM") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest") || flash.get("Warning") || flash.get("ErrorMail")){
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
 		            @flash.get("success")
@@ -13,6 +13,7 @@
 		         	@flash.get("successSendRequest")
 		         	@flash.get("AddM")
 		         	@flash.get("Warning")
+		         	@flash.get("ErrorMail")
 		             </div>
 	            	</div>
 	              }

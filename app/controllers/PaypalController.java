@@ -144,6 +144,7 @@ public class PaypalController extends Controller {
 	}
 	
 	public static Result creditFail(){
-		return ok(creditStatus.render("Nije proslo"));
+		flash("FailedPayPal","Payment did not pass throw.");
+		return redirect("/user/"+Session.getCurrentUser(ctx()).email);
 	}
 }

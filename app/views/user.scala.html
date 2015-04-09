@@ -110,10 +110,11 @@
  
 </div>
 
-          	   @if(flash.get("successUpdate") || flash.get("PaidOK")){
+          	   @if(flash.get("successUpdate") || flash.get("PaidOK") || flash.get("FailedPayPal")){
 			           <div class="alert alert-success" role="alert">
 			            @flash.get("successUpdate")
 			            @flash.get("PaidOK")
+			            @flash.get("FailedPayPal")
 			             </div>  
 	             	}
 
