@@ -24,52 +24,45 @@
 
 <div class="container">
 
-
-
-
-<div class="container">
-	<div class="no-gutter row">
-      		
-      			
-      		<!--mid column-->
-      		<div class="col-md-6 column">
-<form  action="@routes.SearchController.advancedSearch" method="post">
+<div class="row">
+  <div class="col-md-4">
+ <form  action="@routes.SearchController.advancedSearch" method="post" >
   <div class="form-group">
     <label for="sequence">Please enter Search</label>
     <input type="text" class="form-control" id="sequence" name="sequence" placeholder="Enter search">
      </div>
   <div class="form-group">
     <label for="location">Location</label>
-    <input type="text" class="form-control" id="location" name="location" placeholder="Filter Search">
+
+    
+<select id="location" name="location">
+<option  type="text" class="form-control" id="location" value="">select city</option>
+<option  type="text" class="form-control" id="location" value="Sarajevo">Sarajevo</option>
+<option  type="text" class="form-control" id="location" value="Tuzla">Tuzla</option>
+<option  type="text" class="form-control" id="location" value="Davor-city">Davor-City</option>
+
+</select>
   </div>
+  
+ 
     <div class="form-group">
     <label for="restaurant">Restaurant</label>
     <input type="text" class="form-control" id="restaurant" name="restaurant" placeholder="Filter Search">
   </div>
  
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Check me out
-    </label>
-  </div>
+ 
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
-</div>
-      		</div><!--/end mid column-->
-      		
-      		<!-- right content column-->
-      		<div class="col-md-9" id="content">
-            	<div class="panel">
-    			<div class="panel-heading" style="background-color:#111;color:#fff;">Search Results</div>   
-              	<div class="panel-body">
-                  
-                  <!-- Page Features -->
-        <div class="row text-center">
 
-		
-        <!-- /.row -->
-               
-                  <table class="table table-striped">
+</div>
+  <div class="col-md-8">
+
+<div class="col-md-9" id="content">
+            
+    			<div class="panel-heading" style="background-color:#111;color:#fff;">Search Results</div>   
+
+           
+ <table class="table table-striped" >
                      <thead>
                            
                      <tbody>
@@ -91,30 +84,41 @@
                                         
                             </tbody>
                   </table>
+                  
+        </div>
+        </div>
+        
+                  
+                  
                </div>
-							 
-									
-					
-                   </div>
-                   </div>
-                    <div style="font-size:70pt">
-                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
-                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
-                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
-                    </div>
-                    
-                  </div>
-                 
-                  <hr>
-                  
-                  
-             	
-                  </div><!--/panel-body-->
-                </div><!--/panel-->
-              	<!--/end right column-->
-      	</div> 
-  	</div>
+
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+
+						
+                  <div style="font-size:70pt; margin: 0 20%" >
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                      <i class="glyphicon glyphicon-4x glyphicon-camera"></i>
+                   
+                    </div>
+             
+           
+                  
+ </div>                
+            
 <footer>
   <div class="container">
   	<div class="row">
