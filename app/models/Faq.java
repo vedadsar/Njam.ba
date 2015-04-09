@@ -24,7 +24,11 @@ public class Faq extends Model {
 	
 	public static Finder<Integer, Faq> find = new Finder<Integer, Faq>(Integer.class, Faq.class);
 	
-	// Constructor
+	/**
+	 * Creates new Object FAQ  that represents Frequently Asked Question.
+	 * @param question - The question that someone(user) is asking.
+	 * @param answer - The answer that administrator of this page is returns.
+	 */
 	public Faq(String question, String answer) {
 		this.question = question;
 		this.answer = answer;
