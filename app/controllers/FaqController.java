@@ -98,7 +98,7 @@ public class FaqController extends Controller {
 	public static Result showEditFaq(int id) {		
 		String userEmail= Session.getCurrentUser(ctx()).email;
         Faq faqList = Faq.findById(id);
-		return ok(faqEdit.render(userEmail, faqList));
+		return ok(views.html.widgets.faqEdit.render(userEmail, faqList));
 	}
 }
 

@@ -3,7 +3,9 @@
 @main(email) {
 	 <body>
 
+
         @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("AddM") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest")){
+
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
 		            @flash.get("success")
@@ -12,6 +14,10 @@
 		         	@flash.get("successApprovedRestaurant")
 		         	@flash.get("successSendRequest")
 		         	@flash.get("AddM")
+
+		         	@flash.get("Warning")
+		         	@flash.get("ErrorMail")
+
 		             </div>
 	            	</div>
 	              }
@@ -82,7 +88,9 @@
 
 <!-- Begin Body -->
 <div class="container">
+
 			<div class="row">
+
       		
       		<div class="col-sm-3">
 					<div class="left-sidebar">
@@ -116,6 +124,7 @@
 										 @if(meal.image.iterator().hasNext()!=true){
                 	 <img src="@routes.Assets.at("images/chicken.jpg")" alt="" height="255" width="255">
                 }else{                
+
                     <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="" height="255" width="255">}
 										
 											<h2>@meal.price KM</h2>
@@ -138,6 +147,7 @@
 							</div>
 						</div>
 											}
+
 
         </div>
         

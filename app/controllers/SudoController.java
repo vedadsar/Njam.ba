@@ -80,7 +80,7 @@ public class SudoController extends Controller{
 		List<String> logs = lastLogs();
 		List <Faq> faqs = findF.all();
 
-		return ok(admin.render(email,meals, restaurants, logs, faqs));
+		return ok(views.html.admin.admin.render(email,meals, restaurants, logs, faqs));
 	}
 	
 	@Security.Authenticated(AdminFilter.class)

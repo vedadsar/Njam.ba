@@ -87,7 +87,7 @@ public class FileUpload extends Controller {
 				image = filePart.getFile();
 			} catch (NullPointerException e) {
 				Logger.debug(("Empty File Upload" + e));
-				return ok(wrong.render("OOPS you didnt send a file"));
+				return ok(views.html.admin.wrong.render("OOPS you didnt send a file"));
 			}
 
 			imgFileName = filePart.getFilename();
@@ -116,13 +116,14 @@ public class FileUpload extends Controller {
 			// Image location saving to Database.
 			Meal.createMealImg(m, saveLocation);
 
-			Logger.debug("Passed resize?");
-			return ok(fileUploadMeal.render("",
-					Session.getCurrentUser(ctx()).email, m, Restaurant.all(),
-					m.image));
+	
+	        Logger.debug("Passed resize?");
+			return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email, m, Restaurant.all(),m.image));
+			
+			
 
 		} else
-			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
+			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
 	/**
@@ -146,7 +147,7 @@ public class FileUpload extends Controller {
 				image = filePart.getFile();
 			} catch (NullPointerException e) {
 				Logger.debug(("Empty File Upload" + e));
-				return ok(wrong.render("OOPS you didnt send a file"));
+				return ok(views.html.admin.wrong.render("OOPS you didnt send a file"));
 			}
 
 			imgFileName = filePart.getFilename();
@@ -174,13 +175,16 @@ public class FileUpload extends Controller {
 
 			// Image file location saving to DB
 			Restaurant.createRestaurantImg(u.restaurant, saveLocation);
-			Logger.debug("Passed resize?");
 
-			return ok(restaurantOwner.render(u.email, u.restaurant.meals,
-					Restaurant.all()));
+		     Logger.debug("Passed resize?");
+			
+				
+		
+			return ok(views.html.restaurant.restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all()));
+			
 
 		} else
-			return ok(wrong.render("LIMIT HAS BEEN REACHED"));
+			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
 	}
 
 	/**
@@ -246,14 +250,13 @@ public class FileUpload extends Controller {
 	 * @return
 	 */
 
-	@Security.Authenticated(RestaurantFilter.class)
-	public static Result deleteImg(String imgLocation, int mealID) {
-		Meal m = Meal.find(mealID);
-		Image.deleteImg(imgLocation);
 
-		return ok(fileUploadMeal.render("",
-				Session.getCurrentUser(ctx()).email, m, Restaurant.all(),
-				m.image));
+	public static Result deleteImg(String imgLocation,int mealID) {
+	     Meal m = Meal.find(mealID);
+		 Image.deleteImg(imgLocation);
+		
+		return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image));
+
 	}
 
 	/**
