@@ -141,7 +141,7 @@ public class Cart extends Model {
 		try {
 			time = currentDateSec - lastCart.date.getTime();
 			System.out.println("time" + time);
-			if ( time == 0 || time < 60000){
+			if ( time == 0 || time < 120000){
 				return true;
 			}
 		} catch (NullPointerException e) {			

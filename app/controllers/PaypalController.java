@@ -19,6 +19,7 @@ import models.User;
 import models.orders.Cart;
 import models.orders.CartItem;
 import play.Logger;
+import play.Play;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.*;
@@ -36,6 +37,10 @@ import com.paypal.base.rest.PayPalRESTException;
 
 public class PaypalController extends Controller {
 	
+	private static String hostUrl = Play.application().configuration().getString("hostUrl");
+	private static String paypalToken1 = Play.application().configuration().getString("paypalToken1");
+	private static String paypalToken2 = Play.application().configuration().getString("paypalToken2");
+
 	
 	public static Result showPurchase(){
 		return ok(views.html.user.creditStatus.render(""));
@@ -44,8 +49,7 @@ public class PaypalController extends Controller {
 	public static Result purchaseProcessing(){
 				
 		try{
-			String accessToken = new OAuthTokenCredential("Ae8Tq4Qee9EIZk7dCZGDPku5AOH0RvG4STCohE2lErEIk1pW2bxxexAP4EY53PtZXL7EaKe22AFv4cul", 
-					"EAFYsYCnq9ZaV686lU9HEA_oVh7OtnyvSler0OTet3ki60IYZyHGprga_lKHxEQuY0f1G2PGyoL1CrJP").getAccessToken();	
+			String accessToken = new OAuthTokenCredential(paypalToken1, paypalToken2).getAccessToken();	
 		
 			Map<String, String> sdkConfig = new HashMap<String, String>();
 			sdkConfig.put("mode", "sandbox");
@@ -84,8 +88,8 @@ public class PaypalController extends Controller {
 			payment.setPayer(payer);
 			payment.setTransactions(transactions);
 			RedirectUrls redirectUrls = new RedirectUrls();
-			redirectUrls.setCancelUrl("http://localhost:9000/creditfail");
-			redirectUrls.setReturnUrl("http://localhost:9000/creditsuccess");
+			redirectUrls.setCancelUrl(hostUrl + "creditfail");
+			redirectUrls.setReturnUrl(hostUrl + "creditsuccess");
 			payment.setRedirectUrls(redirectUrls);
 			
 			Payment createdPayment = payment.create(apiContext);
@@ -117,8 +121,7 @@ public class PaypalController extends Controller {
 		String token = paypalReturn.get("token");
 		
 		try{
-		String accessToken = new OAuthTokenCredential("Ae8Tq4Qee9EIZk7dCZGDPku5AOH0RvG4STCohE2lErEIk1pW2bxxexAP4EY53PtZXL7EaKe22AFv4cul", 
-				"EAFYsYCnq9ZaV686lU9HEA_oVh7OtnyvSler0OTet3ki60IYZyHGprga_lKHxEQuY0f1G2PGyoL1CrJP").getAccessToken();	
+		String accessToken = new OAuthTokenCredential(paypalToken1, paypalToken2).getAccessToken();	
 	
 		Map<String, String> sdkConfig = new HashMap<String, String>();
 		sdkConfig.put("mode", "sandbox");

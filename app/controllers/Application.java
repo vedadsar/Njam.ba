@@ -12,6 +12,7 @@ import models.Meal;
 import models.Restaurant;
 import models.User;
 import play.Logger;
+import play.Play;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.*;
@@ -29,6 +30,7 @@ import Utilites.*;
 public class Application extends Controller {
 
 	static String email = null;
+	private static String hostUrl = Play.application().configuration().getString("hostUrl");
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Faq> findF =  new Finder<Integer,Faq>(Integer.class, Faq.class);
@@ -142,7 +144,7 @@ public class Application extends Controller {
 		if (User.checkA(email, hashedPassword) == true) {
 			// First we need to create url and send confirmation mail to user
 			// (with url inside).
-			String urlString = "http://localhost:9000" + "/" + "confirm/"
+			String urlString = hostUrl + "confirm/"
 					+ usr.confirmationString;
 			URL url = new URL(urlString);
 			try{

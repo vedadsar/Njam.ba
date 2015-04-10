@@ -79,14 +79,14 @@
 	  							</div>
   							</div>
   						</div>
+  						@if(User.checkIfExists(email) == true){
     					<div class="row">
     						<div class="column col-md-2 pull-right">
-    						
     							<form method="POST" action="@routes.CartController.addMealToBasket(meal.id)">
 	                           <input type="submit" value="Add To Cart" class="btn btn-success " />	 
 	                           </form> 						
        						</div>
-    						
+    						}
     						<div class="column col-md-3 pull-right">
     							<h4 class="text-right text-danger"> Meal Price: @meal.price </h4>
     						</div>

@@ -72,32 +72,20 @@
 					</div>
 					<hr>
 					}
-					
-					
-					
+
 				</div>
 				<div class="panel-footer">
 					<div class="row text-center">
 					<div class="col-xs-8">
+					@if(minOrder > 0){
 					<h5 class="text-left "><strong>Minimal order: @minOrder KM</strong></h5>
-							
+							}
 						</div>
-						<div class="col-xs-2">
+						<div class="col-xs-2 pull-right">
 						<h5 class="text-right"><strong>Total: @total KM</strong></h5>
-							
-						</div>
-						<div class="col-xs-2">
-						<button type="button" class="btn btn-success btn-block" disabled>
-								Checkout 
-							</button>
-						</div>
-						
-						
-						
 						
 					</div>
-					
-					
+						
 				</div>
 				
 				@if(flash.get("SucessAdded") || flash.get("Warning") ){

@@ -4,7 +4,7 @@
 	 <body>
 
 
-        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("AddM") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest")){
+        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("AddM") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest") || flash.get("successSendRequest")){
 
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
@@ -14,7 +14,7 @@
 		         	@flash.get("successApprovedRestaurant")
 		         	@flash.get("successSendRequest")
 		         	@flash.get("AddM")
-
+                	@flash.get("AddMeal")
 		         	@flash.get("Warning")
 		         	@flash.get("ErrorMail")
 
