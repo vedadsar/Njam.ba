@@ -167,7 +167,7 @@ public class CartController extends Controller {
 		Restaurant restaurant = Restaurant.findByMeal(meal);
 		email = session("email");
 
-		return ok(mealView.render(email, meal,imgs,restaurant));
+		return ok(views.html.restaurant.mealView.render(email, meal,imgs,restaurant));
 
 	}
 			
