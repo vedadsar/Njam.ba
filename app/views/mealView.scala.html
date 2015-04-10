@@ -1,4 +1,4 @@
-@(email: String)(meal: Meal)
+@(email: String)(meal: Meal)(imageList: List[Image])(restaurant: Restaurant)
 @main(email) {
 <body>
 	<div class="container">
@@ -21,30 +21,50 @@
   							<div class="column col-md-12">
 	  							<div class="row">
 	  								<div class="column col-md-6">	
-	 									<a href="#" class="thumbnail">
-	      									<img src="burek.jpg">
-	    								</a>
-	    								<div class="row">							  									
-		  									<div class="col-xs-3 col-md-3">
-		    									<a href="#" class="thumbnail">
-		      										<img src="food1.jpg">
+	 									
+	      									
+	      									
+	      									
+	               @if(restaurant.image.iterator().hasNext()!=true){
+	               	<a href="#" class="thumbnail">
+                	 <img src="@routes.Assets.at("images/chicken.jpg")" alt="" >
+                	 </a>
+                }else{    
+                	<a href="#" class="thumbnail">            
+                    <img src="@routes.Assets.at(restaurant.image.iterator().next().imgLocation.toString())" alt="" >
+                     </a>
+                    
+                    }
+	    								
+	    						
+	    								<div class="row">		
+	    								
+	    								
+	    								
+	    								
+	    								
+	    								
+	    								
+	    								 @if(imageList.iterator.hasNext){	
+                  						 @for(img <- imageList){
+	    												  
+	    										<div class="col-xs-3 col-md-3">
+		    									<a href="@routes.Assets.at(img.imgLocation)" class="thumbnail" >
+		      										<img  src="@routes.Assets.at(img.imgLocation)"  alt="" height="255" width="255">
 		    									</a>
-		  									</div>
-		  									<div class="col-xs-3 col-md-3">
-		    									<a href="#" class="thumbnail">
-		      										<img src="food1.jpg">
-		    									</a>
-		  									</div>
-		  									<div class="col-xs-3 col-md-3">
-		    									<a href="#" class="thumbnail">
-		      										<img src="food1.jpg">
-		    									</a>
-		  									</div>
-		  									<div class="col-xs-3 col-md-3">
-		    									<a href="#" class="thumbnail">
-		      										<img src="food1.jpg">
-		    									</a>
-		  									</div>
+		  									</div>		  
+	    											  									
+		  					               	
+		    					             }         
+                 
+		    									
+		  				                    }else{
+		  				                    <div class="col-xs-3 col-md-3">
+		  				                     <img src="http://placehold.it/800x500" alt=""/>
+		  				                     	
+		  									</div>	}
+		  					
+		  							
 	  									</div>
 	  								</div>
 	  								<div class="column col-md-6">
@@ -62,11 +82,9 @@
     					<div class="row">
     						<div class="column col-md-2 pull-right">
     						
-
     							<form method="POST" action="@routes.CartController.addMealToBasket(meal.id)">
 	                           <input type="submit" value="Add To Cart" class="btn btn-success " />	 
 	                           </form> 						
-
        						</div>
     						<div class="column col-md-2 pull-right">
     							<div class="input-group">

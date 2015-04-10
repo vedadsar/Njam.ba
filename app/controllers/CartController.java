@@ -155,9 +155,10 @@ public class CartController extends Controller {
 	
 	public static Result viewMeal(int id){
 		Meal meal = Meal.find(id);
-		
+		List<Image> imgs = meal.image;
+		Restaurant restaurant = Restaurant.findByMeal(meal);
 		email = session("email");
-		return ok(mealView.render(email, meal));
+		return ok(mealView.render(email, meal,imgs,restaurant));
 	}
 			
 }

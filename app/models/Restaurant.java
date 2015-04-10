@@ -39,7 +39,7 @@ public class Restaurant extends Model {
 	public static Finder<Integer, Restaurant> find = new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
 
 	public static Finder<Integer, User> findU =  new Finder<Integer,User>(Integer.class, User.class);
-	
+	public static Finder<Integer, Meal> findr =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 	public double minOrder;
 
 
@@ -113,4 +113,10 @@ public class Restaurant extends Model {
 		return owner.image;
 	}
 
+	public static Restaurant findByMeal(Meal m){
+		
+		Restaurant r = m.restaurant;
+		return r;
+	}
+	
 }
