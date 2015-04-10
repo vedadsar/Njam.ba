@@ -15,7 +15,7 @@ public class AdminFilter extends Security.Authenticator {
 		String username = ctx.session().get("email");
 		User u = User.find(username);		
 		
-		//Checking if user exists in db.
+		//Checking if user exists in database.
 		if (u == null)
 			return null;
 		

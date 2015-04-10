@@ -69,6 +69,12 @@ public class FaqController extends Controller {
 		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 	}
 
+	/**
+	 * Method that edits FAQ by finding old
+	 * FAQ and replacing it with new one.
+	 * @param id - FAQ id.
+	 * @return new FAQ and redirect administrator to his page.
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result editFaq(int id) {
 		DynamicForm inputForm = Form.form().bindFromRequest();

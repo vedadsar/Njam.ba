@@ -31,7 +31,13 @@ public class SudoController extends Controller{
 	static Finder<Integer, Faq> findF =  new Finder<Integer,Faq>(Integer.class, Faq.class);
 
 		
-	
+	/**
+	 * Method that deletes Restaurant from database.
+	 * If restaurant is  successfully deleted administrator gets 
+	 * flash message  about successfulness.
+	 * @param id - restaurants id that we want to delete.
+	 * @return  redirection to administrator view after restaurant is deleted.
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result deleteRestaurant(int id){
 		Restaurant r = Restaurant.find(id);
@@ -72,6 +78,13 @@ public class SudoController extends Controller{
 
 	}
 	
+	/**
+	 * Method that send user to administrator view
+	 * where he can see all data about restaurants and meals,
+	 * also about logs and FAQs.
+	 * @param email - Email of administrator.
+	 * @return redirection to Administrator View.
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result administrator(String email) {
 
@@ -83,10 +96,14 @@ public class SudoController extends Controller{
 		return ok(views.html.admin.admin.render(email,meals, restaurants, logs, faqs));
 	}
 	
+	/**
+	 * Method that returns list of all logging.
+	 * @return
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result logs(){
 		List logs = logList();
-		return TODO;
+		return TODO; // not finished
 	}
 	
 	/**
@@ -122,7 +139,7 @@ public class SudoController extends Controller{
 			}
 			
 		} catch (FileNotFoundException e) {
-			Logger.error("Could not list logs");
+			Logger.error("Could not list logs: " + e.getMessage());
 		}finally{
 			sc.close();
 		}	
@@ -130,6 +147,11 @@ public class SudoController extends Controller{
 	}	
 	
 	
+	/**
+	 * Method that writes logs in new Array of logs that are going to
+	 * be shown on administrator view in panel for logs.
+	 * @return array list ten last logs that were made on web application.
+	 */
 	public static List<String> lastLogs(){
 		List<String> allLogs = logList();
 		ArrayList<String> lastLogs = new ArrayList<String>();		
@@ -149,6 +171,12 @@ public class SudoController extends Controller{
 		
 		return lastLogs;
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@Security.Authenticated(AdminFilter.class)
 	public static Result approveRestaurant(int id){		
 		Restaurant restaurant = Restaurant.find(id);		
