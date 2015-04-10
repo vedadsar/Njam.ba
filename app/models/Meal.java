@@ -185,5 +185,6 @@ public class Meal extends Model {
 		return find.where().eq("id", id).findUnique() != null;
 	}
 	
+	
 
 }

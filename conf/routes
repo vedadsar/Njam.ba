@@ -47,6 +47,9 @@ POST   /admin/faq/delete/:id                controllers.FaqController.delete(id:
 
 
 GET    /search                              controllers.SearchController.searchByGeneric(q: String,typeGen: String)
+GET    /search/toAdvancedSearch            controllers.SearchController.redirect()
+POST   /search/advancedSearch              controllers.SearchController.advancedSearch()
+
 
 GET    /faqEdit/:id                         controllers.FaqController.showEditFaq(id: Int)
 POST   /faqEdit/:id                         controllers.FaqController.editFaq(id: Int)

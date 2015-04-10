@@ -28,7 +28,28 @@ import Utilites.*;
 
 public class SearchController extends Controller {
 
+	public static String sequenceBuilt;
+	public static String locationBuilt;
+	public static String restaurantBuilt;
+
+	public static int max;
+	public static boolean ascending;
+	
+	
 	public static DynamicForm form = DynamicForm.form().bindFromRequest();
+
+	
+	public static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
+			Integer.class, Meal.class);
+	
+	
+
+	
+	public static Result redirect (){
+		List<Meal> mealsEmpty = new ArrayList<>();
+		return ok(searchAdvanced.render(" ", " ", Restaurant.all(),
+				mealsEmpty,"","",""));
+	}
 
 	public static Result autocomplete(String q) {
 		List<Meal> meals = Meal.find.where().like("name", "%" + q + "%").findList();
@@ -126,21 +147,71 @@ public class SearchController extends Controller {
 		}
 	}
 
+	
+	/**Method for building search parameters from  advancedSearch Form
+	 * and binds the values to static class variables.
+	 */
+	public static void buildSearchfromForm(){
+		 sequenceBuilt= form.bindFromRequest().field("sequence").value();
+		 locationBuilt=form.bindFromRequest().field("location").value();
+	     restaurantBuilt=form.bindFromRequest().field("restaurant").value();
+	     Logger.debug(locationBuilt);
+	}
+	
+	
+	/**
+	 * Method to build search parameters based on String input
+	 */
+	public static void buildSearchFromString(String inSequence,String inLocation,String inrestaurant,String inMin,String inMax){
+		sequenceBuilt= inSequence;
+		locationBuilt=inLocation;
+		restaurantBuilt=inrestaurant;
+	
+	}
+	
+		
+/**
+ * Result of advanced search also the default route method
+ * for listing meals from parameters.
+ * @return
+ */
+	public static Result advancedSearch(){
+		buildSearchfromForm();
+		List<Meal> m = mealAdvancedSearch();
+			Logger.debug(String.valueOf(m.size()));
+
+		
+	return ok(searchAdvanced.render(" ", " ", Restaurant.all(),
+			 m,sequenceBuilt,locationBuilt,restaurantBuilt));
+	
+	}
+	
+	
+	/**Scalable method  for searching through the
+	 * meal database
+	 * 
+	 * @return List<Meal> that satisfies the search parameter
+	 */
+	public static List <Meal> mealAdvancedSearch(){
+	List <Meal> m = find.where().ilike("name","%"+sequenceBuilt+"%").ilike("restaurant.user.location.city", "%"+locationBuilt+"%").ilike("restaurant.name","%"+restaurantBuilt+"%").findList(); 
+	return m;	
+	}
+	
+	
+	
 	/** Methods which search the string 
-	 * seqemce 
+	 * sequence  for meals
 	 * 
 	 * @param q String sequence
 	 * @return
 	 */
-	 
-	 
-	
+	 	
 	public static List<Meal> searchAllMeals(String q) {
-		List<Meal> meals = Meal.find.where().ilike("name", "%" + q + "%")
-				.findList();
-
+		List<Meal> meals = Meal.find.where().ilike("name", "%" + q + "%").findList();
+				
 		return meals;
 	}
+
 
 	public static List searchAllRestaurants(String q) {
 		List<Restaurant> restaurants = Restaurant.find.where()
