@@ -36,8 +36,11 @@ public class CartController extends Controller {
 		email = session("email");
 		User u = Session.getCurrentUser(ctx());
 		total = 0;
-
 		Cart newCart = Cart.findLastCart(u.id);
+		if(newCart == null){
+			flash("Warning", "Please login");
+			return redirect("/");
+		}
 		List<CartItem> cartItems;
 		try {
 			cartItems = newCart.cartItems;
@@ -67,6 +70,7 @@ public class CartController extends Controller {
 	
 	
 	public static Result addMealToBasket(int id){
+		try{
 		Meal meal = Meal.find(id);
 		
 		/*
@@ -76,6 +80,8 @@ public class CartController extends Controller {
 		User user = Session.getCurrentUser(ctx());
 //		Cart cart = Cart.findByUserId(user.id);
 		Cart cart = Cart.findLastCart(user.id);
+	
+
 //		Cart cart = null ;
 
 		if(Session.getCurrentUser(ctx())==null){			
@@ -122,11 +128,16 @@ public class CartController extends Controller {
 			newCart.update();
 		}
 		*/
-	
 		
 		
+		} catch(NullPointerException e) {
+			Logger.error("No user in session" + e.getMessage());
+			flash("Warning", "If you want to order please login");
+			redirect("/login");
+		}
 		flash("SucessAdded", "Successfully added Meal.");
 		return redirect("/cart");
+
 	}
 	
 	public static Result bindQuantity(int mealId){
