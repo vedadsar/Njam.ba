@@ -26,15 +26,27 @@
   <div class="col-md-4 pul-left">
  <form  action="@routes.SearchController.advancedSearch" method="post" >
   <div class="form-group">
-    <label for="sequence">Please enter Search</label>
-    <input type="text" class="form-control" id="sequence" name="sequence" placeholder="Enter search">
+    <label for="sequence">Please enter meal name</label>
+    <input type="text" class="form-control" id="sequence" name="sequence"
+    @if(!sequence.equals("")){
+    	 value="@sequence">
+    }else{ placeholder="Enter search"> 
+    }
+
+     
      </div>
   <div class="form-group">
     <label for="location">Location</label>
 
     
 <select id="location" name="location">
-<option  type="text" class="form-control" id="location" value="">select city</option>
+
+
+@if(location.equals("")){
+	
+}else{<option  type="text" class="form-control" id="location" value="@location">@location (Previously Sellected)</option>   }
+
+
 <option  type="text" class="form-control" id="location" value="Sarajevo">Sarajevo</option>
 <option  type="text" class="form-control" id="location" value="Tuzla">Tuzla</option>
 <option  type="text" class="form-control" id="location" value="Davor-city">Davor-City</option>
@@ -45,7 +57,13 @@
  
     <div class="form-group">
     <label for="restaurant">Restaurant</label>
-    <input type="text" class="form-control" id="restaurant" name="restaurant" placeholder="Filter Search">
+    <input type="text" class="form-control" id="restaurant" name="restaurant" 
+    
+    @if(!restaurant.equals("")){
+    	 value="@restaurant">
+    }else{ placeholder="Enter search"> 
+    }
+   
   </div>
  
  
