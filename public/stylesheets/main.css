@@ -1652,6 +1652,26 @@ h2.title {
   
 }
 
+.cart_update {
+  display: block;
+  margin-right: 12px;
+  overflow: hidden;
+    padding: 5px 7px;
+   float: left;
+ 
+
+}
+
+.cart_update a {
+  background:#F0F0E9;
+  color: #FFFFFF;
+  padding: 5px 7px;
+  font-size: 16px
+}
+
+.cart_update a:hover {
+  background:#FE980F
+}
 
 .cart_delete  {
   display: block;

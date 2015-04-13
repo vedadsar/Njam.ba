@@ -55,7 +55,8 @@ GET    /faqEdit/:id                         controllers.FaqController.showEditFa
 POST   /faqEdit/:id                         controllers.FaqController.editFaq(id: Int)
 
 GET    /cart                                controllers.CartController.showCart()
-POST   /cart/delete                             controllers.CartController.removeFromCart(id: Int)
+GET   /cart/delete                             controllers.CartController.removeFromCart(id: Int)
+GET   /cart/delete/all                           controllers.CartController.removeAllFromCart(id: Int)
 POST   /cart/bind                                controllers.CartController.bindQuantity(id: Int)
 GET    /mealView/:id                        controllers.CartController.viewMeal(id: Int)
 POST   /mealView/:id                        controllers.CartController.addMealToBasket(id: Int)
@@ -73,7 +74,7 @@ GET    /userSearch                          controllers.SearchController.ajaxSea
 GET    /users                               controllers.Application.allUsers()
 GET    /meals                               controllers.RestaurantController.listMeals()
 GET    /restaurants                         controllers.RestaurantController.listRestaurants()
-POST    /loginJson                           controllers.json.loginService.loginToJson()
+POST    /loginJson                           controllers.api.loginService.loginToJson()
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                        controllers.Assets.at(path="/public", file)
