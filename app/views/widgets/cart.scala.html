@@ -1,8 +1,10 @@
-@(email: String)(cartitems: List[orders.CartItem])(total: Double)(minOrder: Double)
+@(email: String)(carts: List[orders.Cart])
 @main(email) {
 
 <body>
 
+    
+@for( cart <- carts) {   
     
 <div class="container">
 		<div class="row">
@@ -31,8 +33,9 @@
 				</div>
 				<div class="panel-body">
 					
-									
-					@for(cartitem <- cartitems){
+
+					@for(cartitem <- cart.cartItems){
+
 					<div class="row">
 				
 				
@@ -48,7 +51,7 @@
 							</div>
 							<div class="form-group">
 							<div class="col-xs-2 text-left">
-							<form method="POST" action="@routes.CartController.bindQuantity(cartitem.meal.id)">
+							<form method="POST" action="@routes.CartController.bindQuantity(cartitem.meal.id, cart.id)">
 								<input type="text" id="quantity" name="quantity" class="form-control input-sm" value="@cartitem.quantity">
 								</div>
 								
@@ -59,7 +62,7 @@
 								</form>
 							<div class="form-group">
 									<div class="col-xs-1 text-right">
-										<form method="POST" action="@routes.CartController.removeFromCart(cartitem.meal.id)">
+										<form method="POST" action="@routes.CartController.removeFromCart(cartitem.meal.id, cart.id)">
 										<input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Remove" class="btn btn-default" role="group"/> 
 										</form>
 									</div>
@@ -72,20 +75,32 @@
 					</div>
 					<hr>
 					}
-
+					
+					
+					
 				</div>
 				<div class="panel-footer">
 					<div class="row text-center">
 					<div class="col-xs-8">
-					@if(minOrder > 0){
-					<h5 class="text-left "><strong>Minimal order: @minOrder KM</strong></h5>
-							}
+					<h5 class="text-left "><strong>Minimal order: @cart.minOrder KM</strong></h5>
+							
 						</div>
-						<div class="col-xs-2 pull-right">
-						<h5 class="text-right"><strong>Total: @total KM</strong></h5>
+						<div class="col-xs-2">
+						<h5 class="text-right"><strong>Total: @cart.total KM</strong></h5>
+							
+						</div>
+						<div class="col-xs-2">
+						<button type="button" class="btn btn-success btn-block" disabled>
+								Checkout 
+							</button>
+						</div>
+						
+						
+						
 						
 					</div>
-						
+					
+					
 				</div>
 				
 				@if(flash.get("SucessAdded") || flash.get("Warning") ){
@@ -100,7 +115,7 @@
 						<div class="text-center">
 							
 								
-								@if(minOrder <= total) {
+								@if(cart.minOrder <= cart.total) {
 									<div class="col-xs-9"></div>
 									<div class="col-xs-3">
 									<form method="POST" action="@routes.PaypalController.purchaseProcessing">
@@ -118,10 +133,40 @@
 					</div>
 					
 					<hr>
+
+					<h5 class="text-right text-danger"><strong>Minimal order: @cart.minOrder KM</strong></h5>
+				</div>
+				
+				<div class="panel-footer">
+					<div class="row text-center">
+						<div class="col-xs-9">
+												
+							<h4 class="text-right"><strong>TOTAL: @cart.total KM</strong></h4>
+						</div>
+						<div class="col-xs-3">
+							<button type="button" class="btn btn-success btn-block" disabled>
+								Checkout 
+							</button>
+						</div>
+						
+						@if(flash.get("SucessAdded") || flash.get("Warning") ){
+			           <div class="alert alert-success" role="alert">
+			            @flash.get("SucessAdded")
+			            @flash.get("Warning")
+			      
+			             </div>  
+	             	}
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
 </div>
+
+<br></br>
+
+}
 
 </body>
 

@@ -61,4 +61,10 @@ public class CartItem extends Model {
 	public static List<CartItem> all() {
 		return find.all();
 	}
+	
+	public static List<CartItem> allById(User u) {		
+		int id =u.id;
+		List<CartItem> tobeapproved = u.toBeApproved;
+		return tobeapproved;
+	}
 }

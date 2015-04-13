@@ -8,7 +8,9 @@ create table cart (
   user_id                   integer,
   paid                      boolean,
   total                     double,
+  min_order                 double,
   date                      timestamp,
+  restaurant_name           varchar(255),
   constraint pk_cart primary key (id))
 ;
 

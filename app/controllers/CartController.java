@@ -2,6 +2,8 @@ package controllers;
 
 import play.mvc.Result;
 import views.html.*;
+import views.html.restaurant.mealView;
+import views.html.widgets.cart;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,144 +35,215 @@ public class CartController extends Controller {
 
 	
 	public static Result showCart(){
-		email = session("email");
-		User u = Session.getCurrentUser(ctx());
-		total = 0;
-		Cart newCart = Cart.findLastCart(u.id);
-		if(newCart == null){
-			flash("Warning", "Please login");
-			return redirect("/");
-		}
-		List<CartItem> cartItems;
-		try {
-			cartItems = newCart.cartItems;
-			for (CartItem cartItem : cartItems) {
-				total = total + cartItem.totalPrice;
-				minOrder = cartItem.meal.restaurant.minOrder;
-			}
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-
 		if(Session.getCurrentUser(ctx()) == null){
 			flash("loginP", "Please login");
 			return redirect("/login");
 		}
 		
-		if  ( Cart.timeGap(u.id)==false || newCart.paid==true){
-			flash("Warning", "Please add Meal to your cart.");
+		email = session("email");
+		User u = Session.getCurrentUser(ctx());
+		total = 0;
+		
+		List<Cart> carts = u.carts;
+		
+//		if(carts.isEmpty()) {
+//			return TODO;
+//		}
+		
+		List<CartItem> cartItems;
+		
+		for (int i = 0; i < carts.size(); i++) {
+			
+			Cart newCart = carts.get(i);
+			
+			try {
+				cartItems = newCart.cartItems;
+				for (CartItem cartItem : cartItems) {
+					newCart.total = newCart.total + cartItem.totalPrice;
+					newCart.minOrder = cartItem.meal.restaurant.minOrder;
+				}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
+
+//			if (Cart.timeGap(u.id) == false || newCart.paid == true) {
+//				return redirect("/");
+//			}
+
+		}
+
+//		return ok(cart.render(email, Cart.findLastCart(u.id).cartItems, total, minOrder));		
+		
+
+	//	if  ( Cart.timeGap(u.id)==false || newCart.paid==true){
+	//		flash("Warning", "Please add Meal to your cart.");
+	//		return redirect("/");
+	//	}
+
+		return ok(cart.render(email, carts));
+
+		
+	}
+	
+	
+	
+	
+	public static Result addMealToBasket(int id) {
+
+		try {
+
+			if (Session.getCurrentUser(ctx()) == null) {
+				flash("Warning", "If you want to order food please Login.");
+			}
+
+			Meal meal = Meal.find(id);
+			User user = Session.getCurrentUser(ctx());
+			String mealOwnerRestaurant = meal.restaurant.name;
+
+			Cart cart = null;
+
+			if (user.carts.isEmpty()) {
+				cart = new Cart(user, mealOwnerRestaurant);
+				user.carts.add(cart);
+				cart.addMealToCart(meal);
+				return redirect("/cart");
+			} else {
+
+				for (int i = 0; i < user.carts.size(); i++) {
+					if (user.carts.get(i).restaurantName
+							.equals(mealOwnerRestaurant)) {
+						cart = user.carts.get(i);
+						break;
+					}
+				}
+				if (cart != null) {
+					if (cart == null || cart.paid == true
+							|| Cart.timeGap(user.id, cart.id) == false) {
+						cart.addMealToCart(meal);
+					} else {
+						cart.addMealToCart(meal);
+						cart.update();
+					}
+				} else {
+					cart = new Cart(user, mealOwnerRestaurant);
+					user.carts.add(cart);
+					if (cart == null || cart.paid == true
+							|| Cart.timeGap(user.id, cart.id) == false) {
+						cart.addMealToCart(meal);
+					} else {
+						cart.addMealToCart(meal);
+						cart.update();
+					}
+
+				}
+			}
+
+			flash("SucessAdded", "Successfully added Meal.");
+			return redirect("/cart");
+
+		} catch (Exception e) {
+			Logger.error(e.getMessage(), e);
+			flash("Error", e.getMessage());
 			return redirect("/");
 		}
-		
-
-		return ok(views.html.widgets.cart.render(email, Cart.findLastCart(u.id).cartItems, total, minOrder));		
-	}
-	
-	
-	public static Result addMealToBasket(int id){
-		try{
-		Meal meal = Meal.find(id);
-		
-		/*
-		Cart cart = findC.byId(cartID);
-		Logger.debug(String.valueOf(cartID));
-		*/
-		User user = Session.getCurrentUser(ctx());
-//		Cart cart = Cart.findByUserId(user.id);
-		Cart cart = Cart.findLastCart(user.id);
-	
-
-//		Cart cart = null ;
-
-		if(Session.getCurrentUser(ctx())==null){			
-			flash("Warning", "If you want to order food please Login.");
-		} else{
-			cart = Cart.findLastCart(user.id);
-		}
-		
-		
-		System.out.println("U cart-u je" + cart);
-		
-		
-		if(cart == null || cart.paid==true || Cart.timeGap(user.id) == false)  {
-			System.out.println("time gap : " + Cart.timeGap(user.id));
-			cart = new Cart(user);
-			cart.addMeal(meal);
-			CartItem cartItem = new CartItem(cart, 1, meal.price, meal);
-			cartItems.add(cartItem);
-			cart.total += cartItem.totalPrice;
-			cart.paid = false;
-			cart.save();
-			cartItem.save();
-			System.out.println("U If je" + cart);
-		} else {
-			System.out.println("Else u kontroleru");
-			cart.addMealToCart(meal);
-			cart.update();
-			}
-		
-		/*
-		Cart newCart = null;
-		if (cart.paid==false || Cart.timeGap(user.id) == false){
-			newCart = new Cart(user);
-			newCart.addMeal(meal);
-			CartItem newCartItem = new CartItem(cart, 1, meal.price, meal);
-			cartItems.add(newCartItem);
-			newCart.total += newCartItem.totalPrice;
-			newCart.paid=false;
-			newCart.save();
-			newCartItem.save();
-		} else {
-			
-			newCart.addMealToCart(meal);
-			newCart.update();
-		}
-		*/
-		
-		
-		} catch(NullPointerException e) {
-			Logger.error("No user in session" + e.getMessage());
-			flash("Warning", "If you want to order please login");
-			redirect("/login");
-		}
-		flash("SucessAdded", "Successfully added Meal.");
-		return redirect("/cart");
 
 	}
+
 	
-	public static Result bindQuantity(int mealId){
+//	public static Result bindQuantity(int mealId) {
+//
+//		Meal meal = Meal.find(mealId);
+//
+//		if (meal == null) {
+//			flash("Warning", "MA GREŠKA");
+//			return redirect("/");
+//		} else {
+//			User user = Session.getCurrentUser(ctx());
+//			Cart cart = Cart.findLastCart(user.id);
+//			if(cart == null) {
+//				flash("Warning", "CART IS NULL");
+//				return redirect("/");
+//			}
+//			if (Session.getCurrentUser(ctx()) == null) {
+//				flash("Warning", "If you want to order food please Login.");
+//			} else {
+//				cart = Cart.findLastCart(user.id);
+//			}
+//
+//			cart.addMealToCartButton(meal);
+//			cart.update();
+//			return redirect("/cart");
+//		}
+//	}
+	
+	public static Result bindQuantity(int mealId, int cartId) {
+
 		Meal meal = Meal.find(mealId);
-		
-		User user = Session.getCurrentUser(ctx());
-		Cart cart = Cart.findLastCart(user.id);
 
-		if(Session.getCurrentUser(ctx())==null){			
-			flash("Warning", "If you want to order food please Login.");
-		} else{
-			cart = Cart.findLastCart(user.id);
+		if (meal == null) {
+			flash("Warning", "MA GREŠKA");
+			return redirect("/");
+		} else {
+			User user = Session.getCurrentUser(ctx());
+			Cart cart = Cart.findCartInCarts(user.id, cartId);
+			if(cart == null) {
+				flash("Warning", "CART IS NULL");
+				return redirect("/");
+			}
+			if (Session.getCurrentUser(ctx()) == null) {
+				flash("Warning", "If you want to order food please Login.");
+			} else {
+				cart = Cart.findCartInCarts(user.id, cartId);
+			}
+
+			cart.addMealToCartButton(meal);
+			cart.update();
+			return redirect("/cart");
 		}
-		
-		cart.addMealToCartButton(meal);
-		cart.update();
-		return redirect("/cart");
 	}
 	
-	public static Result removeFromCart(int id) {
+	
+	public static Result removeFromCart(int id, int cartId) {
 		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
-		Cart cart = Cart.findByUserId(u.id);
-		
-		cart.removeMeal(m);
-		
-		cart.update();
+		Cart cart = Cart.findCartInCarts(u.id, cartId);
+		if(cart == null) {
+			flash("Warning", "CART IS NULL");
+			return redirect("/");
+		}
+		List<CartItem> newCartItems = cart.cartItems;
+		Iterator<CartItem> iter = newCartItems.iterator();
+		int quantity = 0;
+		while(iter.hasNext()){
+			CartItem ci = iter.next();
+			if( ci.meal.equals(m)){
+				quantity = ci.quantity;
+			}
+		}
+		if( quantity > 0){
+			cart.removeMeal(m, u.id, cartId);
+//			cart.update();	
+			return redirect("/cart");
+		}
 		
 		return redirect("/cart");
 	}
 		
 
 	
+	
+//	public static Result viewMeal(int id) {
+//		Meal meal = Meal.find(id);
+//		List<Image> imgs = meal.image;
+//		if (meal == null) {
+//			flash("Warning", "MA GREŠKA");
+//			return redirect("/");
+//		} else {
+//			email = session("email");
+//			return ok(mealView.render(email, meal));
+//		}
+//	}
 	
 	public static Result viewMeal(int id){
 		Meal meal = Meal.find(id);

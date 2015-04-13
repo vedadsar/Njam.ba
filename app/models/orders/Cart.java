@@ -34,8 +34,13 @@ public class Cart extends Model {
 	public boolean paid;
 	@Required
 	public double total;
+	@Required
+	public double minOrder;
 	
 	public Date date;
+	
+	@Required
+	public String restaurantName;
 	
 	
 	static Finder<Integer, Cart> findC = new Finder<Integer, Cart>(Integer.class, Cart.class);
@@ -60,6 +65,15 @@ public class Cart extends Model {
 		
 	}
 	
+	public Cart( User user, String restaurantName) {
+		this.user = user;
+		this.paid = false;
+		this.total = 0;
+		this.date =new Date();
+		this.restaurantName = restaurantName;
+		
+	}
+	
 	public void addMeal(Meal meal) {
 		for (CartItem cartItem : cartItems) {
 			if(this.id == cartItem.meal.id){
@@ -68,6 +82,7 @@ public class Cart extends Model {
 			}
 		}
 	}
+	
 	
 	public void addMealToCart(Meal meal) {
 
@@ -81,10 +96,16 @@ public class Cart extends Model {
 			}
 		}
 		System.out.println("U elsu je");
-		CartItem newItem = new CartItem(this, 1, meal.price, meal);
-		newItem.cart.total += newItem.totalPrice;
-		newItem.save();
-		cartItems.add(newItem);
+//		CartItem newItem = new CartItem(this, 1, meal.price, meal);
+//		newItem.cart.total += newItem.totalPrice;
+//		newItem.save();	
+//		cartItems.add(newItem);
+		CartItem cartItem = new CartItem(this, 1, meal.price, meal);
+		this.cartItems.add(cartItem);
+		this.total += cartItem.totalPrice;
+		this.paid = false;
+		this.save();
+		cartItem.save();
 	}
 	
 	public void addMealToCartButton(Meal meal) {
@@ -116,7 +137,6 @@ public class Cart extends Model {
 	} 
 	
 	public static Cart findByUserId(int userId){
-
 		return findC.where().eq("user_id", userId).findList().get(findC.findRowCount() - 1);
 	}
 
@@ -131,8 +151,21 @@ public class Cart extends Model {
 		return lastCart;
 	}
 	
-	public static boolean timeGap(int userId){
-		Cart lastCart = Cart.findLastCart(userId);
+	public static Cart findCartInCarts(int userId, int cartId) {
+		User user = User.find(userId);
+		List<Cart> carts = user.carts;
+		Cart cart = null;
+		for (int i = 0; i < carts.size(); i++) {
+			if (carts.get(i).id == cartId) {
+				cart = carts.get(i);
+				break;
+			}
+		}
+		return cart;
+	}
+	
+	public static boolean timeGap(int userId, int cartId){
+		Cart lastCart = Cart.findCartInCarts(userId, cartId);
 		if(lastCart==null)
 			return false;
 		Date currentDate = new Date();
@@ -141,7 +174,7 @@ public class Cart extends Model {
 		try {
 			time = currentDateSec - lastCart.date.getTime();
 			System.out.println("time" + time);
-			if ( time == 0 || time < 120000){
+			if ( time == 0 || time < 60000){
 				return true;
 			}
 		} catch (NullPointerException e) {			
@@ -152,28 +185,26 @@ public class Cart extends Model {
 		return false;
 	}
 	
-public void removeMeal(Meal m) {
-		
-		Iterator<CartItem> it = cartItems.iterator();  
-		while(it.hasNext()){
+	public void removeMeal(Meal m, int userId, int cartId) {
+		User user = User.find(userId);
+		Cart cart = Cart.findCartInCarts(user.id, cartId);
+		List<CartItem> cartItems = cart.cartItems;
+		Iterator<CartItem> it = cartItems.iterator();
+		while (it.hasNext()) {
 			CartItem basketItem = (CartItem) it.next();
-			//if (basketItem.meal.find(m.id).equals(Meal.find(m.id))) {
-			if(basketItem.meal.id == m.id){
-			
-			if (basketItem.quantity > 1) {
+			if (basketItem.meal.id == m.id) {
+				if (basketItem.quantity > 1) {
 					basketItem.decreaseQuantity();
 					System.out.println("Smanjuje se quantity");
 					basketItem.cart.total = basketItem.totalPrice;
 					basketItem.update();
 				} else {
 					System.out.println("Usao je u else da brise basketItem");
-					basketItem.totalPrice = 0;
-					basketItem.cart.total = 0;
 					basketItem.delete();
-					
-					
+					basketItem.cart.total = 0;
 				}
-			}  
+
+			}
 		}
 	}
 }

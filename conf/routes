@@ -55,8 +55,8 @@ GET    /faqEdit/:id                         controllers.FaqController.showEditFa
 POST   /faqEdit/:id                         controllers.FaqController.editFaq(id: Int)
 
 GET    /cart                                controllers.CartController.showCart()
-POST   /cart/delete                             controllers.CartController.removeFromCart(id: Int)
-POST   /cart/bind                                controllers.CartController.bindQuantity(id: Int)
+POST   /cart/delete                             controllers.CartController.removeFromCart(id: Int, cartid: Int)
+POST   /cart/bind                                controllers.CartController.bindQuantity(id: Int, cartId: Int)
 GET    /mealView/:id                        controllers.CartController.viewMeal(id: Int)
 POST   /mealView/:id                        controllers.CartController.addMealToBasket(id: Int)
 

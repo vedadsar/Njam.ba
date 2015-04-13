@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -7,6 +8,7 @@ import java.util.UUID;
 import javax.persistence.*;
 
 import models.orders.Cart;
+import models.orders.CartItem;
 
 import com.avaje.ebean.annotation.CreatedTimestamp;
 
@@ -36,6 +38,12 @@ public class User extends Model {
     @OneToOne
     public Cart cart;
     
+    @OneToMany(mappedBy="user",cascade=CascadeType.ALL)
+	public List<Cart> carts = new ArrayList<Cart>();
+    
+    public static List<CartItem> toBeApproved = new ArrayList<CartItem>();
+    public static int listSize = toBeApproved.size();
+    
     public String confirmationString;
     public Boolean validated = false;
     
@@ -52,13 +60,14 @@ public class User extends Model {
 		this.hashedPassword = Hash.hashPassword(clearPassword);
 		this.dateCreation = new Date();
 		this.role = USER;
+		this.carts= new ArrayList<Cart>(0);
 	}
 	
 	public User(String email, String password, String role){
 		this.email = email;
 		this.hashedPassword = Hash.hashPassword(password);
 		this.dateCreation = new Date();
-
+		this.carts= new ArrayList<Cart>(0);
 		this.role = role;		
 	}
 	
