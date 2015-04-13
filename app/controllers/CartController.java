@@ -38,7 +38,7 @@ public class CartController extends Controller {
 		total = 0;
 		Cart newCart = Cart.findLastCart(u.id);
 		if(newCart == null){
-			flash("Warning", "Please login");
+			flash("Warning1", "Please login");
 			return redirect("/");
 		}
 		List<CartItem> cartItems;
@@ -160,7 +160,7 @@ public class CartController extends Controller {
 	public static Result removeFromCart(int id) {
 		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
-		Cart cart = Cart.findByUserId(u.id);
+		Cart cart = Cart.findLastCart(u.id);
 		
 		cart.removeMeal(m);
 		
@@ -168,8 +168,18 @@ public class CartController extends Controller {
 		
 		return redirect("/cart");
 	}
-		
+	
+	public static Result removeAllFromCart(int id){
+		Meal m = Meal.find(id);
+		User u = Session.getCurrentUser(ctx());
+		Cart cart = Cart.findLastCart(u.id);
 
+		cart.removeMealAll(m);
+
+
+		return redirect("/cart");
+
+	}
 	
 	
 	public static Result viewMeal(int id){

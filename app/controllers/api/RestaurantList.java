@@ -1,4 +1,4 @@
-package controllers.json;
+package controllers.api;
 
 import java.util.List;
 

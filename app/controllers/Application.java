@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
-import controllers.json.UserList;
+import controllers.api.UserList;
 import models.Faq;
 import models.Location;
 import models.Meal;
@@ -125,6 +125,12 @@ public class Application extends Controller {
 				
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
+		String confirmPassword = form.data().get("confirmPassword");
+		
+		if(!hashedPassword.equals(confirmPassword)){
+			flash("MatchPass", "Passwords don't match");
+			return redirect("/registration");
+		}
 		
 		User usr = new User(email, hashedPassword);		
 		Location loc = new Location("", "", "");
@@ -175,12 +181,17 @@ public class Application extends Controller {
 			
 		String email = form.data().get("email");
 		String hashedPassword = form.data().get("hashedPassword");
-		
-		String name = form.data().get("name");
+		String confirmPassword = form.data().get("confirmPassword");
 
+		String name = form.data().get("name");
 		String street = form.data().get("street");
 		String number = form.data().get("number");
 		String city = form.data().get("city");
+		
+		if(!hashedPassword.equals(confirmPassword)){
+			flash("MatchPass", "Passwords don't match");
+			return redirect("/registrationRestaurant");
+		}
 
 		try{
 			User.createRestaurant(name, email, hashedPassword, city, street, number);
@@ -262,7 +273,12 @@ public class Application extends Controller {
 		User currentUser = Session.getCurrentUser(ctx());
 				
 		String newHashedPassword= form.data().get("hashedPassword");
+		String confirmPassword = form.data().get("confirmPassword");
 		
+		if(!newHashedPassword.equals(confirmPassword)){
+			flash("MatchPass", "Passwords don't match");
+			return redirect("/user/" + email);
+		}
 		
 		String city = form.data().get("city");
 		String street = form.data().get("street");
@@ -317,7 +333,5 @@ public class Application extends Controller {
 		}
 		
 		return ok(UserList.usersList(User.allUsers()));
-		
 	}
-	
 }

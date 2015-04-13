@@ -1,6 +1,5 @@
-package controllers.json;
+package controllers.api;
 
-import models.Meal;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,7 +12,6 @@ public class loginService extends Controller {
 
 		JsonNode login = request().body().asJson();
 		if (login == null) {
-			System.out.println("Login");
 			return badRequest("Expecting Json data");
 		}
 
@@ -22,9 +20,9 @@ public class loginService extends Controller {
 
 		if (User.checkA(email, password) == true) {
 			User u = User.find(email);
-			return ok("Vozdra, " + u.email + "!  HashedPassword" + u.hashedPassword);
+			return ok(UserList.userToApp(u));
 		}
-		return badRequest("Failed");
+		return badRequest();
 
 	}
 

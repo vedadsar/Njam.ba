@@ -141,7 +141,7 @@ public class Cart extends Model {
 		try {
 			time = currentDateSec - lastCart.date.getTime();
 			System.out.println("time" + time);
-			if ( time == 0 || time < 120000){
+			if ( time == 0 || time < 820000){
 				return true;
 			}
 		} catch (NullPointerException e) {			
@@ -152,12 +152,11 @@ public class Cart extends Model {
 		return false;
 	}
 	
-public void removeMeal(Meal m) {
+	public void removeMeal(Meal m) {
 		
 		Iterator<CartItem> it = cartItems.iterator();  
 		while(it.hasNext()){
 			CartItem basketItem = (CartItem) it.next();
-			//if (basketItem.meal.find(m.id).equals(Meal.find(m.id))) {
 			if(basketItem.meal.id == m.id){
 			
 			if (basketItem.quantity > 1) {
@@ -170,10 +169,19 @@ public void removeMeal(Meal m) {
 					basketItem.totalPrice = 0;
 					basketItem.cart.total = 0;
 					basketItem.delete();
-					
-					
 				}
 			}  
+		}
+	}
+	
+	public void removeMealAll(Meal m){
+		Iterator<CartItem> it = cartItems.iterator();  
+		while(it.hasNext()){
+			CartItem basketItem = (CartItem) it.next();
+			if(basketItem.meal.id == m.id){
+				basketItem.delete();		
+				basketItem.save();
+			}
 		}
 	}
 }

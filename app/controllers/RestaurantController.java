@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import akka.event.Logging.Debug;
-import controllers.json.MealList;
-import controllers.json.RestaurantList;
+import controllers.api.MealList;
+import controllers.api.RestaurantList;
 import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;
@@ -202,10 +202,18 @@ public class RestaurantController extends Controller {
 		User currentUser = Session.getCurrentUser(ctx());
 				
 		String hashedPassword = form.data().get("hashedPassword");
+		String confirmPassword = form.data().get("confirmPassword");
+		String name = form.data().get("name");
+
+		if(!hashedPassword.equals(confirmPassword)){
+			flash("MatchPass", "Passwords don't match");
+			return redirect("/restaurantOwnerEditProfile/"+ name);
+		}
+
 		if ( !hashedPassword.isEmpty()){
 			currentUser.hashedPassword = Hash.hashPassword(hashedPassword);
 		}
-		String name = form.data().get("name");
+		
 		String city = form.data().get("city");
 		String street = form.data().get("street");
 		String number = form.data().get("number");
