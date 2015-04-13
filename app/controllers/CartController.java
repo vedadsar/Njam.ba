@@ -151,32 +151,6 @@ public class CartController extends Controller {
 	}
 
 	
-//	public static Result bindQuantity(int mealId) {
-//
-//		Meal meal = Meal.find(mealId);
-//
-//		if (meal == null) {
-//			flash("Warning", "MA GREŠKA");
-//			return redirect("/");
-//		} else {
-//			User user = Session.getCurrentUser(ctx());
-//			Cart cart = Cart.findLastCart(user.id);
-//			if(cart == null) {
-//				flash("Warning", "CART IS NULL");
-//				return redirect("/");
-//			}
-//			if (Session.getCurrentUser(ctx()) == null) {
-//				flash("Warning", "If you want to order food please Login.");
-//			} else {
-//				cart = Cart.findLastCart(user.id);
-//			}
-//
-//			cart.addMealToCartButton(meal);
-//			cart.update();
-//			return redirect("/cart");
-//		}
-//	}
-	
 	public static Result bindQuantity(int mealId, int cartId) {
 
 		Meal meal = Meal.find(mealId);
@@ -197,7 +171,7 @@ public class CartController extends Controller {
 				cart = Cart.findCartInCarts(user.id, cartId);
 			}
 
-			cart.addMealToCartButton(meal);
+			cart.addMealToCart(meal);
 			cart.update();
 			return redirect("/cart");
 		}

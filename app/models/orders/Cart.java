@@ -96,10 +96,6 @@ public class Cart extends Model {
 			}
 		}
 		System.out.println("U elsu je");
-//		CartItem newItem = new CartItem(this, 1, meal.price, meal);
-//		newItem.cart.total += newItem.totalPrice;
-//		newItem.save();	
-//		cartItems.add(newItem);
 		CartItem cartItem = new CartItem(this, 1, meal.price, meal);
 		this.cartItems.add(cartItem);
 		this.total += cartItem.totalPrice;
@@ -115,7 +111,6 @@ public class Cart extends Model {
 				System.out.println("U ifu je u Cart");
 				String itemQuantity = inputForm.bindFromRequest().field("quantity").value();
 				int quantity = Integer.parseInt(itemQuantity);
-				
 				cartItem.quantity = quantity;
 				cartItem.totalPrice = cartItem.meal.price*quantity;
 				cartItem.cart.total = cartItem.totalPrice;
