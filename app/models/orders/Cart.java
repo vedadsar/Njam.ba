@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 
 import models.Meal;
 import models.User;
+import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -92,13 +93,16 @@ public class Cart extends Model {
 				cartItem.increaseQuantity();
 				cartItem.update();
 				cartItem.cart.total = cartItem.totalPrice;
+				Logger.debug("TOTAL TRENUTNO JE: " + cartItem.cart.total);
 				return;
 			}
 		}
 		System.out.println("U elsu je");
 		CartItem cartItem = new CartItem(this, 1, meal.price, meal);
 		this.cartItems.add(cartItem);
+		Logger.debug("TOTAL TRENUTNO JE: " + cartItem.cart.total);
 		this.total += cartItem.totalPrice;
+		Logger.debug("SRANJE: " + cartItem.totalPrice);
 		this.paid = false;
 		this.save();
 		cartItem.save();
