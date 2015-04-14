@@ -180,7 +180,7 @@ public class FileUpload extends Controller {
 			
 				
 		
-			return ok(views.html.restaurant.restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all()));
+			return ok(views.html.restaurant.restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all(), u.toBeApproved));
 			
 
 		} else

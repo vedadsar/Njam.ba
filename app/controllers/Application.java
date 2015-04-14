@@ -18,6 +18,7 @@ import play.i18n.Messages;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import views.html.*;
+import views.html.restaurant.restaurantOwner;
 import Utilites.AdminFilter;
 import Utilites.RestaurantFilter;
 import Utilites.Session;
@@ -93,7 +94,7 @@ public class Application extends Controller {
 		if(email == null){
 			return ok(registration.render(""));
 		} else { 
-			return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants));
+			return ok(restaurantOwner.render(email, meals, restaurants, Session.getCurrentUser(ctx()).toBeApproved));
 		}
 	}
 	
@@ -208,7 +209,7 @@ public class Application extends Controller {
 
 		if(Session.getCurrentUser(ctx()) != null){
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants));
+				return ok(restaurantOwner.render(email, meals, restaurants, Session.getCurrentUser(ctx()).toBeApproved ));
 
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));

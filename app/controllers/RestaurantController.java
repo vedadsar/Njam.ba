@@ -174,7 +174,7 @@ public class RestaurantController extends Controller {
 		User u = User.find(email);
 		List <Meal> meals = Meal.allById(u);
 		
-		return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants));
+		return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants, u.toBeApproved));
 	}
 	
 
