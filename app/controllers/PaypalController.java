@@ -46,7 +46,7 @@ public class PaypalController extends Controller {
 		return ok(views.html.user.creditStatus.render(""));
 	}
 	
-	public static Result purchaseProcessing(){
+	public static Result purchaseProcessing(int cartId){
 				
 		try{
 			String accessToken = new OAuthTokenCredential(paypalToken1, paypalToken2).getAccessToken();	
@@ -58,13 +58,13 @@ public class PaypalController extends Controller {
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			User u = Session.getCurrentUser(ctx());
-			Cart cart = Cart.findLastCart(u.id);
+			Cart cart = Cart.findCartInCarts(u.id, cartId);
 			
 			double total = cart.total;
-			double cartID = cart.id;
+			double cartID = cartId;
 			String price = String.format("%1.2f",total);
 			Amount amount = new Amount();
-			amount.setTotal(price);
+			amount.setTotal("15");
 			amount.setCurrency("USD");
 			
 			String description = String.format("Description: %s\n"
@@ -82,37 +82,37 @@ public class PaypalController extends Controller {
 			payer.setPaymentMethod("paypal");
 			
 			
-			
 			Payment payment = new Payment();
 			payment.setIntent("sale");
 			payment.setPayer(payer);
 			payment.setTransactions(transactions);
 			RedirectUrls redirectUrls = new RedirectUrls();
 			redirectUrls.setCancelUrl(hostUrl + "creditfail");
-			redirectUrls.setReturnUrl(hostUrl + "creditsuccess");
+			redirectUrls.setReturnUrl(hostUrl + "creditsuccess/" + cartId);
 			payment.setRedirectUrls(redirectUrls);
 			
 			Payment createdPayment = payment.create(apiContext);
-			
+			Logger.debug("KREIRAO PAYMENT");
 			Iterator <Links> itr = createdPayment.getLinks().iterator();
+			Logger.debug("NALAZIM SE U OVOM ITERATORU");
 			while(itr.hasNext()){
 				Links link = itr.next();
 				if(link.getRel().equals("approval_url"))
 					return redirect(link.getHref());
 			}
 			
-//			Logger.debug(createdPayment.toJSON());
-			
+			Logger.debug("PRVI TODO SRANJE");
 			return TODO; // Nesto nije proslo kako treba
 			
 
 		} catch(PayPalRESTException e){
 			Logger.warn(e.getMessage());
-		}		
+		}
+		Logger.debug("DRUGI TODO SRANJE");
 		return TODO;
 	}
 	
-	public static Result creditSuccess(){
+	public static Result creditSuccess(int cartId){
 		
 		DynamicForm paypalReturn = Form.form().bindFromRequest();
 		
@@ -136,7 +136,7 @@ public class PaypalController extends Controller {
 		
 		Payment newPayment = payment.execute(apiContext, paymentExecution);
 		User u = Session.getCurrentUser(ctx());
-		Cart newCart = Cart.findLastCart(u.id);
+		Cart newCart = Cart.findCartInCarts(u.id, cartId);
 		newCart.paid=true;
 		newCart.update();
 		} catch(PayPalRESTException e){

@@ -118,7 +118,7 @@
 								@if(cart.minOrder <= cart.total) {
 									<div class="col-xs-9"></div>
 									<div class="col-xs-3">
-									<form method="POST" action="@routes.PaypalController.purchaseProcessing">
+									<form method="POST" action="@routes.PaypalController.purchaseProcessing(cart.id)">
 	                        			<input type="image" <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" value="approve"/>
 	                        		</form>
 	                        		</div>

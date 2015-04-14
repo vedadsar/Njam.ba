@@ -62,8 +62,8 @@ POST   /mealView/:id                        controllers.CartController.addMealTo
 
 
 GET    /creditStatus                        controllers.PaypalController.showPurchase()
-POST   /creditpurchase                      controllers.PaypalController.purchaseProcessing()
-GET    /creditsuccess                       controllers.PaypalController.creditSuccess()
+POST   /creditpurchase                      controllers.PaypalController.purchaseProcessing(cartId: Int)
+GET    /creditsuccess/:cartId                       controllers.PaypalController.creditSuccess(cartId: Int)
 GET    /creditfail                          controllers.PaypalController.creditFail()
 
 POST   /userSearch                          controllers.SearchController.ajaxList()
