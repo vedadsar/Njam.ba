@@ -5,7 +5,7 @@
 
     
 @for( cart <- carts) {   
-    
+    @if( cart.paid==false) {
 <div class="container">
 		<div class="row">
 			<div class="page-header">
@@ -166,7 +166,8 @@
 
 <br></br>
 
-}
+}  <!-- zatvaranje ovog paid=false if-a -->
+} <!-- Kraj for(cart - carts) petlje -->
 
 </body>
 
