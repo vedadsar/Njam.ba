@@ -110,7 +110,9 @@ public class CartController extends Controller {
 			} else {
 
 				for (int i = 0; i < user.carts.size(); i++) {
-					if (user.carts.get(i).restaurantName.equals(mealOwnerRestaurant) && user.carts.get(i).paid == false) {
+					if (user.carts.get(i).restaurantName
+							.equals(mealOwnerRestaurant)
+							&& user.carts.get(i).paid == false) {
 						cart = user.carts.get(i);
 						break;
 					}

@@ -72,6 +72,14 @@ create table restaurant (
   constraint pk_restaurant primary key (id))
 ;
 
+create table transaction_u (
+  id                        integer not null,
+  user_to_pay_id            integer,
+  cart_to_pay_id            integer,
+  approved                  boolean,
+  constraint pk_transaction_u primary key (id))
+;
+
 create table user (
   id                        integer not null,
   email                     varchar(255),
@@ -100,6 +108,8 @@ create sequence location_seq;
 create sequence meal_seq;
 
 create sequence restaurant_seq;
+
+create sequence transaction_u_seq;
 
 create sequence user_seq;
 
@@ -150,6 +160,8 @@ drop table if exists meal;
 
 drop table if exists restaurant;
 
+drop table if exists transaction_u;
+
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
@@ -167,6 +179,8 @@ drop sequence if exists location_seq;
 drop sequence if exists meal_seq;
 
 drop sequence if exists restaurant_seq;
+
+drop sequence if exists transaction_u_seq;
 
 drop sequence if exists user_seq;
 

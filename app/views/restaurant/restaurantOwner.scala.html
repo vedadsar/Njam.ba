@@ -1,4 +1,4 @@
-@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])(tobeapproved: List[orders.CartItem])
+@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])(tobeapproved: List[models.TransactionU])
 @main(email) {
 <body>
    <!-- header -->
@@ -122,9 +122,17 @@
                         </thead>
                      <tbody>
                      	
-                        @for(cartitem <- tobeapproved){   
+                        @for(transaction <- tobeapproved){   
                         <tr>                 
-                        <td>@cartitem.getMealName()</td>
+                        <td>@transaction.id</td>
+	                      @if(transaction.approved == true) {
+                        	<td>Approved</td>
+                        } else {
+                        	<td>Not approved</td>
+                        }
+                        
+                        
+                        
                         
                         </tr>
                         }

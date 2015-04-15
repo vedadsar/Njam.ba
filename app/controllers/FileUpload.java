@@ -135,6 +135,8 @@ public class FileUpload extends Controller {
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result saveRestaurantIMG() {
 		User u = Session.getCurrentUser(ctx());
+		Restaurant restaurant = u.restaurant;
+		List<TransactionU> tobeapproved = restaurant.toBeApproved;
 
 		folderId = String.valueOf(u.restaurant.id);
 		imageFolder = "restaurant";
@@ -180,7 +182,7 @@ public class FileUpload extends Controller {
 			
 				
 		
-			return ok(views.html.restaurant.restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all(), u.toBeApproved));
+			return ok(views.html.restaurant.restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all(), tobeapproved));
 			
 
 		} else

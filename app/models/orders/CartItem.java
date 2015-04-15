@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import models.Meal;
+import models.Restaurant;
+import models.TransactionU;
 import models.User;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -62,9 +64,10 @@ public class CartItem extends Model {
 		return find.all();
 	}
 	
-	public static List<CartItem> allById(User u) {		
+	public static List<TransactionU> allById(User u) {		
 		int id =u.id;
-		List<CartItem> tobeapproved = u.toBeApproved;
+		Restaurant restaurant = u.restaurant;
+		List<TransactionU> tobeapproved = restaurant.toBeApproved;
 		return tobeapproved;
 	}
 }

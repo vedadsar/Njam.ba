@@ -41,9 +41,6 @@ public class User extends Model {
     @OneToMany(mappedBy="user",cascade=CascadeType.ALL)
 	public List<Cart> carts = new ArrayList<Cart>();
     
-    public static List<CartItem> toBeApproved = new ArrayList<CartItem>();
-    public static int listSize = toBeApproved.size();
-    
     public String confirmationString;
     public Boolean validated = false;
     
