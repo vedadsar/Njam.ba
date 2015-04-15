@@ -23,7 +23,6 @@ public class Meal extends Model {
 	public double price;
 	@Required
 	public String description;
-
 	@ManyToOne 
 	public Restaurant restaurant;
     

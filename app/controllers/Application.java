@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
-import controllers.api.UserList;
+import controllers.api.UserApi;
 import models.Faq;
 import models.Location;
 import models.Meal;
@@ -332,6 +332,6 @@ public class Application extends Controller {
 			return redirect("/");
 		}
 		
-		return ok(UserList.usersList(User.allUsers()));
+		return ok(UserApi.usersList(User.allUsers()));
 	}
 }

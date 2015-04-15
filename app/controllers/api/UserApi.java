@@ -14,12 +14,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class UserList extends Controller {
+public class UserApi extends Controller {
 	
 	public static Result users() {
 		List<User> users = User.allUsers();
 		if (users != null) {
-			return ok(UserList.usersList(users));
+			return ok(UserApi.usersList(users));
 		}
 		return ok(new ArrayNode(JsonNodeFactory.instance));
 	}
@@ -29,7 +29,7 @@ public class UserList extends Controller {
 		String id = json.findPath("id").textValue();
 		User user = User.find(Integer.parseInt(id));
 		if (user != null){
-			return ok(UserList.userToApp(user));
+			return ok(UserApi.userToApp(user));
 		}
 		return badRequest();
 	}
