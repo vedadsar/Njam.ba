@@ -13,6 +13,7 @@ import com.paypal.api.payments.PaymentExecution;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
+import play.Logger;
 import play.db.ebean.Model;
 
 @Entity
@@ -33,8 +34,8 @@ public class TransactionU extends Model {
 	public int userToPayId;
 
 	public int cartToPayId;
-
-	public boolean approved;
+	
+	public Boolean approved = false;
 	
 	private static Finder<Long, TransactionU> find = new Finder<Long, TransactionU>(Long.class,
 			TransactionU.class);
@@ -49,31 +50,8 @@ public class TransactionU extends Model {
 		this.paymentExecutionToPay = paymentExecutionToPay;
 		this.userToPayId = userToPayId;
 		this.cartToPayId = cartToPayId;
-		this.approved = false;
 	}
 
-	public static void executePayment(APIContext contextToPay,
-			Payment paymentToPay, PaymentExecution paymentExecutionToPay,
-			int userToPayId, int cartToPayId) {
-		Cart newCart = Cart.findCartInCarts(userToPayId, cartToPayId);
-		newCart.paid=true;
-		newCart.update();
-		try {
-			paymentToPay.execute(contextToPay, paymentExecutionToPay);
-		} catch (PayPalRESTException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-	public static void executePaymentById(int paymentId) {
-		TransactionU transaction = TransactionU.find(paymentId);
-		executePayment(transaction.contextToPay, transaction.paymentToPay,
-				transaction.paymentExecutionToPay, transaction.userToPayId,
-				transaction.cartToPayId);
-		transaction.approved = true;
-	}
-	
 	
 	public static TransactionU createTransaction(APIContext contextToPay,
 			Payment paymentToPay, PaymentExecution paymentExecutionToPay,

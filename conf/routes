@@ -16,11 +16,11 @@ GET    /admin/:email                        controllers.SudoController.administr
 POST   /admin/delete/:id                    controllers.SudoController.deleteRestaurant(id: Int)
 POST   /admin/approve/:id                   controllers.SudoController.approveRestaurant(id:  Int)
 
+
 GET    /fileUpload/:id                      controllers.Application.showFileUpload(id: Int)
 POST   /fileUpload/Meal/:id                 controllers.FileUpload.saveMealIMG(id: Int)
 POST   /fileUpload/Restaurant/              controllers.FileUpload.saveRestaurantIMG()
 GET    /fileUpload/deleteimg/:image/:meal   controllers.FileUpload.deleteImg(image: String,meal: Int)
-
 
 GET    /restaurantOwner/:email              controllers.RestaurantController.restaurant(email: String)
 GET    /restaurantOwnerEditProfile/:email   controllers.RestaurantController.editRestaurantURL(email: String)
@@ -69,6 +69,7 @@ GET    /creditStatus                        controllers.PaypalController.showPur
 POST   /creditpurchase                      controllers.PaypalController.purchaseProcessing(cartId: Int)
 GET    /creditsuccess/:cartId                       controllers.PaypalController.creditSuccess(cartId: Int)
 GET    /creditfail                          controllers.PaypalController.creditFail()
+POST   /restaurantOwner/:id					controllers.PaypalController.executePaymentById(id: Int)
 
 POST   /userSearch                          controllers.SearchController.ajaxList()
 GET    /userSearch                          controllers.SearchController.ajaxSearch()

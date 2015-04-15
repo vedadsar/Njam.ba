@@ -1,4 +1,4 @@
-@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])(tobeapproved: List[models.TransactionU])
+@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])(tobeapproved: List[TransactionU])
 @main(email) {
 <body>
    <!-- header -->
@@ -131,7 +131,13 @@
                         	<td>Not approved</td>
                         }
                         
-                        
+                        	<td>
+	                        @if(transaction.approved == false){
+	                           <form method="POST" action="@routes.PaypalController.executePaymentById(transaction.id)">
+	                           <input type="submit" onclick = "if (! confirm('Are you sure you want approve this restaurant?')) { return false; }" value="approve" class="btn btn-default btn-xs " />	 
+	                           </form>
+	                           }
+	                        </td>
                         
                         
                         </tr>

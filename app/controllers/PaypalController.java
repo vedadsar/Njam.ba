@@ -79,6 +79,7 @@ public class PaypalController extends Controller {
 			
 			double total = cart.total;
 			double cartID = cartId;
+			Logger.debug("CART ID GORE: " + cartId);
 			String price = String.format("%1.2f",total);
 			
 			userToPayId = u.id;
@@ -181,6 +182,27 @@ public class PaypalController extends Controller {
 			Logger.debug("U LISTI:" + restaurant.toBeApproved.get(i).id );
 		}
 	}
+	
+	public static Result executePaymentById(int paymentId) {
+		TransactionU transaction = TransactionU.find(paymentId);
+		Logger.debug("USER ID: " + userToPayId);
+		Logger.debug("CART ID: " + cartToPayId);
+		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
+		transaction.approved = true;
+		transaction.update();
+		newCart.paid=true;
+		newCart.update();
+		try {
+			Logger.debug("CONTEXT" + contextToPay);
+			Logger.debug("EXECUTION" + paymentExecutionToPay);
+			paymentToPay.execute(contextToPay, paymentExecutionToPay);
+			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
+		} catch (PayPalRESTException e) {
+			e.printStackTrace();
+		}
+		return TODO;
+	}
+	
 
 	public static Result creditFail(){
 		flash("FailedPayPal","Payment did not pass throw.");
