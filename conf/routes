@@ -70,13 +70,14 @@ GET    /creditfail                          controllers.PaypalController.creditF
 POST   /userSearch                          controllers.SearchController.ajaxList()
 GET    /userSearch                          controllers.SearchController.ajaxSearch()
 
-# API service practice
-GET    /api/users                               controllers.api.UserList.users()
-POST    /api/user                                controllers.api.UserList.oneUser()
-GET    /api/meals                               controllers.api.MealList.meals()
-POST    /api/meal                                controllers.api.MealList.oneMeal()
-GET    /api/restaurants                         controllers.api.RestaurantList.restaurants()
-POST    /api/restaurant                          controllers.api.RestaurantList.oneRestaurant()
+# API service 
+GET    /api/users                               controllers.api.UserApi.users()
+POST    /api/user                                controllers.api.UserApi.oneUser()
+GET    /api/meals                               controllers.api.MealApi.meals()
+GET    /api/mealsImg                            controllers.api.MealApi.mealsWithImages()
+POST    /api/meal                                controllers.api.MealApi.oneMeal()
+GET    /api/restaurants                         controllers.api.RestaurantApi.restaurants()
+POST    /api/restaurant                          controllers.api.RestaurantApi.oneRestaurant()
 POST    /api/loginJson                           controllers.api.loginService.loginToJson()
 
 # Map static resources from the /public folder to the /assets URL path

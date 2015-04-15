@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import akka.event.Logging.Debug;
-import controllers.api.MealList;
-import controllers.api.RestaurantList;
+import controllers.api.MealApi;
+import controllers.api.RestaurantApi;
 import Utilites.AdminFilter;
 import Utilites.Session;
 import models.*;

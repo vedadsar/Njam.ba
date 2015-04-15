@@ -21,11 +21,6 @@ public class Image extends Model {
 	public int id;
 	@Required
 	public String imgLocation;
-	
-	
-
-
-	
 	@ManyToOne
 	public Meal meal;
 	

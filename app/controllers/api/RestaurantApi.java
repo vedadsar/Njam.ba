@@ -13,12 +13,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class RestaurantList extends Controller {
+public class RestaurantApi extends Controller {
 	
 	public static Result restaurants() {
 		List<Restaurant> restaurants = Restaurant.all();
 		if (restaurants != null) {
-			return ok(RestaurantList.restaurantsList(restaurants));
+			return ok(RestaurantApi.restaurantsList(restaurants));
 		}
 		return ok(new ArrayNode(JsonNodeFactory.instance));
 	}
@@ -28,7 +28,7 @@ public class RestaurantList extends Controller {
 		String id = json.findPath("id").textValue();
 		Restaurant restaurant = Restaurant.find(Integer.parseInt(id));
 		if (restaurant != null){
-			return ok(RestaurantList.restaurantToApp(restaurant));
+			return ok(RestaurantApi.restaurantToApp(restaurant));
 		}
 		return badRequest();
 	}
