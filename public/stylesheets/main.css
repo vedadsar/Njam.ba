@@ -1593,12 +1593,13 @@ h2.title {
 
 
 #cart_items .cart_info .image {
-  padding-left: 30px;
+  padding-left: 20px;
 }
 
 
 #cart_items .cart_info .cart_description h4 {
   margin-bottom: 0
+ 
 }
 
 #cart_items .cart_info .cart_description h4 a {
@@ -1606,11 +1607,12 @@ h2.title {
   font-family: 'Roboto',sans-serif;
   font-size: 20px;
   font-weight: normal;
-
+  margin-left: 30px;
 }
 
 #cart_items .cart_info .cart_description p {
-  color:#696763
+  color:#696763;
+  margin-left: 30px;
 }
 
 

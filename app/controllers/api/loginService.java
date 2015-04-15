@@ -14,7 +14,6 @@ public class loginService extends Controller {
 		if (login == null) {
 			return badRequest("Expecting Json data");
 		}
-
 		String email = login.findPath("email").textValue();
 		String password = login.findPath("password").textValue();
 
@@ -25,5 +24,4 @@ public class loginService extends Controller {
 		return badRequest();
 
 	}
-
 }
