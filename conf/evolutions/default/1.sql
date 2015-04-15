@@ -74,6 +74,7 @@ create table restaurant (
 
 create table transaction_u (
   id                        integer not null,
+  restaurant_id             integer,
   user_to_pay_id            integer,
   cart_to_pay_id            integer,
   approved                  boolean,
@@ -131,12 +132,14 @@ alter table meal add constraint fk_meal_restaurant_8 foreign key (restaurant_id)
 create index ix_meal_restaurant_8 on meal (restaurant_id);
 alter table restaurant add constraint fk_restaurant_user_9 foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_restaurant_user_9 on restaurant (user_id);
-alter table user add constraint fk_user_restaurant_10 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_10 on user (restaurant_id);
-alter table user add constraint fk_user_location_11 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_user_location_11 on user (location_id);
-alter table user add constraint fk_user_cart_12 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
-create index ix_user_cart_12 on user (cart_id);
+alter table transaction_u add constraint fk_transaction_u_restaurant_10 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_transaction_u_restaurant_10 on transaction_u (restaurant_id);
+alter table user add constraint fk_user_restaurant_11 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_11 on user (restaurant_id);
+alter table user add constraint fk_user_location_12 foreign key (location_id) references location (id) on delete restrict on update restrict;
+create index ix_user_location_12 on user (location_id);
+alter table user add constraint fk_user_cart_13 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
+create index ix_user_cart_13 on user (cart_id);
 
 
 

@@ -38,7 +38,7 @@ public class Restaurant extends Model {
 	public List<Image> image=new ArrayList<Image>();
 	
 	@OneToMany(mappedBy="restaurant",cascade = CascadeType.ALL)
-	public static List<TransactionU> toBeApproved = new ArrayList<TransactionU>();
+	public List<TransactionU> toBeApproved = new ArrayList<TransactionU>();
 
 	public static Finder<Integer, Restaurant> find = new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
 

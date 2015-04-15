@@ -1,7 +1,9 @@
 package models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import models.orders.Cart;
 
@@ -18,6 +20,9 @@ public class TransactionU extends Model {
 	@Id
 	public int id;
 
+	@OneToOne(cascade=CascadeType.ALL)
+    public Restaurant restaurant;
+	
 	public APIContext contextToPay;
 
 	public Payment paymentToPay;
