@@ -134,31 +134,6 @@ public class RestaurantController extends Controller {
 	
 	
 	
-	
-	/**
-	 * Method that returns list of restaurants.
-	 * @return list of all meals from Restaurant
-	 */
-	public static Result listMeals(){
-		List<Meal> meals = Meal.all();
-		if(request().accepts("text/html")){
-			return redirect("/");
-		}
-		System.out.println("Meals:" + meals.size());
-		return ok(MealList.mealList(meals));
-		
-	}
-	
-	public static Result listRestaurants(){
-		List<Restaurant> restaurants = Restaurant.all();
-		if(request().accepts("text/html")){
-			return redirect("/");
-		}
-		return ok(RestaurantList.restaurantsList(restaurants));
-		
-	}
-
-	
 	/**
 	 * 
 	 * @param id
