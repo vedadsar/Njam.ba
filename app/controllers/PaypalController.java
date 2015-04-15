@@ -44,6 +44,8 @@ public class PaypalController extends Controller {
 
 	static int userToPayId;
 	static int cartToPayId;
+	static int restaurantId;
+	static Restaurant restaurantToPay;
 	static double priceToPay;
 	static APIContext contextToPay;
 	static PaymentExecution paymentExecutionToPay;
@@ -71,6 +73,9 @@ public class PaypalController extends Controller {
 			
 			User u = Session.getCurrentUser(ctx());
 			Cart cart = Cart.findCartInCarts(u.id, cartId);
+			
+			String restName = cart.restaurantName;
+			restaurantToPay = Restaurant.findByName(restName);
 			
 			double total = cart.total;
 			double cartID = cartId;
@@ -153,7 +158,8 @@ public class PaypalController extends Controller {
 		paymentExecutionToPay = paymentExecution;
 		
 		
-		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId);
+		
+		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay);
 		addTransactionToPendingList(newTrans);
 		
 		//DO OVDJE, DALJE IDE U DRUGU METODU

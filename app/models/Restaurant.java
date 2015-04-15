@@ -27,7 +27,7 @@ public class Restaurant extends Model {
 	@DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date dateCreation;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	public User user;
 
 
