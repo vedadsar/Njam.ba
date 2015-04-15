@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import models.orders.Cart;
 import play.Logger;
 import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.MaxLength;
@@ -35,6 +36,9 @@ public class Restaurant extends Model {
 
 	@OneToMany(mappedBy="restaurant",cascade = CascadeType.ALL)
 	public List<Image> image=new ArrayList<Image>();
+	
+	@OneToMany(mappedBy="restaurant",cascade = CascadeType.ALL)
+	public List<TransactionU> toBeApproved = new ArrayList<TransactionU>();
 
 	public static Finder<Integer, Restaurant> find = new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
 
@@ -48,12 +52,14 @@ public class Restaurant extends Model {
 
 		this.name = name;
 		this.image= new ArrayList<Image>(0);
+		this.toBeApproved= new ArrayList<TransactionU>(0);
 	}
 
 	public Restaurant(String name, User u) {
 		this.name = name;
 		this.user = u;
 		this.image= new ArrayList<Image>(0);
+		this.toBeApproved= new ArrayList<TransactionU>(0);
 	}
 
 	public Restaurant(User u, Image image) {

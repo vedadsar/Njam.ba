@@ -15,6 +15,7 @@ import models.Faq;
 import models.Location;
 import models.Meal;
 import models.Restaurant;
+import models.TransactionU;
 import models.User;
 import models.orders.Cart;
 import models.orders.CartItem;
@@ -41,12 +42,23 @@ public class PaypalController extends Controller {
 	private static String paypalToken1 = Play.application().configuration().getString("paypalToken1");
 	private static String paypalToken2 = Play.application().configuration().getString("paypalToken2");
 
+	static int userToPayId;
+	static int cartToPayId;
+	static double priceToPay;
+	static APIContext contextToPay;
+	static PaymentExecution paymentExecutionToPay;
+	static Payment paymentToPay;
+	static String paymentIdToPay;
+	static String tokenToPay;
+	static final String CLIENT_ID = Play.application().configuration().getString("cliendID");
+	static final String CLIENT_SECRET = Play.application().configuration().getString("cliendSecret");
+	
 	
 	public static Result showPurchase(){
 		return ok(views.html.user.creditStatus.render(""));
 	}
 	
-	public static Result purchaseProcessing(){
+	public static Result purchaseProcessing(int cartId){
 				
 		try{
 			String accessToken = new OAuthTokenCredential(paypalToken1, paypalToken2).getAccessToken();	
@@ -58,13 +70,17 @@ public class PaypalController extends Controller {
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			User u = Session.getCurrentUser(ctx());
-			Cart cart = Cart.findLastCart(u.id);
+			Cart cart = Cart.findCartInCarts(u.id, cartId);
 			
 			double total = cart.total;
-			double cartID = cart.id;
+			double cartID = cartId;
 			String price = String.format("%1.2f",total);
+			
+			userToPayId = u.id;
+			cartToPayId = cartId;
+			
 			Amount amount = new Amount();
-			amount.setTotal(price);
+			amount.setTotal("15");
 			amount.setCurrency("USD");
 			
 			String description = String.format("Description: %s\n"
@@ -82,18 +98,16 @@ public class PaypalController extends Controller {
 			payer.setPaymentMethod("paypal");
 			
 			
-			
 			Payment payment = new Payment();
 			payment.setIntent("sale");
 			payment.setPayer(payer);
 			payment.setTransactions(transactions);
 			RedirectUrls redirectUrls = new RedirectUrls();
 			redirectUrls.setCancelUrl(hostUrl + "creditfail");
-			redirectUrls.setReturnUrl(hostUrl + "creditsuccess");
+			redirectUrls.setReturnUrl(hostUrl + "creditsuccess/" + cartId);
 			payment.setRedirectUrls(redirectUrls);
 			
 			Payment createdPayment = payment.create(apiContext);
-			
 			Iterator <Links> itr = createdPayment.getLinks().iterator();
 			while(itr.hasNext()){
 				Links link = itr.next();
@@ -101,18 +115,16 @@ public class PaypalController extends Controller {
 					return redirect(link.getHref());
 			}
 			
-//			Logger.debug(createdPayment.toJSON());
-			
 			return TODO; // Nesto nije proslo kako treba
 			
 
 		} catch(PayPalRESTException e){
 			Logger.warn(e.getMessage());
-		}		
+		}
 		return TODO;
 	}
 	
-	public static Result creditSuccess(){
+	public static Result creditSuccess(int cartId){
 		
 		DynamicForm paypalReturn = Form.form().bindFromRequest();
 		
@@ -129,16 +141,24 @@ public class PaypalController extends Controller {
 		APIContext apiContext = new APIContext(accessToken);
 		apiContext.setConfigurationMap(sdkConfig);
 		
+		contextToPay = apiContext;
+		
 		Payment payment = Payment.get(accessToken, paymentID);
+		
+		paymentToPay = payment;
 		
 		PaymentExecution paymentExecution = new PaymentExecution();
 		paymentExecution.setPayerId(payerID);
 		
-		Payment newPayment = payment.execute(apiContext, paymentExecution);
-		User u = Session.getCurrentUser(ctx());
-		Cart newCart = Cart.findLastCart(u.id);
-		newCart.paid=true;
-		newCart.update();
+		paymentExecutionToPay = paymentExecution;
+		
+		
+		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId);
+		addTransactionToPendingList(newTrans);
+		
+		//DO OVDJE, DALJE IDE U DRUGU METODU
+		
+		
 		} catch(PayPalRESTException e){
 			Logger.warn(e.getMessage());
 		}
@@ -146,6 +166,16 @@ public class PaypalController extends Controller {
 		return redirect("/user/"+Session.getCurrentUser(ctx()).email);
 	}
 	
+	private static void addTransactionToPendingList(TransactionU newTrans) {
+		Cart cart = Cart.find(cartToPayId);
+		String restaurantName = cart.restaurantName;
+		Restaurant restaurant = Restaurant.findByName(restaurantName);
+		restaurant.toBeApproved.add(newTrans);
+		for(int i=0; i<restaurant.toBeApproved.size(); i++) {
+			Logger.debug("U LISTI:" + restaurant.toBeApproved.get(i).id );
+		}
+	}
+
 	public static Result creditFail(){
 		flash("FailedPayPal","Payment did not pass throw.");
 		return redirect("/user/"+Session.getCurrentUser(ctx()).email);

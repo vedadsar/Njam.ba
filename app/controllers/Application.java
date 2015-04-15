@@ -10,6 +10,7 @@ import models.Faq;
 import models.Location;
 import models.Meal;
 import models.Restaurant;
+import models.TransactionU;
 import models.User;
 import play.Logger;
 import play.Play;
@@ -18,6 +19,7 @@ import play.i18n.Messages;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import views.html.*;
+import views.html.restaurant.restaurantOwner;
 import Utilites.AdminFilter;
 import Utilites.RestaurantFilter;
 import Utilites.Session;
@@ -84,17 +86,24 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public static Result toRegistration() {
+		
 		List <Meal> meals = findM.all();
 		List <Restaurant> restaurants = findR.all();
+		
+		User u = Session.getCurrentUser(ctx());
 		
 		if((session().get("email") != null) )
 			return ok(views.html.admin.wrong.render("Cannot acces to registration page while you're logged in"));
 
+		
 		if(email == null){
 			return ok(registration.render(""));
 		} else { 
-			return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants));
+			Restaurant restaurant = u.restaurant;
+			List<TransactionU> tobeapproved = restaurant.toBeApproved;
+			return ok(restaurantOwner.render(email, meals, restaurants, tobeapproved));
 		}
+		
 	}
 	
 
@@ -216,10 +225,14 @@ public class Application extends Controller {
 		List <Restaurant> restaurants = findR.all();
 		List<String> logs = SudoController.lastLogs();
 		List <Faq> faqs = findF.all();
+		
+		User u = Session.getCurrentUser(ctx());
 
 		if(Session.getCurrentUser(ctx()) != null){
+			Restaurant restaurant = u.restaurant;
+			List<TransactionU> tobeapproved = restaurant.toBeApproved;
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants));
+				return ok(restaurantOwner.render(email, meals, restaurants, tobeapproved ));
 
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));
