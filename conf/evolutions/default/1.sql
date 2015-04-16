@@ -69,6 +69,8 @@ create table restaurant (
   date_creation             timestamp,
   user_id                   integer,
   min_order                 double,
+  approved_orders           integer,
+  refused_orders            integer,
   constraint pk_restaurant primary key (id))
 ;
 

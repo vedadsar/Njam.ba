@@ -46,13 +46,16 @@ public class Restaurant extends Model {
 	public static Finder<Integer, Meal> findr =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 	public double minOrder;
 
-
+	public int approvedOrders;
+	public int refusedOrders;
 		
 	public Restaurant(String name){
 
 		this.name = name;
 		this.image= new ArrayList<Image>(0);
 		this.toBeApproved= new ArrayList<TransactionU>(0);
+		this.approvedOrders = 0;
+		this.refusedOrders = 0;
 	}
 
 	public Restaurant(String name, User u) {
@@ -60,6 +63,8 @@ public class Restaurant extends Model {
 		this.user = u;
 		this.image= new ArrayList<Image>(0);
 		this.toBeApproved= new ArrayList<TransactionU>(0);
+		this.approvedOrders = 0;
+		this.refusedOrders = 0;
 	}
 
 	public Restaurant(User u, Image image) {
