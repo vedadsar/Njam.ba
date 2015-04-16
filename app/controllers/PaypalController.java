@@ -194,6 +194,11 @@ public class PaypalController extends Controller {
 			Logger.debug("CONTEXT" + contextToPay);
 			Logger.debug("EXECUTION" + paymentExecutionToPay);
 			paymentToPay.execute(contextToPay, paymentExecutionToPay);
+			
+			Restaurant restaurant = transaction.restaurant;
+			restaurant.approvedOrders ++;
+			restaurant.update();
+			
 			flash("SuccessApprovedOrder", "Order successfully approved!");
 			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name);
 			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
@@ -205,12 +210,19 @@ public class PaypalController extends Controller {
 	
 	
 	public static Result deleteOrder(int paymentId) {
+		
 		TransactionU transaction = TransactionU.find(paymentId);
-		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
 		transaction.refused = true;
 		transaction.update();
+		
+		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
 		newCart.paid = true;
 		newCart.update();
+		
+		Restaurant restaurant = transaction.restaurant;
+		restaurant.refusedOrders ++;
+		restaurant.update();
+		
 		flash("RefusedOrder", "Order successfully refused!");
 		MailHelper.tellUserThatOrderIsRefused(transaction.email, transaction.price, transaction.restaurant.name);
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);

@@ -180,9 +180,11 @@ public class FileUpload extends Controller {
 
 		     Logger.debug("Passed resize?");
 			
+				List<Restaurant> restaurants = restaurant.all();
+				String email =  Session.getCurrentUser(ctx()).email;
 				
 		
-			return ok(views.html.restaurant.restaurantOwner.render(u.email,u.restaurant.meals,Restaurant.all(), tobeapproved));
+				return ok(views.html.restaurant.restaurantOwner.render(email, restaurant.meals, restaurant ,restaurants, tobeapproved));
 			
 
 		} else

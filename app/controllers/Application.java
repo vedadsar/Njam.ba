@@ -19,7 +19,7 @@ import play.i18n.Messages;
 import play.mvc.*;
 import play.mvc.Http.MultipartFormData;
 import views.html.*;
-import views.html.restaurant.restaurantOwner;
+import views.html.restaurant.*;
 import Utilites.AdminFilter;
 import Utilites.RestaurantFilter;
 import Utilites.Session;
@@ -101,7 +101,8 @@ public class Application extends Controller {
 		} else { 
 			Restaurant restaurant = u.restaurant;
 			List<TransactionU> tobeapproved = restaurant.toBeApproved;
-			return ok(restaurantOwner.render(email, meals, restaurants, tobeapproved));
+			 
+			return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurant ,restaurants, tobeapproved));
 		}
 		
 	}
@@ -232,7 +233,7 @@ public class Application extends Controller {
 			Restaurant restaurant = u.restaurant;
 			List<TransactionU> tobeapproved = restaurant.toBeApproved;
 			if(Session.getCurrentRole(ctx()).equals(User.RESTAURANT))
-				return ok(restaurantOwner.render(email, meals, restaurants, tobeapproved ));
+				return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurant ,restaurants, tobeapproved));
 
 			if(Session.getCurrentRole(ctx()).equals(User.USER))
 				return ok(index.render(" ", email, meals, restaurants));

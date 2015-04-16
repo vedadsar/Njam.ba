@@ -1,10 +1,8 @@
 @(contactForm: Form[ContactController.Contact])(email: String)
 @main(email) {
 	<head>
-<script
-src="http://maps.googleapis.com/maps/api/js">
-</script>
-
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="@routes.Assets.at("ckeditor/ckeditor.js")"></script>
 <script>
 function initialize() {
   var mapProp = {
@@ -16,6 +14,7 @@ function initialize() {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
+
 </head>
 	<div id="contact-page" class="container">
     	<div class="bg">
@@ -42,6 +41,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 				            </div>
 				            <div class="form-group col-md-12">
 				                <textarea name="message" id="message" name="message" required="required" class="form-control" rows="8" placeholder="Your Message Here"></textarea>
+				               			 <script>
+	                						CKEDITOR.replace( "message" );
+           							 	 </script>
 				            </div>             
 				             <div class="form-group">
                   <div class="col-md-offset-2 col-sm-10 col-md-5">

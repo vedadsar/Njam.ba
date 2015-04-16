@@ -1,129 +1,267 @@
-@(email: String)(meals: List[Meal])(restaurants: List[Restaurant])(tobeapproved: List[TransactionU])
+@(email: String)(meals: List[Meal])(restaurant: Restaurant)(restaurants: List[Restaurant])(transactions: List[TransactionU])
 @main(email) {
+
 <body>
-   <!-- header -->
-   <header class="masthead">
-      <div class="container">
-         <div class="row">
-            <div class="col-md-6">
-               <h1>
-               <a href="/" title="Scroll down for your viewing pleasure">Njam.ba</a>
-               <p class="lead">Order your food by clicking on Njam.ba</p>
-            </div>
-            <div class="col-md-6">
-               <div class="well pull-right">
-                  <img src="//placehold.it/280x100/E7E7E7">        
-               </div>
-            </div>
-         </div>
-      </div>
-   </header>
-   <!-- /header -->
-   <!-- user Profile -->
-   <div class="container-fluid">
-      <div>
-         <hr>
-      </div>
-      <div class="crow" >
-         <div class="col-md-6 col-md-offset-1">
-            <div role="tabpanel">
-               <!-- Nav tabs -->
-               <ul class="nav nav-tabs" role="tablist">
-                  <li role="presentation" class="active"><a href="#createMeal" aria-controls="createMeal" role="tab" data-toggle="tab">Create meal</a></li>
-                  <li role="presentation"><a href="#editProfile" aria-controls="editProfile" role="tab" data-toggle="tab">Edit profile</a></li>
-                  <li role="presentation"><a href="#meals" aria-controls="meals" role="tab" data-toggle="tab">Meals</a></li>
-                  <li role="presentation"><a href="#approveMeals" aria-controls="approveMeals" role="tab" data-toggle="tab">Approve meals</a></li>
-               </ul>
-               <!-- Tab panes -->
-               <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane active" id="createMeal">
-                     <!-- Form Name -->
-                     <hr>
-                     <div class="col-md-6 column">
-                        <form class="form-horizontal" role="form" action="@routes.RestaurantController.createMeal" method = "POST">
-                           <div class="form-group">
-                              <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
-                              <div class="col-sm-10">
-                                 <input type="text" class="form-control" id="name" name="name" minlength="4" maxlength="30" title="Maximum 30 chars" required>
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label for="inputEmail3" class="col-sm-2 control-label">Price</label>
-                              <div class="col-sm-10">
-                                 <input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control" id="number" name="price" title="Please use format with dot: 2.20" required >
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <div class="col-sm-offset-2 col-sm-10">
-                                 <button type="submit" class="btn btn-default">Create Meal</button>
-                              </div>
-                           </div>
-                        </form>
-                        @if(flash.get("successMeal") || flash.get("successEdited") || flash.get("deletedMeal") || flash.get("SuccessApprovedOrder") || flash.get("RefusedOrder")){
-                        <div class="alert alert-success" role="alert">
-                           <div class="container">
-                              @flash.get("successMeal")
-                              @flash.get("successEdited")
-                              @flash.get("deletedMeal")
-                              @flash.get("SuccessApprovedOrder")
-                               @flash.get("RefusedOrder")
-                           </div>
-                        </div>
-                        }
-                     </div>
-                  </div>
-                  <div role="tabpanel" class="tab-pane" id="editProfile">
-                     <hr>
-                     <div class="col-md-4 column">
-                        <form class="form-horizontal" role="form" action="@routes.RestaurantController.editRestaurantURL(email) method = "GET">
-                           <div class="form-group" "  >
-                              <div class="col-sm-offset-2 col-sm-10">
-                                 <button type="submit" class="btn btn-default">Edit Profile</button>
-                              </div>
-                           </div>
-                        </form>
-                     </div>
-                  </div>
-                  <div role="tabpanel" class="tab-pane" id="meals">
-                     <hr>
-                     @for(meal<-meals){
-                     <div class="col-md-3 col-sm-6 hero-feature">
-                        <div class="thumbnail">
-                           <img src="http://placehold.it/800x500" alt="">
-                           <div class="caption">
-                              <h3>@meal.name</h3>
-                              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                              <p>@meal.price KM</p>
-                              <form method="POST" action="@routes.RestaurantController.deleteMeal(meal.id)">
-                                 <input type="submit" onclick = "if (! confirm('Are you sure you want delete this meal?')) { return false; }" value="Delete" class="btn btn-danger btn-xs " />   
-                                 <a href="@routes.RestaurantController.editMealURL(meal.id)" class="btn btn-danger btn-xs " role="button">Edit</a> 
-                              </form>
-                           </div>
-                        </div>
-                     </div>
-                     }
-                  </div>
-                  
-                  
-                   <div role="tabpanel" class="tab-pane" id="approveMeals">
-                     <hr>
+
+    <!-- Page Content -->
+    <div class="container">
+
+     @if(flash.get("successMeal") || flash.get("successEdited") || flash.get("deletedMeal") ){
+											<div class="alert alert-success" role="alert">
+											
+											<div class="container">
+												
+													@flash.get("successMeal")
+													@flash.get("successEdited")
+													@flash.get("deletedMeal")
+												</div>
+											</div>
+											</div>
+											}
+        
+
+		<!-- Header -->
+
+		<header class="masthead">
+			<div class="container">
+				<div class="row">
+					<div class="page-header">
+						<h1> @restaurant.name <small>Restaurant</small></h1>
+						@if(restaurant.minOrder > 0) {
+							<h4 class="text-right"><small>Minimal order for this restaurant is @restaurant.minOrder BAM.</small></h4>
+						}
+					</div>
+				</div>
+			</div>
+
+		</header>
+        
+        
+</div>
+ <!-- Page Features -->
+       <section id="advertisement">
+		<div class="container">
+		    
+		    <!-- src="./public/images/shop/advertisement.jpg" -->
+			<img src="http://placehold.it/940x120/E7E7E7" alt="" />
+		</div>
+	</section>
+	
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Category</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Bosanska Kuhinja
+										</a>
+									</h4>
+								</div>
+								<div id="sportswear" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="">Cevapi </a></li>
+											<li><a href="">Corba </a></li>
+											<li><a href="">Pita </a></li>
+											<li><a href="">Kuhanja jela</a></li>
+											<li><a href="">Deserti </a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Brza hrana
+										</a>
+									</h4>
+								</div>
+								<div id="mens" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="">Jela sa rostilja</a></li>
+											<li><a href="">Pizza</a></li>
+											<li><a href="">Sendvici</a></li>
+											
+										</ul>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Italijanska Kuhinja</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Meksicka kuhinja</a></h4>
+								</div>
+							</div>
+						</div><!--/category-productsr-->
+					
+						<div class="brands_products"><!--brands_products-->
+							<h2>Add Meal</h2>
+							<div class="brands-name">
+								<ul class="nav nav-pills nav-stacked">
+								
+								
+								<form class="form-horizontal" role="form" action="@routes.RestaurantController.createMeal" method = "POST">
+						                <div class="form-group">
+						               		 <div class="col-sm-10 col-sm-offset-1">
+						                     	<label for="inputEmail3" class="col-sm-2 control-label">Name</label>                   
+						                        <input type="text" class="form-control" id="name" name="name" minlength="4" maxlength="30" title="Maximum 30 chars" required>
+						                    </div>
+						                </div>
+						                <div class="form-group">
+						                	<div class="col-sm-10 col-sm-offset-1">
+						                      	<label for="inputEmail3" class="col-sm-2 control-label">Price</label>
+												<input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control" id="number" name="price" title="Please use format with dot: 2.20" required >
+						                    </div>
+						                </div>
+						                                         
+						                <div class="form-group">
+						                    <div class="col-sm-offset-2 col-sm-10">
+						                         <button type="submit" class="btn btn-default add-to-cart" >Create Meal</button>
+						                    </div>
+						                </div>
+                               </form>
+                               
+                              
+				               
+							
+									
+									
+								
+								
+								</ul>
+							</div>
+						</div><!--/brands_products-->
+						
+						<br>
+						<br>
+						<div class="brands_products"><!--brands_products-->
+						
+						
+								<h2>   Profile  </h2>						
+								<div class="brands-name">
+								 
+									<ul class="nav nav-pills nav-stacked">
+									<div class="col-sm-10 ">
+										<p><b>Minimal Order:</b> @restaurant.minOrder BAM</p>
+										<p><b>Deliveri time:</b> 30 min</p>
+										<p><b>Location:</b> @restaurant.user.location.street @restaurant.user.location.number, @restaurant.user.location.city</p>
+										
+										
+										<form method="GET" class="form-horizontal" role="form" action="@routes.RestaurantController.editRestaurantURL(restaurant.name)">
+							             	 <div class="form-group"  >
+							                    <div class="col-sm-10 col-sm-offset-2">
+							                         <button type="submit" class="btn btn-default add-to-cart">Edit Profile</button>
+							                    </div>
+							                 </div>
+             							</form>
+             							
+             							<form action="@routes.FileUpload.saveRestaurantIMG()" method="POST" enctype="multipart/form-data" >
+             							    <div class="col-sm-10 col-sm-offset-1">
+												<input type="file" name="image" id="image" class="btn btn-default add-to-cart"/>
+												<input type="submit" value="Upload file"  class="btn btn-default add-to-cart"/>
+											</div>
+									    </form>
+             				
+             				
+									</div>	
+									</ul>
+									
+							</div>
+							
+           
+						</div><!--/brands_products-->
+											
+					 
+                     <br>
                     
-                    
-                    <div class="panel panel-primary">
-                  <div class="panel-heading">Orders to be approved</div>
-                  <table class="table table-striped">
+                    <br>
+                   
+                  
+               
+						
+					<br>	
+					<br>
+						
+					</div>
+				</div>
+				
+				<div class="col-sm-9 padding-right">
+					<div class="features_items"><!--features_items-->
+						<h2 class="title text-center">Meals</h2>
+						
+						@for(meal <- meals) {
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+									<!-- <img src="images/shop/product12.jpg" alt="" />  -->
+										<img src="//placehold.it/240x120/E7E7E7" alt="" />
+										<h2>@meal.price BAM</h2>
+										<p>@meal.name</p>
+										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										<a href="#" class="btn btn-default add-to-cart">Edit Meal</a>
+									</div>
+									<div class="product-overlay">
+										<div class="overlay-content">
+											<h2>@meal.price BAM</h2>
+											<p>@meal.name</p>
+											<form method="POST" action="@routes.CartController.addMealToBasket(meal.id)">
+											<input type="submit" class="btn btn-default add-to-cart" value="Add to cart " class="fa fa-shopping-cart"></input>
+											</form>
+											
+											<form method="GET" action="@routes.RestaurantController.editMealURL(meal.id)">
+											<input type="submit" class="btn btn-default add-to-cart" value="Edit Meal" ></input>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="choose">
+									<ul class="nav nav-pills nav-justified">
+										<li><a href=""><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a href=""><i class="fa fa-plus-square"></i>Add to compare</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+						}
+						
+						<tr>
+						<tr>
+						<div class="col-sm-12">
+						
+						 <div class="brands_products">
+                    <h2>   Orders to be approved  </h2>						
+					<div class="brands-name">
+                  
+                   <table class="table table-striped">
                      <thead>
                         <tr>
                            <th>From</th>
                            <th>Price</th>
-                           <th>Transaction ID</th>
+                           <th>TransID</th>
                            <th>Approved</th>
-                           <th></th>
+                           
                         </tr>
                         </thead>
                      <tbody>
                      	
-                        @for(transaction <- tobeapproved){   
+                        @for(transaction <- transactions){   
                         <tr>                 
                         <td>@transaction.email</td>
                         <td>@transaction.price</td>
@@ -173,21 +311,36 @@
                     
                     
                     
-                  </div>
+             
                   
                   
-               </div>
-            </div>
-            @if(flash.get("successUpdate") ){
-            <div class="alert alert-success" role="alert">
-               @flash.get("successUpdate")
-            </div>
-            }
-            </form>
-         </div>
-         <!-- /.col-lg-12 -->
-      </div>
-      <!-- /.row -->
-   </div>
+               
+                   </div>
+						
+						</div>
+						
+						
+				</div>
+				
+				<!--
+				<ul class="pagination">
+							<li class="active"><a href="">1</a></li>
+							<li><a href="">2</a></li>
+							<li><a href="">3</a></li>
+							<li><a href="">&raquo;</a></li>
+						</ul>
+					</div>
+					-->
+					<!--features_items-->
+			</div>
+		</div>
+	</section>
+
+        <!-- Page Features -->
+        
+</div>
+     
 </body>
+	
+	
 }

@@ -1,4 +1,4 @@
-@(meal: Meal)(email: String)
+@(meal: Meal)(email: String)(restaurant: Restaurant)
 
 
 @main(email) {
@@ -9,79 +9,183 @@
     <!-- Page Content -->
     <div class="container">
 
-        <!-- Jumbotron Header -->
-        <header class="jumbotron hero-spacer" style="height: 400px">
-            <h2>Edit @meal.name </h2>
-            
-            <div class="col-md-6 column">
-            <form class="form-horizontal" role="form" action="@routes.RestaurantController.editMeal(meal.id)" method = "POST">
-                <div class="form-group">
-                     <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" name="name" value="@meal.name" minlength="4" maxlength="30" title="Maximum 30 chars" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                     <label for="inputEmail3" class="col-sm-2 control-label">Price</label>
-                    <div class="col-sm-10">
-                        <input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control" id="number" name="price" value="@meal.price" title="Please use format with dot: 2.20" required >
-                       @if(flash.get("successMeal")){
-							<div class="alert alert-success" role="alert">
-							<div class="container">
-								@flash.get("successMeal")
+          
+        
+        <section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Category </h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Bosanska Kuhinja
+										</a>
+									</h4>
+								</div>
+								<div id="sportswear" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="">Cevapi </a></li>
+											<li><a href="">Corba </a></li>
+											<li><a href="">Pita </a></li>
+											<li><a href="">Kuhanja jela</a></li>
+											<li><a href="">Deserti </a></li>
+										</ul>
+									</div>
+								</div>
 							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
+											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											Brza hrana
+										</a>
+									</h4>
+								</div>
+								<div id="mens" class="panel-collapse collapse">
+									<div class="panel-body">
+										<ul>
+											<li><a href="">Jela sa rostilja</a></li>
+											<li><a href="">Pizza</a></li>
+											<li><a href="">Sendvici</a></li>
+											
+										</ul>
+									</div>
+								</div>
 							</div>
-							}
-                    </div>
-                </div>
+							
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Italijanska Kuhinja</a></h4>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Meksicka kuhinja</a></h4>
+								</div>
+							</div>
+							
+						</div><!--/category-products-->
+					
+					
+						
+						
+					</div>
+				</div>
+				@if(restaurant.image.iterator().hasNext()!=true){
+				<div class="col-sm-9 padding-right">
+					<div class="product-details"><!--product-details-->
+						<div class="col-sm-5">
+							<div class="view-product">
+								<img src="images/product-details/1.jpg" alt="" />
+								
+							</div>
+							<div id="similar-product" class="carousel slide" data-ride="carousel">
+								
+								  <!-- Wrapper for slides -->
+								    <div class="carousel-inner">
+										<div class="item active">
+										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+										</div>
+										<div class="item">
+										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+										</div>
+										<div class="item">
+										  <a href=""><img src="images/product-details/similar1.jpg" alt=""></a>
+										  <a href=""><img src="images/product-details/similar2.jpg" alt=""></a>
+										  <a href=""><img src="images/product-details/similar3.jpg" alt=""></a>
+										</div>
+										
+									</div>
+
+								  <!-- Controls -->
+								  <a class="left item-control" href="#similar-product" data-slide="prev">
+									<i class="fa fa-angle-left"></i>
+								  </a>
+								  <a class="right item-control" href="#similar-product" data-slide="next">
+									<i class="fa fa-angle-right"></i>
+								  </a>
+							</div>
+
+						</div>
+						}
+						
+							
+						<div class="col-sm-7">
+							<div class="product-information"><!--/product-information-->
+								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
+								
+								
+								<form class="form-horizontal" role="form" action="@routes.RestaurantController.editMeal(meal.id)" method = "POST">
+					               
+					               <div class="col-sm-10">
+					               
+					                <div class="form-group">
+					                	<div class="col-sm-10 ">
+					                     	<label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+					                    
+					                        <input type="text" class="form-control" id="name" name="name" value="@meal.name" minlength="4" maxlength="30" title="Maximum 30 chars" required>
+					                    </div>
+					                </div>
+					                
+					                <div class="form-group">
+					               		 <div class=" col-sm-10 ">
+					                     	<label for="inputEmail3" class="col-sm-2 control-label">Price</label>
+					                    
+					                        <input type="number" step="any" min="1" max="100" maxlength="10"  class="form-control" id="number" name="price" value="@meal.price" title="Please use format with dot: 2.20" required >
+					                       @if(flash.get("successMeal")){
+												<div class="alert alert-success" role="alert">
+												<div class="container">
+													@flash.get("successMeal")
+												</div>
+												</div>
+												}
+					                    </div>
+					                </div>
+					                
+					                </div>
                                          
-                        <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                         <button type="submit" class="btn btn-default">Update Meal</button>  <a class="btn btn-danger pull-right" href="/fileUpload/@meal.id" role="button">Modify Images</a>
-                         
-                    </div>
-                    <div>
-                      
-                    
-                    </div>
-                </div>
-            </form>
-        </div>
-        </header>
-
-        <!-- Title -->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel-heading" style="background-color:#535453;color:#fff;">Meals</div>
-                
-            </div>
-        </div>
-        <!-- /.row -->
-
-        <!-- Page Features -->
-                <!-- Page Features -->
-
-                <!-- /.row -->
-
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-    <!-- /.container -->
-
-    <!-- jQuery --> 
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+				                     <div class="form-group">
+				                    	<div class="col-sm-10 col-sm-offset-1">
+				                    		<input type="submit" class="btn btn-default add-to-cart" value="Update Meal" ></input>
+				                              	  
+				                         	<a class="btn btn-default add-to-cart" href="/fileUpload/@meal.id" role="button">Modify Images</a>
+				  
+				                    	</div>                   
+				                    </div>
+            					
+            					</form>
+								
+								
+								
+									
+									
+								
+			
+								
+							</div><!--/product-information-->
+						</div>
+						
+					</div><!--/product-details-->
+					
+					
+					
+					
+				</div>
+			</div>
+		</div>
+	</section>
 
 </body>
 	
