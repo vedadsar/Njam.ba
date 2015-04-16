@@ -13,8 +13,7 @@ public class Global extends GlobalSettings {
 		User.createAdmin("suad@suad.com", "123456");	
 	
 		}
-		User.createRestaurant("Lovac","restoran@njam.ba", "123456", "Sarajevo", "Fojnicka", "5");
-	
+		User.createRestaurant("Lovac","restoran@njam.ba", "123456", "Sarajevo", "Fojnicka", "5");	
 		User.createRestaurant("Harambasa","restoran1@njam.ba", "123456","Banjaluka", "Pere Kvrzice", "18");
 		User.createRestaurant("Klopa","restoran2@njam.ba", "123456","Tuzla", "Marsala Tita", "22");
 
@@ -29,7 +28,7 @@ public class Global extends GlobalSettings {
 				
 		}
 		
-		Restaurant res2 = Restaurant.find(1);
+		Restaurant res2 = Restaurant.find(2);
 		for( int i=1; i<=4; i++){
 			if (Meal.check(i)==false){
 				Meal.create("Zeljanica", 5.00, res2);
