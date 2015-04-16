@@ -46,7 +46,7 @@ public class SearchController extends Controller {
 
 	
 	public static Result redirect (){
-		List<Meal> mealsEmpty = new ArrayList<>();
+		List<Meal> mealsEmpty = new ArrayList(0);
 		return ok(searchAdvanced.render(" ", " ", Restaurant.all(),
 				mealsEmpty,"","",""));
 	}

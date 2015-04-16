@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
+
 import java.util.List;
 
 /**
@@ -84,6 +85,10 @@ public class Faq extends Model {
 	 */
 	public static List<Faq> all() {
 		return find.findList();
+	}
+	
+	public static boolean check(String question){
+		return find.where().eq("question", question).findUnique() != null;
 	}
 	
 }

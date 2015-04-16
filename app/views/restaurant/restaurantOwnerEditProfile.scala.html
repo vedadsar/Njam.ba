@@ -8,10 +8,20 @@
     <!-- Page Content -->
     <div class="container">
 
-        <!-- Jumbotron Header -->
-        <header class="jumbotron hero-spacer" style="height: 800px">
-        
-            <h2>Welcome @email</h2>
+        <!-- Header -->
+
+		<header class="masthead">
+			<div class="container">
+				<div class="row">
+					<div class="page-header">
+						<h1> @user.restaurant.name <small>Restaurant</small></h1>
+						
+					</div>
+				</div>
+			</div>
+
+		</header>
+		
            
            
             <div class="col-md-6 column">
@@ -30,19 +40,22 @@
 						 <p class="help-block" style="font-size: 12px">Password should be at least 6, maximum 16 characters (UpperCase, LowerCase, Number/SpecialChar)</p>
 					</div>
 				</div>
+				
+				
 				<div class="form-group">
-					 <label for="inputPassword3" class="col-sm-3 control-label">Confirm password</label>
+					 <label for="inputPassword3" class="col-sm-3 control-label">Confirm Password</label>
 					<div class="col-sm-9">
 						<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" >
-						 <p class="help-block" style="font-size: 12px">Please confirm your password</p>
+						 <p class="help-block" style="font-size: 12px"></p>
 					</div>
 				</div>
+				
 				
 				<div class="form-group">
 					 <label for="inputName3" class="col-sm-3 control-label">Name</label>
 					<div class="col-sm-9">
 						<input type="text" class="form-control" value ="@user.restaurant.name" id="name" name="name" pattern=".{3,20}" required title="3 to 20 characters">
-						<p class="help-block" style="font-size: 12px">Password should be at least 3, maximum 20 characters </p>
+						<p class="help-block" style="font-size: 12px">Name should be at least 3, maximum 20 characters </p>
 					</div>
 				</div>
 			
@@ -98,33 +111,19 @@
            -->
           
           <!-- /Address-->
-                @if( flash.get("successEdited") || flash.get("MatchPass") ){
+                @if( flash.get("successEdited")  ){
 							<div class="alert alert-success" role="alert">
 							<div class="container">
 								
 								@flash.get("successEdited")
-								@flash.get("MatchPass")
 								
 							</div>
 							</div>
 							}
         </div>
-        </header>
+       
 
-        
-
-        
-
-        <hr>
-
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
-                </div>
-            </div>
-        </footer>
+       
 
     </div>
     <!-- /.container -->

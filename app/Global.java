@@ -30,11 +30,14 @@ public class Global extends GlobalSettings {
 		}
 		
 		
-		Faq.create("Kako ću znati da li je restoran primio moju narudžbu? ", 
-				"Kada napravite finalni korak klikom na dugme Naruči, na vašem ekranu će se kroz nekoliko minuta "
-				+ "ispisati status vaše narudžbe. Ukoliko ste prilikom narudžbe ostavili svoju email adresu, "
-				+ "sve informacije o svojoj narudžbi ćete dobiti putem email-a, uključujući napomenu/e, "
-				+ "procjenjeno vrijeme dostave ukoliko se radi o narudžbi za dostavu, ukupnu cijenu narudžbe "
-				+ "kao i broj osvojenih bodova.");
-	}
+		if(Faq.check("Kako ću znati da li je restoran primio moju narudžbu? ") == false){
+			Faq.create("Kako ću znati da li je restoran primio moju narudžbu? ", 
+					"Kada napravite finalni korak klikom na dugme Naruči, na vašem ekranu će se kroz nekoliko minuta "
+					+ "ispisati status vaše narudžbe. Ukoliko ste prilikom narudžbe ostavili svoju email adresu, "
+					+ "sve informacije o svojoj narudžbi ćete dobiti putem email-a, uključujući napomenu/e, "
+					+ "procjenjeno vrijeme dostave ukoliko se radi o narudžbi za dostavu, ukupnu cijenu narudžbe "
+					+ "kao i broj osvojenih bodova.");
+		}
+		}
+	
 }
