@@ -185,8 +185,6 @@ public class PaypalController extends Controller {
 	
 	public static Result executePaymentById(int paymentId) {
 		TransactionU transaction = TransactionU.find(paymentId);
-		Logger.debug("USER ID: " + userToPayId);
-		Logger.debug("CART ID: " + cartToPayId);
 		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
 		transaction.approved = true;
 		transaction.update();
@@ -197,6 +195,7 @@ public class PaypalController extends Controller {
 			Logger.debug("EXECUTION" + paymentExecutionToPay);
 			paymentToPay.execute(contextToPay, paymentExecutionToPay);
 			flash("SuccessApprovedOrder", "Order successfully approved!");
+			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name);
 			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
