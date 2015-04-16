@@ -84,8 +84,7 @@ public class CartController extends Controller {
 		// return redirect("/");
 		// }
 
-		return ok(views.html.widgets.cart.render(email, cartItems,
-				newCart.total, newCart.minOrder));
+		return ok(views.html.widgets.cart.render(email, carts));
 
 	}
 
