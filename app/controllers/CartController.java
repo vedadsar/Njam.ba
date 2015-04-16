@@ -232,8 +232,9 @@ public static Result removeFromCart(int id, int cartId) {
 		List<Image> imgs = meal.image;
 		Restaurant restaurant = Restaurant.findByMeal(meal);
 		email = session("email");
+		List<Restaurant> restaurants = Restaurant.all();
 
-		return ok(views.html.restaurant.mealView.render(email, meal,imgs,restaurant));
+		return ok(views.html.restaurant.mealView.render(email, meal,imgs,restaurant, restaurants));
 
 	}
 			

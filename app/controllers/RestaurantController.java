@@ -152,7 +152,7 @@ public class RestaurantController extends Controller {
 		Restaurant restaurant = u.restaurant;
 		List<TransactionU> tobeapproved = restaurant.toBeApproved;
 		
-		return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurants, tobeapproved));
+		return ok(views.html.restaurant.restaurantOwner.render(email, meals, restaurant ,restaurants, tobeapproved));
 	}
 	
 
