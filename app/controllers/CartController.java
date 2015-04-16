@@ -175,6 +175,12 @@ public class CartController extends Controller {
 		}
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param cartId
+	 * @return
+	 */
 	public static Result removeFromCart(int id, int cartId) {
 		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
