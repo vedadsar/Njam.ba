@@ -80,6 +80,7 @@ create table transaction_u (
   email                     varchar(255),
   price                     double,
   approved                  boolean,
+  refused                   boolean,
   constraint pk_transaction_u primary key (id))
 ;
 

@@ -203,6 +203,19 @@ public class PaypalController extends Controller {
 		return TODO;
 	}
 	
+	
+	public static Result deleteOrder(int paymentId) {
+		TransactionU transaction = TransactionU.find(paymentId);
+		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
+		transaction.refused = true;
+		transaction.update();
+		newCart.paid = true;
+		newCart.update();
+		flash("RefusedOrder", "Order successfully refused!");
+		MailHelper.tellUserThatOrderIsRefused(transaction.email, transaction.price, transaction.restaurant.name);
+		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
+	}
+	
 
 	public static Result creditFail(){
 		flash("FailedPayPal","Payment did not pass throw.");

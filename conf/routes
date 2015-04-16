@@ -56,7 +56,7 @@ POST   /faqEdit/:id                         controllers.FaqController.editFaq(id
 
 GET    /cart                                controllers.CartController.showCart()
 
-GET   /cart/delete/all                           controllers.CartController.removeAllFromCart(id: Int)
+GET   /cart/delete/all                       controllers.CartController.removeAllFromCart(id: Int, cartId: Int)
 
 POST   /cart/delete                             controllers.CartController.removeFromCart(id: Int, cartid: Int)
 POST   /cart/bind                                controllers.CartController.bindQuantity(id: Int, cartId: Int)
@@ -65,11 +65,13 @@ GET    /mealView/:id                        controllers.CartController.viewMeal(
 POST   /mealView/:id                        controllers.CartController.addMealToBasket(id: Int)
 
 
+POST   /restaurantOwner/delete/				controllers.PaypalController.deleteOrder(id: Int)
 GET    /creditStatus                        controllers.PaypalController.showPurchase()
 POST   /creditpurchase                      controllers.PaypalController.purchaseProcessing(cartId: Int)
-GET    /creditsuccess/:cartId                       controllers.PaypalController.creditSuccess(cartId: Int)
-GET    /creditfail                          controllers.PaypalController.creditFail()
+GET    /creditsuccess/:cartId               controllers.PaypalController.creditSuccess(cartId: Int)
 POST   /restaurantOwner/:id					controllers.PaypalController.executePaymentById(id: Int)
+GET    /creditfail                          controllers.PaypalController.creditFail()
+
 
 POST   /userSearch                          controllers.SearchController.ajaxList()
 GET    /userSearch                          controllers.SearchController.ajaxSearch()

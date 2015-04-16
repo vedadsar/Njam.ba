@@ -197,20 +197,18 @@ public static Result removeFromCart(int id, int cartId) {
 		}
 		if( quantity > 0){
 			cart.removeMeal(m, u.id, cartId);
-//			cart.update();	
 			return redirect("/cart");
 		}
 		
 		return redirect("/cart");
 	}
 	
-	public static Result removeAllFromCart(int id){
+	public static Result removeAllFromCart(int id, int cartId){
 		Meal m = Meal.find(id);
 		User u = Session.getCurrentUser(ctx());
-		Cart cart = Cart.findLastCart(u.id);
+		Cart cart = Cart.findCartInCarts(u.id, cartId);
 
 		cart.removeMealAll(m);
-
 
 		return redirect("/cart");
 

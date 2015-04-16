@@ -60,6 +60,39 @@ public class MailHelper {
 		
 	}
 	
+	public static void tellUserThatOrderIsRefused(String email, double price,
+			String restaurantName) {
+		
+		String priceString = Double.toString(price);
+		Logger.debug(priceString);
+		
+		Email mail = new Email();
+		mail.setSubject("Njam.ba purchase approved!");
+		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
+		mail.addTo(email);
+		
+		mail.setBodyText("");
+		
+		mail.setBodyHtml(String
+				.format("<html>"
+						+ "<body>"
+						+ "<br></br>"
+						+ "<strong> Unfortunately your order has been refused! </strong>:" 
+						+ "<br></br>"
+						+ "<strong> Order from restaurant:   </strong>: " + "%s"
+						+ "<br></br>"
+						+ "<strong> Order price:   </strong>: " + "%s"
+						+ "<br></br>"
+						+ "<strong> Your money was returned to your account. Sorry for inconvenience. </strong>:" 
+						+ "<br></br>"
+						+ "</body>"
+						+ "</html>",
+						restaurantName, priceString));
+		
+		MailerPlugin.send(mail);
+		
+	}
+	
 	
 	public static void sendSudo(String email,String title, String message){
 		

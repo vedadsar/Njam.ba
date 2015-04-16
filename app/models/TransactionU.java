@@ -41,6 +41,8 @@ public class TransactionU extends Model {
 	
 	public Boolean approved = false;
 	
+	public Boolean refused = false;
+	
 	private static Finder<Long, TransactionU> find = new Finder<Long, TransactionU>(Long.class,
 			TransactionU.class);
 	
