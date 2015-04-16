@@ -58,8 +58,15 @@ public class MealApi extends Controller {
 		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
 		for (Meal meal : meals) {
 			ObjectNode mealNode = Json.newObject();
+			mealNode.put("id",meal.id);
 			mealNode.put("name", meal.name);
 			mealNode.put("price", meal.price);
+			if(meal.image.iterator().hasNext()){
+			mealNode.put("image", meal.image.iterator().next().imgLocation);}
+			else{
+				mealNode.put("image", "images/chicken.jpg");
+			}
+				
 			array.add(mealNode);
 		}
 		return array;
@@ -70,8 +77,11 @@ public class MealApi extends Controller {
 		meal.put("id", m.id);
 		meal.put("name", m.name);
 		meal.put("price", m.price);
-		meal.put("description", m.description);
-		
+		if(m.image.iterator().hasNext()){
+		meal.put("image", m.image.iterator().next().imgLocation);}
+	else{
+		meal.put("image", "images/chicken.jpg");
+	}
 		return meal;
 	}
 }
