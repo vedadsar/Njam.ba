@@ -196,6 +196,7 @@ public class PaypalController extends Controller {
 			Logger.debug("CONTEXT" + contextToPay);
 			Logger.debug("EXECUTION" + paymentExecutionToPay);
 			paymentToPay.execute(contextToPay, paymentExecutionToPay);
+			flash("SuccessApprovedOrder", "Order successfully approved!");
 			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();

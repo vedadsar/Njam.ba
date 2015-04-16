@@ -59,12 +59,13 @@
                               </div>
                            </div>
                         </form>
-                        @if(flash.get("successMeal") || flash.get("successEdited") || flash.get("deletedMeal") ){
+                        @if(flash.get("successMeal") || flash.get("successEdited") || flash.get("deletedMeal") || flash.get("SuccessApprovedOrder")){
                         <div class="alert alert-success" role="alert">
                            <div class="container">
                               @flash.get("successMeal")
                               @flash.get("successEdited")
                               @flash.get("deletedMeal")
+                              @flash.get("SuccessApprovedOrder")
                            </div>
                         </div>
                         }
@@ -112,11 +113,10 @@
                   <table class="table table-striped">
                      <thead>
                         <tr>
-                           <th>Order</th>
-                           <th>Quantity</th>
+                           <th>From</th>
                            <th>Price</th>
-                           <th>User who ordered</th>
-                           <th></th>
+                           <th>Transaction ID</th>
+                           <th>Approved</th>
                            <th></th>
                         </tr>
                         </thead>
@@ -124,6 +124,8 @@
                      	
                         @for(transaction <- tobeapproved){   
                         <tr>                 
+                        <td>@transaction.email</td>
+                        <td>@transaction.price</td>
                         <td>@transaction.id</td>
 	                      @if(transaction.approved == true) {
                         	<td>Approved</td>
@@ -145,6 +147,12 @@
                      </tbody>
                   </table>
                </div>
+               
+                @if(flash.get("SuccessApprovedOrder") ){
+            <div class="alert alert-success" role="alert">
+               @flash.get("SuccessApprovedOrder")
+            </div>
+            }
                     
                     
                     

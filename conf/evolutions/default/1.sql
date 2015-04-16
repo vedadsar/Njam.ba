@@ -77,6 +77,8 @@ create table transaction_u (
   restaurant_id             integer,
   user_to_pay_id            integer,
   cart_to_pay_id            integer,
+  email                     varchar(255),
+  price                     double,
   approved                  boolean,
   constraint pk_transaction_u primary key (id))
 ;

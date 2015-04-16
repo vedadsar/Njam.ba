@@ -35,6 +35,10 @@ public class TransactionU extends Model {
 
 	public int cartToPayId;
 	
+	public String email;
+	
+	public double price;
+	
 	public Boolean approved = false;
 	
 	private static Finder<Long, TransactionU> find = new Finder<Long, TransactionU>(Long.class,
@@ -44,6 +48,8 @@ public class TransactionU extends Model {
 	public TransactionU(APIContext contextToPay, Payment paymentToPay,
 			PaymentExecution paymentExecutionToPay, int userToPayId,
 			int cartToPayId, Restaurant restaurantToPay) {
+		email = User.find(userToPayId).email;
+		price = Cart.find(cartToPayId).total;
 		this.restaurant = restaurantToPay;
 		this.contextToPay = contextToPay;
 		this.paymentToPay = paymentToPay;
@@ -59,7 +65,8 @@ public class TransactionU extends Model {
 
 		TransactionU transaction = new TransactionU(contextToPay, paymentToPay,
 				paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay);
-
+		
+		
 		transaction.save();
 
 		return transaction;
