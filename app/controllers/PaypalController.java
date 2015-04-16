@@ -204,6 +204,8 @@ public class PaypalController extends Controller {
 			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e1){
+			Logger.error("Payment did not execute " + e1.getMessage());
 		}
 		return TODO;
 	}
