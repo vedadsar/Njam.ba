@@ -50,6 +50,93 @@
 	<section>
 		<div class="container">
 			<div class="row">
+			
+			<!-- Approval Restaurant -->
+			
+			<div class="col-sm-12">
+						
+						 <div class="brands_products">
+                    <h2>   Orders to be approved  </h2>						
+					<div class="brands-name">
+                  
+                   <table class="table table-striped">
+                     <thead>
+                        <tr>
+                           <th>From</th>
+                           <th>Price</th>
+                           <th>TransID</th>
+                           <th>Approved</th>
+                           
+                        </tr>
+                        </thead>
+                     <tbody>
+                     	
+                        @for(transaction <- transactions){   
+                        <tr>                 
+                        <td>@transaction.email</td>
+                        <td>@transaction.price</td>
+                        <td>@transaction.id</td>
+                        @if(transaction.refused == true) {
+                        	<td>Refused</td>
+                        }
+	                      @if(transaction.approved == true) {
+                        	<td>Approved</td>
+                        } 
+                        @if(transaction.approved == false && transaction.refused != true) {
+                        	<td>Not approved</td>
+                        }
+                        
+                        	<td>
+	                        @if(transaction.approved == false && transaction.refused != true){
+	                           <form method="POST" action="@routes.PaypalController.executePaymentById(transaction.id)">
+	                           <input type="submit" onclick = "if (! confirm('Are you sure you want approve this order?')) { return false; }" value="approve" class="btn btn-primary btn-xs " />	 
+	                           </form>
+	                           }
+	                        </td>
+	                        
+                        	<td>
+                        	@if(transaction.approved == false && transaction.refused != true){
+                           <form method="POST" action="@routes.PaypalController.deleteOrder(transaction.id)">
+                           <input type="submit" onclick = "if (! confirm('Are you sure you want delete this order?')) { return false; }" value="delete" class="btn btn-primary btn-xs " />	 
+                           </form>
+                           }
+                       		 </td>
+                        
+                        </tr>
+                        }
+                     </tbody>
+                  </table>
+               </div>
+               
+                @if(flash.get("SuccessApprovedOrder") ){
+            <div class="alert alert-success" role="alert">
+               @flash.get("SuccessApprovedOrder")
+            </div>
+            }
+              @if(flash.get("RefusedOrder") ){
+            <div class="alert alert-success" role="alert">
+               @flash.get("RefusedOrder")
+            </div>
+            }
+                    
+                    
+                    
+             
+                  
+                  
+               
+                   </div>
+						
+						</div>
+			
+			
+			<div class="col-sm-12">			
+			<br>
+			<br>
+			</div>
+			
+			<!-- /Approval Restaurant -->
+			
 				<div class="col-sm-3">
 					<div class="left-sidebar">
 						<h2>Category</h2>
@@ -243,81 +330,7 @@
 						
 						<tr>
 						<tr>
-						<div class="col-sm-12">
 						
-						 <div class="brands_products">
-                    <h2>   Orders to be approved  </h2>						
-					<div class="brands-name">
-                  
-                   <table class="table table-striped">
-                     <thead>
-                        <tr>
-                           <th>From</th>
-                           <th>Price</th>
-                           <th>TransID</th>
-                           <th>Approved</th>
-                           
-                        </tr>
-                        </thead>
-                     <tbody>
-                     	
-                        @for(transaction <- transactions){   
-                        <tr>                 
-                        <td>@transaction.email</td>
-                        <td>@transaction.price</td>
-                        <td>@transaction.id</td>
-                        @if(transaction.refused == true) {
-                        	<td>Refused</td>
-                        }
-	                      @if(transaction.approved == true) {
-                        	<td>Approved</td>
-                        } 
-                        @if(transaction.approved == false && transaction.refused != true) {
-                        	<td>Not approved</td>
-                        }
-                        
-                        	<td>
-	                        @if(transaction.approved == false && transaction.refused != true){
-	                           <form method="POST" action="@routes.PaypalController.executePaymentById(transaction.id)">
-	                           <input type="submit" onclick = "if (! confirm('Are you sure you want approve this order?')) { return false; }" value="approve" class="btn btn-default btn-xs " />	 
-	                           </form>
-	                           }
-	                        </td>
-	                        
-                        	<td>
-                        	@if(transaction.approved == false && transaction.refused != true){
-                           <form method="POST" action="@routes.PaypalController.deleteOrder(transaction.id)">
-                           <input type="submit" onclick = "if (! confirm('Are you sure you want delete this order?')) { return false; }" value="delete" class="btn btn-danger btn-xs " />	 
-                           </form>
-                           }
-                       		 </td>
-                        
-                        </tr>
-                        }
-                     </tbody>
-                  </table>
-               </div>
-               
-                @if(flash.get("SuccessApprovedOrder") ){
-            <div class="alert alert-success" role="alert">
-               @flash.get("SuccessApprovedOrder")
-            </div>
-            }
-              @if(flash.get("RefusedOrder") ){
-            <div class="alert alert-success" role="alert">
-               @flash.get("RefusedOrder")
-            </div>
-            }
-                    
-                    
-                    
-             
-                  
-                  
-               
-                   </div>
-						
-						</div>
 						
 						
 				</div>

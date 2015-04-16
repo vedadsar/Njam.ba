@@ -13,18 +13,28 @@ public class Global extends GlobalSettings {
 		User.createAdmin("suad@suad.com", "123456");	
 	
 		}
-		User.createRestaurant("Lovac","restoran@njam.ba", "123456", "Sarajevo", "Fojnicka", "5");
-	
+		User.createRestaurant("Lovac","restoran@njam.ba", "123456", "Sarajevo", "Fojnicka", "5");	
 		User.createRestaurant("Harambasa","restoran1@njam.ba", "123456","Banjaluka", "Pere Kvrzice", "18");
 		User.createRestaurant("Klopa","restoran2@njam.ba", "123456","Tuzla", "Marsala Tita", "22");
 
-		Restaurant res = Restaurant.find(1);
+		Restaurant res1 = Restaurant.find(1);
 		for( int i=1; i<=4; i++){
 			if (Meal.check(i)==false){
-				Meal.create("Pizza", 5.00, res);
-				Meal.create("Supa", 3.00, res);
-				Meal.create("Cevapi", 5.00, res);
-				Meal.create("Pjeskavica", 6.00, res);
+				Meal.create("Pizza", 5.00, res1);
+				Meal.create("Supa", 3.00, res1);
+				Meal.create("Cevapi", 5.00, res1);
+				Meal.create("Pjeskavica", 6.00, res1);
+			}
+				
+		}
+		
+		Restaurant res2 = Restaurant.find(2);
+		for( int i=1; i<=4; i++){
+			if (Meal.check(i)==false){
+				Meal.create("Zeljanica", 5.00, res2);
+				Meal.create("Burek", 8.00, res2);
+				Meal.create("Krompirusa", 5.00, res2);
+				Meal.create("Sirnica", 6.00, res2);
 			}
 				
 		}
