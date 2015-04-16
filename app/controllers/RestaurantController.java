@@ -105,7 +105,9 @@ public class RestaurantController extends Controller {
 		public static Result editMealURL(int id) {	
 		String userEmail= Session.getCurrentUser(ctx()).email;
         Meal oldMeal = Meal.find(id);
-		return ok(views.html.restaurant.restaurantOwnerEditMeal.render(oldMeal, userEmail));
+        User  user = Session.getCurrentUser(ctx());
+        Restaurant restaurant = user.restaurant;
+		return ok(views.html.restaurant.restaurantOwnerEditMeal.render(oldMeal, userEmail, restaurant));
 	}
 	
 	
