@@ -37,6 +37,8 @@ public class User extends Model {
 	public Location location;
     @OneToOne
     public Cart cart;
+    @OneToMany
+    public Comment comment;
     
     @OneToMany(mappedBy="user",cascade=CascadeType.ALL)
 	public List<Cart> carts = new ArrayList<Cart>();

@@ -25,6 +25,8 @@ public class Meal extends Model {
 	public String description;
 	@ManyToOne 
 	public Restaurant restaurant;
+	@OneToMany
+	public Comment comment;
     
 	@OneToMany(mappedBy="meal",cascade = CascadeType.ALL)
 	public List<Image> image=new ArrayList<Image>();
@@ -34,6 +36,7 @@ public class Meal extends Model {
 
 	public static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
 			Integer.class, Meal.class);
+	
 
 	public Meal(String name, double price, String description) {
 		this.name = name;
@@ -47,6 +50,7 @@ public class Meal extends Model {
 		this.price = price;
 		this.restaurant = restaurant;
 		this.image= new ArrayList<Image>(0);
+
 	}
 
 	public Meal(String name, double price, Restaurant restaurant, Image image) {

@@ -235,9 +235,10 @@ public class CartController extends Controller {
 		Restaurant restaurant = Restaurant.findByMeal(meal);
 		email = session("email");
 		List<Restaurant> restaurants = Restaurant.all();
+		List<Comment> comments = Comment.find.findList();
 
 		return ok(views.html.restaurant.mealView.render(email, meal, imgs,
-				restaurant, restaurants));
+				restaurant, restaurants, comments));
 
 	}
 

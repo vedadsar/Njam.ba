@@ -63,6 +63,7 @@ POST   /cart/bind                                controllers.CartController.bind
 
 GET    /mealView/:id                        controllers.CartController.viewMeal(id: Int)
 POST   /mealView/:id                        controllers.CartController.addMealToBasket(id: Int)
+POST   /mealView/comment/:id                                    controllers.CommentController.newComment(id: Int)
 
 
 POST   /restaurantOwner/delete/				controllers.PaypalController.deleteOrder(id: Int)
@@ -74,7 +75,8 @@ GET    /creditfail                          controllers.PaypalController.creditF
 
 
 POST   /userSearch                          controllers.SearchController.ajaxList()
-GET    /userSearch                          controllers.SearchController.ajaxSearch()
+GET    /userSearch                          controllers.SearchController.ajaxSearch() 
+ 
 
 # API service 
 GET    /api/users                               controllers.api.UserApi.users()

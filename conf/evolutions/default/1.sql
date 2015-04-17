@@ -24,10 +24,12 @@ create table cart_item (
 ;
 
 create table comment (
+  id                        integer not null,
   author_id                 integer,
-  posted_at                 timestamp,
+  date_creation             timestamp,
   title                     varchar(255),
-  content                   varchar(255))
+  content                   varchar(255),
+  constraint pk_comment primary key (id))
 ;
 
 create table faq (
@@ -105,6 +107,8 @@ create sequence cart_seq;
 
 create sequence cart_item_seq;
 
+create sequence comment_seq;
+
 create sequence faq_seq;
 
 create sequence image_seq;
@@ -177,6 +181,8 @@ SET REFERENTIAL_INTEGRITY TRUE;
 drop sequence if exists cart_seq;
 
 drop sequence if exists cart_item_seq;
+
+drop sequence if exists comment_seq;
 
 drop sequence if exists faq_seq;
 

@@ -1355,7 +1355,7 @@ h2.title {
   width: 48%;
 }
 #reviews form span input:last-child {
-  margin-left: 3%;
+  margin-left: 0%;
 }
 
 #reviews textarea {

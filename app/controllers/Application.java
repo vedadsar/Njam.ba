@@ -340,12 +340,4 @@ public class Application extends Controller {
 		return ok(views.html.restaurant.fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
 	}
 	
-	public static Result allUsers(){
-		
-		if(request().accepts("text/html")){
-			return redirect("/");
-		}
-		
-		return ok(UserApi.usersList(User.allUsers()));
-	}
 }
