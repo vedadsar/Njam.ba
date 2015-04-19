@@ -58,7 +58,7 @@ public class MealApi extends Controller {
 	public static Result mealsOfRestaurant() {
 		JsonNode json = request().body().asJson();
 		String id = json.findPath("id").textValue();
-		Restaurant restaurant = User.find(Integer.parseInt(id)).restaurant;
+		Restaurant restaurant = Restaurant.find(Integer.parseInt(id));
 		List<Meal> meals = findM.where().eq("restaurant", restaurant).findList();
 		if (meals != null){
 			return ok(MealApi.mealList(meals));

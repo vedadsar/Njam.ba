@@ -87,7 +87,7 @@ POST    /api/meal                                controllers.api.MealApi.oneMeal
 POST    /api/mealsRestaurant                    controllers.api.MealApi.mealsOfRestaurant()
 GET    /api/restaurants                         controllers.api.RestaurantApi.restaurants()
 POST    /api/restaurant                          controllers.api.RestaurantApi.oneRestaurant()
-POST    /api/loginJson                           controllers.api.loginService.loginToJson()
+POST    /api/login                             controllers.api.loginService.loginToJson()
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                        controllers.Assets.at(path="/public", file)

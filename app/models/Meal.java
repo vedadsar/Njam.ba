@@ -25,9 +25,10 @@ public class Meal extends Model {
 	public String description;
 	@ManyToOne 
 	public Restaurant restaurant;
-	@OneToMany
-	public Comment comment;
-    
+	
+	@OneToMany(mappedBy="meal",cascade = CascadeType.ALL)
+	public List<Comment> comment = new ArrayList<Comment>(0);
+	
 	@OneToMany(mappedBy="meal",cascade = CascadeType.ALL)
 	public List<Image> image=new ArrayList<Image>();
 
