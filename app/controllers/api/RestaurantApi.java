@@ -40,6 +40,11 @@ public class RestaurantApi extends Controller {
 			ObjectNode restaurant = Json.newObject();
 			restaurant.put("name", r.name);
 			restaurant.put("minOrder", r.minOrder);
+			if (r.image.iterator().hasNext()) {
+				restaurant.put("image", r.image.iterator().next().imgLocation);
+			} else {
+				restaurant.put("image", "images/restaurants.jpg");
+			}
 			array.add(restaurant);
 		}
 		return array;
@@ -51,7 +56,11 @@ public class RestaurantApi extends Controller {
 		restaurant.put("id", r.id);
 		restaurant.put("name", r.name);
 		restaurant.put("price", r.minOrder);
-		
+		if (r.image.iterator().hasNext()) {
+			restaurant.put("image", r.image.iterator().next().imgLocation);
+		} else {
+			restaurant.put("image", "images/restaurants.jpg");
+		}
 		return restaurant;
 	}
 }
