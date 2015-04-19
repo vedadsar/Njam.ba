@@ -2,8 +2,8 @@ package controllers.api;
 
 import java.util.List;
 
-import models.Image;
-import models.Meal;
+import models.*;
+import play.db.ebean.Model.Finder;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -15,6 +15,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class MealApi extends Controller {
 	
+	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
+	
 	public static Result mealsWithImages() {
 		List<Image> images = Image.all();
 		if (images != null) {
@@ -23,6 +25,10 @@ public class MealApi extends Controller {
 		return ok(new ArrayNode(JsonNodeFactory.instance));
 	}
 	
+	/**
+	 * 
+	 * @return list of meals (JSON format)
+	 */
 	public static Result meals() {
 		List<Meal> meals = Meal.all();
 		if (meals != null) {
@@ -31,6 +37,10 @@ public class MealApi extends Controller {
 		return ok(new ArrayNode(JsonNodeFactory.instance));
 	}
 	
+	/**
+	 * 
+	 * @return Meal by id.
+	 */
 	public static Result oneMeal(){
 		JsonNode json = request().body().asJson();
 		String id = json.findPath("id").textValue();
@@ -40,6 +50,22 @@ public class MealApi extends Controller {
 		}
 		return badRequest();
 	}
+	
+	/**
+	 * 
+	 * @return Meals of One Restaurant.
+	 */
+	public static Result mealsOfRestaurant() {
+		JsonNode json = request().body().asJson();
+		String id = json.findPath("id").textValue();
+		Restaurant restaurant = User.find(Integer.parseInt(id)).restaurant;
+		List<Meal> meals = findM.where().eq("restaurant", restaurant).findList();
+		if (meals != null){
+			return ok(MealApi.mealList(meals));
+		}
+		return badRequest();
+	}
+
 	
 	public static ArrayNode mealListWithImages(List<Image> images) {
 		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
@@ -77,11 +103,11 @@ public class MealApi extends Controller {
 		meal.put("id", m.id);
 		meal.put("name", m.name);
 		meal.put("price", m.price);
-		if(m.image.iterator().hasNext()){
-		meal.put("image", m.image.iterator().next().imgLocation);}
-	else{
-		meal.put("image", "images/chicken.jpg");
-	}
+		if (m.image.iterator().hasNext()) {
+			meal.put("image", m.image.iterator().next().imgLocation);
+		} else {
+			meal.put("image", "images/chicken.jpg");
+		}
 		return meal;
 	}
 }

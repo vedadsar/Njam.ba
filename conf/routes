@@ -84,6 +84,7 @@ POST    /api/user                                controllers.api.UserApi.oneUser
 GET    /api/meals                               controllers.api.MealApi.meals()
 GET    /api/mealsImg                            controllers.api.MealApi.mealsWithImages()
 POST    /api/meal                                controllers.api.MealApi.oneMeal()
+POST    /api/mealsRestaurant                    controllers.api.MealApi.mealsOfRestaurant()
 GET    /api/restaurants                         controllers.api.RestaurantApi.restaurants()
 POST    /api/restaurant                          controllers.api.RestaurantApi.oneRestaurant()
 POST    /api/loginJson                           controllers.api.loginService.loginToJson()

@@ -22,6 +22,5 @@ public class loginService extends Controller {
 			return ok(UserApi.userToApp(u));
 		}
 		return badRequest();
-
 	}
 }

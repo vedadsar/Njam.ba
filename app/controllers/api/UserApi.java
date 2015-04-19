@@ -48,7 +48,6 @@ public class UserApi extends Controller {
 	}
 	
 	public static ObjectNode userToApp(User u) {
-		
 		ObjectNode user = Json.newObject();
 		user.put("id", u.id);
 		user.put("name", u.email);
