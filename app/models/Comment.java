@@ -28,7 +28,7 @@ import play.db.ebean.Model;
 	public String title;
 	@Required
 	public String content;
-	@ManyToMany
+	@ManyToOne
 	public Meal meal;
 	
 	public static Finder<Integer, Comment> find = new Finder<Integer, Comment>(Integer.class, Comment.class);
@@ -56,5 +56,11 @@ import play.db.ebean.Model;
 	
 	public static Comment find(int id){
 		return find.byId(id);
+	}
+	
+	public static List <Comment> findByMeal(int id){
+		Meal meal = Meal.find(id);
+		List <Comment> comments = find.where().eq("meal", meal).findList();
+		return comments;
 	}
 }

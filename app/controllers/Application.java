@@ -27,8 +27,6 @@ import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
 import Utilites.*;
 
-
-
 public class Application extends Controller {
 
 	static String email = null;
@@ -107,7 +105,6 @@ public class Application extends Controller {
 		
 	}
 	
-
 	/**
 	 * This method just redirects to login page.
 	 * 
