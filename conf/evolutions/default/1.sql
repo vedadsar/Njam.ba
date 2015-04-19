@@ -29,6 +29,7 @@ create table comment (
   date_creation             timestamp,
   title                     varchar(255),
   content                   varchar(255),
+  rating                    integer,
   meal_id                   integer,
   constraint pk_comment primary key (id))
 ;

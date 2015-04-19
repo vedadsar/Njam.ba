@@ -24,12 +24,19 @@ public class CommentController extends Controller {
 	public static Result newComment(int id) {
 
 		User user = Session.getCurrentUser(ctx());
+		
+		
 		String title = comment.bindFromRequest().field("title").value();
 		String content = comment.bindFromRequest().field("content").value();
+		String ratingStar = comment.bindFromRequest().field("rating").value();
+		if(ratingStar == null){
+			ratingStar = "5";
+		}
+		Integer rating = Integer.parseInt(ratingStar);
 		Date date = new Date();
 		Meal meal = Meal.find(id);
 
-		if (Comment.create(user, date, title, content, meal) == true) {
+		if (Comment.create(user, date, title, content, rating, meal) == true) {
 			email = session("email");
 			return redirect("/mealView/" + meal.id);
 		}

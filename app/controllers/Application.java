@@ -324,17 +324,14 @@ public class Application extends Controller {
 	}
 	
 	@Security.Authenticated(RestaurantFilter.class)
-	public static Result showFileUpload(int id)
-	{Meal m = Meal.find(id);
-
+	public static Result showFileUpload(int id) {
+		Meal m = Meal.find(id);
 		return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image)); // NOT FINISHED
 	}
 	
 	
-	public static Result MealIMGList(int id)
-	{
+	public static Result MealIMGList(int id){
 		Meal m = Meal.find(id);
 		return ok(views.html.restaurant.fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
 	}
-	
 }

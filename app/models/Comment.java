@@ -28,28 +28,31 @@ import play.db.ebean.Model;
 	public String title;
 	@Required
 	public String content;
+	public int rating;
 	@ManyToOne
 	public Meal meal;
 	
 	public static Finder<Integer, Comment> find = new Finder<Integer, Comment>(Integer.class, Comment.class);
 
 
-	public Comment(User author, String title, String content, Meal meal) {
+	public Comment(User author, String title, String content, int rating, Meal meal) {
 		this.author = author;
 		this.dateCreation = new Date();
 		this.title = title;
 		this.content = content;
 		this.meal = meal;
+		this.rating = rating;
+		
 	}
 		
 	public static boolean create(User author, Date dateCreation, String title,
-			String content, Meal meal) {
+			String content, int rating, Meal meal) {
 		Comment comment = find.where().eq("title", title).where()
 				.eq("dateCreation", dateCreation).findUnique();
 		if (comment != null) {
 			return false;
 		}
-		comment = new Comment(author, title, content, meal);
+		comment = new Comment(author, title, content, rating, meal);
 		comment.save();
 		return true;
 	}	
