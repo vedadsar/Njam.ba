@@ -95,8 +95,7 @@
 							</div>
 						</div>
 						}
-						
-							
+	
 						<div class="col-sm-7">
 							<div class="product-information"><!--/product-information-->
 								
@@ -107,9 +106,6 @@
 									<span>
 									<span>BAM @meal.price</span>
 									</span>
-									@for(comment <- Comment.findByMeal(meal.id)){
-									<input id="rating" value="@comment.rating" name="rating" type="number" class="rating" min=0 max=5 step=1 data-size="xs" >
-									}
 									@if(User.checkIfExists(email) == true){
 									<form method="POST" action="@routes.CartController.addMealToBasket(meal.id)">
 								
@@ -121,7 +117,6 @@
 									<p><h2>To add meal to cart, <b>please  <a href="/login"  style="color:#E36B0D">Log in.</a></b></h2></p>
 									
 									}
-									
 									
 								<br>
 								<p><b>Minimal Order:</b> @restaurant.minOrder BAM</p>
@@ -305,14 +300,18 @@
 									<ul>
 										<li><a href=""><i class="fa fa-user"></i>@comment.author.email</a></li>
 										<li><a href=""><i class="fa fa-calendar-o"></i>@comment.dateCreation.toLocaleString</a></li>
+										<input id="rating" value="@comment.rating" name="rating" type="number" class="rating" min=0 max=5 step=1 data-size="xs" >   		 
+										
 									</ul>
 									<p><i>@comment.title</i></p>
-									<p>@comment.content</p>
 									<hr>
-									}
-									  <form class="form-horizontal" role="form" action="@routes.CommentController.newComment(meal.id)" method="POST">
 									
-									 
+									}
+								@if(User.checkIfExists(email) == true){
+          							@if(User.checkRole(email).equals(User.USER)){
+																			
+									  <form class="form-horizontal" role="form" action="@routes.CommentController.newComment(meal.id)" method="POST">
+							
        		 							 <div class="form-group">
        		 							 <span>
               							 <input type="text" placeholder="Title" name="title" id="title" required>		
@@ -325,9 +324,10 @@
                              <input id="rating" value="0" name="rating" type="number" class="rating" min=0 max=5 step=1 data-size="xs" >   		 
                        		  <button type="submit" class="btn btn-default">Post Review</button>
                    				 </div>
-              							</div>
+              						</div>
       								</form>
-				 
+      								}
+      								}
 								</div>
 							</div>
 							

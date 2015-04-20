@@ -92,7 +92,7 @@ public class Cart extends Model {
 				System.out.println("U ifu je u Cart");
 				cartItem.increaseQuantity();
 				cartItem.update();
-				cartItem.cart.total = cartItem.totalPrice;
+				this.total += cartItem.meal.price;
 				Logger.debug("TOTAL TRENUTNO JE: " + cartItem.cart.total);
 				return;
 			}
@@ -101,12 +101,13 @@ public class Cart extends Model {
 		CartItem cartItem = new CartItem(this, 1, meal.price, meal);
 		this.cartItems.add(cartItem);
 		Logger.debug("TOTAL TRENUTNO JE: " + cartItem.cart.total);
-		this.total += cartItem.totalPrice;
+		cartItem.cart.total += cartItem.totalPrice;
 		Logger.debug("SRANJE: " + cartItem.totalPrice);
 		this.paid = false;
 		this.save();
 		cartItem.save();
 	}
+	
 	
 	public void addMealToCartButton(Meal meal) {
 
