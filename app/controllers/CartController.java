@@ -45,7 +45,6 @@ public class CartController extends Controller {
 
 		email = session("email");
 		User u = Session.getCurrentUser(ctx());
-		total = 0;
 
 		List<Cart> carts = u.carts;
 		Cart newCart = null;
@@ -54,16 +53,13 @@ public class CartController extends Controller {
 		// return TODO;
 		// }
 
-		List<CartItem> cartItems = null;
 
 		for (int i = 0; i < carts.size(); i++) {
-
 			newCart = carts.get(i);
-
 			try {
 				cartItems = newCart.cartItems;
 				for (CartItem cartItem : cartItems) {
-					newCart.total = newCart.total + cartItem.totalPrice;
+					total += cartItem.totalPrice;
 					newCart.minOrder = cartItem.meal.restaurant.minOrder;
 				}
 			} catch (NullPointerException e) {
@@ -75,6 +71,36 @@ public class CartController extends Controller {
 			// }
 
 		}
+
+			// if (Cart.timeGap(u.id) == false || newCart.paid == true) {
+			// return redirect("/");
+			// }
+
+
+//		Cart newCart = Cart.findLastCart(u.id);
+//		List<CartItem> cartItems;
+//		List<Cart> carts = u.carts;
+//
+//		try {
+//			cartItems = newCart.cartItems;
+//			for (CartItem cartItem : cartItems) {
+//				total = total + cartItem.totalPrice;
+//			}
+//		} catch (NullPointerException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		if(Session.getCurrentUser(ctx()) == null){
+//			flash("loginP", "Please login");
+//			return redirect("/login");
+//		}
+//		
+//		if  (Cart.timeGap(u.id, newCart.id)==false || newCart.paid==true){
+//			flash("Warning","Please add meal to cart");
+//			return redirect("/");
+//		}
+
 
 		// return ok(cart.render(email, Cart.findLastCart(u.id).cartItems,
 		// total, minOrder));
@@ -105,14 +131,15 @@ public class CartController extends Controller {
 				cart = new Cart(user, mealOwnerRestaurant);
 				user.carts.add(cart);
 				cart.addMealToCart(meal);
+				System.out.println("1 - kod isEmpty provjere");
 				return redirect("/cart");
 			} else {
-
 				for (int i = 0; i < user.carts.size(); i++) {
 					if (user.carts.get(i).restaurantName
 							.equals(mealOwnerRestaurant)
 							&& user.carts.get(i).paid == false) {
 						cart = user.carts.get(i);
+						System.out.println("2 - kod prva for petlja - poredjenje imena restorana");
 						break;
 					}
 				}
@@ -120,17 +147,22 @@ public class CartController extends Controller {
 					if (cart == null || cart.paid == true
 							|| Cart.timeGap(user.id, cart.id) == false) {
 						cart.addMealToCart(meal);
+						System.out.println("3 - cart == null, paid == true, timeGap == false");
 					} else {
+						System.out.println("4 - u elsu je, samo dodaje u addMealToCart");
 						cart.addMealToCart(meal);
 						cart.update();
 					}
 				} else {
 					cart = new Cart(user, mealOwnerRestaurant);
+					System.out.println("5 - cart == new Cart");
 					user.carts.add(cart);
 					if (cart == null || cart.paid == true
 							|| Cart.timeGap(user.id, cart.id) == false) {
+						System.out.println("6 - cart == new Cart");
 						cart.addMealToCart(meal);
 					} else {
+						System.out.println("7 - cart == new Cart");
 						cart.addMealToCart(meal);
 						cart.update();
 					}
@@ -146,8 +178,8 @@ public class CartController extends Controller {
 			flash("Error", e.getMessage());
 			return redirect("/");
 		}
-
 	}
+
 
 	public static Result bindQuantity(int mealId, int cartId) {
 
