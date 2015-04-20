@@ -18,19 +18,14 @@ public class Global extends GlobalSettings {
 		User.createRestaurant("Klopa","restoran2@njam.ba", "123456","Tuzla", "Marsala Tita", "22");
 
 		Restaurant res1 = Restaurant.find(1);
-		for( int i=1; i<=4; i++){
+		Restaurant res2 = Restaurant.find(2);
+		for( int i=1; i<=8; i++){
 			if (Meal.check(i)==false){
 				Meal.create("Pizza", 5.00, res1);
 				Meal.create("Supa", 3.00, res1);
 				Meal.create("Cevapi", 5.00, res1);
 				Meal.create("Pjeskavica", 6.00, res1);
-			}
 				
-		}
-		
-		Restaurant res2 = Restaurant.find(2);
-		for( int i=1; i<=4; i++){
-			if (Meal.check(i)==false){
 				Meal.create("Zeljanica", 5.00, res2);
 				Meal.create("Burek", 8.00, res2);
 				Meal.create("Krompirusa", 5.00, res2);
@@ -38,6 +33,7 @@ public class Global extends GlobalSettings {
 			}
 				
 		}
+		
 		
 		
 		if(Faq.check("Kako ću znati da li je restoran primio moju narudžbu? ") == false){
