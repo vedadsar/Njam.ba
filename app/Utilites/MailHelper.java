@@ -61,7 +61,7 @@ public class MailHelper {
 	}
 	
 	public static void tellUserThatOrderIsRefused(String email, double price,
-			String restaurantName) {
+			String restaurantName, String message) {
 		
 		String priceString = Double.toString(price);
 		Logger.debug(priceString);
@@ -83,11 +83,11 @@ public class MailHelper {
 						+ "<br></br>"
 						+ "<strong> Order price:   </strong>: " + "%s"
 						+ "<br></br>"
-						+ "<strong> Your money was returned to your account. Sorry for inconvenience. </strong>:" 
+						+ "<strong> Reason:  </strong>:" + "%s"
 						+ "<br></br>"
 						+ "</body>"
 						+ "</html>",
-						restaurantName, priceString));
+						restaurantName, priceString, message));
 		
 		MailerPlugin.send(mail);
 		
