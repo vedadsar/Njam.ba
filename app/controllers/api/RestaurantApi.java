@@ -38,8 +38,10 @@ public class RestaurantApi extends Controller {
 	
 		for (Restaurant r : restaurants) {
 			ObjectNode restaurant = Json.newObject();
+			restaurant.put("id", r.id);
 			restaurant.put("name", r.name);
 			restaurant.put("minOrder", r.minOrder);
+			restaurant.put("location", r.user.location.city);
 			if (r.image.iterator().hasNext()) {
 				restaurant.put("image", r.image.iterator().next().imgLocation);
 			} else {
