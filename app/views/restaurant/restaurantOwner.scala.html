@@ -1,6 +1,8 @@
 @(email: String)(meals: List[Meal])(restaurant: Restaurant)(restaurants: List[Restaurant])(transactions: List[TransactionU])
 @main(email) {
 
+
+
 <body>
 
     <!-- Page Content -->
@@ -96,11 +98,45 @@
 	                        
                         	<td>
                         	@if(transaction.approved == false && transaction.refused != true){
-                           <form method="POST" action="@routes.PaypalController.deleteOrder(transaction.id)">
+                       <!--     <form method="POST" action="@routes.PaypalController.deleteOrder(transaction.id)">
                            <input type="submit" onclick = "if (! confirm('Are you sure you want delete this order?')) { return false; }" value="delete" class="btn btn-primary btn-xs " />	 
+                           </form> -->
+                           
+                           <form href="#infoForm" id="infoF" >
+                           <input value="delete" class="btn btn-primary btn-xs " />	 
                            </form>
+                           
+                           
+								      <div id="infoForm" class="modal">
+								   <h2>You are about to refuse an order.</h2>
+								   <p>Please enter explanation here</p>
+								   <form method="POST" action="@routes.PaypalController.deleteOrder(transaction.id)">
+								      
+								      <textarea name="message" class="form-control" rows="5" wrap="physical"></textarea>
+								      
+								      
+								      <form>
+								         <input type="submit" 
+								         		onclick = "if (! confirm('Are you sure you want delete this order?')) { return false; }"
+								            value="Confirm">
+								            </form>
+								      <div>
+								         <input class="close-modal" type="submit"
+								            value="Cancel">
+								      </div>
+								      
+								   </form>
+								<!--     <button class="close-modal">×</button> -->
+								</div>
+                           
+                           
+                           
+                           
+                           
                            }
                        		 </td>
+                       		 
+                       		 
                         
                         </tr>
                         }

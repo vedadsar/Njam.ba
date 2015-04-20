@@ -213,6 +213,9 @@ public class PaypalController extends Controller {
 	
 	public static Result deleteOrder(int paymentId) {
 		
+		DynamicForm form = Form.form().bindFromRequest();
+		String message = form.data().get("message");
+		
 		TransactionU transaction = TransactionU.find(paymentId);
 		transaction.refused = true;
 		transaction.update();
@@ -226,7 +229,7 @@ public class PaypalController extends Controller {
 		restaurant.update();
 		
 		flash("RefusedOrder", "Order successfully refused!");
-		MailHelper.tellUserThatOrderIsRefused(transaction.email, transaction.price, transaction.restaurant.name);
+		MailHelper.tellUserThatOrderIsRefused(transaction.email, transaction.price, transaction.restaurant.name, message);
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	
