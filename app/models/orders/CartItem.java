@@ -23,6 +23,8 @@ public class CartItem extends Model {
 	public int id;
 	@ManyToOne
 	public Cart cart;
+	@ManyToOne
+	public TransactionU transaction;
 	@Required
 	public int quantity;
 	@Required

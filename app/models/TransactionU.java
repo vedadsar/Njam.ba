@@ -1,12 +1,17 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import models.orders.Cart;
+import models.orders.CartItem;
 
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
@@ -39,6 +44,9 @@ public class TransactionU extends Model {
 	
 	public double price;
 	
+	@OneToMany
+	public List<CartItem> cartItems;
+	
 	public Boolean approved = false;
 	
 	public Boolean refused = false;
@@ -58,6 +66,11 @@ public class TransactionU extends Model {
 		this.paymentExecutionToPay = paymentExecutionToPay;
 		this.userToPayId = userToPayId;
 		this.cartToPayId = cartToPayId;
+		
+		Cart cart = Cart.find(cartToPayId);
+		cartItems = cart.cartItems;
+		
+		
 	}
 
 	
