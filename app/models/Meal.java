@@ -23,6 +23,8 @@ public class Meal extends Model {
 	public double price;
 	@Required
 	public String description;
+	@Required
+	public String category;
 	@ManyToOne 
 	public Restaurant restaurant;
 	
@@ -39,16 +41,18 @@ public class Meal extends Model {
 			Integer.class, Meal.class);
 	
 
-	public Meal(String name, double price, String description) {
+	public Meal(String name, double price, String category, String description) {
 		this.name = name;
 		this.price = price;
+		this.category =category;
 		this.description = description;
 		this.image= new ArrayList<Image>(0);
 	}
 
-	public Meal(String name, double price, Restaurant restaurant) {
+	public Meal(String name, double price,String category, Restaurant restaurant) {
 		this.name = name;
 		this.price = price;
+		this.category =category;
 		this.restaurant = restaurant;
 		this.image= new ArrayList<Image>(0);
 
@@ -100,9 +104,9 @@ public class Meal extends Model {
 		
 	}
 
-	public static boolean create(String name, double price,
+	public static boolean create(String name, double price, String category,
 			Restaurant currentUserRestaurant) {
-		Meal m = new Meal(name, price, currentUserRestaurant);
+		Meal m = new Meal(name, price, category,currentUserRestaurant);
 		m.save();
 
 		return true;
@@ -188,6 +192,8 @@ public class Meal extends Model {
 	public static boolean check(int id) {
 		return find.where().eq("id", id).findUnique() != null;
 	}
+	
+	
 	
 	
 

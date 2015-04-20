@@ -21,15 +21,15 @@ public class Global extends GlobalSettings {
 		Restaurant res2 = Restaurant.find(2);
 		for( int i=1; i<=8; i++){
 			if (Meal.check(i)==false){
-				Meal.create("Pizza", 5.00, res1);
-				Meal.create("Supa", 3.00, res1);
-				Meal.create("Cevapi", 5.00, res1);
-				Meal.create("Pjeskavica", 6.00, res1);
+				Meal.create("Pizza", 5.00,"Fast Food", res1);
+				Meal.create("Supa", 3.00,"Bosnian cousine", res1);
+				Meal.create("Cevapi", 5.00, "Bosnian cousine",res1);
+				Meal.create("Pjeskavica", 6.00, "Fast Food",res1);
 				
-				Meal.create("Zeljanica", 5.00, res2);
-				Meal.create("Burek", 8.00, res2);
-				Meal.create("Krompirusa", 5.00, res2);
-				Meal.create("Sirnica", 6.00, res2);
+				Meal.create("Zeljanica", 5.00,"Bosnian cousine", res2);
+				Meal.create("Burek", 8.00, "Bosnian cousine", res2);
+				Meal.create("Krompirusa", 5.00,"Bosnian cousine", res2);
+				Meal.create("Sirnica", 6.00, "Bosnian cousine",res2);
 			}
 				
 		}
