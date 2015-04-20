@@ -30,15 +30,17 @@ $(document).ready(function(){
 });
 
 
+
+function nesto(id){
 (function() {
 	"use strict";
 
-	var infoF = document.getElementById('infoF');
-
+	var infoF = document.getElementById('infoF'+id);
+	
 	infoF.onclick = function(e) {
 		e.preventDefault();
 
-		var infoForm = document.getElementById('infoForm');
+		var infoForm = document.getElementById('infoForm'+id);
 		infoForm.style.display = 'block';
 
 		var overlay = document.createElement('div');
@@ -63,6 +65,7 @@ $(document).ready(function(){
 		closeModalButtons[i].onclick = closeModal;
 	}
 }());
+}
 
 (function() {
 	"use strict";

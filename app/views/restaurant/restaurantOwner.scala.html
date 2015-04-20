@@ -124,12 +124,11 @@
                            <input type="submit" onclick = "if (! confirm('Are you sure you want delete this order?')) { return false; }" value="delete"  class="btn btn-primary btn-xs" />	 
                            </form> -->
                            
-                           <form href="#infoForm" id="infoF" >
-                           <input value="delete" class="btn btn-primary btn-xs " />	 
+                           <form id = "infoF@transaction.id" >
+                           <input type="submit" onclick="nesto(@transaction.id)" href="#infoForm@transaction.id" value="delete" class="btn btn-primary btn-xs " />	 
                            </form>
                            
-                           
-								      <div id="infoForm" class="modal">
+								      <div  id="infoForm@transaction.id" class="infoForm">
 								   <h2>You are about to refuse an order.</h2>
 								   <p>Please enter explanation here</p>
 								   <form method="POST" action="@routes.PaypalController.deleteOrder(transaction.id)">
