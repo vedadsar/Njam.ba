@@ -49,12 +49,13 @@ public class RestaurantController extends Controller {
 		
 		String mealName = inputForm.bindFromRequest().field("name").value();
 		String mealPrice = inputForm.bindFromRequest().field("price").value();
+		String mealCategory = inputForm.bindFromRequest().field("category").value();
 		
 		mealPrice = mealPrice.replace(',', '.');
 		Double price = Double.parseDouble(mealPrice);
 		Restaurant currentUser=u.restaurant;
 		
-		if ((Meal.create(mealName, price,currentUser)) == true) {
+		if ((Meal.create(mealName, price,mealCategory, currentUser)) == true) {
 			Meal m = findM.where().eq("name", mealName).eq("price", mealPrice).eq("restaurant_id",u.restaurant.id ).findUnique();
 			String userEmail= Session.getCurrentUser(ctx()).email;
 			Logger.debug(m.name);

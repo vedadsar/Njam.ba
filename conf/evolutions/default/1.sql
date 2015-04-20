@@ -63,6 +63,7 @@ create table meal (
   name                      varchar(255),
   price                     double,
   description               varchar(255),
+  category                  varchar(255),
   restaurant_id             integer,
   constraint pk_meal primary key (id))
 ;
