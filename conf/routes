@@ -44,6 +44,7 @@ GET    /confirm/:confirmationString         controllers.Validate.validateEmail(c
 GET    /faqPage                             controllers.Application.showFaq()
 POST   /admin/faq                           controllers.FaqController.create()
 POST   /admin/faq/delete/:id                controllers.FaqController.delete(id: Int)
+POST   /admin/newsletter                    controllers.NewsletterController.sendNewsletter()
 
 
 GET    /search                              controllers.SearchController.searchByGeneric(q: String,typeGen: String)
@@ -78,8 +79,8 @@ POST   /userSearch                          controllers.SearchController.ajaxLis
 GET    /userSearch                          controllers.SearchController.ajaxSearch() 
  
 POST   /getOrderDetails/:id						controllers.CartController.giveMeDetails(id: String)
+POST   /subscribed                              controllers.NewsletterController.subscribe()
  
-
 # API service 
 GET    /api/users                               controllers.api.UserApi.users()
 POST    /api/user                                controllers.api.UserApi.oneUser()
