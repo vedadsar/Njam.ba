@@ -27,7 +27,7 @@ public class Cart extends Model {
 	
 	@Id
 	public int id;
-	@OneToMany
+	@OneToMany(mappedBy="cart",cascade=CascadeType.ALL)
 	public List<CartItem> cartItems;
 	@OneToOne
 	public User user;

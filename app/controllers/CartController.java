@@ -1,5 +1,6 @@
 package controllers;
 
+import play.libs.Json;
 import play.mvc.Result;
 import views.html.*;
 import views.html.restaurant.mealView;
@@ -8,6 +9,8 @@ import views.html.widgets.cart;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import Utilites.AdminFilter;
 import Utilites.Session;
@@ -272,6 +275,34 @@ public class CartController extends Controller {
 		return ok(views.html.restaurant.mealView.render(email, meal, imgs,
 				restaurant, restaurants, comments));
 
+	}
+	
+	public static Result giveMeDetails(String id) {
+		Logger.debug("ID KOJI JE STIGAO KAO STRING JE: " + id);
+		int x = Integer.parseInt(id);
+		Logger.debug("PRETVORIO SAM STRING U INTEGER I SAD GLASI: " + x);
+		TransactionU transaction = TransactionU.find(x);
+		
+		if(transaction.items.isEmpty()) Logger.debug("LISTA JE PRAZNA! LISTA JE PRAZNA! LISTA JE PRAZNA! LISTA JE PRAZNA!");
+		
+		for(int i=0; i<transaction.items.size(); i++) {
+				Logger.debug("U ITEMS LISTI:" + transaction.items.get(i).name);
+		}
+		
+		List<Jsoner> metaitems = new ArrayList<Jsoner>();
+		for(int i=0; i<transaction.items.size(); i++) {
+			String name = transaction.items.get(i).name; 
+			double price = transaction.items.get(i).price; 
+			int quantity = transaction.items.get(i).quantity;
+			double totalPrice = transaction.items.get(i).totalPrice;
+			Jsoner jsoner = new Jsoner(name, price, quantity, totalPrice);
+			metaitems.add(jsoner);
+		}
+		
+		
+		JsonNode jsonNode = Json.toJson(metaitems);
+		Logger.debug("OVO JE LISTA KOJU SALJEM U AJAX KAO JSON:" + jsonNode.toString());
+		return ok(jsonNode);
 	}
 
 }

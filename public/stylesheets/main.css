@@ -2580,7 +2580,15 @@ h2.title {
   opacity : 1;
 }
 
-#infoForm {
+.infoForm {
+	
+		display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	background-color: white;
+	z-index: 1000;
+	
 	width: 440px;
 	height: 240px;
 	border: 1px solid #ccc;
@@ -2588,9 +2596,11 @@ h2.title {
 
 	margin-top: -100px; /* pola visine */
 	margin-left: -200px; /* pola širine */
+	
+	
 }
 
-#infoForm h2 {
+.infoForm h2 {
 	margin: 0;
 	margin-bottom: 18px;
 }
@@ -2623,4 +2633,25 @@ h2.title {
 	opacity: 0.6;
 }
 
+.orderDetails {
+	
+	display: none;
+	position: fixed;
+	top: 35%;
+	left: 30%;
+	background-color: white;
+	z-index: 1000;
+	
+	width: 1440px;
+	height: 540px;
+	border: 1px solid #ccc;
+	padding: 10px;
 
+	margin-top: -100px; /* pola visine */
+	margin-left: -200px; /* pola širine */
+}
+
+.orderDetails h2 {
+	margin: 0;
+	margin-bottom: 18px;
+}
