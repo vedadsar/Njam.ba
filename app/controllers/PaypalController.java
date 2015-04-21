@@ -200,7 +200,7 @@ public class PaypalController extends Controller {
 			restaurant.update();
 			
 			flash("SuccessApprovedOrder", "Order successfully approved!");
-			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name);
+			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name, transaction.items);
 			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
@@ -229,7 +229,7 @@ public class PaypalController extends Controller {
 		restaurant.update();
 		
 		flash("RefusedOrder", "Order successfully refused!");
-		MailHelper.tellUserThatOrderIsRefused(transaction.email, transaction.price, transaction.restaurant.name, message);
+		MailHelper.tellUserThatOrderIsRefused(transaction.email, transaction.price, transaction.restaurant.name, message, transaction.items);
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	
