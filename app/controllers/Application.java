@@ -191,6 +191,7 @@ public class Application extends Controller {
 		String confirmPassword = form.data().get("confirmPassword");
 
 		String name = form.data().get("name");
+		String workingTime = form.data().get("workingTime");
 		String street = form.data().get("street");
 		String number = form.data().get("number");
 		String city = form.data().get("city");
@@ -201,7 +202,7 @@ public class Application extends Controller {
 		}
 
 		try{
-			User.createRestaurant(name, email, hashedPassword, city, street, number);
+			User.createRestaurant(name, email, hashedPassword, workingTime, city, street, number);
 			Logger.info("Restaurant " +name +" with email " +email +" registred. Visit admin panel to approve.");
 			flash("successSendRequest", "You have succesfully send request for restaurant registration! Wait until admin contacts you!");
 		}catch(Exception e){

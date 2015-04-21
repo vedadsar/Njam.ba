@@ -70,7 +70,7 @@ public class User extends Model {
 		this.role = role;		
 	}
 	
-	public static boolean createRestaurant(String name, String email, String password, String city, String address, String number){
+	public static boolean createRestaurant(String name, String email, String password, String workingTime, String city, String address, String number){
 		User check = find.where().eq("email", email).findUnique();
 		if(check != null){
 			return false;
@@ -82,7 +82,7 @@ public class User extends Model {
 			u.location = location;
 			location.save();
 			
-			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique());			
+			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique(), workingTime);			
 			u.restaurant = r;
 			u.validated = false;
 			u.save();

@@ -13,9 +13,9 @@ public class Global extends GlobalSettings {
 		User.createAdmin("suad@suad.com", "123456");	
 	
 		}
-		User.createRestaurant("Lovac","restoran@njam.ba", "123456", "Sarajevo", "Fojnicka", "5");	
-		User.createRestaurant("Harambasa","restoran1@njam.ba", "123456","Banjaluka", "Pere Kvrzice", "18");
-		User.createRestaurant("Klopa","restoran2@njam.ba", "123456","Tuzla", "Marsala Tita", "22");
+		User.createRestaurant("Lovac","restoran@njam.ba", "123456","08:00h - 18:00h", "Sarajevo", "Fojnicka", "5");	
+		User.createRestaurant("Harambasa","restoran1@njam.ba", "123456","07:00h - 19:00h","Banjaluka", "Pere Kvrzice", "18");
+		User.createRestaurant("Klopa","restoran2@njam.ba", "123456","09:00h - 20:00h", "Tuzla", "Marsala Tita", "22");
 
 		Restaurant res1 = Restaurant.find(1);
 		Restaurant res2 = Restaurant.find(2);

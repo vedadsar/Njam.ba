@@ -270,7 +270,7 @@
 										<p><b>Minimal Order:</b> @restaurant.minOrder BAM</p>
 										<p><b>Deliveri time:</b> 30 min</p>
 										<p><b>Location:</b> @restaurant.user.location.street @restaurant.user.location.number, @restaurant.user.location.city</p>
-										
+										<p><b>Business hours:</b> @restaurant.workingTime</p>
 										
 										<form method="GET" class="form-horizontal" role="form" action="@routes.RestaurantController.editRestaurantURL(restaurant.name)">
 							             	 <div class="form-group"  >
