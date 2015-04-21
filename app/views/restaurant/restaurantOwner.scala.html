@@ -186,6 +186,15 @@
                            </form>
                            
 								      <div  id="infoForm@transaction.id" class="infoForm">
+								      
+								       <script>
+									  addEventListener("keydown", function(event) {
+									    if (event.keyCode == 27)
+									    	$("#closeItt@transaction.id").click();
+									  });
+								      </script>
+								      
+								      
 								   <h2>You are about to refuse an order.</h2>
 								   <p>Please enter explanation here</p>
 								   <form method="POST" action="@routes.PaypalController.deleteOrder(transaction.id)">
@@ -200,8 +209,8 @@
 								            </form>
 								      
 								   </form>
-								<!--     <button class="close-modal">×</button> -->
-								         <input class="close-modal" type="submit"
+								   
+								         <input id="closeItt@transaction.id" class="close-modal" type="submit"
 								            value="Cancel">
 								</div>
                            
