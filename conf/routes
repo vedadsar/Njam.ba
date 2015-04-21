@@ -77,6 +77,8 @@ GET    /creditfail                          controllers.PaypalController.creditF
 POST   /userSearch                          controllers.SearchController.ajaxList()
 GET    /userSearch                          controllers.SearchController.ajaxSearch() 
  
+POST   /getOrderDetails/:id						controllers.CartController.giveMeDetails(id: String)
+ 
 
 # API service 
 GET    /api/users                               controllers.api.UserApi.users()

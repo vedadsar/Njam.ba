@@ -1,5 +1,6 @@
 package controllers;
 
+import play.libs.Json;
 import play.mvc.Result;
 import views.html.*;
 import views.html.restaurant.mealView;
@@ -8,6 +9,8 @@ import views.html.widgets.cart;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import Utilites.AdminFilter;
 import Utilites.Session;
@@ -240,6 +243,39 @@ public class CartController extends Controller {
 		return ok(views.html.restaurant.mealView.render(email, meal, imgs,
 				restaurant, restaurants, comments));
 
+	}
+	
+	public static Result giveMeDetails(String id) {
+		Logger.debug("ID KOJI JE STIGAO KAO STRING JE: " + id);
+		int x = Integer.parseInt(id);
+		Logger.debug("PRETVORIO SAM STRING U INTEGER I SAD GLASI: " + x);
+		TransactionU transaction = TransactionU.find(x);
+		Cart cart = Cart.find(transaction.cartToPayId);
+		List<CartItem> cartitems = transaction.items;
+		
+		if(cartitems.isEmpty()) Logger.debug("LISTA JE PRAZNA! LISTA JE PRAZNA! LISTA JE PRAZNA! LISTA JE PRAZNA!");
+		
+		for(int i=0; i<cartitems.size(); i++) {
+				Logger.debug("U ITEMS LISTI:" + cartitems.get(i).getMealName());
+		}
+		
+		List<MetaItem> metaitems = new ArrayList<MetaItem>();
+		
+		for(int i=0; i<cartitems.size(); i++) {
+			
+			String name = cartitems.get(i).getMealName(); 
+			Logger.debug("NAME JE: " + name);
+			double price = cartitems.get(i).meal.price; 
+			int quantity = cartitems.get(i).quantity;
+			double totalPrice = cartitems.get(i).totalPrice;
+			MetaItem meta = new MetaItem(name, price, quantity, totalPrice);
+			metaitems.add(meta);
+		}
+		
+		
+		JsonNode jsonNode = Json.toJson(metaitems);
+		Logger.debug(jsonNode.toString());
+		return ok(jsonNode);
 	}
 
 }

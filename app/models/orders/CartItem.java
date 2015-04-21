@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import models.Meal;
 import models.Restaurant;
@@ -21,9 +22,9 @@ public class CartItem extends Model {
 	
 	@Id
 	public int id;
-	@ManyToOne
+	@OneToOne
 	public Cart cart;
-	@ManyToOne
+	@OneToOne
 	public TransactionU transaction;
 	@Required
 	public int quantity;

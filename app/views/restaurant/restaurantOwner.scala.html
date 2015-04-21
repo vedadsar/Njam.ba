@@ -87,10 +87,56 @@
                         
                         
 							<div id="orderDetails@transaction.id" class="orderDetails">
-								   <h2>You are about to refuse an order.</h2>
-								   <p>Please enter explanation here</p>
 								 
-								 
+								 	<div class="container">
+									   <h2>Order details</h2>
+									   <table class="table table-hover">
+									      <thead>
+									         <tr>
+									            <th>Meal</th>
+									            <th>Price</th>
+									            <th>Quantity</th>
+									            <th>Total for meal</th>
+									         </tr>
+									      </thead>
+									      <tbody id="detailz@transaction.id">
+									      
+									 		
+									      </tbody>
+									   </table>
+									</div>
+									
+									
+								 	<script type="text/javascript">
+									 		$( document ).ready(function() {
+									 		    console.log( "ready!" );
+									 		    
+									 		   $.ajax({
+													  method: "POST",
+													  url: "/getOrderDetails/"+@transaction.id,
+													  accepts: {
+													        json: "application/json"
+													    },
+													}).done(function(msg) {
+														console.log("SUCCESSFULL JSON");
+														
+														for(var i = 0; i < msg.length; i++) {
+														console.log("USAO U FOR U AJAXU");
+															$("#detailz@transaction.id").append("<tr id='rowy"+i+"'></tr>");
+															console.log("DODAO ROWY");
+													         $('#rowy"+i+"').append( " <td> " + msg[i].name + "</td> ");
+													         $('#rowy"+i+"').append( " <td> " + msg[i].price + "</td> ");
+													         $('#rowy"+i+"').append( " <td> " + msg[i].quantity + "</td> ");
+													         $('#rowy"+i+"').append( " <td> " + msg[i].totalPrice + "</td> ");
+													    }
+													 }).fail(function( msg ) {
+														  console.log("FAILED");
+														  console.log(msg);
+													   	  alert( "Request failed!" );
+													  });
+												});
+									 		    
+									 		</script>
 								 
 								 
 								 
