@@ -82,7 +82,7 @@
 								<p><b>Category:</b> @meal.category </p>
 								
 									<span>
-									<span>BAM @meal.price</span>
+									<span>@meal.price KM</span>
 									</span>
 									@if(User.checkIfExists(email) == true){
 									<form method="POST" action="@routes.CartController.addMealToBasket(meal.id)">
@@ -97,7 +97,7 @@
 									}
 									
 								<br>
-								<p><b>Minimal Order:</b> @restaurant.minOrder BAM</p>
+								<p><b>Minimal Order:</b> @restaurant.minOrder KM</p>
 								<p><b>Deliveri time:</b> 30 min</p>
 								<p><b>Location:</b> @restaurant.user.location.street @restaurant.user.location.number, @restaurant.user.location.city</p>
 								<p><b>Business hours:</b> @restaurant.workingTime</p>
