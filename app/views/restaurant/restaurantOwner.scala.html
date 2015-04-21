@@ -88,6 +88,14 @@
                         
 							<div id="orderDetails@transaction.id" class="orderDetails">
 								 
+								 <script>
+									  addEventListener("keydown", function(event) {
+									    if (event.keyCode == 27)
+									    	$("#closeIt@transaction.id").click();
+									  });
+								</script>
+								 
+								 
 								 	<div class="container">
 									   <h2>Order details</h2>
 									   <table class="table table-hover">
@@ -140,8 +148,7 @@
 								 
 								 
 								 
-								<!--     <button class="close-modal">×</button> -->
-								         <input class="close-modal" type="submit"
+								         <input id="closeIt@transaction.id" class="close-modal" type="submit"
 								            value="Cancel">
 								</div>
                         
