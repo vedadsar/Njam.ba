@@ -122,12 +122,12 @@
 														
 														for(var i = 0; i < msg.length; i++) {
 														console.log("USAO U FOR U AJAXU");
-															$("#detailz@transaction.id").append("<tr id='rowy"+i+"'></tr>");
+															$("#detailz@transaction.id").append("<tr id='rowy@transaction.id"+i+"'></tr>");
 															console.log("DODAO ROWY");
-													         $('#rowy"+i+"').append( " <td> " + msg[i].name + "</td> ");
-													         $('#rowy"+i+"').append( " <td> " + msg[i].price + "</td> ");
-													         $('#rowy"+i+"').append( " <td> " + msg[i].quantity + "</td> ");
-													         $('#rowy"+i+"').append( " <td> " + msg[i].totalPrice + "</td> ");
+													         $('#rowy@transaction.id'+i).append( " <td> " + msg[i].name + "</td> ");
+													         $('#rowy@transaction.id'+i).append( " <td> " + msg[i].price + "</td> ");
+													         $('#rowy@transaction.id'+i).append( " <td> " + msg[i].quantity + "</td> ");
+													         $('#rowy@transaction.id'+i).append( " <td> " + msg[i].totalPrice + "</td> ");
 													    }
 													 }).fail(function( msg ) {
 														  console.log("FAILED");
