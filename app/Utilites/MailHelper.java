@@ -37,7 +37,7 @@ public class MailHelper {
 		Logger.debug(priceString);
 		
 		Email mail = new Email();
-		mail.setSubject("Njam.ba purchase approved!");
+		mail.setSubject("Your purchase from Njam. ba has been approved!");
 		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
 		mail.addTo(email);
 		
@@ -67,7 +67,7 @@ public class MailHelper {
 		Logger.debug(priceString);
 		
 		Email mail = new Email();
-		mail.setSubject("Njam.ba purchase approved!");
+		mail.setSubject("Your purchase from Njam. ba has been refused!");
 		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
 		mail.addTo(email);
 		
