@@ -2620,6 +2620,13 @@ h2.title {
 	right: 302px;
 }
 
+.close-modalDetails {
+	display:none;
+	position: absolute;
+	top: 193px;
+	right: 302px;
+}
+
 .overlay {
 	position: absolute;
 	top: 0;
