@@ -78,8 +78,8 @@ POST   /userSearch                          controllers.SearchController.ajaxLis
 GET    /userSearch                          controllers.SearchController.ajaxSearch() 
  
 POST   /getOrderDetails/:id						controllers.CartController.giveMeDetails(id: String)
+POST   /subscribed                              controllers.NewsletterController.subscribe()
  
-
 # API service 
 GET    /api/users                               controllers.api.UserApi.users()
 POST    /api/user                                controllers.api.UserApi.oneUser()
