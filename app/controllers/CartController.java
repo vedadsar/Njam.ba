@@ -250,31 +250,26 @@ public class CartController extends Controller {
 		int x = Integer.parseInt(id);
 		Logger.debug("PRETVORIO SAM STRING U INTEGER I SAD GLASI: " + x);
 		TransactionU transaction = TransactionU.find(x);
-		Cart cart = Cart.find(transaction.cartToPayId);
-		List<CartItem> cartitems = transaction.items;
 		
-		if(cartitems.isEmpty()) Logger.debug("LISTA JE PRAZNA! LISTA JE PRAZNA! LISTA JE PRAZNA! LISTA JE PRAZNA!");
+		if(transaction.items.isEmpty()) Logger.debug("LISTA JE PRAZNA! LISTA JE PRAZNA! LISTA JE PRAZNA! LISTA JE PRAZNA!");
 		
-		for(int i=0; i<cartitems.size(); i++) {
-				Logger.debug("U ITEMS LISTI:" + cartitems.get(i).getMealName());
+		for(int i=0; i<transaction.items.size(); i++) {
+				Logger.debug("U ITEMS LISTI:" + transaction.items.get(i).name);
 		}
 		
-		List<MetaItem> metaitems = new ArrayList<MetaItem>();
-		
-		for(int i=0; i<cartitems.size(); i++) {
-			
-			String name = cartitems.get(i).getMealName(); 
-			Logger.debug("NAME JE: " + name);
-			double price = cartitems.get(i).meal.price; 
-			int quantity = cartitems.get(i).quantity;
-			double totalPrice = cartitems.get(i).totalPrice;
-			MetaItem meta = new MetaItem(name, price, quantity, totalPrice);
-			metaitems.add(meta);
+		List<Jsoner> metaitems = new ArrayList<Jsoner>();
+		for(int i=0; i<transaction.items.size(); i++) {
+			String name = transaction.items.get(i).name; 
+			double price = transaction.items.get(i).price; 
+			int quantity = transaction.items.get(i).quantity;
+			double totalPrice = transaction.items.get(i).totalPrice;
+			Jsoner jsoner = new Jsoner(name, price, quantity, totalPrice);
+			metaitems.add(jsoner);
 		}
 		
 		
 		JsonNode jsonNode = Json.toJson(metaitems);
-		Logger.debug(jsonNode.toString());
+		Logger.debug("OVO JE LISTA KOJU SALJEM U AJAX KAO JSON:" + jsonNode.toString());
 		return ok(jsonNode);
 	}
 

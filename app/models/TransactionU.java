@@ -47,7 +47,7 @@ public class TransactionU extends Model {
 	public double price;
 	
 	@OneToMany(mappedBy="transaction",cascade=CascadeType.ALL)
-	public List<CartItem> items = new ArrayList<CartItem>();
+	public List<MetaItem> items = new ArrayList<MetaItem>();
 	
 	public Boolean approved = false;
 	
@@ -68,23 +68,8 @@ public class TransactionU extends Model {
 		this.paymentExecutionToPay = paymentExecutionToPay;
 		this.userToPayId = userToPayId;
 		this.cartToPayId = cartToPayId;
+		this.items = new ArrayList<MetaItem>(0);
 		
-		Cart cart = Cart.find(cartToPayId);
-		this.items.addAll(cart.cartItems);
-		
-		List<MetaItem> metaitems = new ArrayList<MetaItem>();
-		
-		for(int i=0; i<this.items.size(); i++) {
-			
-			String name = this.items.get(i).getMealName(); 
-			double price = this.items.get(i).meal.price; 
-			int quantity = this.items.get(i).quantity;
-			double totalPrice = this.items.get(i).totalPrice;
-			MetaItem meta = new MetaItem(name, price, quantity, totalPrice);
-			metaitems.add(meta);
-		}
-		JsonNode jsonNode = Json.toJson(metaitems);
-		Logger.debug("JSON I TO: " + jsonNode.toString());
 		
 	}
 
@@ -96,13 +81,45 @@ public class TransactionU extends Model {
 		TransactionU transaction = new TransactionU(contextToPay, paymentToPay,
 				paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay);
 		
-		
 		transaction.save();
+		
+		fillItems(transaction);
+		
 
 		return transaction;
 	}
 	
 	
+	private static void fillItems(TransactionU transaction) {
+			Cart cart = Cart.find(transaction.cartToPayId);
+		
+		for(int i=0; i<cart.cartItems.size(); i++) {
+			String name = cart.cartItems.get(i).getMealName(); 
+			double price = cart.cartItems.get(i).meal.price; 
+			int quantity = cart.cartItems.get(i).quantity;
+			double totalPrice = cart.cartItems.get(i).totalPrice;
+			MetaItem meta = new MetaItem(name, price, quantity, totalPrice, transaction);
+			transaction.items.add(meta);
+		} 
+		
+		List<Jsoner> metaitems = new ArrayList<Jsoner>();
+		for(int i=0; i<transaction.items.size(); i++) {
+			String name = transaction.items.get(i).name; 
+			double price = transaction.items.get(i).price; 
+			int quantity = transaction.items.get(i).quantity;
+			double totalPrice = transaction.items.get(i).totalPrice;
+			Jsoner jsoner = new Jsoner(name, price, quantity, totalPrice);
+			metaitems.add(jsoner);
+		}
+		
+		
+		JsonNode jsonNode = Json.toJson(metaitems);
+		Logger.debug("JSON I TO: " + jsonNode.toString());
+		
+		transaction.save();
+	}
+
+
 	public static TransactionU find(long id) {
 		return find.byId(id);
 	}

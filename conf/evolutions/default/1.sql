@@ -68,6 +68,16 @@ create table meal (
   constraint pk_meal primary key (id))
 ;
 
+create table meta_item (
+  id                        integer not null,
+  transaction_id            integer,
+  name                      varchar(255),
+  price                     double,
+  quantity                  integer,
+  total_price               double,
+  constraint pk_meta_item primary key (id))
+;
+
 create table restaurant (
   id                        integer not null,
   name                      varchar(255),
@@ -120,6 +130,8 @@ create sequence location_seq;
 
 create sequence meal_seq;
 
+create sequence meta_item_seq;
+
 create sequence restaurant_seq;
 
 create sequence transaction_u_seq;
@@ -146,16 +158,18 @@ alter table location add constraint fk_location_user_9 foreign key (user_id) ref
 create index ix_location_user_9 on location (user_id);
 alter table meal add constraint fk_meal_restaurant_10 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
 create index ix_meal_restaurant_10 on meal (restaurant_id);
-alter table restaurant add constraint fk_restaurant_user_11 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_user_11 on restaurant (user_id);
-alter table transaction_u add constraint fk_transaction_u_restaurant_12 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_transaction_u_restaurant_12 on transaction_u (restaurant_id);
-alter table user add constraint fk_user_restaurant_13 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_13 on user (restaurant_id);
-alter table user add constraint fk_user_location_14 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_user_location_14 on user (location_id);
-alter table user add constraint fk_user_cart_15 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
-create index ix_user_cart_15 on user (cart_id);
+alter table meta_item add constraint fk_meta_item_transaction_11 foreign key (transaction_id) references transaction_u (id) on delete restrict on update restrict;
+create index ix_meta_item_transaction_11 on meta_item (transaction_id);
+alter table restaurant add constraint fk_restaurant_user_12 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_user_12 on restaurant (user_id);
+alter table transaction_u add constraint fk_transaction_u_restaurant_13 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_transaction_u_restaurant_13 on transaction_u (restaurant_id);
+alter table user add constraint fk_user_restaurant_14 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_14 on user (restaurant_id);
+alter table user add constraint fk_user_location_15 foreign key (location_id) references location (id) on delete restrict on update restrict;
+create index ix_user_location_15 on user (location_id);
+alter table user add constraint fk_user_cart_16 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
+create index ix_user_cart_16 on user (cart_id);
 
 
 
@@ -176,6 +190,8 @@ drop table if exists image;
 drop table if exists location;
 
 drop table if exists meal;
+
+drop table if exists meta_item;
 
 drop table if exists restaurant;
 
@@ -198,6 +214,8 @@ drop sequence if exists image_seq;
 drop sequence if exists location_seq;
 
 drop sequence if exists meal_seq;
+
+drop sequence if exists meta_item_seq;
 
 drop sequence if exists restaurant_seq;
 
