@@ -26,6 +26,9 @@ public class Restaurant extends Model {
 
 	@DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date dateCreation;
+	
+	@Required
+	public String workingTime;
 
 	@OneToOne
 	public User user;
@@ -52,15 +55,17 @@ public class Restaurant extends Model {
 	public Restaurant(String name){
 
 		this.name = name;
+		this.workingTime = "0-24h";
 		this.image= new ArrayList<Image>(0);
 		this.toBeApproved= new ArrayList<TransactionU>(0);
 		this.approvedOrders = 0;
 		this.refusedOrders = 0;
 	}
 
-	public Restaurant(String name, User u) {
+	public Restaurant(String name, User u, String workingTime) {
 		this.name = name;
 		this.user = u;
+		this.workingTime = workingTime;
 		this.image= new ArrayList<Image>(0);
 		this.toBeApproved= new ArrayList<TransactionU>(0);
 		this.approvedOrders = 0;
@@ -72,8 +77,8 @@ public class Restaurant extends Model {
 		this.image.add(image);
 	}
 
-	public static void create(String name, User user) {
-		new Restaurant(name, user).save();
+	public static void create(String name, User user, String workingTime) {
+		new Restaurant(name, user,workingTime).save();
 
 	}
 

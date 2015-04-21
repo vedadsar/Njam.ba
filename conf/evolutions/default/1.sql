@@ -72,6 +72,7 @@ create table restaurant (
   id                        integer not null,
   name                      varchar(255),
   date_creation             timestamp,
+  working_time              varchar(255),
   user_id                   integer,
   min_order                 double,
   approved_orders           integer,

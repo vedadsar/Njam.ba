@@ -13,61 +13,39 @@
 					<div class="left-sidebar">
 						<h2>Category </h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Bosanska Kuhinja
-										</a>
-									</h4>
-								</div>
-								<div id="sportswear" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="">Cevapi </a></li>
-											<li><a href="">Corba </a></li>
-											<li><a href="">Pita </a></li>
-											<li><a href="">Kuhanja jela</a></li>
-											<li><a href="">Deserti </a></li>
-										</ul>
-									</div>
+									<h4 class="panel-title"><a href="#">Bosnian cousine</a></h4>
 								</div>
 							</div>
+							
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#mens">
-											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Brza hrana
-										</a>
-									</h4>
+									<h4 class="panel-title"><a href="#">Desserts</a></h4>
 								</div>
-								<div id="mens" class="panel-collapse collapse">
-									<div class="panel-body">
-										<ul>
-											<li><a href="">Jela sa rostilja</a></li>
-											<li><a href="">Pizza</a></li>
-											<li><a href="">Sendvici</a></li>
-											
-										</ul>
-									</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Fast Food</a></h4>
+								</div>
+							</div>
+													
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Italian cousine</a></h4>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Mexican cousine</a></h4>
 								</div>
 							</div>
 							
 							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Italijanska Kuhinja</a></h4>
-								</div>
-							</div>
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Meksicka kuhinja</a></h4>
-								</div>
-							</div>
-							
-						</div><!--/category-products-->
+						</div><!--/category-productsr-->
 					
 						<div class="brands_products"><!--brands_products-->
 							<h2>Restaurants</h2>
@@ -122,6 +100,8 @@
 								<p><b>Minimal Order:</b> @restaurant.minOrder BAM</p>
 								<p><b>Deliveri time:</b> 30 min</p>
 								<p><b>Location:</b> @restaurant.user.location.street @restaurant.user.location.number, @restaurant.user.location.city</p>
+								<p><b>Business hours:</b> @restaurant.workingTime</p>
+								
 								
 							</div><!--/product-information-->
 						</div>
