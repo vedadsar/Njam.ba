@@ -81,14 +81,18 @@
                         
                         <td>
                         
-                        	 <form href="#orderDetails" id="orderD" >
-                           			<input value="details" class="btn btn-primary btn-xs " />	 
+                        	 <form id = "orderD@transaction.id" >
+                           			<input type="submit" onclick="detailsModal(@transaction.id)" href="#orderDetails@transaction.id" value="details" class="btn btn-primary btn-xs " />	 
                            	 </form>
                         
                         
-							<div id="orderDetails" class="modal">
+							<div id="orderDetails@transaction.id" class="orderDetails">
 								   <h2>You are about to refuse an order.</h2>
 								   <p>Please enter explanation here</p>
+								 
+								 
+								 
+								 
 								 
 								<!--     <button class="close-modal">×</button> -->
 								         <input class="close-modal" type="submit"
@@ -125,7 +129,7 @@
                            </form> -->
                            
                            <form id = "infoF@transaction.id" >
-                           <input type="submit" onclick="nesto(@transaction.id)" href="#infoForm@transaction.id" value="delete" class="btn btn-primary btn-xs " />	 
+                           <input type="submit" onclick="infoModal(@transaction.id)" href="#infoForm@transaction.id" value="delete" class="btn btn-primary btn-xs " />	 
                            </form>
                            
 								      <div  id="infoForm@transaction.id" class="infoForm">

@@ -31,7 +31,7 @@ $(document).ready(function(){
 
 
 
-function nesto(id){
+function infoModal(id){
 (function() {
 	"use strict";
 
@@ -67,15 +67,16 @@ function nesto(id){
 }());
 }
 
+function detailsModal(id){
 (function() {
 	"use strict";
 
-	var infoF = document.getElementById('orderD');
+	var infoF = document.getElementById('orderD'+id);
 
 	infoF.onclick = function(e) {
 		e.preventDefault();
 
-		var orderDetails = document.getElementById('orderDetails');
+		var orderDetails = document.getElementById('orderDetails'+id);
 		orderDetails.style.display = 'block';
 
 		var overlay = document.createElement('div');
@@ -100,3 +101,4 @@ function nesto(id){
 		closeModalButtons[i].onclick = closeModal;
 	}
 }());
+}
