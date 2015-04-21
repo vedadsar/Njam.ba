@@ -1,6 +1,8 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -56,5 +58,14 @@ public class Newsletter extends Model {
 	public static Newsletter findByEmail(String email){
 		Newsletter subscriber = findN.where().eq("email", email).findUnique();
 		return subscriber;
+	}
+
+	public static List<String> findAllSubscribers() {
+		List<Newsletter> subscribers = findN.all();
+		List<String> emails = new ArrayList<String>(0);
+		for (Newsletter newsletter : subscribers) {
+			emails.add(newsletter.email);
+		}
+		return emails;
 	}
 }

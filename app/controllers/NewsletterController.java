@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import Utilites.MailHelper;
 import models.Comment;
 import models.Newsletter;
@@ -23,6 +25,19 @@ public class NewsletterController extends Controller {
 		}
 		Newsletter.subscribeToNewsletter(email);
 		MailHelper.send(email, "confirmation string");
+		return redirect("/");
+	}
+	
+	public static Result sendNewsletter() {
+
+		List<String> subscribers = Newsletter.findAllSubscribers();
+		try {
+			MailHelper.sendNewsletterToSubscribers(subscribers, "test",
+					"newsletter test");
+			return redirect("/");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return redirect("/");
 	}
 }

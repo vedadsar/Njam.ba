@@ -3,6 +3,7 @@ package Utilites;
 import java.util.Iterator;
 import java.util.List;
 
+import models.Newsletter;
 import models.User;
 import play.Logger;
 import play.libs.mailer.Email;
@@ -109,13 +110,28 @@ public class MailHelper {
 			mail.addTo(sudoIterator.next().email);
 			}
 				
-		
-
-		mail.setBodyText(message);
+				mail.setBodyText(message);
 		mail.setBodyHtml(String.format("<html><body><strong> %s </strong>: <p> %s </p> </body></html>", email, message));
 		MailerPlugin.send(mail);
 		
 	}
 	
+	public static void sendNewsletterToSubscribers(List<String> emails,
+			String title, String message) {
+		Email mail = new Email();
+		mail.setSubject("Newsletter beta versionen: " + " Subject: "
+				+ title);
+		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
+		mail.addTo("Bitter Contact <bit.play.test@gmail.com>");
+
+		for (String email : emails) {
+			mail.addTo(email);
+			mail.setBodyText(message);
+			mail.setBodyHtml(String
+					.format("<html><body><strong> %s </strong>: <p> %s </p> </body></html>",
+							email, message));
+			MailerPlugin.send(mail);
+		}
+	}
 	
 }
