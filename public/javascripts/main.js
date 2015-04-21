@@ -95,7 +95,7 @@ function detailsModal(id){
 		overlay.parentElement.removeChild(overlay);
 	};
 
-	var closeModalButtons = document.querySelectorAll('.close-modal');
+	var closeModalButtons = document.querySelectorAll('.close-modalDetails');
 
 	for (var i = 0; i < closeModalButtons.length; i++) {
 		closeModalButtons[i].onclick = closeModal;
