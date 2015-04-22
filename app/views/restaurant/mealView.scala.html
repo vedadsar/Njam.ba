@@ -278,7 +278,11 @@
 	
 								<div class="col-sm-12">
 									<ul>
-										<li><a href=""><i class="fa fa-user"></i>@comment.author.email</a></li>
+										@if(comment.author.username != null) {
+											<li><a href=""><i class="fa fa-user"></i>@comment.author.username</a></li>
+										} else {
+											<li><a href=""><i class="fa fa-user"></i>@comment.author.email</a></li>
+										}
 										<li><a href=""><i class="fa fa-calendar-o"></i>@comment.dateCreation.toLocaleString</a></li>
 										<input id="rating" value="@comment.rating" name="rating" type="number" class="rating" min=0 max=5 step=1 data-size="xs" >   		 
 										

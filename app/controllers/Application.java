@@ -304,14 +304,16 @@ public class Application extends Controller {
 		String username = form.data().get("username").toString();
 		currentUser.username = username;
 		
-		currentUser.hashedPassword = Hash.hashPassword(newHashedPassword);
+		if (!newHashedPassword.equals("")) {
+			currentUser.hashedPassword = Hash.hashPassword(newHashedPassword);
+		}
 		currentUser.location.city = city;
 		currentUser.location.street = street;
 		currentUser.location.number = number;
 		currentUser.location.update();
 		currentUser.update();
 		
-		Logger.info("User with email " +currentUser.email +" just edited his info!" );
+		Logger.info("User with email " +currentUser.email +" just edited his info!);
 		flash("successUpdate", "You have successfully updated contact information");
 		return redirect("/user/" + email);
 	}
