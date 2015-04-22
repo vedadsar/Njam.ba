@@ -52,6 +52,8 @@ public class Application extends Controller {
 	public static Result toUser(String email){
 		List <Restaurant> restaurants = findR.all();
 		List <Meal> meals = findM.all();
+		
+		String username = User.find(email).username;
 
 		String emailE = session().get("email");
 		if(emailE == null)
@@ -67,14 +69,16 @@ public class Application extends Controller {
 			
 			return ok(views.html.admin.admin.render(email, meals, restaurants, logs, faqs));
 		}
-		return ok(views.html.user.user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
+		return ok(views.html.user.user.render(email, username, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 	
 	@Security.Authenticated(UserFilter.class)
 	public static Result user(String email){	
 		List <Restaurant> restaurants = findR.all();	
+		
+		String username = User.find(email).username;
 
-		return ok(views.html.user.user.render(email, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
+		return ok(views.html.user.user.render(email, username, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 	
 
@@ -281,20 +285,24 @@ public class Application extends Controller {
 	 * @return redirect on profile page.
 	 */
 	public static Result editUser(String email) {		
-		DynamicForm form = Form.form().bindFromRequest();
+		Form form = Form.form().bindFromRequest();
 		User currentUser = Session.getCurrentUser(ctx());
 				
-		String newHashedPassword= form.data().get("hashedPassword");
-		String confirmPassword = form.data().get("confirmPassword");
+		String newHashedPassword= form.data().get("hashedPassword").toString();
+		//Obicna Form umjesto Dynamic form i bez confirmPassword, tek onda radi promjena podataka // TODO izbrisati ovaj komentar
+//		String confirmPassword = form.data().get("confirmPassword").toString();
+//		
+//		if(!newHashedPassword.equals(confirmPassword)){
+//			flash("MatchPass", "Passwords don't match");
+//			return redirect("/user/" + email);
+//		}
 		
-		if(!newHashedPassword.equals(confirmPassword)){
-			flash("MatchPass", "Passwords don't match");
-			return redirect("/user/" + email);
-		}
+		String city = form.data().get("city").toString();
+		String street = form.data().get("street").toString();
+		String number = form.data().get("number").toString();
 		
-		String city = form.data().get("city");
-		String street = form.data().get("street");
-		String number = form.data().get("number");
+		String username = form.data().get("username").toString();
+		currentUser.username = username;
 		
 		currentUser.hashedPassword = Hash.hashPassword(newHashedPassword);
 		currentUser.location.city = city;
@@ -303,7 +311,7 @@ public class Application extends Controller {
 		currentUser.location.update();
 		currentUser.update();
 		
-		Logger.info("User with email " +currentUser.email +" jsut edited his info!" );
+		Logger.info("User with email " +currentUser.email +" just edited his info!" );
 		flash("successUpdate", "You have successfully updated contact information");
 		return redirect("/user/" + email);
 	}

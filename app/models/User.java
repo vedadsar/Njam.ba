@@ -25,6 +25,8 @@ public class User extends Model {
 	@Required
 	@Column(unique = true)	
 	public String email;
+	@Column(unique = true)
+	public String username;
 	@Required
 	@MinLength(6)
 	@MaxLength(16)
