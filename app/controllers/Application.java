@@ -313,7 +313,7 @@ public class Application extends Controller {
 		currentUser.location.update();
 		currentUser.update();
 		
-		Logger.info("User with email " +currentUser.email +" just edited his info!);
+		Logger.info("User with email " +currentUser.email +" just edited his info!");
 		flash("successUpdate", "You have successfully updated contact information");
 		return redirect("/user/" + email);
 	}

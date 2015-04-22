@@ -140,7 +140,7 @@ public class CartController extends Controller {
 				for (int i = 0; i < user.carts.size(); i++) {
 					if (user.carts.get(i).restaurantName
 							.equals(mealOwnerRestaurant)
-							&& user.carts.get(i).paid == false && user.carts.get(i).ordered == false) {
+							&& user.carts.get(i).paid == false && user.carts.get(i).ordered == false && user.carts.get(i).timedOut == false) {
 						cart = user.carts.get(i);
 						System.out.println("2 - kod prva for petlja - poredjenje imena restorana");
 						break;

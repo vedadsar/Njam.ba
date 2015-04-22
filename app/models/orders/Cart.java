@@ -36,6 +36,8 @@ public class Cart extends Model {
 	@Required
 	public boolean ordered;
 	@Required
+	public boolean timedOut;
+	@Required
 	public double total;
 	@Required
 	public double minOrder;
@@ -57,6 +59,7 @@ public class Cart extends Model {
 		this.user = user;
 		this.paid = false;
 		this.ordered = false;
+		this.timedOut = false;
 		this.total = 0;
 		this.date = new Date();
 	}
@@ -65,6 +68,7 @@ public class Cart extends Model {
 		this.user = user;
 		this.paid = false;
 		this.ordered = false;
+		this.timedOut = false;
 		this.total = 0;
 		this.date =new Date();
 		
@@ -74,6 +78,7 @@ public class Cart extends Model {
 		this.user = user;
 		this.paid = false;
 		this.ordered = false;
+		this.timedOut = false;
 		this.total = 0;
 		this.date =new Date();
 		this.restaurantName = restaurantName;
@@ -169,26 +174,26 @@ public class Cart extends Model {
 		return cart;
 	}
 	
-	public static boolean timeGap(int userId, int cartId){
+	public static boolean timeGap(int userId, int cartId) {
 		Cart lastCart = Cart.findCartInCarts(userId, cartId);
-		if(lastCart==null)
+		if (lastCart == null)
 			return false;
 		Date currentDate = new Date();
 		long currentDateSec = currentDate.getTime();
-		long time=0;
+		long time = 0;
 		try {
 			time = currentDateSec - lastCart.date.getTime();
-			System.out.println("time" + time);
+			Logger.debug("TIME: " + time);
 
-			if ( time == 0 || time < 60000){
-
+			if (time == 0 || time > 60000) {
+				lastCart.timedOut = true;
+				lastCart.update();
 				return true;
 			}
-		} catch (NullPointerException e) {			
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return false;
 	}
 	
