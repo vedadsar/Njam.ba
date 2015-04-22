@@ -99,20 +99,18 @@ public class Cart extends Model {
 
 		for (CartItem cartItem : cartItems) {
 			if (cartItem.meal.id == meal.id) {
-				System.out.println("U ifu je u Cart");
 				cartItem.increaseQuantity();
 				cartItem.update();
 				this.total += cartItem.meal.price;
 				Logger.debug("TOTAL TRENUTNO JE: " + cartItem.cart.total);
+				this.update();
 				return;
 			}
 		}
-		System.out.println("U elsu je");
 		CartItem cartItem = new CartItem(this, 1, meal.price, meal);
 		this.cartItems.add(cartItem);
 		Logger.debug("TOTAL TRENUTNO JE: " + cartItem.cart.total);
-		cartItem.cart.total += cartItem.totalPrice;
-		Logger.debug("SRANJE: " + cartItem.totalPrice);
+		this.total += cartItem.totalPrice;
 		this.paid = false;
 		this.save();
 		cartItem.save();

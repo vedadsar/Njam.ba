@@ -1,17 +1,23 @@
 package Utilites;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
+import models.Meal;
 import models.Newsletter;
-
 import models.MetaItem;
-
 import models.User;
 import play.Logger;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerPlugin;
+
 
 public class MailHelper {
 
@@ -143,21 +149,60 @@ public class MailHelper {
 	}
 	
 	public static void sendNewsletterToSubscribers(List<String> emails,
-			String title, String message) {
+			String title, String messages, List <Meal> meals) {
 		Email mail = new Email();
 		mail.setSubject("Newsletter beta versionen: " + " Subject: "
 				+ title);
 		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
 		mail.addTo("Bitter Contact <bit.play.test@gmail.com>");
-
-		for (String email : emails) {
-			mail.addTo(email);
-			mail.setBodyText(message);
-			mail.setBodyHtml(String
-					.format("<html><body><strong> %s </strong>: <p> %s </p> </body></html>",
-							email, message));
-			MailerPlugin.send(mail);
+		
+		String message = "";
+		Scanner sc = null;
+		try {
+			sc = new Scanner(new File("./public/newsletter/newsletter.html"));			
+			while(sc.hasNextLine()){
+				message +=sc.nextLine();
+			}
+		} catch (FileNotFoundException e) {
+			Logger.error("Error");
+		}finally{
+			sc.close();
 		}
+		Document preparedHTML;
+		for(String email: emails){
+			mail.addTo(email);
+			preparedHTML = getPreparedHTML(email, message, meals);
+			preparedHTML.getElementById("appendableText").append(messages);
+			mail.setBodyHtml(preparedHTML.toString());
+			MailerPlugin.send(mail);
+		}	
 	}
 	
+	private static Document getPreparedHTML(String email,String html, List<Meal> meals){
+		
+		Document doc = Jsoup.parse(html);
+
+		Element mealOneName = doc.getElementById("meal1-name");
+		mealOneName.appendText(meals.get(0).name);
+		Element mealOnePrice = doc.getElementById("meal1-price");
+		mealOnePrice.appendText(meals.get(0).price + "KM");
+		Element mealOneDescription = doc.getElementById("meal1-description");
+		mealOneDescription.appendText(meals.get(0).description);
+
+		Element mealTwoName = doc.getElementById("meal2-name");
+		mealTwoName.appendText(meals.get(1).name);
+		Element mealTwoPrice = doc.getElementById("meal2-price");
+		mealTwoPrice.appendText(meals.get(1).price + "KM");
+		Element mealTwoDescription = doc.getElementById("meal1-description");
+		mealTwoDescription.appendText(meals.get(0).description);
+
+		Element mealThreeName = doc.getElementById("meal3-name");
+		mealThreeName.appendText(meals.get(2).name);
+		Element mealThreePrice = doc.getElementById("meal3-price");
+		mealThreePrice.appendText(meals.get(2).price + "KM");
+		Element mealThreeDescription = doc.getElementById("meal1-description");
+		mealThreeDescription.appendText(meals.get(0).description);
+
+		return doc;
+	}
 }

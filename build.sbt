@@ -17,5 +17,6 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-mailer" % "2.4.0",
   "net.sourceforge.htmlunit" % "htmlunit" % "2.14" % "test",
   "com.paypal.sdk" % "rest-api-sdk" % "1.2.0",
-  "org.imgscalr" % "imgscalr-lib" % "4.2"
+  "org.imgscalr" % "imgscalr-lib" % "4.2",
+   "org.jsoup" % "jsoup" % "1.8.1"
   )
