@@ -148,11 +148,11 @@ public class PaypalController extends Controller {
 		apiContext.setConfigurationMap(sdkConfig);
 		
 		contextToPay = apiContext;
-		
+		Logger.debug("CONTEXT KOJI JE STIGAO U TRANSACTION: " + contextToPay);
 		Payment payment = Payment.get(accessToken, paymentID);
 		
 		paymentToPay = payment;
-		
+		Logger.debug("PAYMENT KOJI JE STIGAO U TRANSACTION: " + paymentToPay);
 		PaymentExecution paymentExecution = new PaymentExecution();
 		paymentExecution.setPayerId(payerID);
 		
@@ -174,10 +174,13 @@ public class PaypalController extends Controller {
 	}
 	
 	private static void addTransactionToPendingList(TransactionU newTrans) {
-		Cart cart = Cart.find(cartToPayId);
+		Cart cart = Cart.find(newTrans.cartToPayId);
 		String restaurantName = cart.restaurantName;
 		Restaurant restaurant = Restaurant.findByName(restaurantName);
 		restaurant.toBeApproved.add(newTrans);
+		cart.ordered = true;
+		cart.update();
+		
 		for(int i=0; i<restaurant.toBeApproved.size(); i++) {
 			Logger.debug("U LISTI:" + restaurant.toBeApproved.get(i).id );
 		}
@@ -185,15 +188,20 @@ public class PaypalController extends Controller {
 	
 	public static Result executePaymentById(int paymentId) {
 		TransactionU transaction = TransactionU.find(paymentId);
+		Logger.debug("ID KOJI JE STIGAO U EXECUTE JE: " + transaction.id);
+		Logger.debug("CONTEXT IZ TRANSAKCIJE: " + transaction.contextToPay);
+		Logger.debug("PAYMENT EXECUTION IZ TRANSAKCIJE: " + transaction.paymentExecutionToPay);
 		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
-		transaction.approved = true;
-		transaction.update();
-		newCart.paid=true;
-		newCart.update();
+		Logger.debug("CART KOJI SAM NASAO U EXECUTE JE: " + newCart.id);
 		try {
 			Logger.debug("CONTEXT" + contextToPay);
 			Logger.debug("EXECUTION" + paymentExecutionToPay);
-			paymentToPay.execute(contextToPay, paymentExecutionToPay);
+			paymentToPay.execute(transaction.contextToPay, transaction.paymentExecutionToPay);
+			
+			transaction.approved = true;
+			transaction.update();
+			newCart.paid=true;
+			newCart.update();
 			
 			Restaurant restaurant = transaction.restaurant;
 			restaurant.approvedOrders ++;

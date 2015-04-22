@@ -7,6 +7,7 @@ create table cart (
   id                        integer not null,
   user_id                   integer,
   paid                      boolean,
+  ordered                   boolean,
   total                     double,
   min_order                 double,
   date                      timestamp,

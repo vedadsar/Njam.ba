@@ -140,14 +140,14 @@ public class CartController extends Controller {
 				for (int i = 0; i < user.carts.size(); i++) {
 					if (user.carts.get(i).restaurantName
 							.equals(mealOwnerRestaurant)
-							&& user.carts.get(i).paid == false) {
+							&& user.carts.get(i).paid == false && user.carts.get(i).ordered == false) {
 						cart = user.carts.get(i);
 						System.out.println("2 - kod prva for petlja - poredjenje imena restorana");
 						break;
 					}
 				}
 				if (cart != null) {
-					if (cart == null || cart.paid == true
+					if (cart.paid == true
 							|| Cart.timeGap(user.id, cart.id) == false) {
 						cart.addMealToCart(meal);
 						System.out.println("3 - cart == null, paid == true, timeGap == false");
@@ -160,7 +160,7 @@ public class CartController extends Controller {
 					cart = new Cart(user, mealOwnerRestaurant);
 					System.out.println("5 - cart == new Cart");
 					user.carts.add(cart);
-					if (cart == null || cart.paid == true
+					if (cart.paid == true
 							|| Cart.timeGap(user.id, cart.id) == false) {
 						System.out.println("6 - cart == new Cart");
 						cart.addMealToCart(meal);
