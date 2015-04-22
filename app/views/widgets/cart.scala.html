@@ -3,7 +3,7 @@
 
 <body>
 @for( cart <- carts) {   
-    @if( cart.paid==false) {
+    @if( cart.paid==false && cart.ordered == false) {
 
 <section id="cart_items">
 		<div class="container">

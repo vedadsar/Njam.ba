@@ -47,9 +47,9 @@ public class PaypalController extends Controller {
 	static int restaurantId;
 	static Restaurant restaurantToPay;
 	static double priceToPay;
-	static APIContext contextToPay;
-	static PaymentExecution paymentExecutionToPay;
-	static Payment paymentToPay;
+	static String contextToPay;
+	static String paymentExecutionToPay;
+	static String paymentToPay;
 	static String paymentIdToPay;
 	static String tokenToPay;
 	static final String CLIENT_ID = Play.application().configuration().getString("cliendID");
@@ -147,17 +147,16 @@ public class PaypalController extends Controller {
 		APIContext apiContext = new APIContext(accessToken);
 		apiContext.setConfigurationMap(sdkConfig);
 		
-		contextToPay = apiContext;
-		
+		contextToPay = accessToken;
+		Logger.debug("CONTEXT KOJI JE STIGAO U TRANSACTION: " + contextToPay);
 		Payment payment = Payment.get(accessToken, paymentID);
 		
-		paymentToPay = payment;
-		
+		paymentToPay = paymentID;
+		Logger.debug("PAYMENT KOJI JE STIGAO U TRANSACTION: " + paymentToPay);
 		PaymentExecution paymentExecution = new PaymentExecution();
 		paymentExecution.setPayerId(payerID);
 		
-		paymentExecutionToPay = paymentExecution;
-		
+		paymentExecutionToPay = paymentExecution.getPayerId();
 		
 		
 		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay);
@@ -174,10 +173,13 @@ public class PaypalController extends Controller {
 	}
 	
 	private static void addTransactionToPendingList(TransactionU newTrans) {
-		Cart cart = Cart.find(cartToPayId);
+		Cart cart = Cart.find(newTrans.cartToPayId);
 		String restaurantName = cart.restaurantName;
 		Restaurant restaurant = Restaurant.findByName(restaurantName);
 		restaurant.toBeApproved.add(newTrans);
+		cart.ordered = true;
+		cart.update();
+		
 		for(int i=0; i<restaurant.toBeApproved.size(); i++) {
 			Logger.debug("U LISTI:" + restaurant.toBeApproved.get(i).id );
 		}
@@ -185,22 +187,39 @@ public class PaypalController extends Controller {
 	
 	public static Result executePaymentById(int paymentId) {
 		TransactionU transaction = TransactionU.find(paymentId);
+		Logger.debug("ID KOJI JE STIGAO U EXECUTE JE: " + transaction.id);
+		Logger.debug("CONTEXT IZ TRANSAKCIJE: " + transaction.contextToPay);
+		Logger.debug("PAYMENT EXECUTION IZ TRANSAKCIJE: " + transaction.paymentExecutionToPay);
 		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
-		transaction.approved = true;
-		transaction.update();
-		newCart.paid=true;
-		newCart.update();
+		Logger.debug("CART KOJI SAM NASAO U EXECUTE JE: " + newCart.id);
 		try {
 			Logger.debug("CONTEXT" + contextToPay);
 			Logger.debug("EXECUTION" + paymentExecutionToPay);
-			paymentToPay.execute(contextToPay, paymentExecutionToPay);
+			
+			Payment payment = Payment.get(transaction.contextToPay, transaction.paymentToPay);
+			
+			Map<String, String> sdkConfig = new HashMap<String, String>();
+			sdkConfig.put("mode", "sandbox");
+			
+			APIContext apiContext = new APIContext(transaction.contextToPay);
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			PaymentExecution paymentExecution = new PaymentExecution();
+			paymentExecution.setPayerId(transaction.paymentExecutionToPay);
+			
+			payment.execute(apiContext, paymentExecution);
+			
+			transaction.approved = true;
+			transaction.update();
+			newCart.paid=true;
+			newCart.update();
 			
 			Restaurant restaurant = transaction.restaurant;
 			restaurant.approvedOrders ++;
 			restaurant.update();
 			
 			flash("SuccessApprovedOrder", "Order successfully approved!");
-			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name);
+			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name, transaction.items);
 			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 		} catch (PayPalRESTException e) {
 			e.printStackTrace();
@@ -229,7 +248,7 @@ public class PaypalController extends Controller {
 		restaurant.update();
 		
 		flash("RefusedOrder", "Order successfully refused!");
-		MailHelper.tellUserThatOrderIsRefused(transaction.email, transaction.price, transaction.restaurant.name, message);
+		MailHelper.tellUserThatOrderIsRefused(transaction.email, transaction.price, transaction.restaurant.name, message, transaction.items);
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	

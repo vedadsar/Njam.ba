@@ -34,6 +34,8 @@ public class Cart extends Model {
 	@Required
 	public boolean paid;
 	@Required
+	public boolean ordered;
+	@Required
 	public double total;
 	@Required
 	public double minOrder;
@@ -54,6 +56,7 @@ public class Cart extends Model {
 		this.id = id;
 		this.user = user;
 		this.paid = false;
+		this.ordered = false;
 		this.total = 0;
 		this.date = new Date();
 	}
@@ -61,6 +64,7 @@ public class Cart extends Model {
 	public Cart( User user){
 		this.user = user;
 		this.paid = false;
+		this.ordered = false;
 		this.total = 0;
 		this.date =new Date();
 		
@@ -69,6 +73,7 @@ public class Cart extends Model {
 	public Cart( User user, String restaurantName) {
 		this.user = user;
 		this.paid = false;
+		this.ordered = false;
 		this.total = 0;
 		this.date =new Date();
 		this.restaurantName = restaurantName;

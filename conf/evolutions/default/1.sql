@@ -7,6 +7,7 @@ create table cart (
   id                        integer not null,
   user_id                   integer,
   paid                      boolean,
+  ordered                   boolean,
   total                     double,
   min_order                 double,
   date                      timestamp,
@@ -104,6 +105,9 @@ create table restaurant (
 create table transaction_u (
   id                        integer not null,
   restaurant_id             integer,
+  context_to_pay            varchar(255),
+  payment_to_pay            varchar(255),
+  payment_execution_to_pay  varchar(255),
   user_to_pay_id            integer,
   cart_to_pay_id            integer,
   email                     varchar(255),
