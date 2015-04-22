@@ -47,9 +47,9 @@ public class PaypalController extends Controller {
 	static int restaurantId;
 	static Restaurant restaurantToPay;
 	static double priceToPay;
-	static APIContext contextToPay;
-	static PaymentExecution paymentExecutionToPay;
-	static Payment paymentToPay;
+	static String contextToPay;
+	static String paymentExecutionToPay;
+	static String paymentToPay;
 	static String paymentIdToPay;
 	static String tokenToPay;
 	static final String CLIENT_ID = Play.application().configuration().getString("cliendID");
@@ -147,17 +147,16 @@ public class PaypalController extends Controller {
 		APIContext apiContext = new APIContext(accessToken);
 		apiContext.setConfigurationMap(sdkConfig);
 		
-		contextToPay = apiContext;
+		contextToPay = accessToken;
 		Logger.debug("CONTEXT KOJI JE STIGAO U TRANSACTION: " + contextToPay);
 		Payment payment = Payment.get(accessToken, paymentID);
 		
-		paymentToPay = payment;
+		paymentToPay = paymentID;
 		Logger.debug("PAYMENT KOJI JE STIGAO U TRANSACTION: " + paymentToPay);
 		PaymentExecution paymentExecution = new PaymentExecution();
 		paymentExecution.setPayerId(payerID);
 		
-		paymentExecutionToPay = paymentExecution;
-		
+		paymentExecutionToPay = paymentExecution.getPayerId();
 		
 		
 		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay);
@@ -196,7 +195,19 @@ public class PaypalController extends Controller {
 		try {
 			Logger.debug("CONTEXT" + contextToPay);
 			Logger.debug("EXECUTION" + paymentExecutionToPay);
-			paymentToPay.execute(transaction.contextToPay, transaction.paymentExecutionToPay);
+			
+			Payment payment = Payment.get(transaction.contextToPay, transaction.paymentToPay);
+			
+			Map<String, String> sdkConfig = new HashMap<String, String>();
+			sdkConfig.put("mode", "sandbox");
+			
+			APIContext apiContext = new APIContext(transaction.contextToPay);
+			apiContext.setConfigurationMap(sdkConfig);
+			
+			PaymentExecution paymentExecution = new PaymentExecution();
+			paymentExecution.setPayerId(transaction.paymentExecutionToPay);
+			
+			payment.execute(apiContext, paymentExecution);
 			
 			transaction.approved = true;
 			transaction.update();

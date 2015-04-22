@@ -32,11 +32,11 @@ public class TransactionU extends Model {
 	@ManyToOne
 	public Restaurant restaurant;
 	
-	public APIContext contextToPay;
+	public String contextToPay;
 
-	public Payment paymentToPay;
+	public String paymentToPay;
 
-	public PaymentExecution paymentExecutionToPay;
+	public String paymentExecutionToPay;
 
 	public int userToPayId;
 
@@ -57,9 +57,13 @@ public class TransactionU extends Model {
 			TransactionU.class);
 	
 	
-	public TransactionU(APIContext contextToPay, Payment paymentToPay,
-			PaymentExecution paymentExecutionToPay, int userToPayId,
+	public TransactionU(String contextToPay, String paymentToPay,
+			String paymentExecutionToPay, int userToPayId,
 			int cartToPayId, Restaurant restaurantToPay) {
+		
+		Logger.debug("CONTEXT KOJI JE STIGAO U KONSTRUKTOR: " + contextToPay);
+		Logger.debug("PAYMENT KOJI JE STIGAO U KONSTRUKTOR: " + paymentExecutionToPay);
+		
 		email = User.find(userToPayId).email;
 		price = Cart.find(cartToPayId).total;
 		this.restaurant = restaurantToPay;
@@ -74,8 +78,8 @@ public class TransactionU extends Model {
 	}
 
 	
-	public static TransactionU createTransaction(APIContext contextToPay,
-			Payment paymentToPay, PaymentExecution paymentExecutionToPay,
+	public static TransactionU createTransaction(String contextToPay,
+			String paymentToPay, String paymentExecutionToPay,
 			int userToPayId, int cartToPayId, Restaurant restaurantToPay) {
 
 		TransactionU transaction = new TransactionU(contextToPay, paymentToPay,
