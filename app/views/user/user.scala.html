@@ -1,4 +1,4 @@
-@(email: String)(restaurants: List[Restaurant])(users: User)
+@(email: String)(username: String)(restaurants: List[Restaurant])(users: User)
 @main(email) {
 
 <body>
@@ -21,8 +21,8 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="color:#555755">Change password</a></li>
-    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" style="color:#555755">Profile information</a></li>
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="color:#555755">Profile information</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" style="color:#555755">Address</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -37,6 +37,15 @@
 				<input type="email" class="form-control" value="@email" id="email" name="email" readonly>				
             </div>
           </div>
+          
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">Username</label>
+            <div class="col-sm-10">
+				<input type="text" class="form-control" value="@username" id="username" name="username">
+				<p class="help-block">Provide your username to use it instead of your email address anywhere public on our website.</p>				
+            </div>
+          </div>
 
           <!-- Text input-->
           <div class="form-group">
@@ -49,7 +58,7 @@
             <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <div class="pull-right">
-                <button type="submit" class="btn btn-primary">Cancel</button>
+                
                 <button type="submit" class="btn btn-primary">Update</button>
                 </div>
                     </div>
@@ -82,7 +91,7 @@
           <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
               <div class="pull-right">
-                <button type="submit" class="btn btn-primary">Cancel</button>
+                
                 <button type="submit" class="btn btn-primary">Update</button>
               </div>
             </div>

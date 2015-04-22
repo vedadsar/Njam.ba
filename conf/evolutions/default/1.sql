@@ -116,6 +116,7 @@ create table transaction_u (
 create table user (
   id                        integer not null,
   email                     varchar(255),
+  username                  varchar(255),
   hashed_password           varchar(255),
   restaurant_id             integer,
   location_id               integer,
@@ -125,6 +126,7 @@ create table user (
   role                      varchar(255),
   date_creation             timestamp not null,
   constraint uq_user_email unique (email),
+  constraint uq_user_username unique (username),
   constraint pk_user primary key (id))
 ;
 
