@@ -3,7 +3,11 @@ package Utilites;
 import java.util.Iterator;
 import java.util.List;
 
+
 import models.Newsletter;
+
+import models.MetaItem;
+
 import models.User;
 import play.Logger;
 import play.libs.mailer.Email;
@@ -32,13 +36,22 @@ public class MailHelper {
 	}
 	
 	public static void tellUserThatOrderIsApproved(String email, double price,
-			String restaurantName) {
+			String restaurantName,  List<MetaItem> items) {
 		
 		String priceString = Double.toString(price);
 		Logger.debug(priceString);
 		
+		String details = "<b>Order details: <b>\n\n";
+		
+		for(MetaItem item : items) {
+			details=details + "\n";
+			details = details + item.name + "     " + String.valueOf(item.quantity) +"x" +  "     " + String.valueOf(item.totalPrice) + "\n";
+		}
+		
+		details = details + "\n";
+		
 		Email mail = new Email();
-		mail.setSubject("Your purchase from Njam. ba has been approved!");
+		mail.setSubject("Your purchase from Njam.ba has been approved!");
 		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
 		mail.addTo(email);
 		
@@ -48,6 +61,8 @@ public class MailHelper {
 				.format("<html>"
 						+ "<body>"
 						+ "<strong> Order from:  </strong>: " + "%s"
+						+ "<br></br>"
+						+ details
 						+ "<br></br>"
 						+ "<strong> Amount spent:   </strong>: " + "%s"
 						+ "<br></br>"
@@ -62,13 +77,22 @@ public class MailHelper {
 	}
 	
 	public static void tellUserThatOrderIsRefused(String email, double price,
-			String restaurantName, String message) {
+			String restaurantName, String message, List<MetaItem> items) {
 		
 		String priceString = Double.toString(price);
 		Logger.debug(priceString);
 		
+		String details = "<b>Order details: <b>" + "\n";
+		
+		for(MetaItem item : items) {
+			details = details + item.name + "     " + String.valueOf(item.quantity) +"x" +  "     " + String.valueOf(item.totalPrice) + "\n";
+		}
+		
+		details = details + "\n";
+		
+		
 		Email mail = new Email();
-		mail.setSubject("Your purchase from Njam. ba has been refused!");
+		mail.setSubject("Your purchase from Njam.ba has been refused!");
 		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
 		mail.addTo(email);
 		
@@ -81,6 +105,8 @@ public class MailHelper {
 						+ "<strong> Unfortunately your order has been refused! </strong>:" 
 						+ "<br></br>"
 						+ "<strong> Order from restaurant:   </strong>: " + "%s"
+						+ "<br></br>"
+						+ details
 						+ "<br></br>"
 						+ "<strong> Order price:   </strong>: " + "%s"
 						+ "<br></br>"
