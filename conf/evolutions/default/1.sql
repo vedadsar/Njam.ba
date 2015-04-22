@@ -8,6 +8,7 @@ create table cart (
   user_id                   integer,
   paid                      boolean,
   ordered                   boolean,
+  timed_out                 boolean,
   total                     double,
   min_order                 double,
   date                      timestamp,

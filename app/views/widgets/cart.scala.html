@@ -3,7 +3,7 @@
 
 <body>
 @for( cart <- carts) {   
-    @if( cart.paid==false && cart.ordered == false) {
+    @if( cart.paid==false && cart.ordered == false && models.orders.Cart.timeGap(cart.user.id, cart.id) == false) {
 
 <section id="cart_items">
 		<div class="container">
