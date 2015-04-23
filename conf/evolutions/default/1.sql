@@ -116,6 +116,7 @@ create table transaction_u (
   token                     varchar(255),
   approved                  boolean,
   refused                   boolean,
+  delivery_time             integer,
   constraint pk_transaction_u primary key (id))
 ;
 

@@ -145,6 +145,7 @@ public class PaypalController extends Controller {
 		String payerID = paypalReturn.get("PayerID");
 		String token = paypalReturn.get("token");
 		
+		
 		try{
 		String accessToken = new OAuthTokenCredential(paypalToken1, paypalToken2).getAccessToken();	
 	
@@ -166,7 +167,7 @@ public class PaypalController extends Controller {
 		paymentExecutionToPay = paymentExecution.getPayerId();
 		
 		
-		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay, token);
+		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay, token, 15);
 		addTransactionToPendingList(newTrans);
 		
 		//DO OVDJE, DALJE IDE U DRUGU METODU
@@ -194,6 +195,11 @@ public class PaypalController extends Controller {
 	
 	public static Result executePaymentById(int paymentId) {
 		TransactionU transaction = TransactionU.find(paymentId);
+		DynamicForm paypalReturn = Form.form().bindFromRequest();
+		
+		String devTime = paypalReturn.get("deliveryTime");
+		int deliveryTime = Integer.parseInt(devTime);
+
 		Logger.debug("ID KOJI JE STIGAO U EXECUTE JE: " + transaction.id);
 		Logger.debug("CONTEXT IZ TRANSAKCIJE: " + transaction.contextToPay);
 		Logger.debug("PAYMENT EXECUTION IZ TRANSAKCIJE: " + transaction.paymentExecutionToPay);
@@ -217,6 +223,7 @@ public class PaypalController extends Controller {
 			payment.execute(apiContext, paymentExecution);
 			
 			transaction.approved = true;
+			transaction.deliveryTime = deliveryTime;
 			transaction.update();
 			newCart.paid=true;
 			newCart.update();
