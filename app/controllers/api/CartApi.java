@@ -26,14 +26,19 @@ public class CartApi extends Controller {
 			return badRequest("Expecting Json data");
 		}
 		String idS = mealId.findPath("id").textValue();
+		String idU = mealId.findPath("user_id").textValue();
+
 		int id = Integer.parseInt(idS);
+		int user_id = Integer.parseInt(idU);
+
+		
 
 		Meal meal = Meal.find(id);
 		if (meal == null) {
 			return badRequest("Wrong meal id");
 		}
 		try {
-			User user = Session.getCurrentUser(ctx());
+			User user = User.find(user_id);
 			String mealOwnerRestaurant = meal.restaurant.name;
 
 			Cart cart = null;
@@ -85,11 +90,15 @@ public class CartApi extends Controller {
 		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
 		for (CartItem item : cartItems) {
 			ObjectNode cartItem = Json.newObject();
-			cartItem.put("id", item.id);
-			cartItem.put("price", item.meal.price);
-			cartItem.put("quantity", item.quantity);
-			cartItem.put("totalPrice", item.totalPrice);
-			cartItem.put("total", item.cart.total);
+			cartItem.put("cart_item_id", item.id);
+			cartItem.put("cart_id", item.cart.id);
+			cartItem.put("meal_id", item.meal.id);
+			cartItem.put("meal_name", item.meal.name);
+			cartItem.put("meal_restaurant", item.meal.restaurant.name);
+			cartItem.put("meal_price", item.meal.price);
+			cartItem.put("meal_quantity", item.quantity);
+			cartItem.put("cart_item_totalPrice", item.totalPrice);
+			cartItem.put("cart_totalPrice", item.cart.total);
 			array.add(cartItem);
 		}
 		return array;
