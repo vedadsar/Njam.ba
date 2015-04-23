@@ -32,6 +32,7 @@ import play.db.ebean.Model.Finder;
 import Utilites.*;
 
 import com.paypal.api.payments.*;
+import com.paypal.base.Constants;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
@@ -89,7 +90,13 @@ public class PaypalController extends Controller {
 			amount.setTotal("15");
 			amount.setCurrency("USD");
 			
-			String description = String.format("Description: %s\n"
+			
+			List<CartItem> cartItems = cart.cartItems;
+			
+			
+			
+			String description = String.format("Description of order: %s\n"
+					
 					+ "Total Price: %s\n"
 					+ "Cart ID: %s\n", "Njam.ba", cart.total, cart.id);
 			
@@ -159,7 +166,7 @@ public class PaypalController extends Controller {
 		paymentExecutionToPay = paymentExecution.getPayerId();
 		
 		
-		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay);
+		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay, token);
 		addTransactionToPendingList(newTrans);
 		
 		//DO OVDJE, DALJE IDE U DRUGU METODU
@@ -256,5 +263,67 @@ public class PaypalController extends Controller {
 	public static Result creditFail(){
 		flash("FailedPayPal","Payment did not pass throw.");
 		return redirect("/user/"+Session.getCurrentUser(ctx()).email);
+	}
+	
+	
+	public static Result refundProcessing(int cartID){
+		
+		
+		try {
+			System.out.println("Uslo je u metodu");
+			TransactionU transaction = TransactionU.findByCart(cartID);
+			
+			String accessToken = new OAuthTokenCredential(paypalToken1, paypalToken2).getAccessToken();
+			Map<String, String> sdkConfig = new HashMap<String, String>();
+			List<Map<Sale, Refund>> listOfRefunds = new ArrayList<Map<Sale, Refund>> ();
+			sdkConfig.put("mode","sandbox");
+			APIContext apiContext = new APIContext(transaction.contextToPay);
+
+			apiContext.setConfigurationMap(sdkConfig);
+		
+			
+			Cart cart = Cart.find(cartID);
+		 
+			
+			//List<TransactionU> transactions = TransactionU.find.where().eq("cart_to_pay_id", cart.id).findList();
+			
+			//for(int i=0; i<transactions.size(); i++){
+				priceToPay = transaction.price;
+				
+				String totalPrice = String.format("%1.2f",priceToPay);
+				
+				Map<Sale, Refund> refundMap = new HashMap<Sale,Refund>();
+				Sale sale = new Sale();
+				sale.setId(transaction.token);
+				Refund refund = new Refund();
+				Amount amount = new Amount();
+				amount.setCurrency("USD");
+				amount.setTotal(totalPrice);
+				refund.setAmount(amount);
+				refundMap.put(sale, refund);
+				
+				listOfRefunds.add(refundMap);
+			//}
+			
+			for(int i =0 ; i<listOfRefunds.size(); i++){
+				for(Map.Entry<Sale, Refund> e : listOfRefunds.get(i).entrySet()){
+					Sale sale2 = e.getKey();
+					Refund refund2 =e.getValue();
+					
+					
+					sale2.refund(apiContext, refund2);
+				}
+			}
+			System.out.println("Zavresno refundiranje");
+			flash("Success" , "Buyer's money from this cart is cuccessfully refunded!");
+			return redirect("/");
+			
+		} catch (PayPalRESTException e) {
+			flash("Failed" , "Error occured during refunding paypal. Please contact admin!");
+			Logger.error("Error at refunding paypal: " + e.getMessage());
+			return redirect("/");
+		}
+		
+		
 	}
 }

@@ -113,6 +113,7 @@ create table transaction_u (
   cart_to_pay_id            integer,
   email                     varchar(255),
   price                     double,
+  token                     varchar(255),
   approved                  boolean,
   refused                   boolean,
   constraint pk_transaction_u primary key (id))

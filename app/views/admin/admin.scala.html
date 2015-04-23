@@ -93,6 +93,65 @@
                </div>
                <hr>
                
+               
+               
+               <!-- Refund PayPal -->
+               <div class="panel panel-primary" >
+                  <div class="panel-heading" style="colro:#00B25F">Refund Transactions </div>
+                  
+                  <div class="table-responsive">
+                  <table class="table table-striped">
+                     <thead>
+                        <tr>
+                           <th>Restaurant</th>
+                           <th>User ID</th>
+                           <th>Cart ID</th>
+                           <th>Email</th>
+                           <th>Price</th>
+                           <th>Status</th>
+                           
+                           <th></th>
+                           <th></th>
+                        </tr>
+                        </thead>
+                     <tbody>
+                     	
+                        @for(transaction <- TransactionU.all()){   
+                        <tr>                 
+                        <td>@transaction.restaurant.name</td>
+                        <td>@transaction.userToPayId</td>
+                        <td>@transaction.cartToPayId</td>
+                        <td>@transaction.email</td>
+                        <td>@transaction.price</td>
+                        
+                        @if(transaction.approved == true) {
+                        	<td>Approved refund</td>
+                        } else {
+                        	<td>Refused refund</td>
+                        }
+                        
+	                        <td>
+	                        
+	                           <form method="POST" action="@routes.PaypalController.refundProcessing(transaction.cartToPayId)">
+	                           <input type="submit" onclick = "if (! confirm('Are you sure you want refund of this transaction?')) { return false; }" value="approve" class="btn btn-default btn-xs " />	 
+	                           </form>
+	                           
+	                        </td>
+                        
+                        
+                        
+                        </tr>
+                        }
+                     </tbody>
+                  </table>
+                  </div>
+               </div>
+               <!-- /Refund PayPal -->
+               
+               
+               
+               
+               
                <div class="row">
                   <div class="col-lg-12 col-md-12">
                <div role="tabpanel">
