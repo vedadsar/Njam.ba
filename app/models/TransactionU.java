@@ -46,6 +46,8 @@ public class TransactionU extends Model {
 	
 	public double price;
 	
+	public String token;
+	
 	@OneToMany(mappedBy="transaction",cascade=CascadeType.ALL)
 	public List<MetaItem> items = new ArrayList<MetaItem>();
 	
@@ -53,13 +55,15 @@ public class TransactionU extends Model {
 	
 	public Boolean refused = false;
 	
-	private static Finder<Long, TransactionU> find = new Finder<Long, TransactionU>(Long.class,
+	public int deliveryTime;
+	
+	public static Finder<Long, TransactionU> find = new Finder<Long, TransactionU>(Long.class,
 			TransactionU.class);
 	
 	
 	public TransactionU(String contextToPay, String paymentToPay,
 			String paymentExecutionToPay, int userToPayId,
-			int cartToPayId, Restaurant restaurantToPay) {
+			int cartToPayId, Restaurant restaurantToPay, String token, int deliveryTime) {
 		
 		Logger.debug("CONTEXT KOJI JE STIGAO U KONSTRUKTOR: " + contextToPay);
 		Logger.debug("PAYMENT KOJI JE STIGAO U KONSTRUKTOR: " + paymentExecutionToPay);
@@ -73,6 +77,8 @@ public class TransactionU extends Model {
 		this.userToPayId = userToPayId;
 		this.cartToPayId = cartToPayId;
 		this.items = new ArrayList<MetaItem>(0);
+		this.token = token;
+		this.deliveryTime= deliveryTime;
 		
 		
 	}
@@ -80,10 +86,10 @@ public class TransactionU extends Model {
 	
 	public static TransactionU createTransaction(String contextToPay,
 			String paymentToPay, String paymentExecutionToPay,
-			int userToPayId, int cartToPayId, Restaurant restaurantToPay) {
+			int userToPayId, int cartToPayId, Restaurant restaurantToPay, String token, int deliveryTime) {
 
 		TransactionU transaction = new TransactionU(contextToPay, paymentToPay,
-				paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay);
+				paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay, token, deliveryTime);
 		
 		transaction.save();
 		
@@ -128,5 +134,11 @@ public class TransactionU extends Model {
 		return find.byId(id);
 	}
 	
-
+	public static List<TransactionU> all(){
+		return find.all();
+	}
+	
+	public static TransactionU findByCart(int cartId){
+		return find.where().eq("cart_to_pay_id", cartId).findUnique();
+	}
 }

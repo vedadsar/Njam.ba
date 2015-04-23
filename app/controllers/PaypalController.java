@@ -1,7 +1,7 @@
 package controllers;
-
+ 
 import play.mvc.Result;
-
+ 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
+ 
 import models.Faq;
 import models.Location;
 import models.Meal;
@@ -30,18 +30,19 @@ import Utilites.Session;
 import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
 import Utilites.*;
-
+ 
 import com.paypal.api.payments.*;
+import com.paypal.base.Constants;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.OAuthTokenCredential;
 import com.paypal.base.rest.PayPalRESTException;
-
+ 
 public class PaypalController extends Controller {
 	
 	private static String hostUrl = Play.application().configuration().getString("hostUrl");
 	private static String paypalToken1 = Play.application().configuration().getString("paypalToken1");
 	private static String paypalToken2 = Play.application().configuration().getString("paypalToken2");
-
+ 
 	static int userToPayId;
 	static int cartToPayId;
 	static int restaurantId;
@@ -54,6 +55,7 @@ public class PaypalController extends Controller {
 	static String tokenToPay;
 	static final String CLIENT_ID = Play.application().configuration().getString("cliendID");
 	static final String CLIENT_SECRET = Play.application().configuration().getString("cliendSecret");
+	static String transactionID;
 	
 	
 	public static Result showPurchase(){
@@ -78,18 +80,17 @@ public class PaypalController extends Controller {
 			restaurantToPay = Restaurant.findByName(restName);
 			
 			double total = cart.total;
-			double cartID = cartId;
-			Logger.debug("CART ID GORE: " + cartId);
 			String price = String.format("%1.2f",total);
 			
 			userToPayId = u.id;
 			cartToPayId = cartId;
 			
 			Amount amount = new Amount();
-			amount.setTotal("15");
+			amount.setTotal(price);
 			amount.setCurrency("USD");
-			
-			String description = String.format("Description: %s\n"
+						
+			String description = String.format("Description of order: %s\n"
+					
 					+ "Total Price: %s\n"
 					+ "Cart ID: %s\n", "Njam.ba", cart.total, cart.id);
 			
@@ -120,10 +121,7 @@ public class PaypalController extends Controller {
 				if(link.getRel().equals("approval_url"))
 					return redirect(link.getHref());
 			}
-			
-			return TODO; // Nesto nije proslo kako treba
-			
-
+			return TODO; 
 		} catch(PayPalRESTException e){
 			Logger.warn(e.getMessage());
 		}
@@ -148,23 +146,15 @@ public class PaypalController extends Controller {
 		apiContext.setConfigurationMap(sdkConfig);
 		
 		contextToPay = accessToken;
-		Logger.debug("CONTEXT KOJI JE STIGAO U TRANSACTION: " + contextToPay);
-		Payment payment = Payment.get(accessToken, paymentID);
-		
 		paymentToPay = paymentID;
-		Logger.debug("PAYMENT KOJI JE STIGAO U TRANSACTION: " + paymentToPay);
+		
 		PaymentExecution paymentExecution = new PaymentExecution();
 		paymentExecution.setPayerId(payerID);
 		
 		paymentExecutionToPay = paymentExecution.getPayerId();
 		
-		
-		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay);
+		TransactionU newTrans = TransactionU.createTransaction(contextToPay, paymentToPay, paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay, token, 15);
 		addTransactionToPendingList(newTrans);
-		
-		//DO OVDJE, DALJE IDE U DRUGU METODU
-		
-		
 		} catch(PayPalRESTException e){
 			Logger.warn(e.getMessage());
 		}
@@ -185,35 +175,41 @@ public class PaypalController extends Controller {
 		}
 	}
 	
-	public static Result executePaymentById(int paymentId) {
+	/**
+	 * 
+	 * @param paymentId
+	 * @return
+	 * @throws PayPalRESTException
+	 */
+	public static Result executePaymentById(int paymentId) throws PayPalRESTException {
 		TransactionU transaction = TransactionU.find(paymentId);
-		Logger.debug("ID KOJI JE STIGAO U EXECUTE JE: " + transaction.id);
-		Logger.debug("CONTEXT IZ TRANSAKCIJE: " + transaction.contextToPay);
-		Logger.debug("PAYMENT EXECUTION IZ TRANSAKCIJE: " + transaction.paymentExecutionToPay);
+		
+		DynamicForm paypalReturn = Form.form().bindFromRequest();
+		String devTime = paypalReturn.get("deliveryTime");
+		int deliveryTime = Integer.parseInt(devTime);
+		
 		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
-		Logger.debug("CART KOJI SAM NASAO U EXECUTE JE: " + newCart.id);
 		try {
-			Logger.debug("CONTEXT" + contextToPay);
-			Logger.debug("EXECUTION" + paymentExecutionToPay);
 			
-			Payment payment = Payment.get(transaction.contextToPay, transaction.paymentToPay);
-			
+			Payment payment = Payment.get(contextToPay, transaction.paymentToPay);
 			Map<String, String> sdkConfig = new HashMap<String, String>();
 			sdkConfig.put("mode", "sandbox");
 			
-			APIContext apiContext = new APIContext(transaction.contextToPay);
+			APIContext apiContext = new APIContext(contextToPay);
 			apiContext.setConfigurationMap(sdkConfig);
 			
 			PaymentExecution paymentExecution = new PaymentExecution();
 			paymentExecution.setPayerId(transaction.paymentExecutionToPay);
 			
-			payment.execute(apiContext, paymentExecution);
+			Payment response  = payment.execute(apiContext, paymentExecution);
+			
+			transactionID = response.getTransactions().get(0).getRelatedResources().get(0).getSale().getId();
 			
 			transaction.approved = true;
+			transaction.deliveryTime = deliveryTime;
 			transaction.update();
 			newCart.paid=true;
 			newCart.update();
-			
 			Restaurant restaurant = transaction.restaurant;
 			restaurant.approvedOrders ++;
 			restaurant.update();
@@ -228,7 +224,6 @@ public class PaypalController extends Controller {
 		}
 		return TODO;
 	}
-	
 	
 	public static Result deleteOrder(int paymentId) {
 		
@@ -252,9 +247,57 @@ public class PaypalController extends Controller {
 		return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
 	}
 	
-
+ 
 	public static Result creditFail(){
 		flash("FailedPayPal","Payment did not pass throw.");
 		return redirect("/user/"+Session.getCurrentUser(ctx()).email);
+	}
+	
+	
+	public static Result refundProcessing(int cartID){
+				
+		try {
+			TransactionU transaction = TransactionU.findByCart(cartID);
+ 
+			Map<String, String> sdkConfig = new HashMap<String, String>();
+			List<Map<Sale, Refund>> listOfRefunds = new ArrayList<Map<Sale, Refund>>();
+			sdkConfig.put("mode", "sandbox");
+			APIContext apiContext = new APIContext(transaction.contextToPay);
+			apiContext.setConfigurationMap(sdkConfig);
+ 
+			priceToPay = transaction.price;
+ 
+			String totalPrice = String.format("%1.2f", priceToPay);
+ 
+			Map<Sale, Refund> refundMap = new HashMap<Sale, Refund>();
+			Sale sale = new Sale();
+			sale.setId(transactionID);
+			Refund refund = new Refund();
+			Amount amount = new Amount();
+			amount.setCurrency("USD");
+			amount.setTotal(totalPrice);
+			refund.setAmount(amount);
+			refundMap.put(sale, refund);
+ 
+			listOfRefunds.add(refundMap);
+ 
+			for (int i = 0; i < listOfRefunds.size(); i++) {
+				for (Map.Entry<Sale, Refund> e : listOfRefunds.get(i)
+						.entrySet()) {
+					Sale sale2 = e.getKey();
+					Refund refund2 = e.getValue();
+ 
+					sale2.refund(apiContext, refund2);
+				}
+			}
+			flash("Success",
+					"Buyer's money from this cart is successfully refunded!");
+			return redirect("/");
+			
+		} catch (PayPalRESTException e) {
+			flash("Failed" , "Error occured during refunding paypal. Please contact admin!");
+			Logger.error("Error at refunding paypal: " + e.getMessage());
+			return redirect("/");
+		}
 	}
 }
