@@ -55,6 +55,7 @@ public class PaypalController extends Controller {
 	static String tokenToPay;
 	static final String CLIENT_ID = Play.application().configuration().getString("cliendID");
 	static final String CLIENT_SECRET = Play.application().configuration().getString("cliendSecret");
+	static String transactionID;
 	
 	
 	public static Result showPurchase(){
@@ -87,7 +88,7 @@ public class PaypalController extends Controller {
 			cartToPayId = cartId;
 			
 			Amount amount = new Amount();
-			amount.setTotal("15");
+			amount.setTotal(price);
 			amount.setCurrency("USD");
 			
 			
@@ -220,7 +221,10 @@ public class PaypalController extends Controller {
 			PaymentExecution paymentExecution = new PaymentExecution();
 			paymentExecution.setPayerId(transaction.paymentExecutionToPay);
 			
-			payment.execute(apiContext, paymentExecution);
+			Payment response  = payment.execute(apiContext, paymentExecution);
+			
+			transactionID = response.getTransactions().get(0).getRelatedResources().get(0).getSale().getId();
+			System.out.println("+++++++Transation id:"+ transactionID);
 			
 			transaction.approved = true;
 			transaction.deliveryTime = deliveryTime;
@@ -301,7 +305,7 @@ public class PaypalController extends Controller {
 				
 				Map<Sale, Refund> refundMap = new HashMap<Sale,Refund>();
 				Sale sale = new Sale();
-				sale.setId(transaction.token);
+				sale.setId(transactionID);
 				Refund refund = new Refund();
 				Amount amount = new Amount();
 				amount.setCurrency("USD");

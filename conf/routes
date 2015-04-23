@@ -49,8 +49,8 @@ POST   /admin/refund                        controllers.PaypalController.refundP
 
 
 GET    /search                              controllers.SearchController.searchByGeneric(q: String,typeGen: String)
-GET    /search/toAdvancedSearch            controllers.SearchController.redirect()
-POST   /search/advancedSearch              controllers.SearchController.advancedSearch()
+GET    /search/toAdvancedSearch             controllers.SearchController.redirect()
+POST   /search/advancedSearch               controllers.SearchController.advancedSearch()
 
 
 GET    /faqEdit/:id                         controllers.FaqController.showEditFaq(id: Int)
@@ -58,41 +58,41 @@ POST   /faqEdit/:id                         controllers.FaqController.editFaq(id
 
 GET    /cart                                controllers.CartController.showCart()
 
-GET   /cart/delete/all                       controllers.CartController.removeAllFromCart(id: Int, cartId: Int)
+GET    /cart/delete/all                     controllers.CartController.removeAllFromCart(id: Int, cartId: Int)
 
-GET   /cart/delete                             controllers.CartController.removeFromCart(id: Int, cartid: Int)
-POST   /cart/bind                                controllers.CartController.bindQuantity(id: Int, cartId: Int)
+GET    /cart/delete                         controllers.CartController.removeFromCart(id: Int, cartid: Int)
+POST   /cart/bind                           controllers.CartController.bindQuantity(id: Int, cartId: Int)
 
 GET    /mealView/:id                        controllers.CartController.viewMeal(id: Int)
 POST   /mealView/:id                        controllers.CartController.addMealToBasket(id: Int)
-POST   /mealView/comment/:id                                    controllers.CommentController.newComment(id: Int)
+POST   /mealView/comment/:id                controllers.CommentController.newComment(id: Int)
 
 
-POST   /restaurantOwner/delete/				controllers.PaypalController.deleteOrder(id: Int)
+POST   /restaurantOwner/delete/             controllers.PaypalController.deleteOrder(id: Int)
 GET    /creditStatus                        controllers.PaypalController.showPurchase()
 POST   /creditpurchase                      controllers.PaypalController.purchaseProcessing(cartId: Int)
 GET    /creditsuccess/:cartId               controllers.PaypalController.creditSuccess(cartId: Int)
-POST   /restaurantOwner/:id					controllers.PaypalController.executePaymentById(id: Int)
+POST   /restaurantOwner/:id                 controllers.PaypalController.executePaymentById(id: Int)
 GET    /creditfail                          controllers.PaypalController.creditFail()
 
 
 POST   /userSearch                          controllers.SearchController.ajaxList()
 GET    /userSearch                          controllers.SearchController.ajaxSearch() 
  
-POST   /getOrderDetails/:id						controllers.CartController.giveMeDetails(id: String)
-POST   /subscribed                              controllers.NewsletterController.subscribe()
+POST   /getOrderDetails/:id                 controllers.CartController.giveMeDetails(id: String)
+POST   /subscribed                          controllers.NewsletterController.subscribe()
  
 # API service 
-GET    /api/users                               controllers.api.UserApi.users()
-POST    /api/user                                controllers.api.UserApi.oneUser()
-GET    /api/meals                               controllers.api.MealApi.meals()
-GET    /api/mealsImg                            controllers.api.MealApi.mealsWithImages()
-POST    /api/meal                                controllers.api.MealApi.oneMeal()
-POST    /api/mealsRestaurant                    controllers.api.MealApi.mealsOfRestaurant()
-GET    /api/restaurants                         controllers.api.RestaurantApi.restaurants()
-POST    /api/restaurant                          controllers.api.RestaurantApi.oneRestaurant()
-POST    /api/login                             controllers.api.loginService.loginToJson()
-POST    /api/cart                              controllers.api.CartApi.mealToCart()
+GET    /api/users                           controllers.api.UserApi.users()
+POST   /api/user                            controllers.api.UserApi.oneUser()
+GET    /api/meals                           controllers.api.MealApi.meals()
+GET    /api/mealsImg                        controllers.api.MealApi.mealsWithImages()
+POST   /api/meal                            controllers.api.MealApi.oneMeal()
+POST   /api/mealsRestaurant                 controllers.api.MealApi.mealsOfRestaurant()
+GET    /api/restaurants                     controllers.api.RestaurantApi.restaurants()
+POST   /api/restaurant                      controllers.api.RestaurantApi.oneRestaurant()
+POST   /api/login                           controllers.api.loginService.loginToJson()
+POST   /api/cart                            controllers.api.CartApi.mealToCart()
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                        controllers.Assets.at(path="/public", file)
