@@ -297,7 +297,7 @@
 									<hr>
 									
 									}
-								@if(User.checkIfExists(email) == true && Comment.userReview(meal.id) == false){
+								@if(User.checkIfExists(email) == true && Comment.userReview(meal.id, email) == false){
           							@if(User.checkRole(email).equals(User.USER)){
 																			
 									  <form class="form-horizontal" role="form" action="@routes.CommentController.newComment(meal.id)" method="POST">

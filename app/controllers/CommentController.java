@@ -25,7 +25,6 @@ public class CommentController extends Controller {
 
 		User user = Session.getCurrentUser(ctx());
 		
-		
 		String title = comment.bindFromRequest().field("title").value();
 		String content = comment.bindFromRequest().field("content").value();
 		String ratingStar = comment.bindFromRequest().field("rating").value();
