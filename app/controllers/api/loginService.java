@@ -19,6 +19,7 @@ public class loginService extends Controller {
 
 		if (User.checkA(email, password) == true) {
 			User u = User.find(email);
+			session(u.email);
 			return ok(UserApi.userToApp(u));
 		}
 		return badRequest();
