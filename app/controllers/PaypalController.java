@@ -175,6 +175,12 @@ public class PaypalController extends Controller {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param paymentId
+	 * @return
+	 * @throws PayPalRESTException
+	 */
 	public static Result executePaymentById(int paymentId) throws PayPalRESTException {
 		TransactionU transaction = TransactionU.find(paymentId);
 		
