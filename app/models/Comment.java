@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import play.Logger;
 import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
@@ -65,5 +66,29 @@ import play.db.ebean.Model;
 		Meal meal = Meal.find(id);
 		List <Comment> comments = find.where().eq("meal", meal).findList();
 		return comments;
+	}
+	
+	public static int averageRating(int id) {
+		int counter = 0;
+		Meal meal = Meal.find(id);
+		List<Comment> comments = find.where().eq("meal", meal).findList();
+		if (comments.size() == 0) {
+			return 6;
+		}
+		for (Comment comment : comments) {
+			counter += comment.rating;
+		}
+		return counter / comments.size();
+	}
+	
+	public static boolean userReview(int id) {
+		Meal meal = Meal.find(id);
+		List<Comment> comments = find.where().eq("meal", meal).findList();
+		for (Comment comment : comments) {
+			if(comment.author != null){
+				return true;
+			}
+		}
+		return false;
 	}
 }
