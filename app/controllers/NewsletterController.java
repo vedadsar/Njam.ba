@@ -26,8 +26,24 @@ public class NewsletterController extends Controller {
 			return redirect("/");
 		}
 		Newsletter.subscribeToNewsletter(email);
-		MailHelper.send(email, "confirmation string");
+		Newsletter news = Newsletter.findByEmail(email);
+		String token = "http://localhost:9000/confirmNewsletter/" + news.confirmationString;
+		MailHelper.send(email, token);
+		flash("SucessSub", "Sucessfully subscribed");
 		return redirect("/");
+	}
+	
+	public static Result unsubscribe(String confirmationString) {
+		try {
+			Newsletter newsletter = Newsletter
+					.findByConfirmationString(confirmationString);
+			Newsletter.unsubscribe(newsletter);
+			flash("SucessS", "Unsubsribed");
+			return redirect("/");
+		} catch (Exception e) {
+			flash("errorUsub", "Error while unsubscribing");
+			return redirect("/");
+		}
 	}
 	
 	public static Result sendNewsletter() {

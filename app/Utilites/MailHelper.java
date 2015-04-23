@@ -159,7 +159,7 @@ public class MailHelper {
 		String message = "";
 		Scanner sc = null;
 		try {
-			sc = new Scanner(new File("./public/newsletter/newsletter.html"));			
+			sc = new Scanner(new File("./public/newsletter/newsletter1.html"));			
 			while(sc.hasNextLine()){
 				message +=sc.nextLine();
 			}
@@ -186,22 +186,16 @@ public class MailHelper {
 		mealOneName.appendText(meals.get(0).name);
 		Element mealOnePrice = doc.getElementById("meal1-price");
 		mealOnePrice.appendText(meals.get(0).price + "KM");
-		Element mealOneDescription = doc.getElementById("meal1-description");
-		mealOneDescription.appendText(meals.get(0).description);
 
 		Element mealTwoName = doc.getElementById("meal2-name");
 		mealTwoName.appendText(meals.get(1).name);
 		Element mealTwoPrice = doc.getElementById("meal2-price");
 		mealTwoPrice.appendText(meals.get(1).price + "KM");
-		Element mealTwoDescription = doc.getElementById("meal1-description");
-		mealTwoDescription.appendText(meals.get(0).description);
-
-		Element mealThreeName = doc.getElementById("meal3-name");
-		mealThreeName.appendText(meals.get(2).name);
-		Element mealThreePrice = doc.getElementById("meal3-price");
-		mealThreePrice.appendText(meals.get(2).price + "KM");
-		Element mealThreeDescription = doc.getElementById("meal1-description");
-		mealThreeDescription.appendText(meals.get(0).description);
+		
+		Element unsubscribe = doc.getElementById("unsubscribe");
+		String token = Newsletter.findByEmail(email).confirmationString;
+		String unsubscribeNewsletter = "http://localhost:9000/unsubscribe/" + token;
+		unsubscribe.attr("href", unsubscribeNewsletter);
 
 		return doc;
 	}

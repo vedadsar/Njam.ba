@@ -64,8 +64,34 @@ public class Newsletter extends Model {
 		List<Newsletter> subscribers = findN.all();
 		List<String> emails = new ArrayList<String>(0);
 		for (Newsletter newsletter : subscribers) {
+			if(newsletter.validated == true){
 			emails.add(newsletter.email);
+			}
 		}
 		return emails;
 	}
+	
+	public static Newsletter findByConfirmationString(String confirmationString){
+		Newsletter news = findN.where().eq("confirmationString", confirmationString).findUnique();
+		return news;
+	}
+	
+	public static boolean confirm(Newsletter newsletter) {
+		if (newsletter == null) {
+			return false;
+		}
+		newsletter.validated = true;
+		newsletter.save();
+		return true;
+	}
+	
+	public static boolean unsubscribe(Newsletter newsletter) {
+		if (newsletter == null) {
+			return false;
+		}
+		newsletter.validated = false;
+		newsletter.update();
+		return true;
+	}
+
 }
