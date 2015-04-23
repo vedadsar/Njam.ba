@@ -44,7 +44,9 @@ GET    /confirm/:confirmationString         controllers.Validate.validateEmail(c
 GET    /faqPage                             controllers.Application.showFaq()
 POST   /admin/faq                           controllers.FaqController.create()
 POST   /admin/faq/delete/:id                controllers.FaqController.delete(id: Int)
-POST   /admin/newsletter                    controllers.NewsletterController.sendNewsletter()         
+POST   /admin/newsletter                    controllers.NewsletterController.sendNewsletter()        
+GET    /confirmNewsletter/:confirmationString controllers.Validate.validateNewslettter(confirmationString : String)
+GET    /unsubscribe/:confirmationString      controllers.Validate.unsubscribe(confirmationString : String) 
 POST   /admin/refund                        controllers.PaypalController.refundProcessing(cartId : Int)
 
 
