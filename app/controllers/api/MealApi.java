@@ -84,6 +84,7 @@ public class MealApi extends Controller {
 		ArrayNode array = new ArrayNode(JsonNodeFactory.instance);
 		for (Meal meal : meals) {
 			ObjectNode mealNode = Json.newObject();
+			mealNode.put("restaurant_id", meal.restaurant.id);
 			mealNode.put("id",meal.id);
 			mealNode.put("name", meal.name);
 			mealNode.put("restaurant", meal.restaurant.name);

@@ -81,11 +81,12 @@ import play.db.ebean.Model;
 		return counter / comments.size();
 	}
 	
-	public static boolean userReview(int id) {
+	public static boolean userReview(int id, String email) {
 		Meal meal = Meal.find(id);
+		User user = User.find(email);
 		List<Comment> comments = find.where().eq("meal", meal).findList();
 		for (Comment comment : comments) {
-			if(comment.author != null){
+			if(comment.author.id == user.id){
 				return true;
 			}
 		}
