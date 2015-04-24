@@ -159,7 +159,7 @@ public class MailHelper {
 		String message = "";
 		Scanner sc = null;
 		try {
-			sc = new Scanner(new File("./public/newsletter/newsletter1.html"));			
+			sc = new Scanner(new File("./public/newsletter/newsletterTest.html"));			
 			while(sc.hasNextLine()){
 				message +=sc.nextLine();
 			}
