@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import models.Meal;
+import models.TransactionU;
 import models.User;
 import play.Logger;
 import play.data.Form;
@@ -239,7 +240,13 @@ public void removeMeal(Meal m, int userId, int cartId) {
 			}
 		}
 	}
-	
+	public static boolean findByUserFromCart(int id){
+		Cart cart = findC.where().eq("user_id", id).findUnique();
+		if(cart == null){
+			return false;
+		}
+		return true;
+	}
 	
 }
 	

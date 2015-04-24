@@ -79,9 +79,7 @@
                         <tr>                 
                         <td>@transaction.email</td>
                         <td>@transaction.price</td>
-                        
-                        <td>Add order notes...</td>
-                        
+                        <td>@models.orders.Cart.find(transaction.cartToPayId).orderNote</td>                        
                         <td>
                         
                         	 <form id = "orderD@transaction.id" >
