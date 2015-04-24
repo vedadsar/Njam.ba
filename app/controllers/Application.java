@@ -34,6 +34,8 @@ public class Application extends Controller {
 	static Finder<Integer, Meal> findM =  new Finder<Integer,Meal>(Integer.class, Meal.class);
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Faq> findF =  new Finder<Integer,Faq>(Integer.class, Faq.class);
+	static Finder<Integer, TransactionU> findT =  new Finder<Integer,TransactionU>(Integer.class, TransactionU.class);
+
 
 	/**
 	 * This method just redirects to index page.
@@ -44,6 +46,7 @@ public class Application extends Controller {
 
 		List <Meal> meals = findM.all();
 		List <Restaurant> restaurants = findR.all();
+		
 		email = session("email");
 		return ok(index.render(" ", email, meals, restaurants));
 	}
@@ -52,7 +55,7 @@ public class Application extends Controller {
 	public static Result toUser(String email){
 		List <Restaurant> restaurants = findR.all();
 		List <Meal> meals = findM.all();
-		
+		List <TransactionU> transactions = findT.all();
 		String username = User.find(email).username;
 
 		String emailE = session().get("email");
@@ -69,16 +72,17 @@ public class Application extends Controller {
 			
 			return ok(views.html.admin.admin.render(email, meals, restaurants, logs, faqs));
 		}
-		return ok(views.html.user.user.render(email, username, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
+		return ok(views.html.user.user.render(email, username, restaurants,transactions, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 	
 	@Security.Authenticated(UserFilter.class)
 	public static Result user(String email){	
 		List <Restaurant> restaurants = findR.all();	
-		
+		List <TransactionU> transactions = findT.all();
+
 		String username = User.find(email).username;
 
-		return ok(views.html.user.user.render(email, username, restaurants, User.find(Session.getCurrentUser(ctx()).id)));
+		return ok(views.html.user.user.render(email, username, restaurants,transactions, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 	
 

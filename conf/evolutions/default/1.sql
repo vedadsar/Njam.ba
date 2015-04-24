@@ -117,6 +117,7 @@ create table transaction_u (
   approved                  boolean,
   refused                   boolean,
   delivery_time             integer,
+  refund                    boolean,
   constraint pk_transaction_u primary key (id))
 ;
 
