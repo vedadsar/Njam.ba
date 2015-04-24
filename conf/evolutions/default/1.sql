@@ -12,6 +12,7 @@ create table cart (
   total                     double,
   min_order                 double,
   date                      timestamp,
+  order_note                varchar(255),
   restaurant_name           varchar(255),
   constraint pk_cart primary key (id))
 ;

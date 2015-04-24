@@ -44,6 +44,16 @@ public class Cart extends Model {
 	
 	public Date date;
 	
+	public String orderNote;
+	
+	public String getOrderNote() {
+		return orderNote;
+	}
+
+	public void setOrderNote(String orderNote) {
+		this.orderNote = orderNote;
+	}
+
 	@Required
 	public String restaurantName;
 	
@@ -62,6 +72,7 @@ public class Cart extends Model {
 		this.timedOut = false;
 		this.total = 0;
 		this.date = new Date();
+		this.orderNote = "Regular";
 	}
 	
 	public Cart( User user){
@@ -71,7 +82,7 @@ public class Cart extends Model {
 		this.timedOut = false;
 		this.total = 0;
 		this.date =new Date();
-		
+		this.orderNote = "Regular";
 	}
 	
 	public Cart( User user, String restaurantName) {
@@ -82,7 +93,7 @@ public class Cart extends Model {
 		this.total = 0;
 		this.date =new Date();
 		this.restaurantName = restaurantName;
-		
+		this.orderNote = "Regular";
 	}
 	
 	public void addMeal(Meal meal) {
@@ -183,7 +194,7 @@ public class Cart extends Model {
 			time = currentDateSec - lastCart.date.getTime();
 			Logger.debug("TIME: " + time);
 
-			if (time == 0 || time > 60000) {
+			if (time == 0 || time > 300000) {
 				lastCart.timedOut = true;
 				lastCart.update();
 				return true;
@@ -228,5 +239,7 @@ public void removeMeal(Meal m, int userId, int cartId) {
 			}
 		}
 	}
+	
+	
 }
 	

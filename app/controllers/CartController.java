@@ -117,9 +117,28 @@ public class CartController extends Controller {
 
 	}
 
+	public static Result addNoteToCart(int cartId){
+		DynamicForm form = Form.form().bindFromRequest();
+		String orderNote = form.data().get("orderNote");
+		System.out.println("|||||||Order note: " + orderNote);
+		if (orderNote == null)
+			return redirect("/cart");
+		Cart cart = Cart.find(cartId);
+		if( orderNote != null){
+			cart.setOrderNote(orderNote);
+			cart.orderNote = orderNote;
+			cart.update();
+		}
+		
+		System.out.println("++++++Order note cart : " + cart.orderNote);
+		return redirect("/cart");
+	}
+	
 	public static Result addMealToBasket(int id) {
 		try {
 
+			
+			
 			if (Session.getCurrentUser(ctx()) == null) {
 				flash("Warning", "If you want to order food please Login.");
 			}
@@ -132,6 +151,7 @@ public class CartController extends Controller {
 
 			if (user.carts.isEmpty()) {
 				cart = new Cart(user, mealOwnerRestaurant);
+								
 				user.carts.add(cart);
 				cart.addMealToCart(meal);
 				System.out.println("1 - kod isEmpty provjere");
