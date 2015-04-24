@@ -68,7 +68,9 @@
 					<div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
 							<div class="view-product">
-								<img src="/placehold.it/240x120/E7E7E7" alt="" />
+							@if(meal.image.iterator().hasNext()!=true){
+                	        <img src="@routes.Assets.at("images/chicken.jpg")" alt="" >
+								}
 								
 							</div>
 						</div>

@@ -40,6 +40,8 @@ GET    /user/:email                         controllers.Application.toUser(email
 POST   /user/:email                         controllers.Application.editUser(email: String)
 GET    /logout                              controllers.Application.logout()
 GET    /confirm/:confirmationString         controllers.Validate.validateEmail(confirmationString: String)
+GET    /repeatVerification                  controllers.Application.toRepeatVerification()
+POST   /verification                        controllers.Application.repeatVerification()
 
 
 GET    /faqPage                             controllers.Application.showFaq()

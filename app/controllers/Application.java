@@ -191,6 +191,48 @@ public class Application extends Controller {
 	}
 	
 	
+	public static Result toRepeatVerification(){
+		return ok(repeatVerification.render(""));
+	}
+	
+	public static Result repeatVerification(){	
+		DynamicForm form = Form.form().bindFromRequest();
+		String email = form.data().get("email");
+		
+		if(email == null){
+			flash("warnning", "Please enter your Email, so we can verificate it again!");
+			return redirect("/repeatVerification");
+		}
+		
+		User user = User.find(email);
+		if (user== null){
+			flash("warnning", "Your registration was not successfull, please try again!");
+			return redirect("/registration");
+		} 
+		
+		String urlString = hostUrl + "confirm/"
+				+ user.confirmationString;
+		URL url;
+		try {
+			url = new URL(urlString);
+			MailHelper.send(email, url.toString());
+			if (user.validated == true) {
+				return redirect("/login");
+			}
+			flash("validate", Messages.get("Please check your email"));
+			
+		} catch (MalformedURLException e) {
+			Logger.error("Verification mail not sent: " + e.getMessage());
+			
+		}
+		
+		flash("validate", Messages.get("Please check your email"));
+
+		return redirect("/login");
+		
+	}
+
+	
 	public static Result registrationRestaurant(){
 		DynamicForm form = Form.form().bindFromRequest();	
 			
