@@ -339,13 +339,18 @@
             <form action="@routes.NewsletterController.sendNewsletter()" method="POST">
 			         <div class="panel panel-primary">
 			         
-			            <div class="panel-heading">Send Newsletter Test</div>
+			            <div class="panel-heading">Newsletter and Restaurant statistics</div>
 				            <div class="panel-body">
 				           			                  <label></label>
 				                  <div class="controls">
 				                     <button type="submit" class="btn btn-primary">
 				                     Send Newsletter, Sudo.
 				                     </button>
+				                     
+				                     <a href="@routes.SudoController.getStatistic" class="btn btn-primary">
+				                     Download Statistics
+				                     </a>
+				                    
 				                  </div>
 				               </div>
 				               

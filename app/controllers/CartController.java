@@ -127,6 +127,8 @@ public class CartController extends Controller {
 			Meal meal = Meal.find(id);
 			User user = Session.getCurrentUser(ctx());
 			String mealOwnerRestaurant = meal.restaurant.name;
+			Restaurant rest = Restaurant.findByName(mealOwnerRestaurant);
+			rest.statistic.itemsBought(1);
 
 			Cart cart = null;
 

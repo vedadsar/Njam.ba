@@ -275,6 +275,7 @@ public class Application extends Controller {
 		double minOrder = restaurant.minOrder;
 		User restaurantUser = restaurant.user;
 		List<Meal> restaurantMeals = Meal.allById(restaurantUser);
+		restaurant.statistic.visited();
 		return ok(views.html.restaurant.restaurantProfile.render(email, name, minOrder, restaurantMeals));
 	}
 	

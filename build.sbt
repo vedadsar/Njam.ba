@@ -18,5 +18,6 @@ libraryDependencies ++= Seq(
   "net.sourceforge.htmlunit" % "htmlunit" % "2.14" % "test",
   "com.paypal.sdk" % "rest-api-sdk" % "1.2.0",
   "org.imgscalr" % "imgscalr-lib" % "4.2",
-   "org.jsoup" % "jsoup" % "1.8.1"
+   "org.jsoup" % "jsoup" % "1.8.1",
+   "org.apache.poi" % "poi" % "3.11"
   )

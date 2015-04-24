@@ -97,10 +97,18 @@ create table restaurant (
   date_creation             timestamp,
   working_time              varchar(255),
   user_id                   integer,
+  statistic_id              integer,
   min_order                 double,
   approved_orders           integer,
   refused_orders            integer,
   constraint pk_restaurant primary key (id))
+;
+
+create table statistics (
+  id                        integer not null,
+  number_of_visits          integer,
+  items_bought              integer,
+  constraint pk_statistics primary key (id))
 ;
 
 create table transaction_u (
@@ -157,6 +165,8 @@ create sequence newsletter_seq;
 
 create sequence restaurant_seq;
 
+create sequence statistics_seq;
+
 create sequence transaction_u_seq;
 
 create sequence user_seq;
@@ -187,14 +197,16 @@ alter table newsletter add constraint fk_newsletter_user_12 foreign key (user_id
 create index ix_newsletter_user_12 on newsletter (user_id);
 alter table restaurant add constraint fk_restaurant_user_13 foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_restaurant_user_13 on restaurant (user_id);
-alter table transaction_u add constraint fk_transaction_u_restaurant_14 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_transaction_u_restaurant_14 on transaction_u (restaurant_id);
-alter table user add constraint fk_user_restaurant_15 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_15 on user (restaurant_id);
-alter table user add constraint fk_user_location_16 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_user_location_16 on user (location_id);
-alter table user add constraint fk_user_cart_17 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
-create index ix_user_cart_17 on user (cart_id);
+alter table restaurant add constraint fk_restaurant_statistic_14 foreign key (statistic_id) references statistics (id) on delete restrict on update restrict;
+create index ix_restaurant_statistic_14 on restaurant (statistic_id);
+alter table transaction_u add constraint fk_transaction_u_restaurant_15 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_transaction_u_restaurant_15 on transaction_u (restaurant_id);
+alter table user add constraint fk_user_restaurant_16 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_16 on user (restaurant_id);
+alter table user add constraint fk_user_location_17 foreign key (location_id) references location (id) on delete restrict on update restrict;
+create index ix_user_location_17 on user (location_id);
+alter table user add constraint fk_user_cart_18 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
+create index ix_user_cart_18 on user (cart_id);
 
 
 
@@ -222,6 +234,8 @@ drop table if exists newsletter;
 
 drop table if exists restaurant;
 
+drop table if exists statistics;
+
 drop table if exists transaction_u;
 
 drop table if exists user;
@@ -247,6 +261,8 @@ drop sequence if exists meta_item_seq;
 drop sequence if exists newsletter_seq;
 
 drop sequence if exists restaurant_seq;
+
+drop sequence if exists statistics_seq;
 
 drop sequence if exists transaction_u_seq;
 
