@@ -52,7 +52,7 @@
 							<div class="brands-name">
 								<ul class="nav nav-pills nav-stacked">
 								@for(restaurant <- restaurants){
-									<li><a href=""> <span class="pull-right">(@restaurant.meals.size())</span>@restaurant.name</a></li>
+									<li><a href="/restaurantProfile/@restaurant.name"> <span class="pull-right">(@restaurant.meals.size())</span>@restaurant.name</a></li>
 								}
 									
 									

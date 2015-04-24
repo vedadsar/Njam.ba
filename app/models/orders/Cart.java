@@ -218,12 +218,13 @@ public void removeMeal(Meal m, int userId, int cartId) {
 				if (basketItem.quantity > 1) {
 					basketItem.decreaseQuantity();
 					System.out.println("Smanjuje se quantity");
-					basketItem.cart.total = basketItem.totalPrice;
+					cart.total -= basketItem.meal.price;
+					cart.update();
 					basketItem.update();
 				} else {
 					System.out.println("Usao je u else da brise basketItem");
 					basketItem.delete();
-					basketItem.cart.total = 0;
+					cart.total = basketItem.meal.price;
 				}
 
 			}

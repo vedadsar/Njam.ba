@@ -413,8 +413,14 @@
 							<div class="product-image-wrapper">
 								<div class="single-products">
 									<div class="productinfo text-center">
-									<!-- <img src="images/shop/product12.jpg" alt="" />  -->
-										<img src="//placehold.it/240x120/E7E7E7" alt="" />
+									
+									@if(meal.image.iterator().hasNext()!=true){
+                						 <img src="@routes.Assets.at("images/chicken.jpg")" alt="" height="255" width="255">
+              						  }else{                
+
+               						     <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="" height="255" width="255">}
+										
+										
 										<h2>@meal.price BAM</h2>
 										<p>@meal.name</p>
 										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>

@@ -4,7 +4,7 @@
 	 <body>
 
 
-        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("AddM") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest") || flash.get("successSendRequest") || flash.get("Subscribed") || flash.get("SucessSub") || flash.get("SucessS") || flash.get("errorNewslLink") || flash.get("errorS") || flash.get("SucessUns") || flash.get("errorUsub") || flash.get("errorL") ){
+        @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("AddM") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest") || flash.get("successSendRequest") || flash.get("Subscribed") || flash.get("SucessSub") || flash.get("SucessS") || flash.get("errorNewslLink") || flash.get("errorS") || flash.get("SucessUns") || flash.get("errorUsub") || flash.get("errorL")  || flash.get("Success") ){
 
 		           <div class="alert alert-success" role="alert">
 		           <div class="container">
@@ -26,6 +26,7 @@
 		         	@flash.get("SucessUns")
 		         	@flash.get("errorUsub")
 		         	@flash.get("errorL")
+		         	@flash.get("Success")
 		             </div>
 	            	</div>
 	              }
