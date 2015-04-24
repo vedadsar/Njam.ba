@@ -89,10 +89,10 @@ public class PaypalController extends Controller {
 			amount.setTotal(price);
 			amount.setCurrency("USD");
 						
-			String description = String.format("Description of order: %s\n"
-					
-					+ "Total Price: %s\n"
-					+ "Cart ID: %s\n", "Njam.ba", cart.total, cart.id);
+			String description = String.format("Description of order: \n%s\n"					
+					+ "\nTotal Price: %s\n"
+					+ "\nCart ID: %s\n"
+					+ "\nCart note order:", "Njam.ba", cart.total, cart.id, cart.orderNote);
 			
 			Transaction transaction = new Transaction();
 			transaction.setDescription(description);
