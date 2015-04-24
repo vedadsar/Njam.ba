@@ -66,6 +66,7 @@
                         <tr>
                            <th>From</th>
                            <th>Price</th>
+                           <th>Order Note</th>
                            <th>Order details</th>
                            <th>TransID</th>
                            <th>Approved</th>
@@ -78,7 +79,9 @@
                         <tr>                 
                         <td>@transaction.email</td>
                         <td>@transaction.price</td>
-                        
+                        @if(Cart.find(transaction.cartToPayId).orderNote != null){
+                        <td>Cart.find(transaction.cartToPayId).orderNote</td>
+                        }
                         <td>
                         
                         	 <form id = "orderD@transaction.id" >
