@@ -16,7 +16,7 @@ GET    /contact                             controllers.ContactController.contac
 GET    /admin/:email                        controllers.SudoController.administrator(email: String)
 POST   /admin/delete/:id                    controllers.SudoController.deleteRestaurant(id: Int)
 POST   /admin/approve/:id                   controllers.SudoController.approveRestaurant(id:  Int)
-
+GET	   /getStats							controllers.SudoController.getStatistic()
 
 GET    /fileUpload/:id                      controllers.Application.showFileUpload(id: Int)
 POST   /fileUpload/Meal/:id                 controllers.FileUpload.saveMealIMG(id: Int)

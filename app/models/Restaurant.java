@@ -33,6 +33,8 @@ public class Restaurant extends Model {
 	@OneToOne
 	public User user;
 
+	@OneToOne
+	public Statistics statistic;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	public List<Meal> meals;

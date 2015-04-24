@@ -164,4 +164,14 @@ public class SudoController extends Controller{
 		return redirect("/admin/" + Session.getCurrentUser(ctx()).email);
 
 	}
+	
+	public static Result getStatistic(){
+		File stats = Statistics.createStatisticsFile();
+		response().setContentType("application/x-download");  
+		response().setHeader("Content-disposition","attachment; filename=statistics.xls");
+		return ok(stats);
+	
+	}
+	
+	
 }

@@ -87,6 +87,8 @@ public class User extends Model {
 			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique(), workingTime);			
 			u.restaurant = r;
 			u.validated = false;
+			Statistics statistic = Statistics.createStatistics(r);
+			r.statistic = statistic;
 			u.save();
 			r.save();
 			return true;
