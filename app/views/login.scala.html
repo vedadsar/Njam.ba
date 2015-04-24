@@ -40,11 +40,14 @@
 					</div>
 				</div>
 				
-					@if(flash.get("inDatabase") || flash.get("success") || flash.get("loginP")){
+				
+				
+					@if(flash.get("inDatabase") || flash.get("success") || flash.get("loginP") || flash.get("validate")){
 			           <div class="alert alert-success" role="alert">
 			            @flash.get("inDatabase")
 			            @flash.get("success")
 			      		@flash.get("loginP")
+			      		@flash.get("validate")
 			      
 			             </div>  
 	             	}
@@ -57,9 +60,23 @@
 	                 
 	              
 	              
-	              </div>
+	              
 				
 			</form>
+			
+			<!-- repeat verification -->
+			<form class="form-horizontal" role="form" id="loginForm" action="@routes.Application.toRepeatVerification" method="GET">
+			
+			<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						 <button type="submit" class="btn btn-default">Repeat verification</button>
+					</div>
+				</div>
+				
+			</form>
+			<!--/ repeat verification -->
+			</div>
+			
 		</div>
 		<div class="col-md-3 text-right column">
 			<p>Not member?<a href="/registration" class="btn btn-link" type="button">Register</a></p>
