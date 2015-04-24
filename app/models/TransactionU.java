@@ -1,45 +1,45 @@
 package models;
-
+ 
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
+ 
 import models.orders.Cart;
 import models.orders.CartItem;
-
+ 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
-
+ 
 import play.Logger;
 import play.db.ebean.Model;
 import play.libs.Json;
-
+ 
 @Entity
 public class TransactionU extends Model {
-
+ 
 	@Id
 	public int id;
-
+ 
 	@ManyToOne
 	public Restaurant restaurant;
 	
 	public String contextToPay;
-
+ 
 	public String paymentToPay;
-
+ 
 	public String paymentExecutionToPay;
-
+ 
 	public int userToPayId;
-
+ 
 	public int cartToPayId;
 	
 	public String email;
@@ -57,6 +57,8 @@ public class TransactionU extends Model {
 	
 	public int deliveryTime;
 	
+	public Boolean refund;
+	
 	public static Finder<Long, TransactionU> find = new Finder<Long, TransactionU>(Long.class,
 			TransactionU.class);
 	
@@ -64,9 +66,6 @@ public class TransactionU extends Model {
 	public TransactionU(String contextToPay, String paymentToPay,
 			String paymentExecutionToPay, int userToPayId,
 			int cartToPayId, Restaurant restaurantToPay, String token, int deliveryTime) {
-		
-		Logger.debug("CONTEXT KOJI JE STIGAO U KONSTRUKTOR: " + contextToPay);
-		Logger.debug("PAYMENT KOJI JE STIGAO U KONSTRUKTOR: " + paymentExecutionToPay);
 		
 		email = User.find(userToPayId).email;
 		price = Cart.find(cartToPayId).total;
@@ -79,23 +78,20 @@ public class TransactionU extends Model {
 		this.items = new ArrayList<MetaItem>(0);
 		this.token = token;
 		this.deliveryTime= deliveryTime;
-		
-		
+		this.refund = false;
 	}
-
+ 
 	
 	public static TransactionU createTransaction(String contextToPay,
 			String paymentToPay, String paymentExecutionToPay,
 			int userToPayId, int cartToPayId, Restaurant restaurantToPay, String token, int deliveryTime) {
-
+ 
 		TransactionU transaction = new TransactionU(contextToPay, paymentToPay,
 				paymentExecutionToPay, userToPayId, cartToPayId, restaurantToPay, token, deliveryTime);
 		
 		transaction.save();
-		
 		fillItems(transaction);
-		
-
+ 
 		return transaction;
 	}
 	
@@ -121,15 +117,14 @@ public class TransactionU extends Model {
 			Jsoner jsoner = new Jsoner(name, price, quantity, totalPrice);
 			metaitems.add(jsoner);
 		}
-		
-		
+ 
 		JsonNode jsonNode = Json.toJson(metaitems);
 		Logger.debug("JSON I TO: " + jsonNode.toString());
 		
 		transaction.save();
 	}
-
-
+ 
+ 
 	public static TransactionU find(long id) {
 		return find.byId(id);
 	}
@@ -140,5 +135,12 @@ public class TransactionU extends Model {
 	
 	public static TransactionU findByCart(int cartId){
 		return find.where().eq("cart_to_pay_id", cartId).findUnique();
+	}
+	
+	public static List <TransactionU> findByUser(int id){
+		return find.where().eq("user_to_pay_id", id).findList();
+	}
+	public static List <TransactionU> transactionsForRefund(){
+		return find.where().eq("refund", true).findList();
 	}
 }

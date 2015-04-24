@@ -1,30 +1,31 @@
-@(email: String)(username: String)(restaurants: List[Restaurant])(users: User)
+@(email: String)(username: String)(restaurants: List[Restaurant])(transactions: List[TransactionU])(users: User)
 @main(email) {
-
+ 
 <body>
-
-
+ 
+ 
 <!-- user Profile -->
 <div class="container-fluid">
 <div>
 <hr>
 </div>
-
-
-
+ 
+ 
+ 
  <div class="crow" >
  
     <div class="col-md-6 col-md-offset-1">
       <form class="form-horizontal" role="form" action="@routes.Application.editUser(email)" method="POST">
 	
 		<div role="tabpanel">
-
+ 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="color:#555755">Profile information</a></li>
     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" style="color:#555755">Address</a></li>
+     <li role="presentation"><a href="#refund" aria-controls="refund" role="tab" data-toggle="tab" style="color:#555755">Refund</a></li>
   </ul>
-
+ 
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="home">
@@ -46,7 +47,7 @@
 				<p class="help-block">Provide your username to use it instead of your email address anywhere public on our website.</p>				
             </div>
           </div>
-
+ 
           <!-- Text input-->
           <div class="form-group">
             <label class="col-sm-2 control-label" for="textinput">Password</label>
@@ -63,7 +64,7 @@
                 </div>
                     </div>
                  </div>
-
+ 
     </div>
     <div role="tabpanel" class="tab-pane" id="profile">
     <br>
@@ -96,11 +97,45 @@
               </div>
             </div>
           </div>
-          </div>
-  </div>
+    </div>
+                </form>
+          
+    <div role="tabpanel" class="tab-pane" id="refund">
+    <br>
+	<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Restaurant name</th>
+            <th>Total price</th>
+            <th>Delivery time</th>
+            <th>Refund</th>
+        </tr>
+    </thead>
+  
+                @for(transaction <- TransactionU.findByUser(users.id)){   
+      @if(transaction.approved == true){
+    <tbody>
+        <tr>
+            <td>@transaction.restaurant.name</td>
+            <td>@transaction.price</td>
+            <td>@transaction.deliveryTime</td>
+            <td> 
+                        @if(transaction.refund == false){
+	                   <form method="POST" action="@routes.Application.askForRefund(transaction.id)">	                           
+	                 <input type="submit" onclick = "if (! confirm('Are you sure you want to refund your payment?')) { return false; }" value="Refund" class="btn btn-primary btn-xs " />	 
+                 }
+                </td>
+              
+        </tr>
+    </tbody>
+      }
+      }
+</table>
  
-</div>
-
+  </div>
+ 	</div>
+ 	</div>
+ 
           	   @if(flash.get("successUpdate") || flash.get("PaidOK") || flash.get("FailedPayPal")){
 			           <div class="alert alert-success" role="alert">
 			            @flash.get("successUpdate")
@@ -108,16 +143,15 @@
 			            @flash.get("FailedPayPal")
 			             </div>  
 	             	}
-
-      </form>
+ 
     </div><!-- /.col-lg-12 -->
     
 </div><!-- /.row -->
-
-
-
+ 
+ 
+ 
 </div>
-
+ 
 </body>	
 	
 }
