@@ -8,6 +8,7 @@ GET    /registration                        controllers.Application.toRegistrati
 POST   /                                    controllers.Application.registration()
 POST   /registrationRestaurant              controllers.Application.registrationRestaurant()
 GET    /registrationRestaurant              controllers.Application.toRegistrationRestaurant()
+POST   /refund/:id                          controllers.Application.askForRefund(id: Int)
 
 POST   /contact                             controllers.ContactController.sendMail()
 GET    /contact                             controllers.ContactController.contacts()

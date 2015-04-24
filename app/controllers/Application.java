@@ -345,4 +345,13 @@ public class Application extends Controller {
 		Meal m = Meal.find(id);
 		return ok(views.html.restaurant.fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
 	}
+	
+	public static Result askForRefund(int id){
+		TransactionU transaction = TransactionU.find(id);
+		
+		transaction.refund = true;
+		transaction.update();
+		
+		return redirect("/");
+	}
 }
