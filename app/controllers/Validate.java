@@ -35,14 +35,14 @@ public class Validate extends Controller {
 		Newsletter newsletter = Newsletter
 				.findByConfirmationString(confirmationString);
 		if (confirmationString == null) {
-			flash("error", Messages.get("error"));
+			flash("errorS", Messages.get("error"));
 			return redirect("/");
 		}
 		if (Newsletter.confirm(newsletter) == true) {
 			flash("successSubscribed", Messages.get("Successfully subscribed"));
 			return redirect("/");
 		} else {
-			flash("errorLink", Messages.get("error.confirm"));
+			flash("errorNewslLink", Messages.get("error.confirm"));
 			return redirect("/");
 		}
 	}
@@ -51,11 +51,11 @@ public class Validate extends Controller {
 		Newsletter newsletter = Newsletter
 				.findByConfirmationString(confirmationString);
 		if (newsletter == null) {
-			flash("error", Messages.get("error"));
+			flash("errorL", Messages.get("error"));
 			return redirect("/");
 		}
 		if (Newsletter.unsubscribe(newsletter) == true) {
-			flash("SucessS", "Unsubsribed");
+			flash("SucessUns", "Unsubsribed");
 			return redirect("/");
 		} else {
 			flash("errorUsub", "Error while unsubscribing");

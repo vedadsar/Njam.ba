@@ -29,7 +29,7 @@ public class NewsletterController extends Controller {
 		Newsletter news = Newsletter.findByEmail(email);
 		String token = "http://localhost:9000/confirmNewsletter/" + news.confirmationString;
 		MailHelper.send(email, token);
-		flash("SucessSub", "Sucessfully subscribed");
+		flash("SucessSub", "Sucessfully subscribed! Please check your email to confirm...");
 		return redirect("/");
 	}
 	
