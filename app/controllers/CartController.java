@@ -169,8 +169,8 @@ public class CartController extends Controller {
 					}
 				}
 				if (cart != null) {
-					if (cart.paid == true
-							|| Cart.timeGap(user.id, cart.id) == false) {
+					if (cart.paid == false
+							&& Cart.timeGap(user.id, cart.id) == false) {
 						cart.addMealToCart(meal);
 						System.out.println("3 - cart == null, paid == true, timeGap == false");
 					} else {
@@ -182,8 +182,8 @@ public class CartController extends Controller {
 					cart = new Cart(user, mealOwnerRestaurant);
 					System.out.println("5 - cart == new Cart");
 					user.carts.add(cart);
-					if (cart.paid == true
-							|| Cart.timeGap(user.id, cart.id) == false) {
+					if (cart.paid == false
+							&& Cart.timeGap(user.id, cart.id) == false) {
 						System.out.println("6 - cart == new Cart");
 						cart.addMealToCart(meal);
 					} else {
