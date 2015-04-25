@@ -87,7 +87,7 @@ public class PaypalController extends Controller {
 			cartToPayId = cartId;
 			
 			Amount amount = new Amount();
-			amount.setTotal(price);
+			amount.setTotal("15");
 			amount.setCurrency("USD");
 						
 			String description = String.format("Description of order: %s\n"

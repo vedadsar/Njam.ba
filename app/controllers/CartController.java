@@ -168,30 +168,23 @@ public class CartController extends Controller {
 						break;
 					}
 				}
-				if (cart != null) {
-					if (cart.paid == true
-							|| Cart.timeGap(user.id, cart.id) == false) {
-						cart.addMealToCart(meal);
+					if (cart != null && cart.paid == false
+							&& Cart.timeGap(user.id, cart.id) == false) {
+						if(cart.empty == true) {
+							cart.empty = false;
+							cart.update();
+							cart.addMealToCart(meal);
+							Logger.debug("CART JE BIO PRAZAN I SAD SAM GA PROMIJENIO U TO DAN IJE PRAZAN");;
+						} else {
+							cart.addMealToCart(meal);
+						}
 						System.out.println("3 - cart == null, paid == true, timeGap == false");
-					} else {
-						System.out.println("4 - u elsu je, samo dodaje u addMealToCart");
-						cart.addMealToCart(meal);
-						cart.update();
-					}
 				} else {
 					cart = new Cart(user, mealOwnerRestaurant);
 					System.out.println("5 - cart == new Cart");
 					user.carts.add(cart);
-					if (cart.paid == true
-							|| Cart.timeGap(user.id, cart.id) == false) {
-						System.out.println("6 - cart == new Cart");
-						cart.addMealToCart(meal);
-					} else {
-						System.out.println("7 - cart == new Cart");
-						cart.addMealToCart(meal);
-						cart.update();
-					}
-
+					cart.addMealToCart(meal);
+					cart.update();
 				}
 			}
 
@@ -268,7 +261,7 @@ public class CartController extends Controller {
 		User u = Session.getCurrentUser(ctx());
 		Cart cart = Cart.findCartInCarts(u.id, cartId);
 
-		cart.removeMealAll(m);
+		cart.removeMealAll(m, u.id, cart.id);
 
 		return redirect("/cart");
 

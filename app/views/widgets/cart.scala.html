@@ -1,9 +1,10 @@
 	@(email: String)(carts: List[orders.Cart])
 	@main(email) {
-
+	
 	<body>
+		@if(models.User.activeCartCheck(carts) == false) {
 		@for( cart <- carts) {   
-		@if( cart.paid==false && cart.ordered == false && models.orders.Cart.timeGap(cart.user.id, cart.id) == false) {
+		@if( cart.paid==false && cart.ordered == false && models.orders.Cart.timeGap(cart.user.id, cart.id) == false && cart.empty == false) {
 
 		<section id="cart_items">
 			<div class="container">
@@ -158,7 +159,8 @@
 </section> <!--/#cart_items-->
 }  <!-- zatvaranje ovog paid=false if-a -->
 } <!-- Kraj for(cart - carts) petlje -->
-
+} else {
+	<p id="nocarts">You have no active order carts :)</p>
+	}
 </body>
-
 }
