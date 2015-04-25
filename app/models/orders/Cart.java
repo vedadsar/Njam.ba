@@ -237,30 +237,38 @@ public void removeMeal(Meal m, int userId, int cartId) {
 	}
 	
 	public void removeMealAll(Meal m, int userId, int cartId){
-		Iterator<CartItem> it = cartItems.iterator();
 		Cart cart = Cart.findCartInCarts(userId, cartId);
+		Iterator<CartItem> it = cart.cartItems.iterator();
 		boolean empty = true;
 		while(it.hasNext()){
 			CartItem basketItem = (CartItem) it.next();
 			if(basketItem.meal.id == m.id){
 				basketItem.delete();		
 				basketItem.save();
+				break;
 			}
 		}
 		
-		while(it.hasNext()){
-			CartItem basketItem = (CartItem) it.next();
-			if(basketItem != null){
-				empty = false;
-				Logger.debug("PROMIJENIO SAM VARIJABLU EMPTY U FALSE " + empty);
-			} 
+//		Iterator<CartItem> iter = cart.cartItems.iterator();
+//		while(iter.hasNext()){
+//			CartItem basketItem = (CartItem) iter.next();
+//			if(basketItem != null){
+//				empty = false;
+//				Logger.debug("PROMIJENIO SAM VARIJABLU EMPTY U FALSE " + empty);
+//				break;
+//			} 
+//		}
+		if(cart.cartItems.isEmpty()) {
+			empty = false;
+			Logger.debug("PROMIJENIO SAM VARIJABLU EMPTY U FALSE " + empty);
 		}
-		Logger.debug("EMPTY SE NIJE PRIMIJENIO " + empty);
 		
-		if(empty = true) {
+		if(empty == true) {
+			Logger.debug("EMPTY SE NIJE PRIMIJENIO " + empty);
 			cart.empty = true;
 			cart.update();
 		} else {
+			Logger.debug("EMPTY JE SADA FALSE " + empty);
 			cart.empty = false;
 			cart.update();
 		}
