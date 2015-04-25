@@ -13,6 +13,7 @@ import models.orders.CartItem;
 import com.avaje.ebean.annotation.CreatedTimestamp;
 
 import Utilites.*;
+import play.Logger;
 import play.data.format.Formats.DateTime;
 import play.data.validation.Constraints.*;
 import play.db.ebean.Model;
@@ -257,6 +258,17 @@ public class User extends Model {
 		 */
 		public static boolean check(String mail) {
 			return find.where().eq("email", mail).findUnique() != null;
+		}
+		
+		public static boolean activeCartCheck(List<Cart> carts) {
+			for(int i=0; i<carts.size(); i++) {
+				if(carts.get(i).empty == false && carts.get(i).ordered == false && carts.get(i).paid == false && carts.get(i).timedOut == false) {
+					Logger.debug("POSTOJI NEPRAZAN CART");
+					return false;
+				}
+			}
+			Logger.debug("NE POSTOJI NEPRAZAN CART");
+			return true;
 		}
 
 }

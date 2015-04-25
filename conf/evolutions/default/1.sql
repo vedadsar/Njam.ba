@@ -9,6 +9,7 @@ create table cart (
   paid                      boolean,
   ordered                   boolean,
   timed_out                 boolean,
+  empty                     boolean,
   total                     double,
   min_order                 double,
   date                      timestamp,

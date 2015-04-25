@@ -39,6 +39,8 @@ public class Cart extends Model {
 	@Required
 	public boolean timedOut;
 	@Required
+	public boolean empty;
+	@Required
 	public double total;
 	@Required
 	public double minOrder;
@@ -71,6 +73,7 @@ public class Cart extends Model {
 		this.paid = false;
 		this.ordered = false;
 		this.timedOut = false;
+		this.empty = false;
 		this.total = 0;
 		this.date = new Date();
 		this.orderNote = "Regular";
@@ -81,6 +84,7 @@ public class Cart extends Model {
 		this.paid = false;
 		this.ordered = false;
 		this.timedOut = false;
+		this.empty = false;
 		this.total = 0;
 		this.date =new Date();
 		this.orderNote = "Regular";
@@ -91,6 +95,7 @@ public class Cart extends Model {
 		this.paid = false;
 		this.ordered = false;
 		this.timedOut = false;
+		this.empty = false;
 		this.total = 0;
 		this.date =new Date();
 		this.restaurantName = restaurantName;
@@ -231,8 +236,10 @@ public void removeMeal(Meal m, int userId, int cartId) {
 		}
 	}
 	
-	public void removeMealAll(Meal m){
-		Iterator<CartItem> it = cartItems.iterator();  
+	public void removeMealAll(Meal m, int userId, int cartId){
+		Iterator<CartItem> it = cartItems.iterator();
+		Cart cart = Cart.findCartInCarts(userId, cartId);
+		boolean empty = true;
 		while(it.hasNext()){
 			CartItem basketItem = (CartItem) it.next();
 			if(basketItem.meal.id == m.id){
@@ -240,6 +247,24 @@ public void removeMeal(Meal m, int userId, int cartId) {
 				basketItem.save();
 			}
 		}
+		
+		while(it.hasNext()){
+			CartItem basketItem = (CartItem) it.next();
+			if(basketItem != null){
+				empty = false;
+				Logger.debug("PROMIJENIO SAM VARIJABLU EMPTY U FALSE " + empty);
+			} 
+		}
+		Logger.debug("EMPTY SE NIJE PRIMIJENIO " + empty);
+		
+		if(empty = true) {
+			cart.empty = true;
+			cart.update();
+		} else {
+			cart.empty = false;
+			cart.update();
+		}
+		
 	}
 	public static boolean findByUserFromCart(int id){
 		Cart cart = findC.where().eq("user_id", id).findUnique();
@@ -247,6 +272,15 @@ public void removeMeal(Meal m, int userId, int cartId) {
 			return false;
 		}
 		return true;
+	}
+	
+	public static boolean cartIsEmpty(int userId, int cartId) {
+		Cart cart = Cart.findCartInCarts(userId, cartId);
+		if(cart.empty == true) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }

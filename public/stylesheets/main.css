@@ -347,6 +347,9 @@ ul.sub-menu {
 
 #footer {
   background: #F0F0E9;
+  top: 800px;
+  width: 100%;
+  position:relative;
 }
 
 
@@ -2661,4 +2664,11 @@ h2.title {
 .orderDetails h2 {
 	margin: 0;
 	margin-bottom: 18px;
+}
+
+#nocarts {
+	font-size: 200%;
+	margin-left: 490px;
+	margin-top: 60px;
+	color: #fdb45e;
 }
