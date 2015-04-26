@@ -101,6 +101,41 @@ public class SearchController extends Controller {
 		return TODO;
 	}
 	
+	
+	
+	public static Result searchByCity(String city) {
+		List<Restaurant> RestaurantEmpty = null;
+		List<Meal> mealsEmpty = null;
+		String currentEmail = null;
+       String typeGen="Meal";
+		
+		// Check if the current user is logged in;
+		// if the user is not logged in then we 
+		// assign value null to it
+        
+		if (Session.getCurrentUser(ctx()) != null) {
+			currentEmail = Session.getCurrentUser(ctx()).email;
+
+		}
+
+		// check to see what type value we are searching
+		// if typegen is not sellected default action is to search all meals
+		
+		if (typeGen == null) {
+			return ok(views.html.index.render(" ", currentEmail,searchAllMeals(city), Restaurant.all()));
+		}
+        
+		
+		if (typeGen.equals("Meal")) {
+			return ok(views.html.index.render(" ", currentEmail,searchAllMealsByCity(city), Restaurant.all()
+					));
+
+		}
+		
+		return TODO;
+	}
+	
+	
 	/**
 	 * This method renders userSearch HTML page.
 	 * @return
@@ -209,6 +244,12 @@ public class SearchController extends Controller {
 		return meals;
 	}
 
+	public static List<Meal> searchAllMealsByCity(String q) {
+		List<Meal> meals = Meal.find.where().ilike("restaurant.user.location.city", "%"+q+"%").findList();
+				
+		return meals;
+	}
+	
 
 	public static List searchAllRestaurants(String q) {
 		List<Restaurant> restaurants = Restaurant.find.where()
