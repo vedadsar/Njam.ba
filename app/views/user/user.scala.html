@@ -14,7 +14,7 @@
  
  <div class="crow" >
  
-    <div class="col-md-6 col-md-offset-1">
+    <div class="col-md-7 col-md-offset-1">
       <form class="form-horizontal" role="form" action="@routes.Application.editUser(email)" method="POST">
 	
 		<div role="tabpanel">
@@ -102,11 +102,13 @@
           
     <div role="tabpanel" class="tab-pane" id="refund">
     <br>
+    
 	<table class="table table-bordered">
     <thead>
         <tr>
             <th>Restaurant name</th>
-            <th>Order</th>
+            <th>Order list</th>
+            <th>Order Note</th>
             <th>Total price</th>
             <th>Delivery time</th>
             <th>Refund</th>
@@ -118,8 +120,18 @@
     <tbody>
         <tr>
             <td>@transaction.restaurant.name</td>
-            <td>@transaction.price</td>
-            <td>@transaction.deliveryTime</td>
+           
+            <td>
+            	@for( cartItem <- models.orders.Cart.find(transaction.cartToPayId).cartItems){
+            	<ul class="list-unstyled">           	 
+            	<li>@cartItem.meal.name - @cartItem.meal.price BAM</li>            	
+            	</ul>
+            	}
+            </td>
+            	
+            <td>@models.orders.Cart.find(transaction.cartToPayId).orderNote</td>
+            <td>@transaction.price BAM</td>
+            <td>@transaction.deliveryTime min</td>
             <td> 
                         @if(transaction.refund == false){
 	                   <form method="POST" action="@routes.Application.askForRefund(transaction.id)">	                           

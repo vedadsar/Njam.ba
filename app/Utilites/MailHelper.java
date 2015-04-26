@@ -199,4 +199,33 @@ public class MailHelper {
 
 		return doc;
 	}
+	
+	
+	public static void sendRefundEmailtoUser(String email, String message){
+		
+		Email mail = new Email();
+		mail.setSubject("Njam.ba repayment mail");
+		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
+		mail.addTo("Bitter Contact <bit.play.test@gmail.com>");
+		mail.addTo(email);
+		
+		mail.setBodyText(message);
+		mail.setBodyHtml(String.format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>","Your claim for refund is succesfully finished!", "Please come and visit us again!", message));
+		MailerPlugin.send(mail);
+		
+	}
+	
+public static void sendRefundEmailtoRestaurant(String email, String message){
+		
+		Email mail = new Email();
+		mail.setSubject("Njam.ba repayment mail");
+		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
+		mail.addTo("Bitter Contact <bit.play.test@gmail.com>");
+		mail.addTo(email);
+		
+		mail.setBodyText(message);
+		mail.setBodyHtml(String.format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>","Customer aseked for refund of money. We succefully return money to cutomer, because order delivery time was to long! Please, be careful next time!", "If you have any questions contact us", message));
+		MailerPlugin.send(mail);
+		
+	}
 }
