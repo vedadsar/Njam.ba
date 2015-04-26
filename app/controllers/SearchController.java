@@ -69,14 +69,16 @@ public class SearchController extends Controller {
 	 * @param typeGen  Generic to be searched
 	 * @return searchResults as Lists
 	 */
-	public static Result searchByGeneric(String q, String typeGen) {
+	public static Result searchByGeneric(String q) {
 		List<Restaurant> RestaurantEmpty = null;
 		List<Meal> mealsEmpty = null;
 		String currentEmail = null;
-
+       String typeGen="Meal";
+		
 		// Check if the current user is logged in;
 		// if the user is not logged in then we 
 		// assign value null to it
+        
 		if (Session.getCurrentUser(ctx()) != null) {
 			currentEmail = Session.getCurrentUser(ctx()).email;
 
@@ -86,21 +88,16 @@ public class SearchController extends Controller {
 		// if typegen is not sellected default action is to search all meals
 		
 		if (typeGen == null) {
-			return ok(views.html.widgets.searchResult.render(" ", currentEmail, Restaurant.all(),
-					RestaurantEmpty, searchAllMeals(q)));
+			return ok(views.html.index.render(" ", currentEmail,searchAllMeals(q), Restaurant.all()));
 		}
         
 		
 		if (typeGen.equals("Meal")) {
-			return ok(views.html.widgets.searchResult.render(" ", currentEmail, Restaurant.all(),
-					RestaurantEmpty, searchAllMeals(q)));
+			return ok(views.html.index.render(" ", currentEmail,searchAllMeals(q), Restaurant.all()
+					));
 
 		}
-		if (typeGen.equals("Restaurant")) {
-			return ok(views.html.widgets.searchResult.render(" ", currentEmail, Restaurant.all(),
-					searchAllRestaurants(q), mealsEmpty));
-
-		}
+		
 		return TODO;
 	}
 	

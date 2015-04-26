@@ -53,7 +53,7 @@ GET    /unsubscribe/:confirmationString      controllers.Validate.unsubscribe(co
 POST   /admin/refund                        controllers.PaypalController.refundProcessing(cartId : Int)
 
 
-GET    /search                              controllers.SearchController.searchByGeneric(q: String,typeGen: String)
+GET    /search                              controllers.SearchController.searchByGeneric(q: String)
 GET    /search/toAdvancedSearch             controllers.SearchController.redirect()
 POST   /search/advancedSearch               controllers.SearchController.advancedSearch()
 
