@@ -35,7 +35,10 @@
 		    
 		    <!-- src="./public/images/shop/advertisement.jpg" -->
 		    <!-- src="//placehold.it/940x120/E7E7E7" -->
-			<img src="@routes.Assets.at("images/foodholder.jpg")" alt="" />
+			<img src="@routes.Assets.at("images/restaurant" + Restaurant.findByName(name).id)" alt="" />
+			 
+			 
+			
 		</div>
 	</section>
 	
@@ -99,13 +102,12 @@
 									<div class="productinfo text-center">
 									
 									@if(meal.image.iterator().hasNext()!=true){
-                						 <img src="@routes.Assets.at("images/chicken.jpg")" alt="" height="255" width="255">
+                						 <img src="@routes.Assets.at("images/meal" + meal.id)" alt="" height="255" width="255">
               						  }else{                
 
                						     <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="" height="255" width="255">}
 
-										<h2>@meal.name</h2>
-										<h2>@meal.price KM</h2>
+										<h2>@meal.price BAM</h2>
 										<p>@meal.name</p>
 										<a href='@routes.CartController.addMealToBasket(meal.id)' class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 									</div>
