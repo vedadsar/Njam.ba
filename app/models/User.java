@@ -96,6 +96,29 @@ public class User extends Model {
 		}
 	}
 	
+	public static Restaurant createRestaurantReturnRestaurant(String name, String email, String password, String workingTime, String city, String address, String number){
+		User check = find.where().eq("email", email).findUnique();
+		if(check != null){
+			return null;
+		} else {
+			User u  = new User(email, password, RESTAURANT);
+			Location location = new Location(city, address, number);
+			location.user = u;
+			u.save();
+			u.location = location;
+			location.save();
+			
+			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique(), workingTime);			
+			u.restaurant = r;
+			u.validated = false;
+			Statistics statistic = Statistics.createStatistics(r);
+			r.statistic = statistic;
+			u.save();
+			r.save();
+			return r;
+		}
+	}
+	
 	/**
 	 * Method for creating user.
 	 * @param email
@@ -111,6 +134,19 @@ public class User extends Model {
 			User usr = new User(email, password);
 			usr.save();
 			return true;
+		}
+	}
+	
+	public static User createUserReturnUser(String email, String password) {
+		// First we check if user already exists.
+		User check = find.where().eq("email", email).findUnique();
+		if (check != null) {
+			// User already exists !
+			return null;
+		} else {
+			User usr = new User(email, password);
+			usr.save();
+			return usr;
 		}
 	}
 
