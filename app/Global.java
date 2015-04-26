@@ -1,4 +1,7 @@
+import java.util.Date;
+
 import models.Faq;
+import models.Location;
 import models.Meal;
 import models.Restaurant;
 import models.User;
@@ -12,11 +15,26 @@ public class Global extends GlobalSettings {
 		if(User.check("suad@suad.com") == false){
 		User.createAdmin("suad@suad.com", "123456");	
 	
+		if(User.check("haris.krkalic@bitcamp.ba") == false){
+		User testUser = User.createUserReturnUser("haris.krkalic@bitcamp.ba", "Banana88");
+		testUser.validated = true;
+		testUser.role = "USER";
+		testUser.dateCreation = new Date();
+		Location loc = new Location("", "", "");
+		testUser.location = loc;
+		loc.save();
+		testUser.update();
+		
+		}
+		
 		}
 		User.createRestaurant("Lovac","restoran@njam.ba", "123456","08:00h - 18:00h", "Sarajevo", "Fojnicka", "5");	
 		User.createRestaurant("Harambasa","restoran1@njam.ba", "123456","07:00h - 19:00h","Banjaluka", "Pere Kvrzice", "18");
 		User.createRestaurant("Klopa","restoran2@njam.ba", "123456","09:00h - 20:00h", "Tuzla", "Marsala Tita", "22");
-
+		
+		Restaurant res3 = User.createRestaurantReturnRestaurant("Obala","restoran3@njam.ba", "123456","09:00h - 20:00h", "Sarajevo", "Jufkica 12", "21");
+		Restaurant res4 = User.createRestaurantReturnRestaurant("Trovač","restoran4@njam.ba", "123456","09:00h - 20:00h", "Sarajevo", "Bananica 122", "27");
+		
 		Restaurant res1 = Restaurant.find(1);
 		Restaurant res2 = Restaurant.find(2);
 		for( int i=1; i<=8; i++){
@@ -25,11 +43,24 @@ public class Global extends GlobalSettings {
 				Meal.create("Supa", 3.00,"Bosnian cousine", res1);
 				Meal.create("Cevapi", 5.00, "Bosnian cousine",res1);
 				Meal.create("Pjeskavica", 6.00, "Fast Food",res1);
+				User userRestaurant = res1.user;
+				userRestaurant.validated = true;
+				userRestaurant.update();
 				
 				Meal.create("Zeljanica", 5.00,"Bosnian cousine", res2);
 				Meal.create("Burek", 8.00, "Bosnian cousine", res2);
 				Meal.create("Krompirusa", 5.00,"Bosnian cousine", res2);
 				Meal.create("Sirnica", 6.00, "Bosnian cousine",res2);
+				
+				Meal.create("Skuša", 5.00,"Mediteran", res3);
+				Meal.create("Školjke", 3.00,"Mediteran", res3);
+				Meal.create("Hobotnica", 5.00, "Mediteran",res3);
+				Meal.create("Morski krompir", 6.00, "Mediteran",res3);
+				
+				Meal.create("Gljive", 5.00,"Povrce", res4);
+				Meal.create("Lazanje", 3.00,"Mediteran", res4);
+				Meal.create("Lignje", 5.00, "Mediteran",res4);
+				Meal.create("Ljetna salata", 6.00, "Healthy",res4);
 			}
 				
 		}
