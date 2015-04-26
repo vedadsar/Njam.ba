@@ -229,7 +229,10 @@ public void removeMeal(Meal m, int userId, int cartId) {
 				} else {
 					System.out.println("Usao je u else da brise basketItem");
 					basketItem.delete();
-					cart.total = basketItem.meal.price;
+					cart.total = 0;
+					cart.update();
+					
+					
 				}
 
 			}
@@ -269,9 +272,21 @@ public void removeMeal(Meal m, int userId, int cartId) {
 			cart.update();
 		}
 		Logger.debug("NA KRAJU U CARTI JE : " + cart.cartItems.size() + " CARTITEMA");
-
-		
 	}
+	
+	public void removeMealAll(Meal m){
+		Iterator<CartItem> it = cartItems.iterator();  
+		while(it.hasNext()){
+			CartItem basketItem = (CartItem) it.next();
+			if(basketItem.meal.id == m.id){
+				basketItem.delete();		
+				basketItem.save();
+				basketItem.cart.total -= basketItem.totalPrice;
+				basketItem.cart.update();
+			}
+		}
+	}
+	
 	public static boolean findByUserFromCart(int id){
 		Cart cart = findC.where().eq("user_id", id).findUnique();
 		if(cart == null){
