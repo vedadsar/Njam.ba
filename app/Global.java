@@ -60,7 +60,6 @@ public class Global extends GlobalSettings {
 				Meal.create("Gljive", 5.00,"Povrce", res4);
 				Meal.create("Lazanje", 3.00,"Mediteran", res4);
 				Meal.create("Lignje", 5.00, "Mediteran",res4);
-				Meal.create("Ljetna salata", 6.00, "Healthy",res4);
 			}
 				
 		}
