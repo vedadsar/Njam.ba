@@ -151,6 +151,7 @@
         	<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Meals</h2>
+						
 									@for(meal<-meals){
 						
 						<div class="col-sm-4">
@@ -159,13 +160,11 @@
 										<div class="productinfo text-center">
 										
 										 @if(meal.image.iterator().hasNext()!=true){
-                	 <img src="@routes.Assets.at("images/chicken.jpg")" alt="" height="255" width="255">
+                	 <img src="@routes.Assets.at("images/meal"+ meal.id)" alt="" height="255" width="255">
                 }else{                
 
                     <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="" height="255" width="255">}
-
 										    <h2>@meal.name</h2>
-
 											<h2>@meal.price KM</h2>
 											<p>@meal.restaurant.name</p>
 											<a href='@routes.CartController.addMealToBasket(meal.id)' class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
@@ -286,7 +285,7 @@
         <!-- /.row -->
              
 
-
+</div> 
 		
 	</body>
 	
