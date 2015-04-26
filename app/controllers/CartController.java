@@ -261,7 +261,7 @@ public class CartController extends Controller {
 		User u = Session.getCurrentUser(ctx());
 		Cart cart = Cart.findCartInCarts(u.id, cartId);
 
-		cart.removeMealAll(m, u.id, cart.id);
+		cart.removeMealAll(m);
 
 		return redirect("/cart");
 
