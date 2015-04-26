@@ -54,6 +54,7 @@ POST   /admin/refund                        controllers.PaypalController.refundP
 
 
 GET    /search                              controllers.SearchController.searchByGeneric(q: String)
+GET    /search/city/:city                    controllers.SearchController.searchByCity(city: String)
 GET    /search/toAdvancedSearch             controllers.SearchController.redirect()
 POST   /search/advancedSearch               controllers.SearchController.advancedSearch()
 

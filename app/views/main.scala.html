@@ -107,7 +107,7 @@
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<div class="shop-menu pull-right">
+						<div class="-menu pull-right">
 							<ul class="nav navbar-nav">
 							<!--	<li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
 							<!-- 	<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li> -->
@@ -116,7 +116,7 @@
           						@if(User.checkIfExists(email) == true){
           							@if(User.checkRole(email).equals(User.USER)){
 							
-								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+								<li><a href="/cart"><i class="fa fa-ping-cart"></i> Cart</a></li>
 								
 									}
 								}
@@ -170,17 +170,30 @@
 								<li><a href="/" class="active">Home</a></li>
 								<li class="dropdown"><a href="#">City<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Sarajevo</a></li>
-										<li><a href="product-details.html">Tuzla</a></li> 
-										<li><a href="checkout.html">Zenica</a></li> 
+                                    
+
+                                        <li><a href="/search/city/Sarajevo">Sarajevo</a>/li>
+                                        <li><a href="/search/city/Banjaluka">Banjaluka</a></li> 
+										<li><a href="/search/city/Tuzla">Tuzla</a></li> 
+										<li><a href="/search/city/Zenica">Zenica</a></li> 
 										 
                                     </ul>
                                 </li> 
+                                
+                                
+                             
+                                
+                                
+                                
+                                
+                                
+                                
 								<li class="dropdown"><a href="#">Restaurants<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
                                     	@for(restaurant <-  Restaurant.all()){
                                     		
                                         <li><a href="/restaurantProfile/@restaurant.name">@restaurant.name</a></li>
+                                         
 										}
 										
                                     </ul>
