@@ -21,7 +21,7 @@
   
    <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>  
    <hr>
-      @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")  || flash.get("successFaq") || flash.get("deleteFaq") || flash.get("successEditFaq")){
+      @if(flash.get("successRestaurant") || flash.get("successDeleteRestaurant") || flash.get("successApprovedRestaurant")  || flash.get("successFaq") || flash.get("deleteFaq") || flash.get("successEditFaq") || flash.get("failedSendingEmail")){
    <div class="alert alert-success" role="alert">
       <div class="container">
          @flash.get("successDeleteRestaurant")
@@ -29,6 +29,7 @@
          @flash.get("successFaq")
          @flash.get("deleteFaq")
          @flash.get("successEditFaq")
+         @flash.get("failedSendingEmail")
       </div>
    </div>
    }
@@ -51,8 +52,7 @@
                            <th>Street</th>
                            <th>Street No.</th>
                            <th>Status</th>
-                           <th></th>
-                           <th></th>
+                           <th></th>                          
                         </tr>
                         </thead>
                      <tbody>
@@ -104,14 +104,16 @@
                      <thead>
                         <tr>
                            <th>Restaurant</th>
-                           <th>User ID</th>
-                           <th>Cart ID</th>
-                           <th>Email</th>
+                           <th>(User ID) Email</th>
+                           <th>(Cart ID) 
+                           Order list</th>                          
                            <th>Price</th>
+                           <th>Delivery Time</th>
+                           <th>Time diference</th>
                            <th>Status</th>
                            
                            <th></th>
-                           <th></th>
+                           
                         </tr>
                         </thead>
                      <tbody>
@@ -119,15 +121,24 @@
                         @for(transaction <- TransactionU.transactionsForRefund()){   
                         <tr>                 
                         <td>@transaction.restaurant.name</td>
-                        <td>@transaction.userToPayId</td>
-                        <td>@transaction.cartToPayId</td>
-                        <td>@transaction.email</td>
-                        <td>@transaction.price</td>
+                        <td>(Id: @transaction.userToPayId) @transaction.email</td>
                         
+                        <td>
+                        	(cart id: @transaction.cartToPayId)
+			            	@for( cartItem <- models.orders.Cart.find(transaction.cartToPayId).cartItems){
+			            	<ul class="list-unstyled">           	 
+			            	<li>@cartItem.meal.name - @cartItem.meal.price BAM</li>            	
+			            	</ul>
+			            	}
+			            </td>
+                        
+                        <td>@transaction.price</td>
+                        <td>@transaction.deliveryTime min</td>
+                        <td>... min</td>
                         @if(transaction.approved == true) {
-                        	<td>Approved refund</td>
-                        } else {
                         	<td>Refused refund</td>
+                        } else {
+                        	<td>Approved refund</td>
                         }
                         
 	                        <td>

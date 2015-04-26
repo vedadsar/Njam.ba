@@ -1,7 +1,7 @@
 package controllers;
  
 import play.mvc.Result;
- 
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
- 
+
 import models.Faq;
 import models.Location;
 import models.Meal;
@@ -26,11 +26,12 @@ import play.i18n.Messages;
 import play.mvc.*;
 import views.html.*;
 import Utilites.AdminFilter;
+import Utilites.MailHelper;
 import Utilites.Session;
 import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
 import Utilites.*;
- 
+
 import com.paypal.api.payments.*;
 import com.paypal.base.Constants;
 import com.paypal.base.rest.APIContext;
@@ -293,12 +294,31 @@ public class PaypalController extends Controller {
 			}
 			flash("Success",
 					"Buyer's money from this cart is successfully refunded!");
+			
+			
+			User user = User.find(transaction.userToPayId);
+			String urlString = hostUrl + "login/";
+			URL url = new URL(urlString);
+			MailHelper.sendRefundEmailtoUser(user.email, url.toString());
+			
+			Restaurant restaurant = transaction.restaurant;
+			MailHelper.sendRefundEmailtoUser(restaurant.user.email, url.toString());
+				
 			return redirect("/");
 			
 		} catch (PayPalRESTException e) {
 			flash("Failed" , "Error occured during refunding paypal. Please contact admin!");
 			Logger.error("Error at refunding paypal: " + e.getMessage());
 			return redirect("/");
+		} catch (MalformedURLException e) {
+			flash("failedSendingEmail" , "Email which informs the user about the refund was not sent!");
+			Logger.error("Connection is not good: " + e.getMessage());
+			return redirect("/admin");
+		} catch (IllegalArgumentException e) {
+			flash("failedrefund" , "Your refund was not successfull!");
+			Logger.error("Id is null: " + e.getMessage());
+			return redirect("/");
+
 		}
 	}
 }
