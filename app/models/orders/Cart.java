@@ -238,29 +238,25 @@ public void removeMeal(Meal m, int userId, int cartId) {
 	
 	public void removeMealAll(Meal m, int userId, int cartId){
 		Cart cart = Cart.findCartInCarts(userId, cartId);
+		Logger.debug("NASAO SAM CART SA ID: " + cart.id);
+		Logger.debug("U CARTI JE : " + cart.cartItems.size() + " CARTITEMA");
 		Iterator<CartItem> it = cart.cartItems.iterator();
-		boolean empty = true;
-		while(it.hasNext()){
-			CartItem basketItem = (CartItem) it.next();
-			if(basketItem.meal.id == m.id){
-				basketItem.delete();		
-				basketItem.save();
-				break;
+		boolean empty = false;
+		
+		for(int i=0; i<cart.cartItems.size(); i++) {
+			if(cart.cartItems.get(i).meal.id == m.id) {
+				cartItems.get(i).delete();		
+				cartItems.get(i).save();
 			}
 		}
 		
-//		Iterator<CartItem> iter = cart.cartItems.iterator();
-//		while(iter.hasNext()){
-//			CartItem basketItem = (CartItem) iter.next();
-//			if(basketItem != null){
-//				empty = false;
-//				Logger.debug("PROMIJENIO SAM VARIJABLU EMPTY U FALSE " + empty);
-//				break;
-//			} 
-//		}
-		if(cart.cartItems.isEmpty()) {
+		Logger.debug("SADA U CARTI JE : " + cart.cartItems.size() + " CARTITEMA");
+		
+		if(cart.cartItems.size() == 1) {
+			empty = true;
+			Logger.debug("PROMIJENIO SAM VARIJABLU EMPTY U TRUE " + empty);
+		} else {
 			empty = false;
-			Logger.debug("PROMIJENIO SAM VARIJABLU EMPTY U FALSE " + empty);
 		}
 		
 		if(empty == true) {
@@ -272,6 +268,8 @@ public void removeMeal(Meal m, int userId, int cartId) {
 			cart.empty = false;
 			cart.update();
 		}
+		Logger.debug("NA KRAJU U CARTI JE : " + cart.cartItems.size() + " CARTITEMA");
+
 		
 	}
 	public static boolean findByUserFromCart(int id){
