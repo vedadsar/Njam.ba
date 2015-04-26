@@ -163,7 +163,9 @@
                 }else{                
 
                     <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="" height="255" width="255">}
+
 										    <h2>@meal.name</h2>
+
 											<h2>@meal.price KM</h2>
 											<p>@meal.restaurant.name</p>
 											<a href='@routes.CartController.addMealToBasket(meal.id)' class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
