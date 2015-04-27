@@ -63,22 +63,39 @@
 										<td class="cart_delete">
 											<a class="cart_quantity_delete" href="@routes.CartController.removeAllFromCart(cartitem.meal.id, cart.id)"><i class="fa fa-times"></i></a>
 										</td>
-										
-										
-										
+								
 										
 									</tbody>
 								}
 								
-								<!-- total +  note -->
+							<!-- total +  note -->
 								<div class="row">
 								
 								
 								
 									<div class="col-sm-6">
 								<tr>
-									<td colspan="4">&nbsp;</td>
 									<td colspan="2">
+									<!-- Note order -->
+								<form action="@routes.CartController.addNoteToCart(cart.id)" method="POST" class="form-horizontal" role="form">
+								
+								<div class="col-sm-12 col-sm-offset-1">
+								<br>
+					
+											<p><b>Note for this order Cart:</b></p>
+											<textarea class="form-control" rows="3" id="orderNote" name="orderNote">@cart.orderNote</textarea>
+											<p class="help-block">I would like my food to be prepred..</p>
+											<button type="submit" class="btn btn-default">Add Note</button>
+											<br>
+											<br>
+
+								</div>
+								</form>
+								<!--/ Note order -->
+												<td colspan="1"></td>
+
+									</td>
+									<td colspan="3">
 										<table class="table table-condensed total-result">
 											
 											<tr>
@@ -90,8 +107,7 @@
 												<td>Free</td>			
 												
 											</tr>
-											
-											
+
 											<tr>
 												<td>
 													@if(cart.minOrder <= cart.total) {
@@ -109,13 +125,11 @@
 										}
 									</div>
 								}			
-													</td>
-							
-											</tr>
+									</td>		
+									</tr>
 									</div>
 						</div>
-						
-						
+		
 										</table>
 										</div>
 					
@@ -124,28 +138,7 @@
 				</td>
 			</tr>
 			
-								<tr>
-								<div class="col-sm-6">
-								<!-- Note order -->
-								<form action="@routes.CartController.addNoteToCart(cart.id)" method="POST" class="form-horizontal" role="form">
-								
-								<div class="col-sm-12 col-sm-offset-1">
-											<p><b>Note for this order Cart:</b></p>
-											<textarea class="form-control" rows="3" id="orderNote" name="orderNote">@cart.orderNote</textarea>
-											<p class="help-block">I would like my food to be prepred..</p>
-											<button type="submit" class="btn btn-default">Add Note</button>
-											<br>
-											<br>
-									
-								</div>
-								</form>
-								<!--/ Note order -->
-								</div>
-								</tr>
-								
-								
-								
-								
+				
 			</div>
 		</table>
 		@if(flash.get("SucessAdded") || flash.get("Warning") ){
@@ -163,4 +156,10 @@
 	<p id="nocarts">You have no active order carts :)</p>
 	}
 </body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 }

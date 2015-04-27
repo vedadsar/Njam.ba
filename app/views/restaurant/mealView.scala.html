@@ -5,6 +5,7 @@
 				<link href="@routes.Assets.at("stylesheets/star-rating.min.css")" rel="stylesheet">
 				<script type="text/javascript" src="@routes.Assets.at("javascripts/star-rating.js")"></script>
 				<script type="text/javascript" src="@routes.Assets.at("javascripts/star-rating.min.js")"></script>
+				<script src="@routes.Assets.at("ckeditor/ckeditor.js")"></script>
 
 	<section>
 		<div class="container">
@@ -105,7 +106,7 @@
 									
 								<br>
 								<p><b>Minimal Order:</b> @restaurant.minOrder KM</p>
-								<p><b>Deliveri time:</b> 30 min</p>
+								<p><b>Delivery time:</b> 30 min</p>
 								<p><b>Location:</b> @restaurant.user.location.street @restaurant.user.location.number, @restaurant.user.location.city</p>
 								<p><b>Business hours:</b> @restaurant.workingTime</p>
 								
@@ -281,8 +282,7 @@
 							</div>
 							<div class="tab-pane fade active in" id="reviews" >
 							@for(comment <- Comment.findByMeal(meal.id)){
-																
-	
+
 								<div class="col-sm-12">
 									<ul>
 										@if(comment.author.username != null) {
@@ -310,7 +310,9 @@
             							</div>
             							</span>		
         								 <div class="form-group">
-            							 <textarea rows="5" cols="69" placeholder="Enter review" name="content" id="content" ></textarea>            							 
+            							 <textarea rows="5" cols="69" placeholder="Enter review" name="content" id="content" ></textarea>
+            							 	
+            							             							 
             							</div>
                                		 <div class="form-group">
                              <input id="rating" value="0" name="rating" type="number" class="rating" min=0 max=5 step=1 data-size="xs" >   		 
@@ -326,96 +328,7 @@
 						</div>
 					</div><!--/category-tab-->
 						
-					<div class="recommended_items"><!--recommended_items-->
-						<h2 class="title text-center">recommended items</h2>
-						
-						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								<div class="item active">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">	
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-								<i class="fa fa-angle-left"></i>
-							  </a>
-							  <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-								<i class="fa fa-angle-right"></i>
-							  </a>			
-						</div>
-					</div><!--/recommended_items-->
+				
 					
 				</div>
 			</div>

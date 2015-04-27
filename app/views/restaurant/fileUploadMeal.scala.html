@@ -1,102 +1,94 @@
 @(message: String)(email: String)(meal: Meal)(restaurants: List[Restaurant])(imageList: List[Image])
 
 @main(email) {
-	 <body>
 
-   <!--      @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest")){
-		           <div class="alert alert-success" role="alert">
-		           <div class="container">
-		            @flash.get("success")
-		         	@flash.get("error")
-		         	@flash.get("errorLink")
-		         	@flash.get("successApprovedRestaurant")
-		         	@flash.get("successSendRequest")
-		             </div>
-	            	</div>
-	              }
-	              --> 
+<body>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/bootstrap-filestyle.min.js")"></script>
 
-<header class="masthead">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <h1><a href="#" title="Scroll down for your viewing pleasure">Njam.ba</a>
-          <p class="lead">Please Upload your Picture</p></h1>
-       
-      </div>
-      <div class="col-md-6">
-        <div class="well pull-right">
-          <img src="//placehold.it/280x100/E7E7E7">        
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
+    <!-- Page Content -->
+    <div class="container">
+			<div class="row">
 
-<!-- Begin Body -->
-<div class="container">
-	<div class="no-gutter row">
-      		 
-      			
-      		<!--mid column-->
-      		<div class="col-md-3">
-              <div class="panel" id="midCol">
-                <div class="panel-heading" style="background-color:#555;color:#eee;">Restaurants</div> 
-                <div class="panel-body">
-                
-                  @for(restaurant<-restaurants){
-                  <img class="img-responsive" src="//placehold.it/300x150/77CCDD/66BBCC">
-                  
-                  <div class="well">
-                  
-              
-                     
-                     
-                  </div>
-                  }   
-                
-               </div> 
-               </div><!--/panel-->
-      		</div><!--/end mid column-->
-      		
-      		<!-- right content column-->
-      		<div class="col-md-9" id="content">
-            	<div class="panel">
-    			<div class="panel-heading" style="background-color:#111;color:#fff;">Meals</div>   
-              	<div class="panel-body">
-                  
-                  <!-- Page Features -->
-           
-             <div class="container">
-		
-		
+     @if(flash.get("successMeal") || flash.get("successEdited") || flash.get("deletedMeal") ){
+											<div class="alert alert-success" role="alert">
+											
+											<div class="container">
+												
+													@flash.get("successMeal")
+													@flash.get("successEdited")
+													@flash.get("deletedMeal")
+												</div>
+											</div>
+											</div>
+											}
 	
-	</div>
-        <!-- /.row -->
-                
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Category</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Bosnian cousine</a></h4>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Desserts</a></h4>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Fast Food</a></h4>
+								</div>
+							</div>
+													
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Italian cousine</a></h4>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title"><a href="#">Mexican cousine</a></h4>
+								</div>
+							</div>
+							
+							
+						</div><!--/category-productsr-->
+					
+					
+					</div>
+				</div>
+				
+				<div class="col-sm-9 padding-right">
+					<div class="features_items"><!--features_items-->
+						<h2 class="title text-center">Meals</h2>
+						
+					  <!-- /.row -->
+                                  <div class="well text-center"> 
+                    <h2>Please Upload Your Meal picture</h2>
+                    <h5>All images that are the wrong size will automatically be resized and will possibly stretch  to preserve 800px x 500px size</h5>
+                        <br>
+                  <div class="raw">
+                    <div class="col-md-4">
                   
-                  
-                  <div class="well text-center"> 
-                    <h1>Please Upload Your Meal picture</h1>
-                    
-                    <h3>Image must be 800px x 500px</h3>
-                    <h5>All images that are the wrong size</h5>
-                    <h5>will automatically be resized and will possibly</h5>
-                    <h5>stretch  to preserve 800px x 500px size</h5>
-                        
-                  <div>
-                    <div style= "margin-left: auto;  margin-right: auto;">
                     <form action="@routes.FileUpload.saveMealIMG(meal.id)" method="post" enctype="multipart/form-data" >
-		         	<input type="file" style="padding: 1%; margin-left: auto;  margin-right: auto;font-size:12;width: 205px" name="image" id="image"> 
-		          	<input type="submit" value="Send file" />
+					<input type="file" name="image" id="image" class="filestyle"/>
+					                    </div>
+					
+		          	<input type="submit" class="btn btn-default pull-left" value="Send file" />
                     </form>
                     
-                       <a class="btn btn-danger pull-right" href="/restaurantOwner/@email" role="button">Finished</a>
+                       <a class="btn btn-default pull-right" href="/restaurantOwner/@email" role="button">Finished</a>
                    </div>
+                   <br>
                  </div>
                   
-                  <hr>
-                
+               <br>                
                 </div>
               <div class="row">
               <div>
@@ -126,19 +118,34 @@
 
 			</div>
 			
-                </div><!--/panel-->
-      	</div> 
-  	</div>
-</div>
-<footer>
-  <div class="container">
-  	<div class="row">
-      <div class="col-md-12 text-right"><h5>©Company 2014</h5></div>
-    </div>
-  </div>
-</footer>
+                </div>
+				
+				<!--
+				<ul class="pagination">
+							<li class="active"><a href="">1</a></li>
+							<li><a href="">2</a></li>
+							<li><a href="">3</a></li>
+							<li><a href="">&raquo;</a></li>
+						</ul>
+					</div>
+					-->
+					<!--features_items-->
+			</div>
+		</div>
+	</section>
 
-
+   <!--      @if(flash.get("success") || flash.get("error") || flash.get("errorLink") || flash.get("successApprovedRestaurant") || flash.get("successSendRequest")){
+		           <div class="alert alert-success" role="alert">
+		           <div class="container">
+		            @flash.get("success")
+		         	@flash.get("error")
+		         	@flash.get("errorLink")
+		         	@flash.get("successApprovedRestaurant")
+		         	@flash.get("successSendRequest")
+		             </div>
+	            	</div>
+	              }
+	              --> 
 	<!-- script references -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>

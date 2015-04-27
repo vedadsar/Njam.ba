@@ -140,17 +140,13 @@
                         } else {
                         	<td>Approved refund</td>
                         }
-                        
-	                        <td>
-	                        
+        	                        <td>
 	                           <form method="POST" action="@routes.PaypalController.refundProcessing(transaction.cartToPayId)">
 	                           <input type="submit" onclick = "if (! confirm('Are you sure you want refund of this transaction?')) { return false; }" value="approve" class="btn btn-default btn-xs " />	 
 	                           </form>
 	                           
 	                        </td>
-                        
-                        
-                        
+                  
                         </tr>
                         }
                      </tbody>

@@ -52,11 +52,6 @@ public class CartController extends Controller {
 		List<Cart> carts = u.carts;
 		Cart newCart = null;
 
-		// if(carts.isEmpty()) {
-		// return TODO;
-		// }
-
-
 		for (int i = 0; i < carts.size(); i++) {
 			newCart = carts.get(i);
 			try {
@@ -68,50 +63,7 @@ public class CartController extends Controller {
 			} catch (NullPointerException e) {
 				e.printStackTrace();
 			}
-
-			// if (Cart.timeGap(u.id) == false || newCart.paid == true) {
-			// return redirect("/");
-			// }
-
 		}
-
-			// if (Cart.timeGap(u.id) == false || newCart.paid == true) {
-			// return redirect("/");
-			// }
-
-
-//		Cart newCart = Cart.findLastCart(u.id);
-//		List<CartItem> cartItems;
-//		List<Cart> carts = u.carts;
-//
-//		try {
-//			cartItems = newCart.cartItems;
-//			for (CartItem cartItem : cartItems) {
-//				total = total + cartItem.totalPrice;
-//			}
-//		} catch (NullPointerException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		if(Session.getCurrentUser(ctx()) == null){
-//			flash("loginP", "Please login");
-//			return redirect("/login");
-//		}
-//		
-//		if  (Cart.timeGap(u.id, newCart.id)==false || newCart.paid==true){
-//			flash("Warning","Please add meal to cart");
-//			return redirect("/");
-//		}
-
-
-		// return ok(cart.render(email, Cart.findLastCart(u.id).cartItems,
-		// total, minOrder));
-
-		// if ( Cart.timeGap(u.id)==false || newCart.paid==true){
-		// flash("Warning", "Please add Meal to your cart.");
-		// return redirect("/");
-		// }
 
 		return ok(views.html.widgets.cart.render(email, carts));
 
@@ -120,7 +72,6 @@ public class CartController extends Controller {
 	public static Result addNoteToCart(int cartId){
 		DynamicForm form = Form.form().bindFromRequest();
 		String orderNote = form.data().get("orderNote");
-		System.out.println("|||||||Order note: " + orderNote);
 		if (orderNote == null)
 			return redirect("/cart");
 		Cart cart = Cart.find(cartId);
@@ -129,16 +80,12 @@ public class CartController extends Controller {
 			cart.orderNote = orderNote;
 			cart.update();
 		}
-		
-		System.out.println("++++++Order note cart : " + cart.orderNote);
 		return redirect("/cart");
 	}
 	
 	public static Result addMealToBasket(int id) {
 		try {
 
-			
-			
 			if (Session.getCurrentUser(ctx()) == null) {
 				flash("Warning", "If you want to order food please Login.");
 			}
@@ -197,7 +144,6 @@ public class CartController extends Controller {
 			return redirect("/");
 		}
 	}
-
 
 	public static Result bindQuantity(int mealId, int cartId) {
 
@@ -267,18 +213,6 @@ public class CartController extends Controller {
 
 	}
 
-	// public static Result viewMeal(int id) {
-	// Meal meal = Meal.find(id);
-	// List<Image> imgs = meal.image;
-	// if (meal == null) {
-	// flash("Warning", "MA GREŠKA");
-	// return redirect("/");
-	// } else {
-	// email = session("email");
-	// return ok(mealView.render(email, meal));
-	// }
-	// }
-
 	public static Result viewMeal(int id) {
 		Meal meal = Meal.find(id);
 		List<Image> imgs = meal.image;
@@ -313,8 +247,7 @@ public class CartController extends Controller {
 			Jsoner jsoner = new Jsoner(name, price, quantity, totalPrice);
 			metaitems.add(jsoner);
 		}
-		
-		
+
 		JsonNode jsonNode = Json.toJson(metaitems);
 		Logger.debug("OVO JE LISTA KOJU SALJEM U AJAX KAO JSON:" + jsonNode.toString());
 		return ok(jsonNode);

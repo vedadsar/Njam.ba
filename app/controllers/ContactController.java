@@ -88,7 +88,6 @@ public class ContactController extends Controller{
 						} else {
 							flash("error", "There has been a problem");
 							return ok(views.html.widgets.contact.render(submit, email));
-						
 						}
 					}
 				});
