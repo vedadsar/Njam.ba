@@ -88,6 +88,7 @@ GET    /userSearch                          controllers.SearchController.ajaxSea
  
 POST   /getOrderDetails/:id                 controllers.CartController.giveMeDetails(id: String)
 POST   /subscribed                          controllers.NewsletterController.subscribe()
+GET    /about                               controllers.Application.about()
  
 # API service 
 GET    /api/users                           controllers.api.UserApi.users()

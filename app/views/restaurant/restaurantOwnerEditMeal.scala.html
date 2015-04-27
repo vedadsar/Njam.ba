@@ -9,7 +9,6 @@
     <!-- Page Content -->
     <div class="container">
 
-          
         
         <section>
 		<div class="container">
@@ -62,20 +61,15 @@
 					<div class="product-details"><!--product-details-->
 						<div class="col-sm-5">
 							<div class="view-product">
-								<img src="images/product-details/1.jpg" alt="" />
-								
+					<img src="@routes.Assets.at("images/meal" + meal.id)" alt="" >
+	
 							</div>
-							
-
+	
 						</div>
 						}
 						
 							
 						<div class="col-sm-7">
-							<div class="product-information"><!--/product-information-->
-								<img src="images/product-details/new.jpg" class="newarrival" alt="" />
-								
-								
 								<form class="form-horizontal" role="form" action="@routes.RestaurantController.editMeal(meal.id)" method = "POST">
 					               
 					               <div class="col-sm-10">

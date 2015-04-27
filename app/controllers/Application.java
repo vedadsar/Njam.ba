@@ -343,14 +343,13 @@ public class Application extends Controller {
 //			flash("MatchPass", "Passwords don't match");
 //			return redirect("/user/" + email);
 //		}
-		
+		String username = form.data().get("username").toString();
+		currentUser.username = username;
+
 		String city = form.data().get("city").toString();
 		String street = form.data().get("street").toString();
 		String number = form.data().get("number").toString();
-		
-		String username = form.data().get("username").toString();
-		currentUser.username = username;
-		
+				
 		if (!newHashedPassword.equals("")) {
 			currentUser.hashedPassword = Hash.hashPassword(newHashedPassword);
 		}
@@ -400,5 +399,9 @@ public class Application extends Controller {
 		transaction.update();
 		
 		return redirect("/");
+	}
+	
+	public static Result about() {
+		return ok(views.html.about.render(email));
 	}
 }
