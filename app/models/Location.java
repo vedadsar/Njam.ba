@@ -25,7 +25,7 @@ public class Location extends Model {
 	public String number;
 
 	
-	@OneToOne
+	@ManyToOne
 	public User user;
 	
 

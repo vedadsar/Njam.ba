@@ -107,7 +107,12 @@
 								<br>
 								<p><b>Minimal Order:</b> @restaurant.minOrder KM</p>
 								<p><b>Delivery time:</b> 30 min</p>
-								<p><b>Location:</b> @restaurant.user.location.street @restaurant.user.location.number, @restaurant.user.location.city</p>
+								<p><b>Location:</b> 
+								@for(location <- models.User.allLocation()){
+									<ul>
+									<li>@location.street @location.number, @location.city</li>
+									</ul>
+								}</p>
 								<p><b>Business hours:</b> @restaurant.workingTime</p>
 								
 								

@@ -88,7 +88,7 @@ public class MealApi extends Controller {
 			mealNode.put("id",meal.id);
 			mealNode.put("name", meal.name);
 			mealNode.put("restaurant", meal.restaurant.name);
-			mealNode.put("restaurantCity", meal.restaurant.user.location.city);
+			mealNode.put("restaurantCity", meal.restaurant.user.locations.iterator().next().city);
 			mealNode.put("price", meal.price);
 			if(meal.image.iterator().hasNext()){
 			mealNode.put("image", meal.image.iterator().next().imgLocation);}

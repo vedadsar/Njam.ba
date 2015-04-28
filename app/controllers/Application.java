@@ -149,7 +149,7 @@ public class Application extends Controller {
 		
 		User usr = new User(email, hashedPassword);		
 		Location loc = new Location("", "", "");
-		usr.location = loc;
+		usr.locations.add(loc);
 		loc.save();
 		usr.confirmationString = UUID.randomUUID().toString();
 		if (User.checkIfExists(email) == true) {
@@ -353,10 +353,12 @@ public class Application extends Controller {
 		if (!newHashedPassword.equals("")) {
 			currentUser.hashedPassword = Hash.hashPassword(newHashedPassword);
 		}
-		currentUser.location.city = city;
-		currentUser.location.street = street;
-		currentUser.location.number = number;
-		currentUser.location.update();
+		Location location = new Location(city, street, number);
+//		currentUser.location.city = city;
+//		currentUser.location.street = street;
+//		currentUser.location.number = number;
+//		currentUser.location.update();
+		currentUser.locations.add(location);
 		currentUser.update();
 		
 		Logger.info("User with email " +currentUser.email +" just edited his info!");

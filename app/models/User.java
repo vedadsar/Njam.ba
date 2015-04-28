@@ -36,8 +36,9 @@ public class User extends Model {
     public Date dateCreation;    
     @OneToOne(cascade=CascadeType.ALL)
     public Restaurant restaurant;
-	@OneToOne
-	public Location location;
+    
+	@OneToMany(cascade = CascadeType.ALL)
+	public List<Location> locations;
     @OneToOne
     public Cart cart;
     @OneToMany
@@ -56,6 +57,7 @@ public class User extends Model {
 	
     	
 	public static Finder<Integer, User> find = new Finder<Integer, User>(Integer.class, User.class);
+	public static Finder<Integer, Location> findL = new Finder<Integer, Location>(Integer.class, Location.class);
 	
 	public User(String email, String clearPassword){
 		this.email = email;
@@ -73,17 +75,17 @@ public class User extends Model {
 		this.role = role;		
 	}
 	
-	public static boolean createRestaurant(String name, String email, String password, String workingTime, String city, String address, String number){
+	public static boolean createRestaurant(String name, String email, String password, String workingTime, String city, String street, String number){
 		User check = find.where().eq("email", email).findUnique();
 		if(check != null){
 			return false;
 		} else {
 			User u  = new User(email, password, RESTAURANT);
-			Location location = new Location(city, address, number);
+			Location location = new Location(city, street, number);
 			location.user = u;
 			u.save();
-			u.location = location;
-			location.save();
+			u.locations.add(location);
+			
 			
 			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique(), workingTime);			
 			u.restaurant = r;
@@ -105,8 +107,8 @@ public class User extends Model {
 			Location location = new Location(city, address, number);
 			location.user = u;
 			u.save();
-			u.location = location;
-			location.save();
+			u.locations.add(location);
+			
 			
 			Restaurant r = new Restaurant(name, find.where().eq("email", email).findUnique(), workingTime);			
 			u.restaurant = r;
@@ -306,5 +308,27 @@ public class User extends Model {
 			Logger.debug("NE POSTOJI NEPRAZAN CART");
 			return true;
 		}
-
+		
+		public static List<Location> allLocation(){
+			return findL.all();
+		}
+		
+		public static Location lastLocation(){
+			List<Location> locations = findL.all();
+			int size = locations.size();
+			if (size == 0){
+				return null;
+			}
+			Location lastLocation = locations.get(size-1);
+			return lastLocation;
+		}
+		
+		public static List<Location> allUserLocation(int userId){
+			//User user = find.byId(userId);
+			List<Location> locations = findL.where().eq("user_id", userId).findList();
+			//user.locations = locations;
+			
+			return locations;
+		}
+ 
 }
