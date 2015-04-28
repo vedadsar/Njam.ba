@@ -155,6 +155,11 @@
 
 
 
+
+									
+									
+									
+									
 <!-- Add Location before order -->
 				<div class="table-responsive cart_info">
 					<table class="table table-condensed">
@@ -168,6 +173,7 @@
 								<td class="description">Street</td>
 								<td class="description">Number</td>
 								-->
+								<td class="description">Locations</td>
 								<td class="description">Locations</td>
 								
 							</tr>
@@ -204,12 +210,14 @@
 								          <option>Select your location</option>
 								          	@for( location <- models.User.allUserLocation(User.find(email).id) ){
 								          		@if(location.city != null || location.street!=null || location.number != null){
+								          			
 								          			 <option>@location.city, @location.street, @location.number</option>
+								          			 
 								          		}
 								            }
 								          </select>
 								        </div>
-								        
+								        </div>
 								        <script type="text/javascript">
 								        $(function() {
 								            $('.chosen-select').chosen();
@@ -218,6 +226,52 @@
 								        </script>
 								  </td>
 									<!-- /Dropdown for location -->
+									
+									
+								<td>
+								<form method="POST" action="@routes.CartController.setLocation(User.find(email).id)">
+								 <div class="form-group">
+						            <label class="col-sm-2 control-label" for="textinput">City</label>
+						                    <div class="col-sm-10">
+						                        <input type="text" class="form-control" id="city" name="city" placeholder="City" value="@(models.Location.lastLocation(User.find(email).id).city)" minlength="4" maxlength="30" title="Maximum 30 chars" required></input>
+						                    </div>
+						                </div>
+						                
+						                <div class="form-group">
+						                     <label for="inputEmail3" class="col-sm-2 control-label">Street</label>
+						                    <div class="col-sm-10">
+						                        <input type="text" class="form-control" id="street" name="street" placeholder="Street"  value="@(models.Location.lastLocation(User.find(email).id).street)" minlength="4" maxlength="30" title="Maximum 30 chars"></input>
+						                    </div>
+						                </div>
+						                
+						                <div class="form-group">
+						                     <label for="inputEmail3" class="col-sm-2 control-label">Number</label>
+						                    <div class="col-sm-10">
+						                        <input type="text" class="form-control" id="number" name="number" placeholder="Number"  value="@(models.Location.lastLocation(User.find(email).id).number)" maxlength="30" title="Maximum 30 chars"></input>
+						                        
+						                    </div>
+						                </div>
+						               
+						          <div class="form-group">
+						            <div class="col-sm-offset-2 col-sm-10">
+						              <div class="pull-right">
+						                
+						                <button type="submit" class="btn btn-primary">Confirm address</button>
+						              </div>
+						            </div>
+						          </div>
+						         </form>
+								</td>	
+										
+							</tr>
+						</tbody>
+								
+						
+									</table>
+		
+	
+</div>
+<!-- /Add location before order -->
 											
 										
 							</tr>

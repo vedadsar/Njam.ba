@@ -94,4 +94,20 @@ public class Location extends Model {
 	public static List <Restaurant> all(String city){
 		return findRestaurnt.where().eq("city", city).findList();
 	}
+	
+	public static Location lastLocation(int userId){
+//		User user =  findUser.where().eq("user_id", userId).findUnique();
+
+		List<Location> locations = find.where().eq("user_id", userId).findList();;
+		int size = locations.size();
+		if (size == 0){
+			return null;
+		}
+		Location lastLocation = locations.get(size-1);
+		if( lastLocation==null)
+			return null;
+		System.out.println("Last location: " + lastLocation);
+		return lastLocation;
+	}
+
 }

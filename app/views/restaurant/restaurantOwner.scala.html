@@ -56,6 +56,7 @@
                      <thead>
                         <tr>
                            <th>From</th>
+                           <th>Adress</th>
                            <th>Price</th>
                            <th>Order Note</th>
                            <th>Order details</th>
@@ -73,6 +74,11 @@
                         @for(transaction <- transactions){   
                         <tr>                 
                         <td>@transaction.email</td>
+                        <th><ul class="list-unstyled">
+                        <li>@(models.Location.lastLocation(transaction.userToPayId).city)</li>
+                        <li>@(models.Location.lastLocation(transaction.userToPayId).street)
+                        @(models.Location.lastLocation(transaction.userToPayId).number)</li>
+                        </ul></th>
                         <td>@transaction.price</td>
                         <td>@models.orders.Cart.find(transaction.cartToPayId).orderNote</td>                        
                         <td>

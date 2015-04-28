@@ -69,6 +69,7 @@ GET    /cart/delete/all                     controllers.CartController.removeAll
 GET    /cart/delete                         controllers.CartController.removeFromCart(id: Int, cartid: Int)
 POST   /cart/bind                           controllers.CartController.bindQuantity(id: Int, cartId: Int)
 POST   /cart/note                           controllers.CartController.addNoteToCart(cartId : Int)
+POST   /cart/location                       controllers.CartController.setLocation(userId : Int)
 
 GET    /mealView/:id                        controllers.CartController.viewMeal(id: Int)
 POST   /mealView/:id                        controllers.CartController.addMealToBasket(id: Int)
