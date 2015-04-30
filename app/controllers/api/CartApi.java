@@ -99,6 +99,8 @@ public class CartApi extends Controller {
 			cartItem.put("meal_quantity", item.quantity);
 			cartItem.put("cart_item_totalPrice", item.totalPrice);
 			cartItem.put("cart_totalPrice", item.cart.total);
+			if (item.cart.location !=  null)
+				cartItem.put("cart_location", item.cart.location);
 			array.add(cartItem);
 		}
 		return array;
