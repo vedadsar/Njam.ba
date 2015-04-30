@@ -50,6 +50,10 @@
 			<!--/ repeat verification -->
 				
 				
+	                 
+			</form>
+			</div>
+			
 					@if(flash.get("inDatabase") || flash.get("success") || flash.get("loginP") || flash.get("validate")){
 			           <div class="alert alert-success" role="alert">
 			            @flash.get("inDatabase")
@@ -65,10 +69,6 @@
 			            @flash.get("failed")
 			             </div>  
 	                 }
-	                 
-			</form>
-			</div>
-			
 		</div>
 		<div class="col-md-3 text-right column">
 			<p>Not member?<a href="/registration" class="btn btn-link" type="button">Register</a></p>
