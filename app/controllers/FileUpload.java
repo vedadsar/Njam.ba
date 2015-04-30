@@ -34,6 +34,7 @@ import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import views.html.*;
+import views.html.admin.*;
 import models.*;
 import Utilites.RestaurantFilter;
 
@@ -82,12 +83,18 @@ public class FileUpload extends Controller {
 
 			MultipartFormData body = request().body().asMultipartFormData();
 			FilePart filePart = body.getFile("image");
-
+             if(!filePart.getContentType().contains("image")){
+            	
+ 	        	Logger.debug("Usao u if");
+ 	        	return errorResponce("File not working :");
+             }
+            	 
+            	 
 			try {
 				image = filePart.getFile();
 			} catch (NullPointerException e) {
 				Logger.debug(("Empty File Upload" + e));
-				return ok(views.html.admin.wrong.render("OOPS you didnt send a file"));
+				return ok(wrong.render("OOPS you didnt send a file"));
 			}
 
 			imgFileName = filePart.getFilename();
@@ -124,6 +131,13 @@ public class FileUpload extends Controller {
 
 		} else
 			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
+	}
+
+	
+	
+	private static Result errorResponce(String text) {
+		return ok(views.html.admin.wrong.render(text));
+		
 	}
 
 	/**
