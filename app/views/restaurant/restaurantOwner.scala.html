@@ -74,11 +74,7 @@
                         @for(transaction <- transactions){   
                         <tr>                 
                         <td>@transaction.email</td>
-                        <th><ul class="list-unstyled">
-                        <li>@(models.Location.lastLocation(transaction.userToPayId).city)</li>
-                        <li>@(models.Location.lastLocation(transaction.userToPayId).street)
-                        @(models.Location.lastLocation(transaction.userToPayId).number)</li>
-                        </ul></th>
+                        <td>@(models.orders.Cart.getLocationByCartId(transaction.cartToPayId))</td>
                         <td>@transaction.price</td>
                         <td>@models.orders.Cart.find(transaction.cartToPayId).orderNote</td>                        
                         <td>

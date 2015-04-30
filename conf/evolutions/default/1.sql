@@ -12,6 +12,7 @@ create table cart (
   empty                     boolean,
   total                     double,
   min_order                 double,
+  location                  varchar(255),
   date                      timestamp,
   order_note                varchar(255),
   restaurant_name           varchar(255),

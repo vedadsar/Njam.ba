@@ -114,7 +114,39 @@
 													@if(cart.minOrder <= cart.total) {
 													
 													<form method="POST" action="@routes.PaypalController.purchaseProcessing(cart.id)">
-														<input type="image" <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" value="approve"/>
+													
+														<!-- Add location -->
+													 	<div class="form-group">
+												            <label class="col-sm-2 control-label" for="textinput">City</label>
+												                    <div class="col-sm-10">
+												                        <input type="text" class="form-control" id="city" name="city" placeholder="City"  minlength="4" maxlength="30" title="Maximum 30 chars" required></input>
+												                    </div>
+												                </div>
+												                
+												                <div class="form-group">
+												                     <label for="inputEmail3" class="col-sm-2 control-label">Street</label>
+												                    <div class="col-sm-10">
+												                        <input type="text" class="form-control" id="street" name="street" placeholder="Street"   minlength="4" maxlength="30" title="Maximum 30 chars"></input>
+												                    </div>
+												                </div>
+												                
+												                <div class="form-group">
+												                     <label for="inputEmail3" class="col-sm-2 control-label">Number</label>
+												                    <div class="col-sm-10">
+												                        <input type="text" class="form-control" id="number" name="number" placeholder="Number"   maxlength="30" title="Maximum 30 chars"></input>
+												                        
+												                    </div>
+												                </div>
+												                <!-- /Add location -->
+													
+												
+														<div class="row">
+														<div class="span6">
+															<div class="col-sm-10">
+																<input type="image" <img src="//www.paypalobjects.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Check out with PayPal" value="approve"/>
+															</div>
+														</div>
+														</div>
 													</form>
 												</div>
 												
@@ -151,127 +183,9 @@
 </div>
 
 
+			
+									
 
-
-
-
-
-									
-									
-									
-									
-<!-- Add Location before order -->
-				<div class="table-responsive cart_info">
-					<table class="table table-condensed">
-						<thead>
-							<tr class="cart_menu">
-								
-								<td class="description">Username</td>
-								<td class="description">Email</td>
-								<!--  
-								<td class="description">City</td>
-								<td class="description">Street</td>
-								<td class="description">Number</td>
-								-->
-								<td class="description">Locations</td>
-								<td class="description">Locations</td>
-								
-							</tr>
-						</thead>
-						
-						
-						<tbody>
-							<tr>
-								
-								<td class="cart_product">@User.find(email).username</td>
-								<td class="cart_description">@User.find(email).email</td>
-								<!--  
-								<td> @for( location <- models.User.allUserLocation(User.find(email).id) ){
-	                        	<ul class="list-unstyled">
-	                            <li>  @location.city</li>
-	                            </ul>}</td>
-	                        <td>@for( location <- models.User.allUserLocation(User.find(email).id) ){
-	                        	<ul class="list-unstyled">
-	                        	<li>@location.street</li>
-	                        	</ul>
-	                        	}</td>
-	                        <td>@for( location <- models.User.allUserLocation(User.find(email).id) ){
-	                        	<ul class="list-unstyled">
-	                        	<li>@location.number</li>
-	                        	 </ul>}</td>
-								-->				
-									
-								  
-									  <!-- Dropdown for location -->
-								<td>	  
-									  <div class="row">
-								        <div class="col-sm-10">
-								          <select class="form-control">
-								          <option>Select your location</option>
-								          	@for( location <- models.User.allUserLocation(User.find(email).id) ){
-								          		@if(location.city != null || location.street!=null || location.number != null){
-								          			
-								          			 <option>@location.city, @location.street, @location.number</option>
-								          			 
-								          		}
-								            }
-								          </select>
-								        </div>
-								        </div>
-								        <script type="text/javascript">
-								        $(function() {
-								            $('.chosen-select').chosen();
-								            $('.chosen-select-deselect').chosen({ allow_single_deselect: true });
-								          });
-								        </script>
-								  </td>
-									<!-- /Dropdown for location -->
-									
-									
-								<td>
-								<form method="POST" action="@routes.CartController.setLocation(User.find(email).id)">
-								 <div class="form-group">
-						            <label class="col-sm-2 control-label" for="textinput">City</label>
-						                    <div class="col-sm-10">
-						                        <input type="text" class="form-control" id="city" name="city" placeholder="City" value="@(models.Location.lastLocation(User.find(email).id).city)" minlength="4" maxlength="30" title="Maximum 30 chars" required></input>
-						                    </div>
-						                </div>
-						                
-						                <div class="form-group">
-						                     <label for="inputEmail3" class="col-sm-2 control-label">Street</label>
-						                    <div class="col-sm-10">
-						                        <input type="text" class="form-control" id="street" name="street" placeholder="Street"  value="@(models.Location.lastLocation(User.find(email).id).street)" minlength="4" maxlength="30" title="Maximum 30 chars"></input>
-						                    </div>
-						                </div>
-						                
-						                <div class="form-group">
-						                     <label for="inputEmail3" class="col-sm-2 control-label">Number</label>
-						                    <div class="col-sm-10">
-						                        <input type="text" class="form-control" id="number" name="number" placeholder="Number"  value="@(models.Location.lastLocation(User.find(email).id).number)" maxlength="30" title="Maximum 30 chars"></input>
-						                        
-						                    </div>
-						                </div>
-						               
-						          <div class="form-group">
-						            <div class="col-sm-offset-2 col-sm-10">
-						              <div class="pull-right">
-						                
-						                <button type="submit" class="btn btn-primary">Confirm address</button>
-						              </div>
-						            </div>
-						          </div>
-						         </form>
-								</td>	
-										
-							</tr>
-						</tbody>
-								
-						
-									</table>
-		
-	
-</div>
-<!-- /Add location before order -->
 											
 										
 							</tr>

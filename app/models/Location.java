@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import models.orders.Cart;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
@@ -12,6 +13,7 @@ import play.db.ebean.Model.Finder;
 public class Location extends Model {
 	
 	static Finder<Integer, Location> find =  new Finder<Integer, Location>(Integer.class, Location.class);
+	static Finder<Integer, Cart> findC =  new Finder<Integer, Cart>(Integer.class, Cart.class);
 
 	static Finder<Integer, Restaurant> findRestaurnt =  new Finder<Integer, Restaurant>(Integer.class, Restaurant.class);
 
@@ -23,13 +25,18 @@ public class Location extends Model {
 	public String street;
 	@Required
 	public String number;
-
 	
 	@ManyToOne
 	public User user;
 	
 
 	public Location( String city,String street, String number){				
+		this.city = city;
+		this.street = street;
+		this.number = number;
+	}
+	
+	public Location( String city,String street, String number, Cart cart){				
 		this.city = city;
 		this.street = street;
 		this.number = number;
@@ -96,7 +103,6 @@ public class Location extends Model {
 	}
 	
 	public static Location lastLocation(int userId){
-//		User user =  findUser.where().eq("user_id", userId).findUnique();
 
 		List<Location> locations = find.where().eq("user_id", userId).findList();;
 		int size = locations.size();
@@ -108,6 +114,12 @@ public class Location extends Model {
 			return null;
 		System.out.println("Last location: " + lastLocation);
 		return lastLocation;
+	}
+	
+
+	
+	public static Location getLocationByCart( int cartId){
+		return find.where().eq("cart_id", cartId).findUnique();
 	}
 
 }

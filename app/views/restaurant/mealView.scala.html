@@ -108,8 +108,8 @@
 								<p><b>Minimal Order:</b> @restaurant.minOrder KM</p>
 								<p><b>Delivery time:</b> 30 min</p>
 								<p><b>Location:</b> 
-								@for(location <- models.User.allLocation()){
-									<ul>
+								@for(location <- models.User.allUserLocation(restaurant.user.id)){
+									<ul class="list-unstyled">
 									<li>@location.street @location.number, @location.city</li>
 									</ul>
 								}</p>
