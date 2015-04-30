@@ -53,7 +53,7 @@ public class Faq extends Model {
 	public static boolean edit(Faq f, String question, String answer) {
 		f.question = question;
 		f.answer = answer;
-		f.update();
+		f.save();
 		Faq editedFaq = find.byId(f.id);
 		if (!editedFaq.question.equals(question) || !editedFaq.answer.equals(answer)) {
 			return false;

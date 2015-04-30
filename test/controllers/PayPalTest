@@ -1,0 +1,54 @@
+URL: localhost:9000
+
+Registracija sa sljedecim podacima: 
+Email - dastko@gmail.com
+Password - Davorike123
+
+Nakon logina korisnik potom odabere zeljeno jelo klikom na add to cart. 
+(u testnom primjeru je to bila Pizza - 2 komada).
+
+Klikom na paypal image redirecta se na sljedeci url - https://www.sandbox.paypal.com/ba/cgi-bin/merchantpaymentweb?cmd=_flow&SESSION=qZZy99RsfD-nmRyFPgtIJvlwJ8Lo3XmbFXqLNnUtUAFNVD51zPgFYNxsmyq&dispatch=50a222a57771920b6a3d7b606239e4d529b525e0b7e69bf0224adecfb0124e9b61f737ba21b08198ecd47ed44bac94cd6fd721232afa4155
+
+(Description of order: Njam.ba Total Price: 10.0 Cart ID: 1)
+
+Korisnik se potom redirecta na svoj profil i ispise mu se poruka: 
+
+Thank You for ordering> Wait until restaurant confirm your order.
+
+U tabeli transakcije se nalaze sljedeci podaci (izmedju ostalih):
+
+Context - Bearer A015poF06a1BoZn0uhNrzkvHRddVhwGjkhP8YF3GXPU0OU8	
+Payment - PAY-5P556911LC2328243KVBBW2I	
+Payment execution - YRNDD6Z2AGFWU	
+Token - EC-1A4619597T646223U	
+
+Novac se nakon redirecta na profil usera ne skine sa njegovor racuna, nego se ceka approve restorana. 
+Kada on potvrdi naruzdbu i unese vrijeme dostave, izvrsi se Payment execution i novac se skida sa racuna (u tom trenutku se u tabeli TransacionU mijenjaju polja approved u true i vrijeme dostave).
+Tada i stize mail sa potvrdom naruzdbe.
+
+Ukoliko korisnik odustane prilikom placanja, redirecta se na index.
+
+Kada se izvrsi uplata, korisnik na svom profilu ima na raspolaganju opciju refund.
+U tabeli se nalaze sljedeca polja:
+
+Restaurant name	
+Order list	
+Order Note	
+Total price	
+Delivery time	
+Refund
+
+Nakon sto klikne na refund, salje se zahtjev administratoru za povrat novca.
+U tabeli zahtjeva se nalaze sljedeca polja:
+Restaurant	(User ID) 
+Email	(Cart ID) 
+Order list	
+Price	
+Delivery Time	
+Time diference	
+Status
+
+Administrator razmatra refund i klikom na approve novac se automatski vraca korisniku na paypal racun, bez potrebe da on odlazi na
+paypal sajt sa tokenom i da sam trazi refund.
+Nakon refunda korisnik dobija email sa potvrdom i detaljnim informacijama.	
+U tabeli transactionU se, potom, refund boolean polje prebacuje u true.

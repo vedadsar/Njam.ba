@@ -72,22 +72,22 @@ public class IntegrationTest {
 //
 //	}
 	
-	@Test
-	public void mealViewTest() {
-		running(testServer(3333, fakeApplication(inMemoryDatabase())),
-				HTMLUNIT, new Callback<TestBrowser>() {
-					public void invoke(TestBrowser browser) {
-						
-						User test = new User("test@test.ba", "test");
-						Restaurant urbanGrill = new Restaurant("haris", test);
-						Meal.create("Sarma", 15, urbanGrill );
-						
-						browser.goTo("http://localhost:3333/");
-						assertThat(browser.pageSource()).contains("Sarma");
-						assertThat(browser.pageSource()).contains("Food price");
-
-					}
-				});
-	}
+//	@Test
+//	public void mealViewTest() {
+//		running(testServer(3333, fakeApplication(inMemoryDatabase())),
+//				HTMLUNIT, new Callback<TestBrowser>() {
+//					public void invoke(TestBrowser browser) {
+//						
+//						User test = new User("test@test.ba", "test");
+//						Restaurant urbanGrill = new Restaurant("haris", test);
+//						Meal.create("Sarma", 15, urbanGrill );
+//						
+//						browser.goTo("http://localhost:3333/");
+//						assertThat(browser.pageSource()).contains("Sarma");
+//						assertThat(browser.pageSource()).contains("Food price");
+//
+//					}
+//				});
+//	}
 	
 }

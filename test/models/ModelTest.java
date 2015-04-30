@@ -2,8 +2,13 @@ package models;
 
 import static org.junit.Assert.*;
 import static play.test.Helpers.*;
+
+import java.util.Date;
+
 import models.User;
+
 import org.junit.*;
+
 import Utilites.Hash;
 import play.test.WithApplication;
 
@@ -17,15 +22,15 @@ public class ModelTest extends WithApplication  {
 	@Test
 	public void restaurant(){
 		//creating userRestaurant model
-		User.createRestaurant("Test1", "Test@test.ba", "test", "test", "Test", "test");
-		User u = User.find(5);		
+		User.createRestaurant("Test1", "Test1@test.ba", "test", "24", "Sarajevo", "Fojnicka", "5");
+		User u = User.find("Test1@test.ba");		
 		assertNotNull(u);		
 		assertEquals(User.RESTAURANT, u.role);
-		assertEquals(u.email, "Test@test.ba");
+		assertEquals(u.email, "Test1@test.ba");
 		assertTrue( Hash.checkPassword("test",u.hashedPassword));	
 		//Creating restaurant model
-		Restaurant.create("Test", null);
-		Restaurant r = Restaurant.find(4);
+		Restaurant.create("Test", null, "24");
+		Restaurant r = Restaurant.findByName("Test");
 		assertNotNull(r);		
 		
 	}
@@ -33,14 +38,14 @@ public class ModelTest extends WithApplication  {
 	@Test
 	public void user(){
 		User.createUser("Test@test.ba", "test");
-		User u = User.find(5);		
+		User u = User.find("Test@test.ba");		
 		assertNotNull(u);	
 		assertEquals(User.USER, u.role);
 		assertEquals(u.email, "Test@test.ba");
 		assertTrue( Hash.checkPassword("test",u.hashedPassword));
 		
-		User.deleteUser(5);
-		assertNull(User.find(5));
+		User.deleteUser(u);
+		assertNull(User.find("Test@test.ba"));
 	}
 	
 	@Test
@@ -58,8 +63,8 @@ public class ModelTest extends WithApplication  {
 	@Test
 	public void mealTest(){
 		//Testing meal creation
-		Meal.create("Test", 5, null);
-		Meal m = Meal.find(1);
+		Meal.create("Test", 5.0, "Burek", null);
+		Meal m = Meal.findByName("Test");
 		assertNotNull(m);
 		assertEquals("Test", m.name);
 		
@@ -80,15 +85,58 @@ public class ModelTest extends WithApplication  {
 		assertNotNull(f);
 		assertEquals(f.answer, "Test answer");
 		
+		// Delete Faq
 		int id = f.id;
 		Faq.delete(id);
 		assertNull(Faq.findById(id));
 	}
 	
 	@Test
+	public void updateFaq(){
+		Faq f = new Faq("FAQ pitanje", "FAQ odgovor");
+		assertNotNull(f);
+		assertEquals(f.answer, "FAQ odgovor");
+
+		f.answer = "FAQ edit odgovor";
+		f.save();
+		assertEquals(f.answer, "FAQ edit odgovor");
+
+	}
+	
+	@Test
+	public void commentTest(){
+		User.createUser("test@test.ba", "test");
+		User u = User.find("test@test.ba");
+		Meal m = Meal.find(1);
+		Comment c = new Comment(u, "test", "test", 5, m);
+		c.save();
+		assertNotNull(c);
+		assertEquals("test", c.title);
+		assertEquals("test", c.content);
+		assertEquals(5, c.rating);
+
+		// Null
+		assertNull(Comment.find(100));
+
+	}
+	
+	@Test
+	public void locationTest(){
+		
+		Location l = new Location("Sarajevo", "Paromlinska", "30");
+		l.save();
+		assertNotNull(l);
+		assertEquals("Sarajevo", l.city);
+		assertEquals("Paromlinska", l.street);
+		assertEquals("30", l.number);
+		
+		// Null
+		assertNull(Location.findByCity("New York"));
+	}
+		
+	@Test
 	public void testFindNonExisting() {
 		User u = User.find(1000);
-
 		assertNull(u);
 	}
 	
@@ -97,5 +145,4 @@ public class ModelTest extends WithApplication  {
 		Meal c = Meal.find(1500);
 		assertNull(c);
 	}
-	
 }
