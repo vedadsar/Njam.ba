@@ -336,7 +336,11 @@ public void removeMeal(Meal m, int userId, int cartId) {
 		}
 	}
 	
-
+	/**
+	 * 
+	 * @param cartId
+	 * @return
+	 */
 	public static String getLocationByCartId(int cartId){
 		Cart cart = findC.where().eq("id", cartId).findUnique();
 		String location = cart.location;
