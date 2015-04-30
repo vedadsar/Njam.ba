@@ -55,7 +55,7 @@ public class SudoController extends Controller{
 		}
 		r.user = null;
 		u.restaurant = null;
-		u.location = null;
+		u.locations= null;
 		r.save();		
 		u.save();
 

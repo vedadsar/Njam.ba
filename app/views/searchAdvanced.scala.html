@@ -89,8 +89,13 @@ String)(location: String)(restaurant: String) @main(email) {
 
 							<td><a href="/mealView/@meal.id">@meal.name </a></td>
 							<td><a href="/restaurantProfile/@meal.restaurant.name">@meal.restaurant.name</a></td>
-							<td>@meal.restaurant.user.location.city</td>
-							<td>@meal.restaurant.user.location.street</td>
+							<td>
+							@for(location <- models.User.allLocation()){
+							<ul>
+								<li>@location.street @location.number, @location.city</li>
+							</ul>
+							}</td>
+							
 							<td>@meal.price KM</td>
 						</thead>
 						</tr>

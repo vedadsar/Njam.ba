@@ -21,7 +21,7 @@ public class Global extends GlobalSettings {
 		testUser.role = "USER";
 		testUser.dateCreation = new Date();
 		Location loc = new Location("", "", "");
-		testUser.location = loc;
+		testUser.locations.add(loc);
 		loc.save();
 		testUser.update();
 		

@@ -252,5 +252,25 @@ public class CartController extends Controller {
 		Logger.debug("OVO JE LISTA KOJU SALJEM U AJAX KAO JSON:" + jsonNode.toString());
 		return ok(jsonNode);
 	}
+	
+	public static Result setLocation(int userId){
+		DynamicForm form = Form.form().bindFromRequest();
+		
+		String city = form.data().get("city");
+		String street = form.data().get("street");
+		String number = form.data().get("number");
+		Location newLocation = new Location(city, street, number);
+		
+		User user = User.find(userId);
+		List<Location> locations = user.locations;
+		if (locations.contains(newLocation) ==true){
+			int idx = locations.indexOf(newLocation);
+			locations.remove(idx);
+			user.save();
+		}
+		locations.add(newLocation);
+		user.save();
+		return redirect("/cart");
+	}
 
 }

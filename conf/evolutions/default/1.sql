@@ -12,6 +12,7 @@ create table cart (
   empty                     boolean,
   total                     double,
   min_order                 double,
+  location                  varchar(255),
   date                      timestamp,
   order_note                varchar(255),
   restaurant_name           varchar(255),
@@ -137,7 +138,6 @@ create table user (
   username                  varchar(255),
   hashed_password           varchar(255),
   restaurant_id             integer,
-  location_id               integer,
   cart_id                   integer,
   confirmation_string       varchar(255),
   validated                 boolean,
@@ -206,10 +206,8 @@ alter table transaction_u add constraint fk_transaction_u_restaurant_15 foreign 
 create index ix_transaction_u_restaurant_15 on transaction_u (restaurant_id);
 alter table user add constraint fk_user_restaurant_16 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
 create index ix_user_restaurant_16 on user (restaurant_id);
-alter table user add constraint fk_user_location_17 foreign key (location_id) references location (id) on delete restrict on update restrict;
-create index ix_user_location_17 on user (location_id);
-alter table user add constraint fk_user_cart_18 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
-create index ix_user_cart_18 on user (cart_id);
+alter table user add constraint fk_user_cart_17 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
+create index ix_user_cart_17 on user (cart_id);
 
 
 

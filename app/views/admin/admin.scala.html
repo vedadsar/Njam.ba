@@ -62,9 +62,19 @@
                         <td>@restaurant.id</td>
                         <td>@restaurant.name</td>
                         <td>@restaurant.user.email</td>
-                        <td>@restaurant.user.location.city</td>
-                        <td>@restaurant.user.location.street</td>
-                        <td>@restaurant.user.location.number</td>
+                        <td> @for( location <- models.User.allUserLocation(restaurant.user.id) ){
+                        	<ul class="list-unstyled">
+                            <li>  @location.city</li>
+                            </ul>}</td>
+                        <td>@for( location <- models.User.allUserLocation(restaurant.user.id) ){
+                        	<ul class="list-unstyled">
+                        	<li>@location.street</li>
+                        	</ul>
+                        	}</td>
+                        <td>@for( location <- models.User.allUserLocation(restaurant.user.id) ){
+                        	<ul class="list-unstyled">
+                        	<li>@location.number</li>
+                        	 </ul>}</td>
                         @if(restaurant.user.validated == true) {
                         	<td>Approved</td>
                         } else {

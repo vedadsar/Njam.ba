@@ -203,11 +203,15 @@ public class RestaurantController extends Controller {
 		
 		currentUser.restaurant.name = name;
 		currentUser.restaurant.minOrder = minOrder;
+		Location location = new Location(city,street,number);
+		/*
 		currentUser.location.city = city;
 		currentUser.location.street = street;
 		currentUser.location.number = number;
 		currentUser.restaurant.update();
 		currentUser.location.update();
+		*/
+		currentUser.locations.add(location);
 		currentUser.update();
 		
 		/*

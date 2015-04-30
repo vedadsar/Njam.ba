@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import models.Location;
 import models.Meal;
 import models.TransactionU;
 import models.User;
@@ -44,7 +45,17 @@ public class Cart extends Model {
 	public double total;
 	@Required
 	public double minOrder;
+	@Required
+	public String location;
 	
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public Date date;
 	
 	public String orderNote;
@@ -66,6 +77,7 @@ public class Cart extends Model {
 	static Finder<Integer, CartItem> findI = new Finder<Integer, CartItem>(Integer.class, CartItem.class);
 	static Form<CartItem> inputForm = new Form<CartItem>(CartItem.class);
 
+
 	
 	public Cart(int id, User user){
 		this.id = id;
@@ -77,6 +89,22 @@ public class Cart extends Model {
 		this.total = 0;
 		this.date = new Date();
 		this.orderNote = "Regular";
+		this.location="";
+		
+	}
+	
+	public Cart(int id, User user, String location){
+		this.id = id;
+		this.user = user;
+		this.paid = false;
+		this.ordered = false;
+		this.timedOut = false;
+		this.empty = false;
+		this.total = 0;
+		this.date = new Date();
+		this.orderNote = "Regular";
+		this.location = location;
+		
 	}
 	
 	public Cart( User user){
@@ -88,7 +116,10 @@ public class Cart extends Model {
 		this.total = 0;
 		this.date =new Date();
 		this.orderNote = "Regular";
+		this.location="";
+		
 	}
+
 	
 	public Cart( User user, String restaurantName) {
 		this.user = user;
@@ -100,6 +131,7 @@ public class Cart extends Model {
 		this.date =new Date();
 		this.restaurantName = restaurantName;
 		this.orderNote = "Regular";
+		this.location="";
 	}
 	
 	public void addMeal(Meal meal) {
@@ -304,5 +336,13 @@ public void removeMeal(Meal m, int userId, int cartId) {
 		}
 	}
 	
+
+	public static String getLocationByCartId(int cartId){
+		Cart cart = findC.where().eq("id", cartId).findUnique();
+		String location = cart.location;
+		return location;
+	}
+	
+	 
 }
 	

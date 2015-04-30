@@ -78,6 +78,21 @@ public class PaypalController extends Controller {
 			User u = Session.getCurrentUser(ctx());
 			Cart cart = Cart.findCartInCarts(u.id, cartId);
 			
+			/* Add locaton on transacton */
+			DynamicForm form = Form.form().bindFromRequest();
+			
+			String city = form.data().get("city");
+			String street = form.data().get("street");
+			String number = form.data().get("number");
+			Location location  =new Location(city, street, number);
+			u.locations.add(location);
+			u.save();
+			StringBuilder sb = new StringBuilder();
+			sb.append(String.valueOf(city)).append(" ,").append(String.valueOf(street)).append(" ,").append(String.valueOf(number));
+			cart.setLocation(sb.toString());
+			System.out.println("Location u cartu" + cart.location);
+			cart.update();
+			
 			String restName = cart.restaurantName;
 			restaurantToPay = Restaurant.findByName(restName);
 			
@@ -88,7 +103,7 @@ public class PaypalController extends Controller {
 			cartToPayId = cartId;
 			
 			Amount amount = new Amount();
-			amount.setTotal("15");
+			amount.setTotal(price);
 			amount.setCurrency("USD");
 						
 			String description = String.format("Description of order: %s\n"

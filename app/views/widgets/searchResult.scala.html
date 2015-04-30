@@ -63,8 +63,12 @@
                       @for(meal<-srchResultMeal){               
                         <td>@meal.name</td>
                         <td><a href="/restaurantProfile/@meal.restaurant.name">@meal.restaurant.name</a></td>
-                        <td>@meal.restaurant.user.location.city</td>
-                        <td>@meal.restaurant.user.location.street</td>
+                        <td>
+							@for(location <- models.User.allLocation()){
+							<ul>
+								<li>@location.street @location.number, @location.city</li>
+							</ul>
+							}</td>
                         <td>@meal.price KM </td>
                         <td>     </td>
                         
@@ -78,11 +82,12 @@
                         	@for(restaurant<-srchResultRestaurant){
                           <div style=>
                         <td ><a href="/restaurantProfile/@restaurant.name"><strong>@restaurant.name</strong></a></td>
-                        <td>  @restaurant.user.location.city </td>
-                             <td> @restaurant.user.email    </td>
-                             <td>@restaurant.user.location.street</td>
-                             <td>@restaurant.user.location.number</td>
-                             
+                        <td> @restaurant.user.email    </td>
+							@for(location <- models.User.allLocation()){							
+                        	<td> @location.city </td>
+                             <td>@location.street</td>
+                             <td>@location.number</td>
+                            } 
                         </div>
                           </thead>
                         </tr>
