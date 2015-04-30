@@ -225,7 +225,7 @@ public class SearchController extends Controller {
 	 * @return List<Meal> that satisfies the search parameter
 	 */
 	public static List <Meal> mealAdvancedSearch(){
-	List <Meal> m = find.where().ilike("name","%"+sequenceBuilt+"%").ilike("restaurant.user.location.city", "%"+locationBuilt+"%").ilike("restaurant.name","%"+restaurantBuilt+"%").findList(); 
+	List <Meal> m = find.where().ilike("name","%"+sequenceBuilt+"%").ilike("restaurant.user.locations.city", "%"+locationBuilt+"%").ilike("restaurant.name","%"+restaurantBuilt+"%").findList(); 
 	return m;	
 	}
 	
@@ -245,7 +245,7 @@ public class SearchController extends Controller {
 	}
 
 	public static List<Meal> searchAllMealsByCity(String q) {
-		List<Meal> meals = Meal.find.where().ilike("restaurant.user.location.city", "%"+q+"%").findList();
+		List<Meal> meals = Meal.find.where().ilike("restaurant.user.locations.city", "%"+q+"%").findList();
 				
 		return meals;
 	}
