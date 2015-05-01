@@ -1,24 +1,25 @@
 package models;
  
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
- 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
- 
+
 import models.orders.Cart;
 import models.orders.CartItem;
- 
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.paypal.api.payments.Payment;
 import com.paypal.api.payments.PaymentExecution;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
- 
+
 import play.Logger;
 import play.db.ebean.Model;
 import play.libs.Json;
@@ -55,7 +56,9 @@ public class TransactionU extends Model {
 	
 	public Boolean refused = false;
 	
-	public int deliveryTime;
+	public long deliveryTime;
+	public long orderTimeGap;
+	public long lateTime;
 	
 	public Boolean refund;
 	
@@ -143,4 +146,14 @@ public class TransactionU extends Model {
 	public static List <TransactionU> transactionsForRefund(){
 		return find.where().eq("refund", true).findList();
 	}
+	
+	public static boolean checkOrderTimeGap(TransactionU transaction){
+		Date timeNow = new Date();
+		long timeDiffernece = transaction.orderTimeGap  - timeNow.getTime();
+		System.out.println("Time difference: " + timeDiffernece);
+		if( timeDiffernece < 0 )
+			return true;
+		return false;
+	}
+	
 }
