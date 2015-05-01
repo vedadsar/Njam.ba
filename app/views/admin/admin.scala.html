@@ -144,7 +144,7 @@
                         
                         <td>@transaction.price</td>
                         <td>@transaction.deliveryTime min</td>
-                        <td>... min</td>
+                        <td>@transaction.lateTime min</td>
                         @if(transaction.approved == true) {
                         	<td>Refused refund</td>
                         } else {
