@@ -204,7 +204,6 @@ public class PaypalController extends Controller {
 		
 		Date startApproval = new Date();
 		
-		
 		TransactionU transaction = TransactionU.find(paymentId);
 		
 		DynamicForm paypalReturn = Form.form().bindFromRequest();
@@ -241,6 +240,7 @@ public class PaypalController extends Controller {
 			restaurant.approvedOrders ++;
 			restaurant.update();
 			
+			SmsController.messages(deliveryTime, restaurant.name);
 			flash("SuccessApprovedOrder", "Order successfully approved!");
 			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name, transaction.items);
 			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
