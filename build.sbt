@@ -19,5 +19,6 @@ libraryDependencies ++= Seq(
   "com.paypal.sdk" % "rest-api-sdk" % "1.2.0",
   "org.imgscalr" % "imgscalr-lib" % "4.2",
    "org.jsoup" % "jsoup" % "1.8.1",
-   "org.apache.poi" % "poi" % "3.11"
+   "org.apache.poi" % "poi" % "3.11",
+   "com.twilio.sdk" % "twilio-java-sdk" % "4.0.1"
   )
