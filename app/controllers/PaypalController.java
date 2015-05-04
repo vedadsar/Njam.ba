@@ -5,6 +5,7 @@ import play.mvc.Result;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -57,6 +58,7 @@ public class PaypalController extends Controller {
 	static final String CLIENT_ID = Play.application().configuration().getString("cliendID");
 	static final String CLIENT_SECRET = Play.application().configuration().getString("cliendSecret");
 	static String transactionID;
+	static long orderTimeGap;
 	
 	
 	public static Result showPurchase(){
@@ -88,7 +90,7 @@ public class PaypalController extends Controller {
 			u.locations.add(location);
 			u.save();
 			StringBuilder sb = new StringBuilder();
-			sb.append(String.valueOf(city)).append(" ,").append(String.valueOf(street)).append(" ,").append(String.valueOf(number));
+			sb.append(String.valueOf(city)).append(", ").append(String.valueOf(street)).append(", ").append(String.valueOf(number));
 			cart.setLocation(sb.toString());
 			System.out.println("Location u cartu" + cart.location);
 			cart.update();
@@ -199,11 +201,16 @@ public class PaypalController extends Controller {
 	 * @throws PayPalRESTException
 	 */
 	public static Result executePaymentById(int paymentId) throws PayPalRESTException {
+		
+		Date startApproval = new Date();
+		
 		TransactionU transaction = TransactionU.find(paymentId);
 		
 		DynamicForm paypalReturn = Form.form().bindFromRequest();
 		String devTime = paypalReturn.get("deliveryTime");
-		int deliveryTime = Integer.parseInt(devTime);
+		Long deliveryTime = Long.parseLong(devTime);
+		long lateTime =deliveryTime*1000 + 900000;// 900000 - 15 min extra
+		orderTimeGap = startApproval.getTime() + lateTime; 
 		
 		Cart newCart = Cart.findCartInCarts(transaction.userToPayId, transaction.cartToPayId);
 		try {
@@ -224,6 +231,8 @@ public class PaypalController extends Controller {
 			
 			transaction.approved = true;
 			transaction.deliveryTime = deliveryTime;
+			transaction.orderTimeGap = orderTimeGap;
+			transaction.lateTime = lateTime / 1000;
 			transaction.update();
 			newCart.paid=true;
 			newCart.update();
@@ -231,6 +240,7 @@ public class PaypalController extends Controller {
 			restaurant.approvedOrders ++;
 			restaurant.update();
 			
+			SmsController.messages(deliveryTime, restaurant.name);
 			flash("SuccessApprovedOrder", "Order successfully approved!");
 			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name, transaction.items);
 			return redirect("/restaurantOwner/" + Session.getCurrentUser(ctx()).email);
@@ -241,6 +251,7 @@ public class PaypalController extends Controller {
 		}
 		return TODO;
 	}
+
 	
 	public static Result deleteOrder(int paymentId) {
 		
@@ -336,4 +347,6 @@ public class PaypalController extends Controller {
 
 		}
 	}
+	
+	
 }
