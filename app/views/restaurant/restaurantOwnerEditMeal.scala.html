@@ -20,7 +20,7 @@
 							@for(category <- models.Meal.allCategories()){
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">@category</a></h4>
+									<h4 class="panel-title"><a href="/search/category/@category">@category</a></h4>
 								</div>
 							</div>
 							}
@@ -62,15 +62,18 @@
 					                	<div class="col-sm-10 ">
 					                     	<label for="inputEmail3" class="col-sm-2 control-label">Category</label>
 					                    
-					                    <select class="selectpicker" class="form-control" id="category" name="category" style="height:100dp" >
-					                    <option>@meal.category</option>
-					                     @for( category <- models.Meal.allCategories()){
-					                    	 
-										    <option>@category</option>
-										    }										    
-										  </select>                        
+					                        <input type="text" class="form-control" id="category" name="category" value="@meal.category" minlength="4" maxlength="30" title="Maximum 30 chars" required>
+					                        <!-- Single button -->
+					                        
 					                    </div>
 					                </div>
+					                
+					                <div class="form-group">
+						                	<div class="col-sm-10 ">
+						                      	<label for="inputEmail3" class="col-sm-2 control-label">Description</label>
+												<textarea rows="6" class="form-control" id="description" name="description" title="Please describe meal." required ></textarea>
+						                    </div>
+						                </div>
 					                
 					                <div class="form-group">
 					               		 <div class=" col-sm-10 ">

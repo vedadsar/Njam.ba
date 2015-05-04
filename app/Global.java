@@ -39,27 +39,31 @@ public class Global extends GlobalSettings {
 		Restaurant res2 = Restaurant.find(2);
 		for( int i=1; i<=8; i++){
 			if (Meal.check(i)==false){
-				Meal.create("Pizza", 5.00,"Fast Food", res1);
-				Meal.create("Supa", 3.00,"Bosnian cousine", res1);
-				Meal.create("Cevapi", 5.00, "Bosnian cousine",res1);
-				Meal.create("Pjeskavica", 6.00, "Fast Food",res1);
+				Meal.create("Pizza", 5.00,"Pizza", res1 ,"Povrce, gljive, sos, sir.");
+				Meal.create("Pizza vegetariana", 5.00,"Pizza", res1 ,"Povrce, gljive, sos, sir.");
+				Meal.create("Supa", 3.00,"Bosnian cousine", res1,"Sjeckano povrce sa piletionm.");
+				Meal.create("Cevapi", 5.00, "Bosnian cousine",res1, "Cevapi u lepini sa lukom.");
+				Meal.create("Pjeskavica", 6.00, "Fast Food",res1,"Pljeskavica, pomfrit, salata, majoneza, ketchup.");
 				User userRestaurant = res1.user;
 				userRestaurant.validated = true;
 				userRestaurant.update();
 				
-				Meal.create("Zeljanica", 5.00,"Bosnian cousine", res2);
-				Meal.create("Burek", 8.00, "Bosnian cousine", res2);
-				Meal.create("Krompirusa", 5.00,"Bosnian cousine", res2);
-				Meal.create("Sirnica", 6.00, "Bosnian cousine",res2);
+				Meal.create("Zeljanica", 5.00,"Bosnian cousine", res2 ,"Tjesto sa zeljem.");
+				Meal.create("Burek", 8.00, "Bosnian cousine", res2, "Tjesto sa mesom.");
+				Meal.create("Krompirusa", 5.00,"Bosnian cousine", res2, "Tjesto sa kropirom.");
+				Meal.create("Sirnica", 6.00, "Bosnian cousine",res2, "Tjesto sa sirom.");
 				
-				Meal.create("Skuša", 5.00,"Mediteran", res3);
-				Meal.create("Školjke", 3.00,"Mediteran", res3);
-				Meal.create("Hobotnica", 5.00, "Mediteran",res3);
-				Meal.create("Morski krompir", 6.00, "Mediteran",res3);
+				Meal.create("Skuša", 5.00,"Fish dishes", res3 ,"");
+				Meal.create("Školjke", 3.00,"Mediterian", res3, "");
+				Meal.create("Hobotnica", 5.00, "Mediterian",res3, "");
+				Meal.create("Krompir salata", 6.00, "Mediterian",res3,"");
 				
-				Meal.create("Gljive", 5.00,"Povrce", res4);
-				Meal.create("Lazanje", 3.00,"Mediteran", res4);
-				Meal.create("Lignje", 5.00, "Mediteran",res4);
+				Meal.create("Gljive", 5.00,"Side dish", res4,"");
+				Meal.create("Lazanje", 3.00,"Mediteran", res4,"");
+				Meal.create("Lignje", 5.00, "Mediteran",res4,"");
+				Meal.create("Riza", 5.00,"Side dish", res4,"");
+				Meal.create("Kropmir", 3.00,"Side dish", res4,"");
+				Meal.create("Losos", 12.00, "Fish dishes",res4,"");
 			}
 				
 		}

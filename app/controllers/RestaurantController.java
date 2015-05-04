@@ -50,12 +50,14 @@ public class RestaurantController extends Controller {
 		String mealName = inputForm.bindFromRequest().field("name").value();
 		String mealPrice = inputForm.bindFromRequest().field("price").value();
 		String mealCategory = inputForm.bindFromRequest().field("category").value();
+		String mealDescription = inputForm.bindFromRequest().field("description").value();
+
 		
 		mealPrice = mealPrice.replace(',', '.');
 		Double price = Double.parseDouble(mealPrice);
 		Restaurant currentUser=u.restaurant;
 		
-		if ((Meal.create(mealName, price,mealCategory, currentUser)) == true) {
+		if ((Meal.create(mealName, price,mealCategory, currentUser, mealDescription)) == true) {
 			Meal m = findM.where().eq("name", mealName).eq("price", mealPrice).eq("restaurant_id",u.restaurant.id ).findUnique();
 			String userEmail= Session.getCurrentUser(ctx()).email;
 			Logger.debug(m.name);
@@ -122,12 +124,13 @@ public class RestaurantController extends Controller {
 		String mealName = inputForm.bindFromRequest().field("name").value();
 		String mealPrice = inputForm.bindFromRequest().field("price").value();
 		String mealCategory = inputForm.bindFromRequest().field("category").value();
+		String mealDescription = inputForm.bindFromRequest().field("description").value();
 		
 		mealPrice = mealPrice.replace(',', '.');
 		Double price = Double.parseDouble(mealPrice);
 
 		try{
-			Meal.modifyMeal(oldMeal, mealName,price, mealCategory);
+			Meal.modifyMeal(oldMeal, mealName,price, mealCategory, mealDescription);
 			flash("successEdited", "You have successfully edited your meal");
 			Logger.info("User " +userEmail +" just edited meal " +oldMeal.id);
 		}catch(Exception e){

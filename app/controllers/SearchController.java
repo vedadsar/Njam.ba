@@ -135,6 +135,22 @@ public class SearchController extends Controller {
 		return TODO;
 	}
 	
+	public static Result searchByCategory(String category){
+		String currentEmail = null;
+		 String typeGen="Meal";
+		if (Session.getCurrentUser(ctx()) != null){
+			currentEmail = Session.getCurrentUser(ctx()).email;
+		}
+		
+		if (typeGen.equals("Meal")) {
+			return ok(views.html.index.render(" ", currentEmail,searchAllMealsByCategory(category), Restaurant.all()
+					));
+
+		}
+		
+		return TODO;
+	}
+	
 	
 	/**
 	 * This method renders userSearch HTML page.
@@ -261,6 +277,11 @@ public class SearchController extends Controller {
 		List<User> users = User.find.where()
 				.ilike("email", "%" + q + "%").findList();
 		return users;
+	}
+	
+	public static List<Meal> searchAllMealsByCategory(String q){
+		List<Meal> meals = Meal.find.where().ilike("category", "%" + q+ "%").findList();
+		return meals;
 	}
 	
 }
