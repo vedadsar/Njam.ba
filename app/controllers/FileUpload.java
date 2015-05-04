@@ -86,7 +86,7 @@ public class FileUpload extends Controller {
              if(!filePart.getContentType().contains("image")){
             	
  	        	Logger.debug("Usao u if");
- 	        	return errorResponce("File not working :");
+ 	        	return errorResponce("Not valid image file!");
              }
             	 
             	 
