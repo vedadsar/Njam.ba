@@ -95,38 +95,14 @@
 					
 							<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							
+							@for(category <- models.Meal.allCategories()){
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Bosnian cousine</a></h4>
+									<h4 class="panel-title"><a href="#">@category</a></h4>
 								</div>
 							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Desserts</a></h4>
-								</div>
-							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Fast Food</a></h4>
-								</div>
-							</div>
-													
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Italian cousine</a></h4>
-								</div>
-							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Mexican cousine</a></h4>
-								</div>
-							</div>
-							
-							
+							}
+						
 						</div><!--/category-productsr-->
 					
 					

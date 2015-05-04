@@ -121,12 +121,13 @@ public class RestaurantController extends Controller {
 		
 		String mealName = inputForm.bindFromRequest().field("name").value();
 		String mealPrice = inputForm.bindFromRequest().field("price").value();
+		String mealCategory = inputForm.bindFromRequest().field("category").value();
 		
 		mealPrice = mealPrice.replace(',', '.');
 		Double price = Double.parseDouble(mealPrice);
 
 		try{
-			Meal.modifyMeal(oldMeal, mealName,price);
+			Meal.modifyMeal(oldMeal, mealName,price, mealCategory);
 			flash("successEdited", "You have successfully edited your meal");
 			Logger.info("User " +userEmail +" just edited meal " +oldMeal.id);
 		}catch(Exception e){

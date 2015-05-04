@@ -1,6 +1,9 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.*;
@@ -25,6 +28,8 @@ public class Meal extends Model {
 	public String description;
 	@Required
 	public String category;
+	public static final List<String> categories = new ArrayList<String>();
+	
 	@ManyToOne 
 	public Restaurant restaurant;
 	
@@ -39,6 +44,78 @@ public class Meal extends Model {
 
 	public static Finder<Integer, Meal> find = new Finder<Integer, Meal>(
 			Integer.class, Meal.class);
+	
+	private static void categories(){
+		categories.add("Barbecue");
+		categories.add("Breakfast");
+		categories.add("Bosnian cousine");
+		categories.add("Chinese cuisine");
+		categories.add("Cold appetizers");
+		categories.add("Cooked meals");
+		categories.add("Desserts");
+		categories.add("Drinks and beverages");
+		categories.add("Fast Food");
+		categories.add("Fish dishes");
+		categories.add("Hot dishes");
+		categories.add("Indian cuisine");
+		categories.add("Italian cousine");
+		categories.add("Main course");
+		categories.add("Meat dishes");
+		categories.add("Mexican cousine");
+		categories.add("Pies and pastries");
+		categories.add("Pizza");
+		categories.add("Salads");
+		categories.add("Sandwiches");
+		categories.add("Side dish");
+		categories.add("Soups");
+		categories.add("Vegetarian food");
+		
+	}
+	
+	public static List<String> allCategories(){
+		int size = categories.size();
+		if(size==0){
+			categories();
+		}
+		System.out.println("broj kategorija: " + size);
+		return categories;
+	}
+	
+	public static boolean createCategoriy(String nameCategory){
+		if ( nameCategory!= null){
+			categories.add(nameCategory);
+			Collections.sort(categories);
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean updateCategory(String oldNameCategory, String newNameCategory){
+		Iterator<String> iter = categories.iterator();
+		String cat;
+		int idx = 0;		
+		while (iter.hasNext()){
+			cat = iter.next();
+			if (cat.toLowerCase().contains(oldNameCategory.toLowerCase())==true){				
+				categories.remove(idx);
+				categories.add(newNameCategory);
+				System.out.println("nova kategorija: " + newNameCategory);
+				Collections.sort(categories);
+				return true;
+			}
+			idx++;
+		}		
+		return false;
+	}
+	
+	public static boolean deleteCategory(String nameCategory){
+		if(categories.contains(nameCategory)==true){
+			int idx = categories.indexOf(nameCategory);
+			categories.remove(idx);
+			return true;
+		}
+		return false;
+	}
 	
 
 	public Meal(String name, double price, String category, String description) {
@@ -171,10 +248,11 @@ public class Meal extends Model {
 	 * @return boolean
 	 * 
 	 */
-	public static boolean modifyMeal(Meal m, String newName, double newPrice) {
+	public static boolean modifyMeal(Meal m, String newName, double newPrice, String newCategory) {
 
 		m.name = newName;
 		m.price = newPrice;
+		m.category = newCategory;
 		m.update();
 
 		Meal meal = find(m.id);
