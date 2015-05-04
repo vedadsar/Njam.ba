@@ -61,6 +61,7 @@ public class Meal extends Model {
 		categories.add("Italian cousine");
 		categories.add("Main course");
 		categories.add("Meat dishes");
+		categories.add("Mediterian");
 		categories.add("Mexican cousine");
 		categories.add("Pies and pastries");
 		categories.add("Pizza");
@@ -126,11 +127,23 @@ public class Meal extends Model {
 		this.image= new ArrayList<Image>(0);
 	}
 
+	/*
 	public Meal(String name, double price,String category, Restaurant restaurant) {
 		this.name = name;
 		this.price = price;
 		this.category =category;
 		this.restaurant = restaurant;
+		this.image= new ArrayList<Image>(0);
+
+	}
+	*/
+	
+	public Meal(String name, double price,String category, Restaurant restaurant, String description) {
+		this.name = name;
+		this.price = price;
+		this.category =category;
+		this.restaurant = restaurant;
+		this.description = description;
 		this.image= new ArrayList<Image>(0);
 
 	}
@@ -182,8 +195,8 @@ public class Meal extends Model {
 	}
 
 	public static boolean create(String name, double price, String category,
-			Restaurant currentUserRestaurant) {
-		Meal m = new Meal(name, price, category,currentUserRestaurant);
+			Restaurant currentUserRestaurant, String description) {
+		Meal m = new Meal(name, price, category,currentUserRestaurant, description);
 		m.save();
 
 		return true;
@@ -248,11 +261,12 @@ public class Meal extends Model {
 	 * @return boolean
 	 * 
 	 */
-	public static boolean modifyMeal(Meal m, String newName, double newPrice, String newCategory) {
+	public static boolean modifyMeal(Meal m, String newName, double newPrice, String newCategory, String newDescription) {
 
 		m.name = newName;
 		m.price = newPrice;
 		m.category = newCategory;
+		m.description = newDescription;
 		m.update();
 
 		Meal meal = find(m.id);

@@ -17,7 +17,7 @@
 							@for(category <- models.Meal.allCategories()){
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">@category</a></h4>
+									<h4 class="panel-title"><a href="/search/category/@category">@category</a></h4>
 								</div>
 							</div>
 							}
@@ -59,6 +59,7 @@
 								<h2>@meal.name </h2>
 								<p><b>Restaurant:</b> @meal.restaurant.name</p>
 								<p><b>Category:</b> @meal.category </p>
+								<p><b>Description:</b> @meal.description </p>
 								
 									<span>
 									<span>@meal.price KM</span>
