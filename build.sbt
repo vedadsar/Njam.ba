@@ -6,6 +6,9 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.11.1"
 
+resolvers += "sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
+
 libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
@@ -20,5 +23,6 @@ libraryDependencies ++= Seq(
   "org.imgscalr" % "imgscalr-lib" % "4.2",
    "org.jsoup" % "jsoup" % "1.8.1",
    "org.apache.poi" % "poi" % "3.11",
-   "com.twilio.sdk" % "twilio-java-sdk" % "4.0.1"
+   "com.twilio.sdk" % "twilio-java-sdk" % "4.0.1",
+   "com.cloudinary" % "cloudinary" % "1.0.2"
   )

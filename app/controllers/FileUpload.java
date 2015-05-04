@@ -12,7 +12,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+
+import java.util.Map;
 
 import play.Logger;
 import models.Image;
@@ -51,6 +55,8 @@ import javax.imageio.ImageIO;
 import org.imgscalr.*;
 import org.imgscalr.Scalr.Method;
 
+import com.cloudinary.*;
+
 public class FileUpload extends Controller {
 
 	private static Meal m;
@@ -59,6 +65,7 @@ public class FileUpload extends Controller {
 	private static String folderId;
 	private static String imageFolder;
 	private static String imgFileName;
+  private static   Map<String, String> cloudConf = new HashMap<String, String>();
 
 	/**
 	 * Method Saves image to the meal id which enters the method *
@@ -68,8 +75,23 @@ public class FileUpload extends Controller {
 	 * @return
 	 */
 
+	public static void cloudConfPut() {
+		
+		
+		    cloudConf.put("cloud_name",Play.application().configuration().getString("CLOUD_API_NAME"));
+			cloudConf.put("api_key",Play.application().configuration().getString("CLOUD_API_KEY"));
+			cloudConf.put("api_secret",Play.application().configuration().getString("CLOUD_API_SECRET"));
+	}
+	
+
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result saveMealIMG(int id) {
+ 
+
+		
+	cloudConfPut();
+	
+	Logger.debug(cloudConf.get("api_key"));
 
 		u = Session.getCurrentUser(ctx());
 		m = Meal.find(id);
@@ -87,7 +109,8 @@ public class FileUpload extends Controller {
 				image = filePart.getFile();
 			} catch (NullPointerException e) {
 				Logger.debug(("Empty File Upload" + e));
-				return ok(views.html.admin.wrong.render("OOPS you didnt send a file"));
+				return ok(views.html.admin.wrong
+						.render("OOPS you didnt send a file"));
 			}
 
 			imgFileName = filePart.getFilename();
@@ -100,15 +123,21 @@ public class FileUpload extends Controller {
 			saveFolder.mkdirs();
 
 			try {
-
 				File imageFile = new File("public"
 						+ System.getProperty("file.separator") + saveLocation);
+
 				// File saving
 				Files.move(image, imageFile);
-				// Image file resize method
 				imageResize(800, 500, imageFile,
 						"public" + System.getProperty("file.separator")
-								+ saveLocation);
+						+ saveLocation);
+				Logger.debug("Checkpoint 1");
+				Cloudinary cloudinary = new Cloudinary(cloudConf);
+   				Map uploadResult = cloudinary.uploader().upload(imageFile,Cloudinary.emptyMap());
+				Logger.debug((String) uploadResult.get("url"));
+				Logger.debug("Did you see me ?");
+				
+				// Image file resize method
 			} catch (IOException e) {
 				Logger.debug(e.toString());
 			}
@@ -116,11 +145,10 @@ public class FileUpload extends Controller {
 			// Image location saving to Database.
 			Meal.createMealImg(m, saveLocation);
 
-	
-	        Logger.debug("Passed resize?");
-			return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email, m, Restaurant.all(),m.image));
-			
-			
+			Logger.debug("Passed resize?");
+			return ok(views.html.restaurant.fileUploadMeal.render("",
+					Session.getCurrentUser(ctx()).email, m, Restaurant.all(),
+					m.image));
 
 		} else
 			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
@@ -149,7 +177,8 @@ public class FileUpload extends Controller {
 				image = filePart.getFile();
 			} catch (NullPointerException e) {
 				Logger.debug(("Empty File Upload" + e));
-				return ok(views.html.admin.wrong.render("OOPS you didnt send a file"));
+				return ok(views.html.admin.wrong
+						.render("OOPS you didnt send a file"));
 			}
 
 			imgFileName = filePart.getFilename();
@@ -178,14 +207,13 @@ public class FileUpload extends Controller {
 			// Image file location saving to DB
 			Restaurant.createRestaurantImg(u.restaurant, saveLocation);
 
-		     Logger.debug("Passed resize?");
-			
-				List<Restaurant> restaurants = restaurant.all();
-				String email =  Session.getCurrentUser(ctx()).email;
-				
-		
-				return ok(views.html.restaurant.restaurantOwner.render(email, restaurant.meals, restaurant ,restaurants, tobeapproved));
-			
+			Logger.debug("Passed resize?");
+
+			List<Restaurant> restaurants = restaurant.all();
+			String email = Session.getCurrentUser(ctx()).email;
+
+			return ok(views.html.restaurant.restaurantOwner.render(email,
+					restaurant.meals, restaurant, restaurants, tobeapproved));
 
 		} else
 			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
@@ -254,12 +282,13 @@ public class FileUpload extends Controller {
 	 * @return
 	 */
 
+	public static Result deleteImg(String imgLocation, int mealID) {
+		Meal m = Meal.find(mealID);
+		Image.deleteImg(imgLocation);
 
-	public static Result deleteImg(String imgLocation,int mealID) {
-	     Meal m = Meal.find(mealID);
-		 Image.deleteImg(imgLocation);
-		
-		return ok(views.html.restaurant.fileUploadMeal.render("",Session.getCurrentUser(ctx()).email,m,Restaurant.all(),m.image));
+		return ok(views.html.restaurant.fileUploadMeal.render("",
+				Session.getCurrentUser(ctx()).email, m, Restaurant.all(),
+				m.image));
 
 	}
 
