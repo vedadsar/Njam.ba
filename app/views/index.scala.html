@@ -95,38 +95,14 @@
 					
 							<h2>Category</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
-							
+							@for(category <- models.Meal.allCategories()){
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Bosnian cousine</a></h4>
+									<h4 class="panel-title"><a href=" /search/category/@category">@category</a></h4>
 								</div>
 							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Desserts</a></h4>
-								</div>
-							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Fast Food</a></h4>
-								</div>
-							</div>
-													
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Italian cousine</a></h4>
-								</div>
-							</div>
-							
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title"><a href="#">Mexican cousine</a></h4>
-								</div>
-							</div>
-							
-							
+							}
+						
 						</div><!--/category-productsr-->
 					
 					
@@ -165,8 +141,9 @@
                 }else{                
 
                     <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="" height="255" width="255">}
-										    <h2>@meal.name</h2>
+										    <h3 style="color: #FE980F " >@meal.name</h3>
 											<h2>@meal.price KM</h2>
+											<p>@meal.category</p>
 											<p>@meal.restaurant.name</p>
 											<a href='@routes.CartController.addMealToBasket(meal.id)' class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
