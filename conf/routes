@@ -94,6 +94,8 @@ POST   /getOrderDetails/:id                     controllers.CartController.giveM
 POST   /subscribed                              controllers.NewsletterController.subscribe()
 GET    /about                                   controllers.Application.about()
 POST   /message                                 controllers.SmsController.messages(deliveryTime: Long, name: String)
+POST   /sendFbJson                          controllers.FacebookController.sendFbJson()
+
  
 # API service 
 GET    /api/users                               controllers.api.UserApi.users()
