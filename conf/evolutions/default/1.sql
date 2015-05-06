@@ -94,6 +94,16 @@ create table newsletter (
   constraint pk_newsletter primary key (id))
 ;
 
+create table pin (
+  id                        integer not null,
+  pin                       varchar(255),
+  date                      timestamp,
+  user_id                   integer,
+  validated                 boolean,
+  constraint uq_pin_pin unique (pin),
+  constraint pk_pin primary key (id))
+;
+
 create table restaurant (
   id                        integer not null,
   name                      varchar(255),
@@ -143,10 +153,12 @@ create table user (
   cart_id                   integer,
   confirmation_string       varchar(255),
   validated                 boolean,
+  phone                     varchar(255),
   role                      varchar(255),
   date_creation             timestamp not null,
   constraint uq_user_email unique (email),
   constraint uq_user_username unique (username),
+  constraint uq_user_phone unique (phone),
   constraint pk_user primary key (id))
 ;
 
@@ -167,6 +179,8 @@ create sequence meal_seq;
 create sequence meta_item_seq;
 
 create sequence newsletter_seq;
+
+create sequence pin_seq;
 
 create sequence restaurant_seq;
 
@@ -200,16 +214,18 @@ alter table meta_item add constraint fk_meta_item_transaction_11 foreign key (tr
 create index ix_meta_item_transaction_11 on meta_item (transaction_id);
 alter table newsletter add constraint fk_newsletter_user_12 foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_newsletter_user_12 on newsletter (user_id);
-alter table restaurant add constraint fk_restaurant_user_13 foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_user_13 on restaurant (user_id);
-alter table restaurant add constraint fk_restaurant_statistic_14 foreign key (statistic_id) references statistics (id) on delete restrict on update restrict;
-create index ix_restaurant_statistic_14 on restaurant (statistic_id);
-alter table transaction_u add constraint fk_transaction_u_restaurant_15 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_transaction_u_restaurant_15 on transaction_u (restaurant_id);
-alter table user add constraint fk_user_restaurant_16 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_user_restaurant_16 on user (restaurant_id);
-alter table user add constraint fk_user_cart_17 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
-create index ix_user_cart_17 on user (cart_id);
+alter table pin add constraint fk_pin_user_13 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_pin_user_13 on pin (user_id);
+alter table restaurant add constraint fk_restaurant_user_14 foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_user_14 on restaurant (user_id);
+alter table restaurant add constraint fk_restaurant_statistic_15 foreign key (statistic_id) references statistics (id) on delete restrict on update restrict;
+create index ix_restaurant_statistic_15 on restaurant (statistic_id);
+alter table transaction_u add constraint fk_transaction_u_restaurant_16 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_transaction_u_restaurant_16 on transaction_u (restaurant_id);
+alter table user add constraint fk_user_restaurant_17 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_user_restaurant_17 on user (restaurant_id);
+alter table user add constraint fk_user_cart_18 foreign key (cart_id) references cart (id) on delete restrict on update restrict;
+create index ix_user_cart_18 on user (cart_id);
 
 
 
@@ -234,6 +250,8 @@ drop table if exists meal;
 drop table if exists meta_item;
 
 drop table if exists newsletter;
+
+drop table if exists pin;
 
 drop table if exists restaurant;
 
@@ -262,6 +280,8 @@ drop sequence if exists meal_seq;
 drop sequence if exists meta_item_seq;
 
 drop sequence if exists newsletter_seq;
+
+drop sequence if exists pin_seq;
 
 drop sequence if exists restaurant_seq;
 
