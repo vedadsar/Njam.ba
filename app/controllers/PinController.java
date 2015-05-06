@@ -18,7 +18,7 @@ public class PinController extends Controller {
 		if (Pin.getPinCode(user.id).equals(pin)) {
 			user.pin.validated = true;
 			user.update();
-			flash("smsValidated", "Sucess!");
+			flash("smsValidated", "Your Phone number has now been successfully validated!");
 			return redirect("/user/" + user.email);
 		}
 		flash("ErrorPin", "Wrong PIN! Try again");

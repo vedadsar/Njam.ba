@@ -19,12 +19,12 @@ public class FacebookController extends Controller {
 		String email = data1.findPath("email").textValue();
 		if (User.check(email) == true) {
 			User u = User.find(email);
-			u.locations.add(new Location(" ", " ", " "));
 			u.update();
 			session("email", email);
 			return ok("/user/" + email);
 		}
 		User user = new User(email, null);
+		user.locations.add(new Location("", "", ""));
 		user.validated = true;
 		user.save();
 		
