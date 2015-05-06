@@ -14,8 +14,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-
 import java.util.Map;
 
 import play.Logger;
@@ -37,6 +35,7 @@ import play.mvc.Security;
 import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import scala.collection.parallel.ParSeqLike.LastIndexWhere;
 import views.html.*;
 import views.html.admin.*;
 import models.*;
@@ -66,173 +65,8 @@ public class FileUpload extends Controller {
 	private static String folderId;
 	private static String imageFolder;
 	private static String imgFileName;
-  private static   Map<String, String> cloudConf = new HashMap<String, String>();
-
-	/**
-	 * Method Saves image to the meal id which enters the method *
-	 * 
-	 * @param id
-	 *            of Meal
-	 * @return
-	 */
-
-	public static void cloudConfPut() {
-		
-		
-		    cloudConf.put("cloud_name",Play.application().configuration().getString("CLOUD_API_NAME"));
-			cloudConf.put("api_key",Play.application().configuration().getString("CLOUD_API_KEY"));
-			cloudConf.put("api_secret",Play.application().configuration().getString("CLOUD_API_SECRET"));
-	}
-	
-
-	@Security.Authenticated(RestaurantFilter.class)
-	public static Result saveMealIMG(int id) {
- 
-
-		
-	cloudConfPut();
-	
-	Logger.debug(cloudConf.get("api_key"));
-
-		u = Session.getCurrentUser(ctx());
-		m = Meal.find(id);
-
-		folderId = String.valueOf(u.restaurant.id);
-		imageFolder = "meal";
-
-		// Picture count check
-		if (sizeOfList(imageFolder) < 5) {
-
-			MultipartFormData body = request().body().asMultipartFormData();
-		  FilePart filePart = body.getFile("image");
-			  
-             if(!filePart.getContentType().contains("image")){
-         	        	return errorResponce("Not valid image file!");
-             }
-            	 
-            	 
-			try {
-				image = filePart.getFile();
-			} catch (NullPointerException e) {
-				Logger.debug(("Empty File Upload" + e));
-
-				return ok(views.html.admin.wrong
-						.render("OOPS you didnt send a file"));
-
-			}
-
-			imgFileName = filePart.getFilename();
-
-			String saveLocation = locationPath(folderId, imageFolder,
-					imgFileName);
-			File saveFolder = new File("public"
-					+ System.getProperty("file.separator") + saveLocation)
-					.getParentFile();
-			saveFolder.mkdirs();
-
-			try {
-				File imageFile = new File("public"
-						+ System.getProperty("file.separator") + saveLocation);
-
-				// File saving
-				Files.move(image, imageFile);
-				imageResize(800, 500, imageFile,
-						"public" + System.getProperty("file.separator")
-						+ saveLocation);
-				Logger.debug("Checkpoint 1");
-				Cloudinary cloudinary = new Cloudinary(cloudConf);
-   				Map uploadResult = cloudinary.uploader().upload(imageFile,Cloudinary.emptyMap());
-				Logger.debug((String) uploadResult.get("url"));
-				Logger.debug("Did you see me ?");
-				
-				// Image file resize method
-			} catch (IOException e) {
-				Logger.debug(e.toString());
-			}
-			Logger.debug(saveLocation);
-			// Image location saving to Database.
-			Meal.createMealImg(m, saveLocation);
-
-			Logger.debug("Passed resize?");
-			return ok(views.html.restaurant.fileUploadMeal.render("",
-					Session.getCurrentUser(ctx()).email, m, Restaurant.all(),
-					m.image));
-
-		} else
-			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
-	}
-
-	
-	
-	private static Result errorResponce(String text) {
-		return ok(views.html.admin.wrong.render(text));
-		
-	}
-
-	/**
-	 * Method which saves current active restaurants profile images
-	 * 
-	 * @return
-	 */
-
-	@Security.Authenticated(RestaurantFilter.class)
-	public static Result saveRestaurantIMG() {
-		User u = Session.getCurrentUser(ctx());
-		Restaurant restaurant = u.restaurant;
-		List<TransactionU> tobeapproved = restaurant.toBeApproved;
-
-		folderId = String.valueOf(u.restaurant.id);
-		imageFolder = "restaurant";
-		// Picture count check
-		if (sizeOfList(imageFolder) < 3) {
-			MultipartFormData body = request().body().asMultipartFormData();
-			FilePart filePart = body.getFile("image");
-
-			try {
-				image = filePart.getFile();
-			} catch (NullPointerException e) {
-				Logger.debug(("Empty File Upload" + e));
-				return ok(views.html.admin.wrong
-						.render("OOPS you didnt send a file"));
-			}
-
-			imgFileName = filePart.getFilename();
-
-			String saveLocation = locationPath(folderId, imageFolder,
-					imgFileName);
-			File saveFolder = new File("public"
-					+ System.getProperty("file.separator") + saveLocation)
-					.getParentFile();
-			saveFolder.mkdirs();
-
-			try {
-				File imageFile = new File("public"
-						+ System.getProperty("file.separator") + saveLocation);
-				// File saving
-				Files.move(image, imageFile);
-				// Resizing of file to default size
-				imageResize(800, 500, imageFile,
-						"public" + System.getProperty("file.separator")
-								+ saveLocation);
-			} catch (IOException e) {
-				Logger.debug(e.toString());
-			}
-			Logger.debug(saveLocation);
-
-			// Image file location saving to DB
-			Restaurant.createRestaurantImg(u.restaurant, saveLocation);
-
-			Logger.debug("Passed resize?");
-
-			List<Restaurant> restaurants = restaurant.all();
-			String email = Session.getCurrentUser(ctx()).email;
-
-			return ok(views.html.restaurant.restaurantOwner.render(email,
-					restaurant.meals, restaurant, restaurants, tobeapproved));
-
-		} else
-			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
-	}
+	private static FilePart filePart;
+	private static Map<String, String> cloudConf = new HashMap<String, String>();
 
 	/**
 	 * 
@@ -256,36 +90,165 @@ public class FileUpload extends Controller {
 		return saveLocation;
 	}
 
-	public static boolean isEmpty(Collection coll) {
-		return (coll == null || coll.isEmpty());
+	/**
+	 * Method gets keys for Cloudinary File transfer.
+	 * 
+	 */
+
+	public static void cloudConfPut() {
+
+		cloudConf.put("cloud_name", Play.application().configuration()
+				.getString("CLOUD_API_NAME"));
+		cloudConf.put("api_key",
+				Play.application().configuration().getString("CLOUD_API_KEY"));
+		cloudConf.put("api_secret", Play.application().configuration()
+				.getString("CLOUD_API_SECRET"));
+	}
+
+	@Security.Authenticated(RestaurantFilter.class)
+	public static Result saveMealIMG(int id) {
+
+		cloudConfPut();
+
+
+		u = Session.getCurrentUser(ctx());
+		m = Meal.find(id);
+
+		folderId = String.valueOf(u.restaurant.id);
+		imageFolder = "meal";
+
+		// Picture count check
+		if (sizeOfList(imageFolder) < 5) {
+
+			MultipartFormData body = request().body().asMultipartFormData();
+			
+			filePart = body.getFile("image");
+			
+			
+		try {
+					
+			  if (!filePart.getContentType().contains("image")) {
+				    return errorResponce("Not valid image file!");
+			   }
+			  image = filePart.getFile();
+		
+
+		
+
+		    	} catch (NullPointerException e) {
+				Logger.debug(("Empty File Upload" + e));
+
+				return ok(views.html.admin.wrong
+						.render("OOPS you didnt send a file"));
+
+			}
+			
+
+			imgFileName = filePart.getFilename();
+
+			String saveLocation = locationPath(folderId, imageFolder,
+					imgFileName);
+			saveLocation = saveLocation.substring(0,
+					saveLocation.lastIndexOf('.'));
+			Logger.debug(saveLocation);
+
+			try {
+
+				Cloudinary cloudinary = new Cloudinary(cloudConf);
+
+				Map params = Cloudinary.asMap("public_id", saveLocation);
+				Map uploadResult = cloudinary.uploader().upload(image, params);
+
+				Logger.debug((String) uploadResult.get("url"));
+
+				Meal.createMealImg(m, (String) uploadResult.get("url"));
+
+			} catch (IOException e) {
+				Logger.debug(e.toString());
+			}
+
+			return ok(views.html.restaurant.fileUploadMeal.render("",
+					Session.getCurrentUser(ctx()).email, m, Restaurant.all(),
+					m.image));
+
+		} else
+			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
+	}
+
+	private static Result errorResponce(String text) {
+		return ok(views.html.admin.wrong.render(text));
+
 	}
 
 	/**
-	 * Image resize method using imgscalr Library
+	 * Method which saves current active restaurants profile images
 	 * 
-	 * @param width
-	 * @param height
-	 * @param resizeImage
-	 * @param fileLocation
+	 * @return
 	 */
-	public static void imageResize(int width, int height, File resizeImage,
-			String fileLocation) {
 
-		try {
+	@Security.Authenticated(RestaurantFilter.class)
+	public static Result saveRestaurantIMG() {
+		User u = Session.getCurrentUser(ctx());
+		Restaurant restaurant = u.restaurant;
+		List<TransactionU> tobeapproved = restaurant.toBeApproved;
 
-			File imageFile = new File(fileLocation);
-			BufferedImage image = ImageIO.read(imageFile);
-			Logger.debug(fileLocation);
-			BufferedImage thumbnail = Scalr.resize(image,
-					Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 500);
+		folderId = String.valueOf(u.restaurant.id);
+		imageFolder = "restaurant";
+		// Picture count check
+		if (sizeOfList(imageFolder) < 3) {
+			MultipartFormData body = request().body().asMultipartFormData();
+					
+			try {
+				filePart = body.getFile("image");
+				if (!filePart.getContentType().contains("image")) {
+					return errorResponce("Not valid image file!");
+				}
+				image = filePart.getFile();
+				imgFileName = filePart.getFilename();
+			
+			} catch (NullPointerException e) {
+				Logger.debug(("Empty File Upload" + e));
+				return ok(views.html.admin.wrong
+						.render("OOPS you didnt send a file"));
+			}
 
-			File saveFile = new File(fileLocation);
-			ImageIO.write(thumbnail, "png", saveFile);
 
-		} catch (IOException e) {
+			String saveLocation = locationPath(folderId, imageFolder,
+					imgFileName);
+			
+			
 
-			Logger.error("No image found");
-		}
+			try {
+				
+				Cloudinary cloudinary = new Cloudinary(cloudConf);
+
+				Map params = Cloudinary.asMap("public_id", saveLocation);
+				Map uploadResult = cloudinary.uploader().upload(image, params);
+
+				Logger.debug((String) uploadResult.get("url"));
+								
+				// Image file location saving to DB
+				Restaurant.createRestaurantImg(u.restaurant, (String) uploadResult.get("url"));
+				
+			} catch (IOException e) {
+				Logger.debug(e.toString());
+			}
+		
+
+			Logger.debug("Passed resize?");
+
+			List<Restaurant> restaurants = restaurant.all();
+			String email = Session.getCurrentUser(ctx()).email;
+
+			return ok(views.html.restaurant.restaurantOwner.render(email,
+					restaurant.meals, restaurant, restaurants, tobeapproved));
+
+		} else
+			return ok(views.html.admin.wrong.render("LIMIT HAS BEEN REACHED"));
+	}
+
+	public static boolean isEmpty(Collection coll) {
+		return (coll == null || coll.isEmpty());
 	}
 
 	/**

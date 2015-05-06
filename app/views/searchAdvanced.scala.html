@@ -82,7 +82,7 @@ String)(location: String)(restaurant: String) @main(email) {
 							@for(meal<-srchResultMeal){
 
 							@if(meal.image.iterator().hasNext()){
-							<td> <a href="/mealView/@meal.id"><img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" width="50" height="50"></td>
+							<td> <a href="/mealView/@meal.id"><img src="@meal.image.iterator().next().imgLocation.toString()" width="50" height="50"></td>
 							 }else{ 
 							<td> <a href="/mealView/@meal.id"><img border="0"  src="@routes.Assets.at("images/chicken.jpg")" width="50" height="50"></td>
 							}

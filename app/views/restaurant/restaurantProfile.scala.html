@@ -81,7 +81,7 @@
                 						 <img src="@routes.Assets.at("images/meal" + meal.id)" alt="" height="255" width="255">
               						  }else{                
 
-               						     <img src="@routes.Assets.at(meal.image.iterator().next().imgLocation.toString())" alt="" height="255" width="255">}
+               						     <img src="@meal.image.iterator().next().imgLocation.toString()" alt="" height="255" width="255">}
 
 										<h2>@meal.price BAM</h2>
 										<p>@meal.name</p>
