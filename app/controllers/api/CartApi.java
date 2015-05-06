@@ -31,8 +31,6 @@ public class CartApi extends Controller {
 		int id = Integer.parseInt(idS);
 		int user_id = Integer.parseInt(idU);
 
-		
-
 		Meal meal = Meal.find(id);
 		if (meal == null) {
 			return badRequest("Wrong meal id");
@@ -99,6 +97,7 @@ public class CartApi extends Controller {
 			cartItem.put("meal_quantity", item.quantity);
 			cartItem.put("cart_item_totalPrice", item.totalPrice);
 			cartItem.put("cart_totalPrice", item.cart.total);
+			cartItem.put("cart_paid", item.cart.paid);
 			if (item.cart.location !=  null)
 				cartItem.put("cart_location", item.cart.location);
 			array.add(cartItem);

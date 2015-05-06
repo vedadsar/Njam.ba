@@ -27,8 +27,7 @@ public class FacebookController extends Controller {
 		User user = new User(email, null);
 		user.validated = true;
 		user.save();
-
-		Logger.info("User email via facebook login:  " + email);
+		
 		session("email", email);
 		return ok("/user/" + email);
 	}

@@ -1,13 +1,10 @@
 package controllers;
 
+import play.Logger;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.Map;
-import java.util.HashMap;
-
-import com.twilio.sdk.resource.instance.Account;
 import com.twilio.sdk.TwilioRestClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.factory.MessageFactory;
@@ -21,20 +18,21 @@ import org.apache.http.message.BasicNameValuePair;
 
 public class SmsController extends Controller {
 
-	public static Result messages(Long deliveryTime, String name) {
+	public static final String twilioSid = Play.application().configuration()
+			.getString("twilioSID");
+	public static final String twilioToken = Play.application().configuration()
+			.getString("twilioTOKEN");
+	public static final String numberFrom = Play.application().configuration()
+			.getString("numberFrom");
 
-		final String twilioSid = Play.application().configuration()
-				.getString("twilioSID");
-		final String twilioToken = Play.application().configuration()
-				.getString("twilioTOKEN");
-		final String numberFrom = Play.application().configuration()
-				.getString("numberFrom");
+	public static Result messages(Long deliveryTime, String name) {
 
 		TwilioRestClient client = new TwilioRestClient(twilioSid, twilioToken);
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("Body",
-				"Amra please?! Hau ar ju? :) njam.ba" + name + deliveryTime));
+				"Thank you, your order will be delivered in: " + deliveryTime
+						+ " minutes," + " from Restaurant: " + name));
 		params.add(new BasicNameValuePair("To", "+38765695813"));
 		params.add(new BasicNameValuePair("From", numberFrom));
 
@@ -44,7 +42,27 @@ public class SmsController extends Controller {
 			message = messageFactory.create(params);
 			System.out.println("message");
 		} catch (TwilioRestException e) {
-			System.out.println(e.getErrorMessage() + e.getErrorCode());
+			Logger.info("Order delivery sms: " + e.getErrorCode());
+			e.printStackTrace();
+		}
+		return redirect("/");
+	}
+
+	public static Result confirmNumber(String pin) {
+		TwilioRestClient client = new TwilioRestClient(twilioSid, twilioToken);
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("Body", "Verification PIN is: " + pin));
+		params.add(new BasicNameValuePair("To", "+38765695813"));
+		params.add(new BasicNameValuePair("From", numberFrom));
+
+		MessageFactory messageFactory = client.getAccount().getMessageFactory();
+		Message message;
+		try {
+			message = messageFactory.create(params);
+			System.out.println("message");
+		} catch (TwilioRestException e) {
+			Logger.info("Pin confirmation via sms: " + e.getErrorCode());
 			e.printStackTrace();
 		}
 		return redirect("/");

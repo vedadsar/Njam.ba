@@ -50,6 +50,12 @@ public class User extends Model {
     public String confirmationString;
     public Boolean validated = false;
     
+	@OneToOne(mappedBy="user",cascade=CascadeType.ALL)
+	public Pin pin;
+	@Column(unique = true)
+	public String phone;
+
+    
     public String role; // admin, customer, restaurantOwner;
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
@@ -65,6 +71,8 @@ public class User extends Model {
 		this.dateCreation = new Date();
 		this.role = USER;
 		this.carts= new ArrayList<Cart>(0);
+		this.pin = null;
+		this.phone = null;
 	}
 	
 	public User(String email, String password, String role){
@@ -73,6 +81,8 @@ public class User extends Model {
 		this.dateCreation = new Date();
 		this.carts= new ArrayList<Cart>(0);
 		this.role = role;		
+		this.pin = null;
+		this.phone = null;
 	}
 	
 	public static boolean createRestaurant(String name, String email, String password, String workingTime, String city, String street, String number){
