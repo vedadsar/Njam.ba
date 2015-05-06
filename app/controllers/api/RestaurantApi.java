@@ -41,6 +41,7 @@ public class RestaurantApi extends Controller {
 			restaurant.put("id", r.id);
 			restaurant.put("name", r.name);
 			restaurant.put("minOrder", r.minOrder);
+			restaurant.put("working_hours", r.workingTime);
 			restaurant.put("location", r.user.locations.iterator().next().city);
 			if (r.image.iterator().hasNext()) {
 				restaurant.put("image", r.image.iterator().next().imgLocation);
@@ -58,6 +59,7 @@ public class RestaurantApi extends Controller {
 		restaurant.put("id", r.id);
 		restaurant.put("name", r.name);
 		restaurant.put("price", r.minOrder);
+		restaurant.put("working_hours", r.workingTime);
 		if (r.image.iterator().hasNext()) {
 			restaurant.put("image", r.image.iterator().next().imgLocation);
 		} else {

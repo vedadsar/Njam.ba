@@ -104,7 +104,13 @@ public class MealApi extends Controller {
 	public static ObjectNode mealToApp(Meal m) {
 		ObjectNode meal = Json.newObject();
 		meal.put("id", m.id);
+		meal.put("restaurant_id", m.restaurant.id);
+		meal.put("restaurantName", m.restaurant.name);
+		meal.put("restaurantWorkingHours", m.restaurant.workingTime);
+		meal.put("restaurantCity", m.restaurant.user.locations.get(0).city);
+		meal.put("restaurantStreet", m.restaurant.user.locations.get(0).street);
 		meal.put("name", m.name);
+		meal.put("meal_description", m.description);
 		meal.put("price", m.price);
 		if (m.image.iterator().hasNext()) {
 			meal.put("image", m.image.iterator().next().imgLocation);
