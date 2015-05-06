@@ -1,0 +1,136 @@
+@(email: String)
+@main(email) {
+	
+	<body>
+	
+	@if(flash.get("") ){
+			           <div class="alert alert-success" role="alert">
+			            @flash.get("")
+			           </div>  
+	             	}
+	              
+	             	 @if(flash.get("WarningCreatePost")){
+			           <div class="alert alert-warning" role="alert">
+			            @flash.get("WarningCreatePost")
+			             </div>  
+	                 }
+	                 
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Search Post</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							<div class="panel panel-default">
+								
+								<div class="container">
+									<div class="row">
+								        
+								      	<div class="col-sm-5">
+											<div class="search_box">
+											<form class="form-inline" method="GET" action="/search" >
+											<input type="text"  name="q" id="q" class="form-control pull-left" placeholder="Search"/>
+											</form>
+											</div>
+										</div>
+									
+								</div>
+							</div>
+							
+							
+											
+						</div><!--/category-products-->
+						</div>
+				
+					<br>
+					<br>
+					<h2>Tags</h2>
+					<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+					<div class="panel panel-default">
+						<div class="brands_products"><!--brands_products-->
+							
+							
+								<ul class="nav nav-pills nav-stacked">
+								@for(tag <- models.Blogger.allTags()){
+									<li><a href=""> <span class="pull-right"></span>@tag</a></li>
+									}
+								</ul>
+							
+						</div><!--/brands_products-->
+					</div>
+					</div>
+					
+				</div>
+				</div>
+				
+				
+				<div class="col-sm-9">
+					<div class="blog-post-area">
+						<h2 class="title text-center">Creat Post</h2>
+						
+							<div class="replay-box">
+						<div class="row">
+							<div class="col-sm-12">
+								
+								<form class="form-horizontal" role="form"  action="@routes.BlogController.createPost" method="POST">
+								<div class="form-group">
+									<div class="blank-arrow">
+										<label>Title</label>
+									</div>
+									<span>*</span>
+									<input type="text" class="form-control" id="title" name="title" placeholder="write title..."required/>
+								</div>
+								<div class="form-group">
+									<div class="blank-arrow">
+										<label>Subtitle</label>
+									</div>
+									<span>*</span>
+									<input type="text" class="form-control" id="subtitle" name="subtitle" placeholder="your subtitle..."required/>
+								</div>
+								<div class="form-group">
+									<div class="blank-arrow">
+										<label>Tags</label>
+									</div>
+									<span>*</span>
+									<input type="text" class="form-control" id="tag" name="tag" placeholder="your tags..."required/>
+								</div>
+							
+								<div class="form-group">
+								<div class="text-area">
+									<div class="blank-arrow">
+										<label>Your Post</label>
+									</div>
+									<span>*</span>
+									<textarea name="message" class="form-control" rows="11" id="content" name="content" placeholder="your post..."required></textarea>
+									<button type="submit" class="btn btn-primary">Post it</button>
+								</div>
+								</div>
+								</form>
+							</div>
+						</div>
+					</div><!--/Repaly Box-->
+						
+						
+					</div><!--/blog-post-area-->
+
+		
+				</div>	
+			</div>
+		</div>
+		
+	</section>
+	
+	
+	
+
+  
+    <script src="js/jquery.js"></script>
+	<script src="js/price-range.js"></script>
+	<script src="js/jquery.scrollUp.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/main.js"></script>
+</body>
+	
+}

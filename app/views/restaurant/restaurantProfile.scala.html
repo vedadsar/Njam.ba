@@ -82,9 +82,10 @@
               						  }else{                
 
                						     <img src="@meal.image.iterator().next().imgLocation.toString()" alt="" height="255" width="255">}
-
-										<h2>@meal.price BAM</h2>
-										<p>@meal.name</p>
+										 <h3 style="color: #FE980F " >@meal.name</h3>
+											<h2>@meal.price BAM</h2>
+											<p>@meal.category</p>
+										
 										<a href='@routes.CartController.addMealToBasket(meal.id)' class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 									</div>
 								</div>

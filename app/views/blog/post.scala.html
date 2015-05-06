@@ -1,0 +1,173 @@
+@(email: String)(blog : models.Blogger)
+@main(email) {
+	
+	<body>
+	
+	
+	<section>
+		<div class="container">
+		
+		@if(flash.get("SuccessCreatePost") ){
+			           <div class="alert alert-success" role="alert">
+			            @flash.get("SuccessCreatePost")
+			           </div>  
+	             	}
+	              
+	             	 @if(flash.get("")){
+			           <div class="alert alert-warning" role="alert">
+			            @flash.get("")
+			             </div>  
+	                 }
+	                 
+	                 
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Search Post</h2>
+						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+							<div class="panel panel-default">
+								
+								<div class="container">
+									<div class="row">
+								        
+								      	<div class="col-sm-5">
+											<div class="search_box">
+											<form class="form-inline" method="GET" action="/search" >
+											<input type="text"  name="q" id="q" class="form-control pull-left" placeholder="Search"/>
+											</form>
+											</div>
+										</div>
+									
+								</div>
+							</div>
+							
+						</div><!--/category-products-->
+						</div>
+					<br>
+					<br>
+					
+			@if(User.checkRole(email).equals(User.ADMIN) == true && email != null){
+				
+					<h2>  Create new Post  </h2>
+					<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+					<div class="panel panel-default">
+						<div class="brands_products"><!--brands_products-->
+							
+							<div class="container">
+									<div class="row">
+										<div class="col-sm-5">
+											<a class="btn btn-primary" href="/blog/createPost">Create new Post</a>
+										</div>
+									</div>
+							</div>
+						</div><!--/brands_products-->
+					</div>
+					</div>
+					
+					}
+					<br>
+					<br>
+					<h2>Tags</h2>
+					<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+					<div class="panel panel-default">
+						<div class="brands_products"><!--brands_products-->
+							
+							
+								<ul class="nav nav-pills nav-stacked">
+								@for(tag <- models.Blogger.allTagsList()){
+									<li><a href="/post/@tag.id"> <span class="pull-right"></span>@tag.tag</a></li>
+									}
+								</ul>
+							
+						</div><!--/brands_products-->
+					</div>
+					</div>
+					
+				</div>
+				</div>
+				
+				<div class="col-sm-9">
+					<div class="blog-post-area">
+						<h2 class="title text-center">Latest From our Blog</h2>
+						<div class="single-blog-post">
+							<h3>@blog.title</h3>
+							<div class="post-meta">
+								<ul>
+									<li><i class="fa fa-user"></i> @blog.creator.username</li>
+									<li><i class="fa fa-calendar"></i> @blog.date.toLocaleString</li>
+								</ul>
+								<span>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star-half-o"></i>
+								</span>
+							</div>
+							<a href="">
+								<img src="@routes.Assets.at("images/blog/no-blog.jpg")" alt="">
+							</a>
+							<h1>@blog.subtitle</h1>
+								<p>@blog.content</p>
+					
+						</div>
+						
+					</div><!--/blog-post-area-->
+ 
+					<div class="rating-area">
+						<ul class="ratings">
+							<li class="rate-this">Rate this item:</li>
+							<li>
+								<i class="fa fa-star color"></i>
+								<i class="fa fa-star color"></i>
+								<i class="fa fa-star color"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+							</li>
+							<li class="color">(6 votes)</li>
+						</ul>
+						<ul class="tag">
+							<li>TAG:</li>
+							@for(tag <- Blogger.allTagsByPost(blog.id)){
+							<li><a class="color" href="">@blog.tag <span>/</span></a></li>
+							}
+						</ul>
+					</div><!--/rating-area-->
+ 
+					<div class="socials-share">
+						<a href=""><img src="images/blog/socials.png" alt=""></a>
+					</div><!--/socials-share-->
+ 
+					<div class="media commnets">
+						<a class="pull-left" href="#">
+							<img class="media-object" src="images/blog/man-one.jpg" alt="">
+						</a>
+						<div class="media-body">
+							<h4 class="media-heading">njam.ba</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+							<div class="blog-socials">
+								<ul>
+									<li><a href=""><i class="fa fa-facebook"></i></a></li>
+									<li><a href=""><i class="fa fa-twitter"></i></a></li>
+									<li><a href=""><i class="fa fa-dribbble"></i></a></li>
+									<li><a href=""><i class="fa fa-google-plus"></i></a></li>
+								</ul>
+								<a class="btn btn-primary" href="">Other Posts</a>
+							</div>
+						</div>
+			
+				</div>	
+			</div>
+		</div>
+		
+	</section>
+ 
+    <script src="js/jquery.js"></script>
+	<script src="js/price-range.js"></script>
+	<script src="js/jquery.scrollUp.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.prettyPhoto.js"></script>
+    <script src="js/main.js"></script>
+</body>
+	
+}

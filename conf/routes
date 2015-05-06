@@ -99,6 +99,11 @@ POST   /pin                             controllers.SmsController.confirmNumber(
 POST   /check                        controllers.PinController.checkPin(email: String)
 POST   /sendFbJson                          controllers.FacebookController.sendFbJson()
 
+GET    /blog                                    controllers.BlogController.toBlog()
+GET    /blog/createPost                         controllers.BlogController.toCreatePost()
+POST   /blog/createPost                         controllers.BlogController.createPost()
+GET    /post/:id                                controllers.BlogController.showOnePost(id: Int)
+
  
 # API service 
 GET    /api/users                               controllers.api.UserApi.users()
