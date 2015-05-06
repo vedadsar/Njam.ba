@@ -74,7 +74,7 @@ public class Blogger extends Model {
 		this.title = title;
 		this.subtitle = subtitle;
 		this.content = content;
-		this.image = "images/blogPicture/no-img.jpg";
+		this.image = "images/blog/blogimage.jpg";
 		this.date = new Date();
 		this.tag = tag;
 		this.creator = creator;

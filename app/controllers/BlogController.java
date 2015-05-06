@@ -62,6 +62,9 @@ public class BlogController extends Controller {
 		String subtitle = form.data().get("subtitle");
 		String tag = form.data().get("tag");
 		String content = form.data().get("content");
+		if(content ==null){
+			content="";
+		}
 		User user = User.find("dastko@njam.ba");
  
 		if (Blogger.createPost(title, subtitle, tag, content, user) == true) {
