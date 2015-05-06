@@ -40,6 +40,7 @@ GET    /login                                   controllers.Application.toLogin(
 POST   /login                                   controllers.Application.login()
 GET    /user/:email                             controllers.Application.toUser(email: String)
 POST   /user/:email                             controllers.Application.editUser(email: String)
+POST   /user/phone/:email                         	controllers.Application.addPhone(email: String)
 GET    /logout                                  controllers.Application.logout()
 GET    /confirm/:confirmationString             controllers.Validate.validateEmail(confirmationString: String)
 GET    /repeatVerification                      controllers.Application.toRepeatVerification()
@@ -94,6 +95,10 @@ POST   /getOrderDetails/:id                     controllers.CartController.giveM
 POST   /subscribed                              controllers.NewsletterController.subscribe()
 GET    /about                                   controllers.Application.about()
 POST   /message                                 controllers.SmsController.messages(deliveryTime: Long, name: String)
+POST   /pin                             controllers.SmsController.confirmNumber(pin: String)
+POST   /check                        controllers.PinController.checkPin(email: String)
+POST   /sendFbJson                          controllers.FacebookController.sendFbJson()
+
  
 # API service 
 GET    /api/users                               controllers.api.UserApi.users()

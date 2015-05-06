@@ -9,6 +9,7 @@ import controllers.api.UserApi;
 import models.Faq;
 import models.Location;
 import models.Meal;
+import models.Pin;
 import models.Restaurant;
 import models.TransactionU;
 import models.User;
@@ -405,5 +406,19 @@ public class Application extends Controller {
 	
 	public static Result about() {
 		return ok(views.html.about.render(email));
+	}
+	
+	public static Result addPhone(String email) {
+		DynamicForm form = Form.form().bindFromRequest();
+		String phone = form.data().get("phone");
+		User user = Session.getCurrentUser(ctx());
+		if (user == null) {
+			return redirect("/");
+		}
+		user.phone = phone;
+		user.pin = Pin.generatePinCode(user);
+		user.update();
+
+		return redirect("/user" + email);
 	}
 }

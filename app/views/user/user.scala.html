@@ -1,15 +1,23 @@
 @(email: String)(username: String)(restaurants: List[Restaurant])(transactions: List[TransactionU])(users: User)
 @main(email) {
+	
+<link href="@routes.Assets.at("stylesheets/toastr.css")" rel='stylesheet'>
+<script type="text/javascript" src="@routes.Assets.at("javascripts/toastr.js")"></script>
  
 <body>
- 
+ @if(users.phone == null){
+ 	<script>
+	toastr.info('Please add your phone number!')
+	toastr.options.onShown = function() { console.log('hello'); }
+	</script>
+ }
+
  
 <!-- user Profile -->
 <div class="container-fluid">
 <div>
 <hr>
 </div>
- 
  
  
  <div class="crow" >
@@ -165,8 +173,7 @@
     </div><!-- /.col-lg-12 -->
     
 </div><!-- /.row -->
- 
- 
+
  
 </div>
  

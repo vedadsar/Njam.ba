@@ -4,6 +4,88 @@
 
 @main("Login") {
 
+<body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1425237644452373',
+      xfbml      : true,
+      version    : 'v2.3'
+    });
+  };
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<script>
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    if (response.status === 'connected') {
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1425237644452373',
+    cookie     : true,          
+    xfbml      : true,  
+    version    : 'v2.2' 
+  });
+ 
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+  };
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+  function testAPI() {
+    FB.api('/me', function(response) {
+        
+    	  var data1={
+    	    	    "name" : response.name,
+    			    "email": response.email
+    			  };
+    	  $.ajax({
+    	      url: '/sendFbJson',
+    	      type: 'POST', 
+    	      dataType: 'json',
+    	      contentType: "application/json; charset=utf-8",
+    	      data: JSON.stringify(data1),
+    	      success: function(result) {
+    	          alert('SUCCESS');
+    	      }
+    	    });
+	  window.location.href = "/user/" + response.email;
+      document.getElementById('status').innerHTML =
+        'Thank you, ' + response.name + "\n" +  "Your email is: " +  response.email;
+       });
+  }
+</script>
+
+
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
@@ -49,6 +131,11 @@
 			</form>
 			<!--/ repeat verification -->
 				
+		<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+		</fb:login-button>
+
+		<div id="status">
+		</div>
 				
 	                 
 			</form>
