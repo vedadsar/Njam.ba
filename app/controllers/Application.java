@@ -415,10 +415,20 @@ public class Application extends Controller {
 		if (user == null) {
 			return redirect("/");
 		}
-		user.phone = phone;
-		user.pin = Pin.generatePinCode(user);
-		user.update();
-
-		return redirect("/user" + email);
+		if (phone.equals(user.phone)) {
+			flash("nothingChanged",
+					"Same phone number!");
+			return redirect("/user/" + email);
+		} else {
+			user.phone = phone;
+			user.pin = Pin.generatePinCode(user);
+			user.validated = false;
+			user.update();
+			String pin = Pin.getPinCode(user.id);
+			SmsController.confirmNumber(pin);
+		}
+		flash("successVerify",
+				"Your Phone number has now been successfully added!");
+		return redirect("/user/" + email);
 	}
 }

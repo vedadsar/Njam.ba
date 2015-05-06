@@ -5,14 +5,19 @@
 <script type="text/javascript" src="@routes.Assets.at("javascripts/toastr.js")"></script>
  
 <body>
- @if(users.phone == null){
+<!-- toast Message -->
+ @if(users.phone == null || users.locations.iterator().next().street == null || 
+ 	users.locations.iterator().next().number == null || users.locations.iterator().next().city == null){
  	<script>
-	toastr.info('Please add your phone number!')
-	toastr.options.onShown = function() { console.log('hello'); }
+	toastr.info('Please add your phone number and adress!')
 	</script>
+ } 
+ @if(users.phone != null && users.pin.validated == false){
+ 	<script>
+	toastr.info('Please verify your phone number!')
+	</script> 	
  }
 
- 
 <!-- user Profile -->
 <div class="container-fluid">
 <div>
@@ -31,6 +36,7 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab" style="color:#555755">Profile information</a></li>
     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" style="color:#555755">Address</a></li>   
+    <li role="presentation"><a href="#phone" aria-controls="phone" role="tab" data-toggle="tab" style="color:#555755">Add/Confirm Phone</a></li>   
      <li role="presentation"><a href="#refund" aria-controls="refund" role="tab" data-toggle="tab" style="color:#555755">Refund</a></li>
      
   </ul>
@@ -109,6 +115,47 @@
           </div>
               </form>
           </div>
+          
+              <div role="tabpanel" class="tab-pane" id="phone">
+                         <form action="@routes.Application.addPhone(email)" method="POST">
+    				<br>
+                 <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">Add Phone</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Add your phone number (+38765695813)" value="@users.phone" minlength="4" maxlength="30" title="Maximum 30 chars" required>
+                    </div>
+                </div>
+                          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="pull-right">
+                
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+                
+               </form>
+           <form action="@routes.PinController.checkPin(email)" method="POST">
+           @if(users.phone != null && users.pin.validated == false){
+                <div class="form-group">
+                     <label for="inputEmail3" class="col-sm-2 control-label">Confirm Phone</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="pin" name="pin" placeholder="Enter your PIN code" minlength="4" maxlength="6" title="Maximum 6 chars">
+                   
+                    </div>
+                </div>
+                 <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <div class="pull-right">
+                
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </div>
+                }
+                </form>
+          </div>
+          
     <div role="tabpanel" class="tab-pane" id="refund">
     <br>
     
@@ -161,12 +208,17 @@
   </div>
  	</div>
  	</div>
- 
-          	   @if(flash.get("successUpdate") || flash.get("PaidOK") || flash.get("FailedPayPal")){
+
+          	   @if(flash.get("successUpdate") || flash.get("PaidOK") || flash.get("FailedPayPal") || flash.get("successVerify") || flash.get("ErrorPin") || flash.get("smsValidated") || flash.get("nothingChanged")){
 			           <div class="alert alert-success" role="alert">
 			            @flash.get("successUpdate")
 			            @flash.get("PaidOK")
 			            @flash.get("FailedPayPal")
+			  			 @flash.get("successVerify")
+			  			@flash.get("smsValidated")
+			  			 @flash.get("ErrorPin")
+			  			@flash.get("nothingChanged")
+
 			             </div>  
 	             	}
  

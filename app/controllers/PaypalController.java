@@ -240,6 +240,7 @@ public class PaypalController extends Controller {
 			restaurant.approvedOrders ++;
 			restaurant.update();
 			
+			// We will send phone number too.
 			SmsController.messages(deliveryTime, restaurant.name);
 			flash("SuccessApprovedOrder", "Order successfully approved!");
 			MailHelper.tellUserThatOrderIsApproved(transaction.email, transaction.price, transaction.restaurant.name, transaction.items);
