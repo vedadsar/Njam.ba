@@ -28,6 +28,10 @@ import play.data.DynamicForm;
 import play.db.ebean.Model.Finder;
 import Utilites.*;
 
+/**
+ * @author amrapoprzanovic
+ *
+ */
 public class Application extends Controller {
 
 	static String email = null;
@@ -41,7 +45,7 @@ public class Application extends Controller {
 	/**
 	 * This method just redirects to index page.
 	 * 
-	 * @return
+	 * @return to index view.
 	 */
 	public static Result index() {
 
@@ -52,6 +56,11 @@ public class Application extends Controller {
 		return ok(index.render(" ", email, meals, restaurants));
 	}
 	
+	/**
+	 * Method that redirect to User page.
+	 * @param email - User email.
+	 * @return user view depending on the role has (user, administrator, restaurant).
+	 */
 	@Security.Authenticated(UserFilter.class)
 	public static Result toUser(String email){
 		List <Restaurant> restaurants = findR.all();
@@ -76,6 +85,10 @@ public class Application extends Controller {
 		return ok(views.html.user.user.render(email, username, restaurants,transactions, User.find(Session.getCurrentUser(ctx()).id)));
 	}
 	
+	
+	// NEPOTREBNA METODA
+	
+	/*
 	@Security.Authenticated(UserFilter.class)
 	public static Result user(String email){	
 		List <Restaurant> restaurants = findR.all();	
@@ -85,12 +98,12 @@ public class Application extends Controller {
 
 		return ok(views.html.user.user.render(email, username, restaurants,transactions, User.find(Session.getCurrentUser(ctx()).id)));
 	}
-	
+	*/
 
 	/**
 	 * This method just redirects to registration page.
 	 * 
-	 * @return
+	 * @return redirection to registration of user.
 	 */
 	public static Result toRegistration() {
 		
@@ -117,7 +130,7 @@ public class Application extends Controller {
 	/**
 	 * This method just redirects to login page.
 	 * 
-	 * @return
+	 * @return redirection to Login view.
 	 */
 	public static Result toLogin() {				
 		if(session().get("email") != null){			
@@ -133,7 +146,7 @@ public class Application extends Controller {
 	 * already exists, method will redirect to register page, with error
 	 * message.
 	 * 
-	 * @return
+	 * @return after successful registration the user can login.
 	 * @throws MalformedURLException 
 	 */
 	public static Result registration() throws MalformedURLException {
@@ -187,15 +200,26 @@ public class Application extends Controller {
 		}
 	}
 	
+	/**
+	 * Sends you to view for registration of restaurant.
+	 * @return view for restaurant registration.
+	 */
 	public static Result toRegistrationRestaurant(){		
 		return ok(registrationRestaurant.render(email));
 	}
 	
-	
-	public static Result toRepeatVerification(){
+	/**
+	 * Send you to view where you can repeat verification of email.
+	 * @return repeat verification view.
+	 */
+	public static Result toRepeatVerification(){		
 		return ok(repeatVerification.render(""));
 	}
 	
+	/**
+	 * Method which repeats verification of users email.
+	 * @return to Login view or registration view is user is not in database.
+	 */
 	public static Result repeatVerification(){	
 		DynamicForm form = Form.form().bindFromRequest();
 		String email = form.data().get("email");
@@ -216,7 +240,7 @@ public class Application extends Controller {
 		URL url;
 		try {
 			url = new URL(urlString);
-			MailHelper.send(email, url.toString());
+			
 			if (user.validated == true) {
 				return redirect("/login");
 			}
@@ -233,7 +257,12 @@ public class Application extends Controller {
 		
 	}
 
-	
+	/**
+	 * Method that register restaurant as user, by taking
+	 * all parameters that restaurant needs for registration:
+	 * email, password, name, business hours, location(city, street, number).
+	 * @return redirection to index page after restaurant user finished registration.
+	 */
 	public static Result registrationRestaurant(){
 		DynamicForm form = Form.form().bindFromRequest();	
 			
@@ -252,8 +281,11 @@ public class Application extends Controller {
 			return redirect("/registrationRestaurant");
 		}
 
+		
 		try{
+			
 			User.createRestaurant(name, email, hashedPassword, workingTime, city, street, number);
+			MailHelper.sendRestaurntWatiToAprrove(email);
 			Logger.info("Restaurant " +name +" with email " +email +" registred. Visit admin panel to approve.");
 			flash("successSendRequest", "You have succesfully send request for restaurant registration! Wait until admin contacts you!");
 		}catch(Exception e){
@@ -313,8 +345,8 @@ public class Application extends Controller {
 	}
 	
 	/**
-	 * Method taht goes to Public restaurant view
-	 * @return
+	 * Method that send us to Public restaurant view.
+	 * @return view of restaurant designed for user.
 	 */
 	public static Result toRestaurant(String name){
 		
@@ -337,7 +369,6 @@ public class Application extends Controller {
 		User currentUser = Session.getCurrentUser(ctx());
 				
 		String newHashedPassword= form.data().get("hashedPassword").toString();
-		//Obicna Form umjesto Dynamic form i bez confirmPassword, tek onda radi promjena podataka // TODO izbrisati ovaj komentar
 //		String confirmPassword = form.data().get("confirmPassword").toString();
 //		
 //		if(!newHashedPassword.equals(confirmPassword)){
@@ -367,6 +398,10 @@ public class Application extends Controller {
 		return redirect("/user/" + email);
 	}
 	
+	/**
+	 * Show all FAQ (Frequently asked questions).
+	 * @return view of all FAQ that had been asked.
+	 */
 	public static Result showFaq() {		
 		List <Faq> faqs = findF.all();
 		email = session("email");
@@ -374,8 +409,8 @@ public class Application extends Controller {
 	}
 		
 	/**
-	 * 
-	 * @return
+	 * Logs out user.
+	 * @return redirection to index page .
 	 */
 	public static Result logout() {
 		session().clear();
@@ -383,6 +418,11 @@ public class Application extends Controller {
 		return redirect(routes.Application.index());
 	}
 	
+	/**
+	 * Shows view for uploading images for meal.
+	 * @param id of meal which images you want to upload.
+	 * @return view of uploading pictures.
+	 */
 	@Security.Authenticated(RestaurantFilter.class)
 	public static Result showFileUpload(int id) {
 		Meal m = Meal.find(id);
@@ -390,11 +430,22 @@ public class Application extends Controller {
 	}
 	
 	
+	/**
+	 * Show all images of one meal.
+	 * @param id of meal that you want to see images.
+	 * @return  redirection to file upload meal view.
+	 */
 	public static Result MealIMGList(int id){
 		Meal m = Meal.find(id);
 		return ok(views.html.restaurant.fileUploadMeal.render("","",m, Restaurant.all(),m.image)); // NOT FINISHED
 	}
 	
+	
+	/**
+	 * Method that transaction boolean validate sets to true.
+	 * @param id of transaction.
+	 * @return redirection to index view.
+	 */
 	public static Result askForRefund(int id){
 		TransactionU transaction = TransactionU.find(id);
 		
@@ -404,10 +455,19 @@ public class Application extends Controller {
 		return redirect("/");
 	}
 	
+	/**
+	 * Send you to about view of web application.
+	 * @return about view..
+	 */
 	public static Result about() {
 		return ok(views.html.about.render(email));
 	}
 	
+	/**
+	 * Adds phone number to users profile.
+	 * @param email of user whose number we want to add.
+	 * @return redirection to user profile.
+	 */
 	public static Result addPhone(String email) {
 		DynamicForm form = Form.form().bindFromRequest();
 		String phone = form.data().get("phone");

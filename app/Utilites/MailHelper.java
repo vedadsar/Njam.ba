@@ -24,7 +24,7 @@ public class MailHelper {
 	public static void send(String email, String message){
 		
 		Email mail = new Email();
-		mail.setSubject("Njam.ba verification mail");
+		mail.setSubject("Njam.ba registration mail");
 		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
 		mail.addTo("Bitter Contact <bit.play.test@gmail.com>");
 		mail.addTo(email);
@@ -36,7 +36,22 @@ public class MailHelper {
 		
 		// sends text, HTML or both...
 		mail.setBodyText(message);
-		mail.setBodyHtml(String.format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>","Thanks for signing up to njam.ba!", "We wish you a pleasant shopping time.", message));
+		mail.setBodyHtml(String.format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>","Thanks for registering to njam.ba!", "We wish you a pleasant shopping time.", message));
+		MailerPlugin.send(mail);
+		
+	}
+	
+	public static void sendRestaurntWatiToAprrove(String email){
+		
+		Email mail = new Email();
+		mail.setSubject("Njam.ba verification mail");
+		mail.setFrom("Njam.ba <bit.play.test@gmail.com>");
+		mail.addTo("Bitter Contact <bit.play.test@gmail.com>");
+		mail.addTo(email);
+		
+		// sends text, HTML or both...
+		
+		mail.setBodyHtml(String.format("<html><body><strong> %s </strong> <p> %s </p> <p> %s </p> </body></html>","Thanks for signing up to njam.ba!", "Please wait until adminstritaor approve your registration!"));
 		MailerPlugin.send(mail);
 		
 	}
