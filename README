@@ -1,1 +1,30 @@
-Davor: readme fajl u kom se opisuje sta ko radi u datom trenutku se koristi na vannastavnom projektu pravljenja video igre, a ne za BitCamp projekte na kojima svakodnevno radimo. 
+**NJAM.ba Project**
+=================================
+
+Project is supposed to be an alternative to the site tanjir.ba
+Project phase: Under construction
+Scala IDE build of Eclipse SDK
+Build id: 4.0.0-vfinal-20150119-1023-Typesafe
+(To run the application you must have "Play framework 2.3.8" installed)
+
+Instructions on how to run the application :
+1.  Clone the repository:
+Using the terminal enter  the folder  with the  project.
+3. When in Njam.ba folder run the command:
+"activator clean compile eclipse run" -without the quotation marks
+(You must have play framework installed properly)
+
+4. Using your browser of choice please go to
+http://localhost:9000
+
+5.  Apply Script
+
+6. You are ready to test the application.
+
+
+
+
+This is your new Play application
+=================================
+
+This file will be packaged with your application, when using `activator dist`.
