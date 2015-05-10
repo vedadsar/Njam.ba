@@ -284,9 +284,6 @@ public class Meal extends Model {
 	public static boolean check(int id) {
 		return find.where().eq("id", id).findUnique() != null;
 	}
-	
-	
-	
-	
+
 
 }

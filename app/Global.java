@@ -76,7 +76,6 @@ public class Global extends GlobalSettings {
 				Meal.create("Lignje", 5.00, "Mediteran",res4,"");
 				Meal.create("Riza", 5.00,"Side dish", res4,"");
 				Meal.create("Kropmir", 3.00,"Side dish", res4,"");
-				Meal.create("Losos", 12.00, "Fish dishes",res4,"");
 			}
 				
 		}

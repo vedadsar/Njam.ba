@@ -207,7 +207,10 @@ public class User extends Model {
 	}	
 	
 	public static String checkRole(String email){
-		User u = find.where().eq("email", email).findUnique();			
+		User u = find.where().eq("email", email).findUnique();		
+		if(u == null){
+			return "";
+		}
 		return u.role;
 	}
 	
