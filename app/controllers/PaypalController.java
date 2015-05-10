@@ -140,11 +140,11 @@ public class PaypalController extends Controller {
 				if(link.getRel().equals("approval_url"))
 					return redirect(link.getHref());
 			}
-			return TODO; 
+			return redirect("/"); 
 		} catch(PayPalRESTException e){
 			Logger.warn(e.getMessage());
 		}
-		return TODO;
+		return redirect("/");
 	}
 	
 	public static Result creditSuccess(int cartId){
