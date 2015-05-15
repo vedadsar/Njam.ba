@@ -415,6 +415,11 @@ public class Application extends Controller {
 		if (user == null) {
 			return redirect("/");
 		}
+		if(User.findPhone(phone) == true){
+			flash("numberInDB",
+					"This phone number already exists in our database!");
+			return redirect("/user/" + email);
+		}
 		if (phone.equals(user.phone)) {
 			flash("nothingChanged",
 					"Same phone number!");

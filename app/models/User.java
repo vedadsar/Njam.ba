@@ -52,7 +52,6 @@ public class User extends Model {
     
 	@OneToOne(mappedBy="user",cascade=CascadeType.ALL)
 	public Pin pin;
-	@Column(unique = true)
 	public String phone;
 
     
@@ -337,11 +336,12 @@ public class User extends Model {
 		}
 		
 		public static List<Location> allUserLocation(int userId){
-			//User user = find.byId(userId);
 			List<Location> locations = findL.where().eq("user_id", userId).findList();
-			//user.locations = locations;
 			
 			return locations;
 		}
  
+		public static boolean findPhone(String phone){
+			return find.where().eq("phone", phone).findUnique() != null;
+		}	
 }

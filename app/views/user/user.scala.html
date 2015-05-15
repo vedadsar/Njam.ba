@@ -6,10 +6,9 @@
  
 <body>
 <!-- toast Message -->
- @if(users.phone == null || users.locations.iterator().next().street == null || 
- 	users.locations.iterator().next().number == null || users.locations.iterator().next().city == null){
+ @if(users.phone == null){
  	<script>
-	toastr.info('Please add your phone number and adress!')
+	toastr.info('Please add your phone number!')
 	</script>
  } 
  @if(users.phone != null && users.pin.validated == false){
@@ -209,7 +208,7 @@
  	</div>
  	</div>
 
-          	   @if(flash.get("successUpdate") || flash.get("PaidOK") || flash.get("FailedPayPal") || flash.get("successVerify") || flash.get("ErrorPin") || flash.get("smsValidated") || flash.get("nothingChanged")){
+          	   @if(flash.get("successUpdate") || flash.get("PaidOK") || flash.get("FailedPayPal") || flash.get("successVerify") || flash.get("ErrorPin") || flash.get("smsValidated") || flash.get("nothingChanged") || flash.get("numberInDB")){
 			           <div class="alert alert-success" role="alert">
 			            @flash.get("successUpdate")
 			            @flash.get("PaidOK")
@@ -218,7 +217,8 @@
 			  			@flash.get("smsValidated")
 			  			 @flash.get("ErrorPin")
 			  			@flash.get("nothingChanged")
-
+			  			@flash.get("numberInDB")
+			  			
 			             </div>  
 	             	}
  
