@@ -170,7 +170,6 @@ create table user (
   date_creation             timestamp not null,
   constraint uq_user_email unique (email),
   constraint uq_user_username unique (username),
-  constraint uq_user_phone unique (phone),
   constraint pk_user primary key (id))
 ;
 
