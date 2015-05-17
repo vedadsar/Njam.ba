@@ -88,7 +88,7 @@ public class Cart extends Model {
 		this.empty = false;
 		this.total = 0;
 		this.date = new Date();
-		this.orderNote = "Regular";
+		this.orderNote = "Please add more...";
 		this.location="";
 		
 	}
@@ -102,7 +102,7 @@ public class Cart extends Model {
 		this.empty = false;
 		this.total = 0;
 		this.date = new Date();
-		this.orderNote = "Regular";
+		this.orderNote = "Please add more...";
 		this.location = location;
 		
 	}
@@ -115,7 +115,7 @@ public class Cart extends Model {
 		this.empty = false;
 		this.total = 0;
 		this.date =new Date();
-		this.orderNote = "Regular";
+		this.orderNote = "Please add more...";
 		this.location="";
 		
 	}
@@ -130,7 +130,7 @@ public class Cart extends Model {
 		this.total = 0;
 		this.date =new Date();
 		this.restaurantName = restaurantName;
-		this.orderNote = "Regular";
+		this.orderNote = "Please add more...";
 		this.location="";
 	}
 	

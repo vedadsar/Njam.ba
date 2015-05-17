@@ -41,6 +41,7 @@ POST   /login                                   controllers.Application.login()
 GET    /user/:email                             controllers.Application.toUser(email: String)
 POST   /user/:email                             controllers.Application.editUser(email: String)
 POST   /user/phone/:email                         	controllers.Application.addPhone(email: String)
+POST  	/user/adress/:email                       controllers.Application.addLocation(email: String)
 GET    /logout                                  controllers.Application.logout()
 GET    /confirm/:confirmationString             controllers.Validate.validateEmail(confirmationString: String)
 GET    /repeatVerification                      controllers.Application.toRepeatVerification()
@@ -52,7 +53,7 @@ POST   /admin/faq                               controllers.FaqController.create
 POST   /admin/faq/delete/:id                    controllers.FaqController.delete(id: Int)
 POST   /admin/newsletter                        controllers.NewsletterController.sendNewsletter()        
 GET    /confirmNewsletter/:confirmationString   controllers.Validate.validateNewslettter(confirmationString : String)
-GET    /unsubscribe/:confirmationString         controllers.Validate.unsubscribe(confirmationString : String) 
+GET    /unsubscribe/:confirmationString         controllers.NewsletterController.unsubscribe(confirmationString: String) 
 POST   /admin/refund                            controllers.PaypalController.refundProcessing(cartId : Int)
 
 
