@@ -4,10 +4,14 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.omg.CORBA.CTX_RESTRICT_SCOPE;
+
+import Utilites.Session;
 import models.orders.Cart;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
+import scala.reflect.internal.Trees.This;
 
 @Entity
 public class Location extends Model {
@@ -107,19 +111,27 @@ public class Location extends Model {
 		List<Location> locations = find.where().eq("user_id", userId).findList();;
 		int size = locations.size();
 		if (size == 0){
-			return null;
+			return new Location("", "", "");
 		}
 		Location lastLocation = locations.get(size-1);
 		if( lastLocation==null)
-			return null;
+			return new Location("", "", "");
 		System.out.println("Last location: " + lastLocation);
 		return lastLocation;
 	}
 	
-
-	
 	public static Location getLocationByCart( int cartId){
 		return find.where().eq("cart_id", cartId).findUnique();
+	}
+	
+	public static boolean findUnique(String city, String street, String number) {
+		Location l = User.lastLocation();
+		l = find.where().eq("city", city).eq("street", street)
+				.eq("number", number).findUnique();
+		if (l != null) {
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -25,6 +25,9 @@ import play.libs.mailer.MailerPlugin;
 
 
 public class MailHelper {
+	
+	private static String hostUrl = Play.application().configuration().getString("hostUrl");
+
 
 	public static void send(String email, String message){
 		try {
@@ -246,7 +249,7 @@ public class MailHelper {
 		
 		Element unsubscribe = doc.getElementById("unsubscribe");
 		String token = Newsletter.findByEmail(email).confirmationString;
-		String unsubscribeNewsletter = "http://localhost:9000/unsubscribe/" + token;
+		String unsubscribeNewsletter = hostUrl + "unsubscribe/" + token;
 		unsubscribe.attr("href", unsubscribeNewsletter);
 
 		return doc;

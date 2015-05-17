@@ -36,6 +36,7 @@ public class Application extends Controller {
 	static Finder<Integer, Restaurant> findR =  new Finder<Integer,Restaurant>(Integer.class, Restaurant.class);
 	static Finder<Integer, Faq> findF =  new Finder<Integer,Faq>(Integer.class, Faq.class);
 	static Finder<Integer, TransactionU> findT =  new Finder<Integer,TransactionU>(Integer.class, TransactionU.class);
+	static Finder<Integer, Location> findL =  new Finder<Integer,Location>(Integer.class, Location.class);
 
 
 	/**
@@ -332,34 +333,18 @@ public class Application extends Controller {
 	 * This method is used to change password on user profile page.
 	 * @return redirect on profile page.
 	 */
+	
 	public static Result editUser(String email) {		
 		Form form = Form.form().bindFromRequest();
 		User currentUser = Session.getCurrentUser(ctx());
 				
 		String newHashedPassword= form.data().get("hashedPassword").toString();
-		//Obicna Form umjesto Dynamic form i bez confirmPassword, tek onda radi promjena podataka // TODO izbrisati ovaj komentar
-//		String confirmPassword = form.data().get("confirmPassword").toString();
-//		
-//		if(!newHashedPassword.equals(confirmPassword)){
-//			flash("MatchPass", "Passwords don't match");
-//			return redirect("/user/" + email);
-//		}
 		String username = form.data().get("username").toString();
 		currentUser.username = username;
-
-		String city = form.data().get("city").toString();
-		String street = form.data().get("street").toString();
-		String number = form.data().get("number").toString();
 				
 		if (!newHashedPassword.equals("")) {
 			currentUser.hashedPassword = Hash.hashPassword(newHashedPassword);
 		}
-		Location location = new Location(city, street, number);
-//		currentUser.location.city = city;
-//		currentUser.location.street = street;
-//		currentUser.location.number = number;
-//		currentUser.location.update();
-		currentUser.locations.add(location);
 		currentUser.update();
 		
 		Logger.info("User with email " +currentUser.email +" just edited his info!");
@@ -434,6 +419,27 @@ public class Application extends Controller {
 		}
 		flash("successVerify",
 				"Your Phone number has now been successfully added!");
+		return redirect("/user/" + email);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static Result addLocation(String email) {
+		Form form = Form.form().bindFromRequest();
+		User currentUser = Session.getCurrentUser(ctx());
+
+		String city = form.data().get("city").toString();
+		String street = form.data().get("street").toString();
+		String number = form.data().get("number").toString();
+
+		Location location = new Location(city, street, number);
+		currentUser.locations.add(location);
+		currentUser.update();
+		location.user.update();
+
+		Logger.info("User with email " + currentUser.email
+				+ " just edited his info!");
+		flash("successUpdate",
+				"You have successfully updated contact information");
 		return redirect("/user/" + email);
 	}
 }
