@@ -105,6 +105,8 @@ GET    /blog/createPost                         controllers.BlogController.toCre
 POST   /blog/createPost                         controllers.BlogController.createPost()
 GET    /post/:id                                controllers.BlogController.showOnePost(id: Int)
 
+POST   /maps                                    controllers.DistanceController.sendJsonRequest()
+
  
 # API service 
 GET    /api/users                               controllers.api.UserApi.users()

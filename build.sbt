@@ -24,5 +24,7 @@ libraryDependencies ++= Seq(
    "org.jsoup" % "jsoup" % "1.8.1",
    "org.apache.poi" % "poi" % "3.11",
    "com.twilio.sdk" % "twilio-java-sdk" % "4.0.1",
-   "com.cloudinary" % "cloudinary" % "1.0.2"
+   "com.cloudinary" % "cloudinary" % "1.0.2",
+   "com.google.guava" % "guava" % "18.0",
+   "com.google.maps" % "google-maps-services" % "0.1.7"
   )
